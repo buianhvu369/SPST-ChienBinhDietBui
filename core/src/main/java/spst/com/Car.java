@@ -1,4 +1,4 @@
-package Game.com;
+package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;

@@ -5,13 +5,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.Utils;
 
 public class MyActor extends Actor {
-    TextureRegion textureRegion;
-    MyActor(float x, float y, Stage s){
+    public TextureRegion textureRegion;
+    public MyActor(float x, float y, Stage s){
         setPosition(x, y);
         s.addActor(this);
         textureRegion = Utils.getRegion(0, 0, 1,1);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
     }
 
     @Override

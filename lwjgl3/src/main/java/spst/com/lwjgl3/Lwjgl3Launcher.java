@@ -2,7 +2,6 @@ package spst.com.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import spst.com.Master;
 import spst.com.StartGame;
 
 /** Launches the desktop (LWJGL3) application. */

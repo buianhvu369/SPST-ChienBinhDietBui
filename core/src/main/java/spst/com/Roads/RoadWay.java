@@ -1,9 +1,11 @@
-package spst.com;
+package spst.com.Roads;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.MyActor;
+import spst.com.Utils;
 
-public class RoadWay extends MyActor{
-    RoadWay(float x, float y, Stage s, boolean isHorizontal) {
+public class RoadWay extends MyActor {
+    public RoadWay(float x, float y, Stage s, boolean isHorizontal) {
         super( x, y, s);
         if(isHorizontal){
             textureRegion = Utils.getRegion(16, 18*16 - 3*16, 16, 16*3);

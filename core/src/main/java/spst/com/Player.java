@@ -2,12 +2,15 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.math.Polygon;
 
-public class Player extends MyActor{
+import java.awt.*;
+
+public class Player extends MyActor {
     Animation<TextureRegion> animationLeft;
     Animation<TextureRegion> animationRight;
     Animation<TextureRegion> animationUp;
@@ -37,19 +40,39 @@ public class Player extends MyActor{
     public void act(float delta) {
         super.act(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            moveBy(-speed, 0);
+            if((800/2f-48 <= getY() && getY() < 800/2f+48 && getX() > 0)
+                || (800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() > 32*9 && !(getX() > 32*15))
+                ||(800/2f+48 <= getY() && getY() < 800/2f+48+11*32 && getX() > 32*21)
+                ||(800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() > 32*25)){
+                moveBy(-speed, 0);
+            }
             time += delta;
             textureRegion = animationLeft.getKeyFrame(time);
         }else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            moveBy(speed, 0);
+            if((800/2f-48 <= getY() && getY() < 800/2f+48 && getX() < (1200 - getWidth()))
+                || (800/2f-48 - 11*32 < getY() && getY() <= 800/2f-48 && getX() < 32*12-getWidth())
+                ||(800/2f+48 <= getY() && getY() < 800/2f+48+11*32 && getX() < 32*24-getWidth())
+                ||(800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() < 32*28-getWidth() && !(getX() < 32*15))){
+                moveBy(speed, 0);
+            }
             time += delta;
             textureRegion = animationRight.getKeyFrame(time);
         }else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            moveBy(0, speed);
+            if((0<=getX() && getX() < 32*21 && getY()<800/2f+48-getHeight())
+            || (32*21<=getX() && getX() < 32*24 && getY()<800-getHeight())
+            || (32*24<=getX() && getX() < 1200 && getY()<800/2f+48-getHeight())){
+                moveBy(0, speed);
+            }
             time += delta;
             textureRegion = animationUp.getKeyFrame(time);
         }else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            moveBy(0, -speed);
+            if((0<=getX() && getX() < 32*9 && getY()>800/2f-48)
+                || (32*9<=getX() && getX() < 32*12 && getY()>0)
+                || (32*12<=getX() && getX() < 32*25 && getY()>800/2f-48)
+                || (32*25<=getX() && getX() < 32*28 && getY()>0)
+                || (32*28<=getX() && getX() < 1200 && getY()>800/2f-48)){
+                moveBy(0, -speed);
+            }
             time += delta;
             textureRegion = animationDown.getKeyFrame(time);
         }

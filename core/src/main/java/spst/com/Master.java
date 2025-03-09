@@ -145,9 +145,9 @@ public class Master implements Screen {
     }
     private void createCar(){
         for (int y = 0;y<3;y++){
-            Car car = new Car(-1200/3*y,800/2f-48+8,stage,true);
+            Car car = new Car(1200/3*y,800/2f-48+8,stage,true);
             cars.add(car);
-            Car car2 = new Car(1200+1200/3*y,800/2f-48+32*2-8,stage,false);
+            Car car2 = new Car(1200/3*y,800/2f-48+32*2-8,stage,false);
             cars.add(car2);
         }
     }

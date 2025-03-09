@@ -17,6 +17,9 @@ public class Player extends MyActor {
     Animation<TextureRegion> animationDown;
     int speed = 2;
     float time;
+    float mouseX;
+    float mouseY;
+    boolean isMove = true;
     Player(float x, float y, Stage s) {
         super(x, y, s);
         setSize(32,32);
@@ -40,41 +43,73 @@ public class Player extends MyActor {
     public void act(float delta) {
         super.act(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if((800/2f-48 <= getY() && getY() < 800/2f+48 && getX() > 0)
-                || (800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() > 32*9 && !(getX() > 32*15))
-                ||(800/2f+48 <= getY() && getY() < 800/2f+48+11*32 && getX() > 32*21)
-                ||(800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() > 32*25)){
+            if(!(32*16 <= getY() && getY() < 32*23 && getX() <= 32*9)){
                 moveBy(-speed, 0);
             }
             time += delta;
             textureRegion = animationLeft.getKeyFrame(time);
         }else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if((800/2f-48 <= getY() && getY() < 800/2f+48 && getX() < (1200 - getWidth()))
-                || (800/2f-48 - 11*32 < getY() && getY() <= 800/2f-48 && getX() < 32*12-getWidth())
-                ||(800/2f+48 <= getY() && getY() < 800/2f+48+11*32 && getX() < 32*24-getWidth())
-                ||(800/2f-48 - 11*32 <= getY() && getY() < 800/2f-48 && getX() < 32*28-getWidth() && !(getX() < 32*15))){
-                moveBy(speed, 0);
-            }
+//            if((800/2f-48 <= getY() && getY() <= 800/2f+48 && getX() < (1200 - getWidth()))
+//                || (800/2f-48 - 11*32 <= getY() && getY() <= 800/2f-48 && getX() < 32*12-getWidth())
+//                ||(800/2f+48 <= getY() && getY() <= 800/2f+48+11*32 && getX() < 32*24-getWidth())
+//                ||(800/2f-48 - 11*32 <= getY() && getY() <= 800/2f-48 && getX() < 32*28-getWidth() && !(getX() < 32*15))){
+//                moveBy(speed, 0);
+//            }
+            moveBy(speed, 0);
             time += delta;
             textureRegion = animationRight.getKeyFrame(time);
+
         }else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            if((0<=getX() && getX() < 32*21 && getY()<800/2f+48-getHeight())
-            || (32*21<=getX() && getX() < 32*24 && getY()<800-getHeight())
-            || (32*24<=getX() && getX() < 1200 && getY()<800/2f+48-getHeight())){
+            if(!(0<=getX() && getX() < 32*9 && getY()>32*16-8 && getY()<=800-32*4)){
                 moveBy(0, speed);
             }
             time += delta;
             textureRegion = animationUp.getKeyFrame(time);
         }else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            if((0<=getX() && getX() < 32*9 && getY()>800/2f-48)
-                || (32*9<=getX() && getX() < 32*12 && getY()>0)
-                || (32*12<=getX() && getX() < 32*25 && getY()>800/2f-48)
-                || (32*25<=getX() && getX() < 32*28 && getY()>0)
-                || (32*28<=getX() && getX() < 1200 && getY()>800/2f-48)){
+            if(!(0<=getX() && getX() < 32*9 && getY()<=800-32*2 && getY()>=32*18)){
                 moveBy(0, -speed);
             }
             time += delta;
             textureRegion = animationDown.getKeyFrame(time);
+        }
+        if (Gdx.input.isTouched()) {
+            mouseX = Gdx.input.getX();
+            mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+            System.out.println(mouseX);
+            System.out.println(mouseY);
+            if(mouseX > mouseY){
+                System.out.println(1);
+                if(mouseX < getX()){
+                    System.out.println(2);
+                    while (getX() != mouseX){
+                        moveBy(-speed, 0);
+                        time += delta;
+                        textureRegion = animationLeft.getKeyFrame(time);
+                    }
+                } else if (mouseX > getX()) {
+                    while (getX() != mouseX){
+                        moveBy(speed, 0);
+                        time += delta;
+                        textureRegion = animationRight.getKeyFrame(time);
+                    }
+                }
+            }else{
+                if(mouseY < getY()){
+                    while (getY() != mouseY){
+                        moveBy(0, -speed);
+                        time += delta;
+                        textureRegion = animationDown.getKeyFrame(time);
+                        System.out.println(3);
+                    }
+                } else if (mouseY > getY()) {
+                    while (getX() != mouseX){
+                        moveBy(0, speed);
+                        time += delta;
+                        textureRegion = animationUp.getKeyFrame(time);
+                        System.out.println(4);
+                    }
+                }
+            }
         }
     }
 }

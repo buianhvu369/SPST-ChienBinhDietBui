@@ -51,7 +51,6 @@ public class Master implements Screen {
 
         poolRec = new PoolRec(0, 32 * 17, stage);
 
-        createGround();
         generateMap();
 
         createCar();
@@ -149,14 +148,14 @@ public class Master implements Screen {
         }
         ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
         Factory factory = new Factory(26 * 32, 800 / 2 + 48, stage);
-        Hotel hotel = new Hotel(1200 - 32 * 10, 0, stage);
+        Hotel hotel = new Hotel(1184 - 32 * 10, 0, stage);
     }
 
     private void createCar() {
         for (int y = 0; y < 3; y++) {
-            Car car = new Car(1200 / 3 * y, 800 / 2f - 48 + 8, stage, true);
+            Car car = new Car(1184 / 3 * y, 800 / 2f - 48 + 8, stage, true);
             cars.add(car);
-            Car car2 = new Car(1200 / 3 * y, 800 / 2f - 48 + 32 * 2 - 8, stage, false);
+            Car car2 = new Car(1184 / 3 * y, 800 / 2f - 48 + 32 * 2 - 8, stage, false);
             cars.add(car2);
         }
     }
@@ -180,14 +179,6 @@ public class Master implements Screen {
         }
     }
 
-    private void createGround() {
-        for (int j = 0; j < 12; j++) {
-            for (int i = 0; i < 21; i++) {
-                Ground ground = new Ground(32 * i, 800 - 32 * j, stage, true);
-            }
-        }
-    }
-
     private void createCrossWalk(int e, float x, float y, boolean isHorizontal) {
         if (e % 6 == 0) {
             CrossWalk crossWalk = new CrossWalk(x, y, stage, isHorizontal);
@@ -204,68 +195,81 @@ public class Master implements Screen {
 
     public void generateMap2() {
         createGroundTown();
-        float xR = 1200;
+        float xR = 1184;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 21; i++) {
                 new Rice(xR, yR, stage);
                 xR += 32;
             }
-            xR = 1200;
+            xR = 1184;
             yR -= 32;
         }
-        xR = 1200;
+        xR = 1184;
         yR = WINDOW_HEIGHT - 32 * 4;
         for (int j = 0; j < 13; j++) {
             new Hangraongang(xR, yR, stage);
             xR += 32 * 3 - 16;
         }
 
-        float x = 1200;
+        float x = 1184;
         float y = WINDOW_HEIGHT - 32 * 7;
         for (int i = 0; i < 3; i++) {
-            new CrossWalk(x, y, stage, true);
-            x += 32;
             for (int j = 0; j < 12; j++) {
                 new RoadWay(x, y, stage, true);
                 x += 32;
             }
+            new CrossWalk(x, y, stage, true);
+            x += 32;
         }
-        x = 1200 + 32 * 15;
+        x = 1184 + 32 * 15;
         y = WINDOW_HEIGHT - 32 * 8 + 8;
-        for (int i = 0; i < 4; i++) {
-            new CrossWalk(x, y, stage, false);
-            y -= 32;
-            for (int j = 0; j < 6; j++) {
+        for(int i = 0;i<4;i++){
+            for (int j = -1; j < 5; j++) {
                 new RoadWay(x, y, stage, false);
+                createCrossWalk(j, x,y,false);
                 y -= 32;
             }
         }
-        createHouseBlue1(1200 + 32 * 2, 32 * 12);
-        createHouseRed3(1200 + 32 * 8, 32 * 12);
-        createHouseBlue2(1200 + 32 * 4, 32 * 6);
-        createHouseBlue3(1200 + 32 * 9, 32 * 2);
-        createHouseRed2(1200 + 32 * 11, 32 * 8);
-        new Waterwell(1200 + 32 * 8, 32 * 9, stage);
-        createHouseBlue2(1200 + 32 * 34, 32 * 13);
-        createHouseRed1(1200 + 32 * 20, 32 * 12);
-        createHouseBlue1(1200 + 32 * 28, 32 * 11);
-        createHouseBlue2(1200 + 32 * 25, 32 * 2);
-        createHouseRed1(1200 + 32 * 33, 32 * 2);
+        createHouseBlue1(1184 + 32 * 2, 32 * 12);
+        createHouseRed3(1184 + 32 * 8, 32 * 12);
+        createHouseBlue2(1184 + 32 * 4, 32 * 6);
+        createHouseBlue3(1184 + 32 * 9, 32 * 2);
+        createHouseRed2(1184 + 32 * 11, 32 * 8);
+        new Waterwell(1184 + 32 * 8, 32 * 9, stage);
+        createHouseBlue2(1184 + 32 * 34, 32 * 13);
+        createHouseRed1(1184 + 32 * 20, 32 * 12);
+        createHouseBlue1(1184 + 32 * 28, 32 * 11);
+        createHouseBlue2(1184 + 32 * 25, 32 * 2);
+        createHouseRed1(1184 + 32 * 33,32 * 2);
+
+        new RoadWay(32*37,800/2f-48,stage,true);
+        new RoadWay(32*38,800/2f-48,stage,true);
+        new RoadWay(32*39,800/2f-48,stage,true);
+        for (int i = 0;i<4;i++){
+            new RoadWay(37f*32,800/2f+48+3*32-32*i,stage,false);
+        }
+
+        BlankRoad blankRoad = new BlankRoad(1184 + 32, 800 / 2f + 48 + 4*32, stage);
+        Corner corner1 = new Corner(1184 + 2 * 32, 800 / 2f + 48 + 4*32, stage, "UL");
+
+        Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32, stage, "UR");
+        BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32, stage);
+        Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32, stage, "UL");
     }
 
     public void createGroundTown() {
-        float x = 1200;
+        float x = 1184;
         float y = WINDOW_HEIGHT;
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 7; i++) {
                 new Ground2(x, y, stage);
                 x += 32 * 3;
             }
-            x = 1200;
+            x = 1184;
             y -= 32 * 4;
         }
-        x = 1200 + 32 * 21;
+        x = 1184 + 32 * 21;
         y = WINDOW_HEIGHT;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 19; j++) {
@@ -273,10 +277,10 @@ public class Master implements Screen {
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
-            x = 1200 + 32 * 21;
+            x = 1184 + 32 * 21;
             y -= 32;
         }
-        x = 1200 + 0;
+        x = 1184 + 0;
         y = WINDOW_HEIGHT - 32 * 8;
         for (int i = 0; i < 18; i++) {
             for (int j = 0; j < 15; j++) {
@@ -284,10 +288,10 @@ public class Master implements Screen {
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
-            x = 1200 + 0;
+            x = 1184 + 0;
             y -= 32;
         }
-        x = 1200 + 32 * 18;
+        x = 1184 + 32 * 18;
         y = WINDOW_HEIGHT - 32 * 8;
         for (int i = 0; i < 18; i++) {
             for (int j = 0; j < 20; j++) {
@@ -295,7 +299,7 @@ public class Master implements Screen {
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
-            x = 1200 + 32 * 18;
+            x = 1184 + 32 * 18;
             y -= 32;
         }
     }

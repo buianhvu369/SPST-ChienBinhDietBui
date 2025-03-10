@@ -1,2 +1,3 @@
-package spst.com.ScienceHouse;public class Pillar {
+package spst.com.ScienceHouse;
+public class Pillar {
 }

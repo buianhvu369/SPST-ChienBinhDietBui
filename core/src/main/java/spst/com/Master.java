@@ -21,6 +21,7 @@ import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Roads.Car;
 import spst.com.Roads.CrossWalk;
 import spst.com.Roads.Tree;
+import spst.com.ScienceHouse.ScienceCenter;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -57,6 +58,8 @@ public class Master implements Screen {
         createTree();
         createWaste();
         generateMap2();
+
+        new ScienceCenter(400, 190, stage);
 
         player = new Player(1200 / 2, 800 / 2, stage);
     }
@@ -146,7 +149,7 @@ public class Master implements Screen {
                 Water water = new Water(32 + 32 * i, 800 - 32 * 5 - 32 * y, stage);
             }
         }
-        ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
+       // ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
         Factory factory = new Factory(26 * 32, 800 / 2 + 48, stage);
         Hotel hotel = new Hotel(1184 - 32 * 10, 0, stage);
     }

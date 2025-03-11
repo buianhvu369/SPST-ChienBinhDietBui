@@ -1,4 +1,4 @@
-package spst.com.ScienceHouse;
+package spst.com.House;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

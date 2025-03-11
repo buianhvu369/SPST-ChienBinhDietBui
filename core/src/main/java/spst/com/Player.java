@@ -72,44 +72,44 @@ public class Player extends MyActor {
             time += delta;
             textureRegion = animationDown.getKeyFrame(time);
         }
-        if (Gdx.input.isTouched()) {
-            mouseX = Gdx.input.getX();
-            mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-            System.out.println(mouseX);
-            System.out.println(mouseY);
-            if(mouseX > mouseY){
-                System.out.println(1);
-                if(mouseX < getX()){
-                    System.out.println(2);
-                    while (getX() != mouseX){
-                        moveBy(-speed, 0);
-                        time += delta;
-                        textureRegion = animationLeft.getKeyFrame(time);
-                    }
-                } else if (mouseX > getX()) {
-                    while (getX() != mouseX){
-                        moveBy(speed, 0);
-                        time += delta;
-                        textureRegion = animationRight.getKeyFrame(time);
-                    }
-                }
-            }else{
-                if(mouseY < getY()){
-                    while (getY() != mouseY){
-                        moveBy(0, -speed);
-                        time += delta;
-                        textureRegion = animationDown.getKeyFrame(time);
-                        System.out.println(3);
-                    }
-                } else if (mouseY > getY()) {
-                    while (getX() != mouseX){
-                        moveBy(0, speed);
-                        time += delta;
-                        textureRegion = animationUp.getKeyFrame(time);
-                        System.out.println(4);
-                    }
-                }
-            }
-        }
+//        if (Gdx.input.isTouched()) {
+//            mouseX = Gdx.input.getX();
+//            mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+//            System.out.println(mouseX);
+//            System.out.println(mouseY);
+//            if(mouseX > mouseY){
+//                System.out.println(1);
+//                if(mouseX < getX()){
+//                    System.out.println(2);
+//                    while (getX() != mouseX){
+//                        moveBy(-speed, 0);
+//                        time += delta;
+//                        textureRegion = animationLeft.getKeyFrame(time);
+//                    }
+//                } else if (mouseX > getX()) {
+//                    while (getX() != mouseX){
+//                        moveBy(speed, 0);
+//                        time += delta;
+//                        textureRegion = animationRight.getKeyFrame(time);
+//                    }
+//                }
+//            }else{
+//                if(mouseY < getY()){
+//                    while (getY() != mouseY){
+//                        moveBy(0, -speed);
+//                        time += delta;
+//                        textureRegion = animationDown.getKeyFrame(time);
+//                        System.out.println(3);
+//                    }
+//                } else if (mouseY > getY()) {
+//                    while (getX() != mouseX){
+//                        moveBy(0, speed);
+//                        time += delta;
+//                        textureRegion = animationUp.getKeyFrame(time);
+//                        System.out.println(4);
+//                    }
+//                }
+//            }
+//        }
     }
 }

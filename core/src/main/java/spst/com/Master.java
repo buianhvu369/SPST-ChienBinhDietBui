@@ -1,18 +1,26 @@
 package spst.com;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
+import spst.com.House.FactoryCenter;
+import spst.com.House.HotelCenter;
+import spst.com.Parking.LetterP;
+import spst.com.Parking.RoadPiece;
+import spst.com.Parking.RoundCorner;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
@@ -23,7 +31,8 @@ import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Roads.Car;
 import spst.com.Roads.CrossWalk;
 import spst.com.Roads.Tree;
-import spst.com.ScienceHouse.ScienceCenter;
+import spst.com.House.MordernDoor;
+import spst.com.House.ScienceCenter;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -34,9 +43,14 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class Master implements Screen {
     private SpriteBatch batch;
     OrthographicCamera camera;
+    InputMultiplexer multiplexer;
     Stage stage;
+    Stage noMoveStage;
     Player player;
     PoolRec poolRec;
+    BangScience bangScience;
+    MordernDoor scienceDoor;
+    MordernDoor hotelDoor;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -49,7 +63,11 @@ public class Master implements Screen {
 
     public Master() {
         batch = new SpriteBatch();
+        multiplexer = new InputMultiplexer();
         stage = new Stage();
+        noMoveStage = new Stage();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
 
         poolRec = new PoolRec(0, 32 * 17, stage);
@@ -61,13 +79,24 @@ public class Master implements Screen {
         createTree();
         createWaste();
 
+        createHouses();
+
         player = new Player(1200 / 2, 800 / 2, stage);
-        new ScienceCenter(15*32,32*9,stage);
+
+        bangScience = new BangScience(-10000,-100,noMoveStage);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        scienceDoor.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                showBangScience(32,32);
+                System.out.println(1234);
+            }
+        });
+
+        Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
@@ -87,9 +116,15 @@ public class Master implements Screen {
 
         stage.act();
         stage.draw();
+        noMoveStage.act();
+        noMoveStage.draw();
     }
 
-    public void createViaHe(float x, float y, float width,float height){
+    private void showBangScience(float x, float y){
+        bangScience.setPosition(x,y);
+        bangScience.toFront();
+    }
+    private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");
         new GroundCorner(x,y+32*(height-1),stage,"UL");
         new GroundCorner(x+(width-1)*32 ,y,stage,"DR");
@@ -117,6 +152,12 @@ public class Master implements Screen {
         createViaHe(0,0,9,11);
         createViaHe(32*12,0,13,11);
         createViaHe(32*28,0,9,11);
+        new GroundCorner(32*28,32*5,stage,"DL");
+        new CanhGround(32*29,32*5,stage,'D');
+        for(int i = 0;i<4;i++){
+            new CanhGround(32*30,32*i+32,stage,'L');
+        }
+        new GroundCorner(32*28+32*2,0,stage,"DL");
         createViaHe(32*24,800/2+48,13,11);
         createViaHe(0,800/2+48,21,11);
 
@@ -124,7 +165,7 @@ public class Master implements Screen {
             RoadWay roadWayV = new RoadWay(i * 32, 800 / 2f - 48, stage, true);
             roads.add(roadWayV);
             createCrossWalk(i, i * 32, 800 / 2f - 48, true);
-            if (i == 9 || i == 25) {
+            if (i == 9) {
                 for (int j = -1; j < 31; j++) {
                     RoadWay roadWay = new RoadWay(i * 32, 800 / 2f - 48 - (j + 2) * 32, stage, false);
                     roads.add(roadWay);
@@ -138,6 +179,22 @@ public class Master implements Screen {
                 }
             }
         }
+
+        new RoundCorner(32*25,0,stage,"DL");
+        new RoundCorner(32*27,0,stage,"DR");
+        new RoundCorner(32*25,800/2f-48-32,stage,"UL");
+        new RoundCorner(32*27,800/2f-48-32,stage,"UR");
+        new RoadPiece(32*26,800/2f-48-32,stage,'-');
+        new RoadPiece(32*26,0,stage,'_');
+        for(int i = 0;i<9;i++){
+            new RoadPiece(32*25,32+i*32,stage,'[');
+            new BlankRoad(32*26,32+i*32,stage);
+            new RoadPiece(32*27,32+i*32,stage,']');
+        }
+        for(int i = 0;i<5;i++){
+            createParking(32*28,i*32);
+        }
+
         Corner corner = new Corner(21 * 32, 800 / 2f + 48 - 32, stage, "DR");
         BlankRoad blankRoad = new BlankRoad(21 * 32 + 32, 800 / 2f + 48 - 32, stage);
         Corner corner12 = new Corner(21 * 32 + 32 * 2, 800 / 2f + 48 - 32, stage, "DL");
@@ -181,8 +238,6 @@ public class Master implements Screen {
             }
         }
         ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
-        Factory factory = new Factory(26 * 32, 800 / 2 + 48, stage);
-        Hotel hotel = new Hotel(1184 - 32 * 10, 0, stage);
     }
 
     private void createCar() {
@@ -192,6 +247,18 @@ public class Master implements Screen {
             Car car2 = new Car(1184 / 3 * y, 800 / 2f - 48 + 32 * 2 - 8, stage, false);
             cars.add(car2);
         }
+    }
+    private void createParking(float x, float y){
+        new RoadPiece(x,y,stage,'_');
+        new LetterP(x+32,y,stage);
+    }
+    private void createHouses(){
+        new ScienceCenter(28*32,32*16,stage);
+        scienceDoor = new MordernDoor(32*29,32*16,stage);
+        new FactoryCenter(13 * 32, 0, stage);
+        new MordernDoor(32*14,0,stage);
+        new HotelCenter(30*34,32*5,stage) ;
+        hotelDoor = new MordernDoor(32*33,32*5,stage);
     }
 
     private void createTree() {

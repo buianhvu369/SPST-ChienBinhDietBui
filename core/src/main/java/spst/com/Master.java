@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.Timer;
+import spst.com.GroundOutRoads.CanhGround;
+import spst.com.GroundOutRoads.GroundCenter;
+import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
@@ -21,6 +23,7 @@ import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Roads.Car;
 import spst.com.Roads.CrossWalk;
 import spst.com.Roads.Tree;
+import spst.com.ScienceHouse.ScienceCenter;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -52,13 +55,14 @@ public class Master implements Screen {
         poolRec = new PoolRec(0, 32 * 17, stage);
 
         generateMap();
+        generateMap2();
 
         createCar();
         createTree();
         createWaste();
-        generateMap2();
 
         player = new Player(1200 / 2, 800 / 2, stage);
+        new ScienceCenter(15*32,32*9,stage);
     }
 
     @Override
@@ -85,7 +89,37 @@ public class Master implements Screen {
         stage.draw();
     }
 
+    public void createViaHe(float x, float y, float width,float height){
+        new GroundCorner(x,y,stage,"DL");
+        new GroundCorner(x,y+32*(height-1),stage,"UL");
+        new GroundCorner(x+(width-1)*32 ,y,stage,"DR");
+        new GroundCorner(x+(width-1)*32,y+32*(height-1),stage,"UR");
+        for(int i = 1;i<width-2+1;i++){
+            new CanhGround(x+i*32,y,stage,'D');
+        }
+        for(int i = 1;i<width-2+1;i++){
+            new CanhGround(x+i*32,y+(height-1)*32,stage,'U');
+        }
+        for(int i = 1;i<height-2+1;i++){
+            new CanhGround(x,y+i*32,stage,'L');
+        }
+        for(int i = 1;i<height-2+1;i++){
+            new CanhGround(x+(width-1)*32,y+i*32,stage,'R');
+        }
+        for(int i = 1;i<height-2+1;i++){
+            for(int j = 1;j<width-2+1;j++){
+                new GroundCenter(x+j*32,y+i*32,stage);
+            }
+        }
+
+    }
     private void generateMap() {
+        createViaHe(0,0,9,11);
+        createViaHe(32*12,0,13,11);
+        createViaHe(32*28,0,9,11);
+        createViaHe(32*24,800/2+48,13,11);
+        createViaHe(0,800/2+48,21,11);
+
         for (int i = -1; i < 38; i++) {
             RoadWay roadWayV = new RoadWay(i * 32, 800 / 2f - 48, stage, true);
             roads.add(roadWayV);
@@ -146,7 +180,7 @@ public class Master implements Screen {
                 Water water = new Water(32 + 32 * i, 800 - 32 * 5 - 32 * y, stage);
             }
         }
-        ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
+        ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
         Factory factory = new Factory(26 * 32, 800 / 2 + 48, stage);
         Hotel hotel = new Hotel(1184 - 32 * 10, 0, stage);
     }

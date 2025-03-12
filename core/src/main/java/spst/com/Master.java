@@ -262,7 +262,7 @@ public class Master implements Screen {
         scienceDoor = new MordernDoor(32*29,32*16,stage);
         new FactoryCenter(13 * 32, 0, stage);
         new MordernDoor(32*14,0,stage);
-        new HotelCenter(30*34,32*5,stage) ;
+        new HotelCenter(32*32,32*5,stage) ;
         hotelDoor = new MordernDoor(32*33,32*5,stage);
     }
 

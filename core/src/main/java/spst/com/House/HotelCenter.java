@@ -7,8 +7,8 @@ import spst.com.MyActor;
 import spst.com.Utils;
 
 public class HotelCenter extends MyActor {
-    TextureRegion textureRegionCol;
-    TextureRegion textureRegionFront;
+    TextureRegion textureRegion1;
+    TextureRegion textureRegion2;
     TextureRegion textureRegion3;
     TextureRegion textureRegion4;
     TextureRegion textureRegion5;
@@ -20,8 +20,8 @@ public class HotelCenter extends MyActor {
 
     public HotelCenter(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegionCol = Utils.getRegion(16*16, 4*16, 16, 4*16);
-        textureRegionFront = Utils.getRegion(20*16, 4*16, 3*16, 4*16);
+        textureRegion1 = Utils.getRegion(16*16, 0*16, 16, 4*16);
+        textureRegion2 = Utils.getRegion(20*16, 0*16, 3*16, 4*16);
         textureRegion3 = Utils.getRegion(8*16, 3*16, 16, 16);
         textureRegion4 = Utils.getRegion(8*16, 5*16, 16, 16);
 
@@ -42,9 +42,9 @@ public class HotelCenter extends MyActor {
         super.draw(batch, parentAlpha);
         float x = getX();
         float y = getY();
-        batch.draw(textureRegionCol, getX(), getY(), getOriginX(), getOriginY(), 32, 96, getScaleX(), getScaleY(), getRotation());
-        batch.draw(textureRegionFront, getX() + 32, getY(), getOriginX(), getOriginY(), 64, 96, getScaleX(), getScaleY(), getRotation());
-        batch.draw(textureRegionCol, getX() + 96, getY(), getOriginX(), getOriginY(), 32, 96, getScaleX(), getScaleY(), getRotation());
+        batch.draw(textureRegion1, getX(), getY(), getOriginX(), getOriginY(), 32, 96, getScaleX(), getScaleY(), getRotation());
+        batch.draw(textureRegion2, getX() + 32, getY(), getOriginX(), getOriginY(), 64, 96, getScaleX(), getScaleY(), getRotation());
+        batch.draw(textureRegion1, getX() + 96, getY(), getOriginX(), getOriginY(), 32, 96, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion3, x, y + 4 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion4, x, y + 3 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion5, x + 32, y + 4 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());

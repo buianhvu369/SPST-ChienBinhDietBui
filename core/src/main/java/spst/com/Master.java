@@ -1,6 +1,7 @@
 package spst.com;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -51,12 +52,14 @@ public class Master implements Screen {
     BangScience bangScience;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
+    ShowAQI showAQI;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
+    public static float AQI = 100;
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -84,6 +87,8 @@ public class Master implements Screen {
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
+        showAQI = new ShowAQI(0,0,noMoveStage);
+        showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
     }
 
     @Override

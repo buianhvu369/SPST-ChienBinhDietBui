@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
@@ -53,6 +54,7 @@ public class Master implements Screen {
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     ShowAQI showAQI;
+    NormalCamera normalCamera;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -87,8 +89,10 @@ public class Master implements Screen {
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
+        normalCamera = new NormalCamera(2400-600,400,stage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
+
     }
 
     @Override
@@ -119,6 +123,12 @@ public class Master implements Screen {
             camera.position.y = player.getY() + player.getHeight() / 2;
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            normalCamera.doiCamera();
+        }else {
+            OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
+            camera.zoom = 1f;
+        }
         stage.act();
         stage.draw();
         noMoveStage.act();

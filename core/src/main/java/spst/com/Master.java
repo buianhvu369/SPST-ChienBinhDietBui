@@ -66,6 +66,20 @@ public class Master implements Screen {
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
+    public static int growth = 0;
+    public Array<Rice>rices ;
+    Truck truck;
+    public static boolean cutting = false;
+    int speedX = -2 ;
+    int  luotcat = 1;
+
+    float[]toadox = new float[]{
+        4,4,5,6,7,9,9,9,12,11,10,9,8,8,5,6,7,8,8,10,9,8,8,8,8,22,22,22,22,23,24,25,26,30,30,30,29,28,35,35,35,35,34,33,31,32,31,30,29,28,27,27,27,27,27,27,27,32
+    };
+    float[]toadoy = new float[]{
+        11,10,10,10,10,11,10,9,7,7,7,7,7,8,5,5,5,5,6,1,1,1,2,3,4,12,11,10,9,9,9,9,9,11,10,9,9,9,13,12,11,10,10,10,10,2,2,2,2,2,2,3,4,5,6,7,8,10
+    };
+
     public Master() {
         batch = new SpriteBatch();
         multiplexer = new InputMultiplexer();
@@ -76,9 +90,10 @@ public class Master implements Screen {
         camera = new OrthographicCamera();
 
         poolRec = new PoolRec(0, 32 * 17, stage);
-
+        rices = new Array();
         generateMap();
         generateMap2();
+        truck = new Truck(32*33+1184,800 - 32*3, stage);
 
         createCar();
         createTree();
@@ -121,6 +136,49 @@ public class Master implements Screen {
         if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
             stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             camera.position.y = player.getY() + player.getHeight() / 2;
+        }
+
+        growth++;
+        for(Rice rice : rices){
+            if(rice.getBound().overlaps(truck.getBound())){
+                rice.remove();
+            }
+        }
+        if(growth >= 180){
+            cutting = true;
+        }
+        if(cutting) {
+            truck.moveBy(speedX, 0);
+            if (luotcat == 1) {
+                truck.setScaleX(-1);
+            }
+            if (luotcat == 2) {
+                truck.setScaleX(1);
+            }
+            if (truck.getX() < 1184) {
+                truck.setScaleX(1);
+                speedX = 2;
+                luotcat = 2;
+            }
+            if (truck.getX() > 32 * 33+1184) {
+                cutting = false;
+                truck.setX(32 * 33+1184);
+                luotcat = 1;
+                float xR = 1184;
+                float yR =  WINDOW_HEIGHT - 32 * 2;
+                rices.clear();
+                for (int j = 0; j < 2; j++) {
+                    for (int i = 0; i < 30; i++) {
+                        Rice lua = new Rice(xR, yR, stage);
+                        rices.add(lua);
+                        //System.out.println("Quan");
+                        xR += 32;
+                    }
+                    xR = 1184;
+                    yR -= 32;
+                }
+                growth = 0;
+            }
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
@@ -315,7 +373,8 @@ public class Master implements Screen {
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 21; i++) {
-                new Rice(xR, yR, stage);
+                Rice lua = new Rice(xR, yR, stage);
+                rices.add(lua);
                 xR += 32;
             }
             xR = 1184;
@@ -347,17 +406,24 @@ public class Master implements Screen {
                 y -= 32;
             }
         }
-        createHouseBlue1(1184 + 32 * 2, 32 * 12);
-        createHouseRed3(1184 + 32 * 8, 32 * 12);
-        createHouseBlue2(1184 + 32 * 4, 32 * 6);
-        createHouseBlue3(1184 + 32 * 9, 32 * 2);
-        createHouseRed2(1184 + 32 * 11, 32 * 8);
-        new Waterwell(1184 + 32 * 8, 32 * 9, stage);
-        createHouseBlue2(1184 + 32 * 34, 32 * 13);
-        createHouseRed1(1184 + 32 * 20, 32 * 12);
-        createHouseBlue1(1184 + 32 * 28, 32 * 11);
-        createHouseBlue2(1184 + 32 * 25, 32 * 2);
-        createHouseRed1(1184 + 32 * 33,32 * 2);
+        for (int i = 0; i < 58; i++) {
+            x = toadox[i];
+            y =  toadoy[i] ;
+            //System.out.println(x*32);
+            new Randomblock(x*32 + 1184,y*32,stage,5);
+        }
+
+        createHouseBlue1(1184+32*2,32*12);
+        createHouseRed3(1184+32*8,32*12);
+        createHouseBlue2(1184+32*4,32*6);
+        createHouseBlue3(1184+32*9,32*2);
+        createHouseRed2(1184+32*11, 32*8);
+        new Waterwell(1184+32*8,32*9,stage);
+        createHouseBlue2(1184+32*34,32*13);
+        createHouseRed1(1184+32*20,32*12);
+        createHouseBlue1(1184+32*28, 32*11);
+        creatCastle(1184+32*30,32*2);
+        new Waterwell(1184+32*27,32*8,stage);
 
         new RoadWay(32*37,800/2f-48,stage,true);
         new RoadWay(32*38,800/2f-48,stage,true);
@@ -389,7 +455,7 @@ public class Master implements Screen {
         y = WINDOW_HEIGHT;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 19; j++) {
-                int rand = MathUtils.random(1, 5);
+                int rand = MathUtils.random(1, 2);
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
@@ -400,7 +466,7 @@ public class Master implements Screen {
         y = WINDOW_HEIGHT - 32 * 8;
         for (int i = 0; i < 18; i++) {
             for (int j = 0; j < 15; j++) {
-                int rand = MathUtils.random(1, 5);
+                int rand = MathUtils.random(1, 2);
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
@@ -411,7 +477,7 @@ public class Master implements Screen {
         y = WINDOW_HEIGHT - 32 * 8;
         for (int i = 0; i < 18; i++) {
             for (int j = 0; j < 20; j++) {
-                int rand = MathUtils.random(1, 5);
+                int rand = MathUtils.random(1, 2);
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
@@ -538,6 +604,39 @@ public class Master implements Screen {
         }
 
     }
+    public void creatCastle(float x , float y ){
+        new partofCastle(x,y,stage,5);x+= 32;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,6);x += 32*2;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,5);x -= 32*5;y += 32;
+        new partofCastle(x,y,stage,5);x+= 32;
+        new partofCastle(x,y,stage,5);x += 32*3;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,5);x -= 32*5;y += 32;
+        new partofCastle(x,y,stage,2);x += 32;
+        new partofCastle(x,y,stage,5);x+=32;
+        new partofCastle(x,y,stage,5);x+=32;
+        new partofCastle(x,y,stage,5);x+= 32;
+        new partofCastle(x,y,stage,5);x+= 32;
+        new partofCastle(x,y,stage,4);x -= 32*5;y += 32;
+        new partofCastle(x,y,stage,1);x += 32;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,9);x += 32;
+        new partofCastle(x,y,stage,9);x += 32;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,3);x -= 32*4;y += 32;
+        new partofCastle(x,y,stage,5);x += 32;
+        new partofCastle(x,y,stage,8);x += 32;
+        new partofCastle(x,y,stage,8);x += 32;
+        new partofCastle(x,y,stage,5);y+= 32;
+        new partofCastle(x,y,stage,5);x -= 32*3;
+        new partofCastle(x,y,stage,5);x += 32*3;y +=32;
+        new partofCastle(x, y, stage, 7);x -= 32 * 3;new partofCastle(x, y, stage, 7);
+
+
+    }
+
 
     @Override
     public void resize(int i, int i1) {

@@ -134,10 +134,22 @@ public class Master implements Screen {
         if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
             stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
             camera.position.x = player.getX() + player.getWidth() / 2;
+        }else if((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()){
+            stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
+            camera.position.x = Gdx.graphics.getWidth() / 2f;
+        }else if(player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2){
+            stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
+            camera.position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
         }
         if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
             stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             camera.position.y = player.getY() + player.getHeight() / 2;
+        }else if((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()){
+            stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
+            camera.position.y = Gdx.graphics.getHeight() / 2f;
+        }else if(player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2){
+            stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
+            camera.position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
         }
 
         growth++;

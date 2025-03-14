@@ -50,6 +50,7 @@ public class Player extends MyActor {
         if (Gdx.input.isTouched()) {
             mouseX = mouse.x;
             mouseY = mouse.y;
+            AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
         }
         if (mouseX != -13314 && mouseY != -1321687 ){
             if (getX()-2 < mouseX && mouseX< getX()+2) {

@@ -6,14 +6,22 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -51,13 +59,13 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     Stage stage;
     Stage noMoveStage;
-    Player player;
+    BitmapFont font;
+    public static Player player;
     PoolRec poolRec;
     BangScience bangScience;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     ShowAQI showAQI;
-    NormalCamera normalCamera;
     Dark dark;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -66,17 +74,19 @@ public class Master implements Screen {
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
     public static float AQI = 500;
-    public static boolean preparePlant = false;
+    public static String whatActionIfClickMouse = "move";
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
     public static int growth = 0;
     public Array<Rice>rices ;
+    Array<NormalCamera> normalCameras = new Array<>();
     Truck truck;
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
+    static Vector2 cameraPosition = new Vector2();
     public static int day = 0;
     int gio1phan60 = 0;
     float[]toadox = new float[]{
@@ -85,6 +95,7 @@ public class Master implements Screen {
     float[]toadoy = new float[]{
         11,10,10,10,10,11,10,9,7,7,7,7,7,8,5,5,5,5,6,1,1,1,2,3,4,12,11,10,9,9,9,9,9,11,10,9,9,9,13,12,11,10,10,10,10,2,2,2,2,2,2,3,4,5,6,7,8,10
     };
+    public static TextField textField;
 
     public Master() {
         batch = new SpriteBatch();
@@ -110,10 +121,16 @@ public class Master implements Screen {
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
-        normalCamera = new NormalCamera(2400-600,400,stage);
         dark = new Dark(0,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Lonely Cake.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter.size = 25;
+        fontParameter.color = Color.BLUE;
+        font = fontGenerator.generateFont(fontParameter);
+        fontGenerator.dispose();
 
     }
 
@@ -122,9 +139,22 @@ public class Master implements Screen {
         scienceDoor.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 showBangScience(32,32);
-                System.out.println(1234);
             }
         });
+
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = font;
+        textFieldStyle.fontColor = Color.RED;
+
+        textFieldStyle.background = new TextureRegionDrawable(Utils.getRegion(0,0,16,16));
+
+        // Tạo TextField
+        textField = new TextField("", textFieldStyle);
+        textField.setSize(220, 50);
+        textField.setPosition(370, 6); // Vị trí giữa màn hình
+        textField.setVisible(false);
+
+        stage.addActor(textField);
 
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -193,7 +223,6 @@ public class Master implements Screen {
                     for (int i = 0; i < 30; i++) {
                         Rice lua = new Rice(xR, yR, stage);
                         rices.add(lua);
-                        //System.out.println("Quan");
                         xR += 32;
                     }
                     xR = 1184;
@@ -203,18 +232,39 @@ public class Master implements Screen {
             }
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if(preparePlant){
-                preparePlant = false;
+            if(whatActionIfClickMouse.equals("move")){
+                whatActionIfClickMouse = "planttree";
             }else {
-                preparePlant = true;
+                whatActionIfClickMouse = "move";
             }
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+            whatActionIfClickMouse = "camera";
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            normalCamera.doiCamera();
+            for(NormalCamera n : normalCameras){
+                if(n.name.equals("camera")){
+                    n.doiCamera();
+                }
+            }
         }else {
             OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
             camera.zoom = 1f;
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            bangScience.setPosition(-1002343,-1101);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            String inputText = textField.getText();
+            textField.setVisible(false);
+            stage.unfocusAll();
+            NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
+            normalCameras.add(normalCamera);
+            normalCamera.name = inputText;
+        }
+
         stage.act();
         truck.toFront();
         stage.draw();
@@ -222,6 +272,13 @@ public class Master implements Screen {
         noMoveStage.draw();
     }
 
+    public static void nhapTenNormalCamera(float x, float y){
+        textField.setVisible(true);
+        textField.setText(""); // Xóa nội dung cũ
+        player.getStage().setKeyboardFocus(textField);
+        cameraPosition.set(x,y);
+        System.out.println(765);
+    }
     private void xulyngaydem(){
         gio1phan60++;
         Timer.schedule(new Timer.Task() {
@@ -241,7 +298,6 @@ public class Master implements Screen {
                 }
             },0);
         }
-        System.out.println(day + " " +gio1phan60/60f);
         if(gio1phan60 == 60*24*2){
             gio1phan60 = 0;
             day++;
@@ -253,7 +309,6 @@ public class Master implements Screen {
                 }
             },0);
         }
-        System.out.println(day + " " +gio1phan60/60f);
     }
     private void showBangScience(float x, float y){
         if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
@@ -473,7 +528,6 @@ public class Master implements Screen {
         for (int i = 0; i < 58; i++) {
             x = toadox[i];
             y =  toadoy[i] ;
-            //System.out.println(x*32);
             new Randomblock(x*32 + 1184,y*32,stage,5);
         }
 

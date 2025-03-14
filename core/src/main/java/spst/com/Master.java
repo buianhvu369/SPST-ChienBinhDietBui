@@ -205,8 +205,10 @@ public class Master implements Screen {
     }
 
     private void showBangScience(float x, float y){
-        bangScience.setPosition(x,y);
-        bangScience.toFront();
+        if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
+            bangScience.setPosition(x,y);
+            bangScience.toFront();
+        }
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");

@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -62,6 +63,7 @@ public class Master implements Screen {
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
     public static float AQI = 100;
+    public static boolean preparePlant = false;
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -165,8 +167,10 @@ public class Master implements Screen {
                 truck.setX(32 * 33+1184);
                 luotcat = 1;
                 float xR = 1184;
+                speedX = -2;
                 float yR =  WINDOW_HEIGHT - 32 * 2;
                 rices.clear();
+                growth = 0;
                 for (int j = 0; j < 2; j++) {
                     for (int i = 0; i < 30; i++) {
                         Rice lua = new Rice(xR, yR, stage);
@@ -177,10 +181,16 @@ public class Master implements Screen {
                     xR = 1184;
                     yR -= 32;
                 }
-                growth = 0;
+
             }
         }
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            if(preparePlant){
+                preparePlant = false;
+            }else {
+                preparePlant = true;
+            }
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
             normalCamera.doiCamera();
         }else {
@@ -188,6 +198,7 @@ public class Master implements Screen {
             camera.zoom = 1f;
         }
         stage.act();
+        truck.toFront();
         stage.draw();
         noMoveStage.act();
         noMoveStage.draw();
@@ -444,16 +455,12 @@ public class Master implements Screen {
 
     public void createGroundTown() {
         float x = 1184;
-        float y = WINDOW_HEIGHT;
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < 7; i++) {
+        float y = WINDOW_HEIGHT - 32*4;
+            for (int i = 0; i < 10; i++) {
                 new Ground2(x, y, stage);
                 x += 32 * 3;
             }
-            x = 1184;
-            y -= 32 * 4;
-        }
-        x = 1184 + 32 * 21;
+        x = 1184 + 32 * 30;
         y = WINDOW_HEIGHT;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 19; j++) {
@@ -461,7 +468,7 @@ public class Master implements Screen {
                 new Randomblock(x, y, stage, rand);
                 x += 32;
             }
-            x = 1184 + 32 * 21;
+            x = 1184 + 32 * 30;
             y -= 32;
         }
         x = 1184 + 0;

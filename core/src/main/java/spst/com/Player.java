@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.math.Polygon;
+import spst.com.Roads.Tree;
 
 import java.awt.*;
 
@@ -51,8 +52,11 @@ public class Player extends MyActor {
             mouseX = mouse.x;
             mouseY = mouse.y;
             AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
+            if(Master.preparePlant){
+                new Tree(mouseX,mouseY,getStage());
+            }
         }
-        if (mouseX != -13314 && mouseY != -1321687 ){
+        if (mouseX != -13314 && mouseY != -1321687 && !Master.preparePlant){
             if (getX()-2 < mouseX && mouseX< getX()+2) {
                 if (!(getY()-2 < mouseY && mouseY< getY()+2)) {
                     if (getY()-2 < mouseY) {

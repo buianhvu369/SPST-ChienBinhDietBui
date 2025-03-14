@@ -48,7 +48,7 @@ public class Player extends MyActor {
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
         getStage().getViewport().unproject(mouse);
 
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.justTouched()) {
             mouseX = mouse.x;
             mouseY = mouse.y;
             AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());

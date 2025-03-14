@@ -26,6 +26,7 @@ import spst.com.House.HotelCenter;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
+import spst.com.People.People1;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
@@ -74,6 +75,8 @@ public class Master implements Screen {
     public static int growth = 0;
     public Array<Rice>rices ;
     Truck truck;
+    public static Waterwell giengright;
+    public static Waterwell giengleft;
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
@@ -100,6 +103,8 @@ public class Master implements Screen {
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
+        giengleft = new Waterwell(1184+32*8,32*9,stage);
+        giengright = new Waterwell(1184+32*27,32*8,stage);
 
         createCar();
         createTree();
@@ -482,13 +487,14 @@ public class Master implements Screen {
         createHouseBlue2(1184+32*4,32*6);
         createHouseBlue3(1184+32*9,32*2);
         createHouseRed2(1184+32*11, 32*8);
-        new Waterwell(1184+32*8,32*9,stage);
+
         createHouseBlue2(1184+32*34,32*13);
         createHouseRed1(1184+32*20,32*12);
         createHouseBlue1(1184+32*28, 32*11);
         creatCastle(1184+32*30,32*2);
-        new Waterwell(1184+32*27,32*8,stage);
 
+        new People1(32*5+1184,32,stage,true);
+        new People1(32*30+ 1184,48,stage,true );
         new RoadWay(32*37,800/2f-48,stage,true);
         new RoadWay(32*38,800/2f-48,stage,true);
         new RoadWay(32*39,800/2f-48,stage,true);

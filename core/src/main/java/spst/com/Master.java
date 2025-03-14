@@ -12,9 +12,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -56,13 +58,14 @@ public class Master implements Screen {
     MordernDoor hotelDoor;
     ShowAQI showAQI;
     NormalCamera normalCamera;
+    Dark dark;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
-    public static float AQI = 100;
+    public static float AQI = 500;
     public static boolean preparePlant = false;
 
     final float WINDOW_WIDTH = 2400;
@@ -74,7 +77,8 @@ public class Master implements Screen {
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-
+    public static int day = 0;
+    int gio1phan60 = 0;
     float[]toadox = new float[]{
         4,4,5,6,7,9,9,9,12,11,10,9,8,8,5,6,7,8,8,10,9,8,8,8,8,22,22,22,22,23,24,25,26,30,30,30,29,28,35,35,35,35,34,33,31,32,31,30,29,28,27,27,27,27,27,27,27,32
     };
@@ -107,6 +111,7 @@ public class Master implements Screen {
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
         normalCamera = new NormalCamera(2400-600,400,stage);
+        dark = new Dark(0,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -131,6 +136,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        xulyngaydem();
         if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
             stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
             camera.position.x = player.getX() + player.getWidth() / 2;
@@ -216,6 +222,39 @@ public class Master implements Screen {
         noMoveStage.draw();
     }
 
+    private void xulyngaydem(){
+        gio1phan60++;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if(gio1phan60 == 60*22){
+                    dark.addAction(Actions.fadeIn(2));
+                }
+            }
+        },0);
+        if(gio1phan60 == 60*24){
+            day++;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dark.addAction(Actions.fadeOut(2));
+                }
+            },0);
+        }
+        System.out.println(day + " " +gio1phan60/60f);
+        if(gio1phan60 == 60*24*2){
+            gio1phan60 = 0;
+            day++;
+            new Tree(player.getX(),player.getY(),stage );
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dark.addAction(Actions.fadeOut(2));
+                }
+            },0);
+        }
+        System.out.println(day + " " +gio1phan60/60f);
+    }
     private void showBangScience(float x, float y){
         if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
             bangScience.setPosition(x,y);

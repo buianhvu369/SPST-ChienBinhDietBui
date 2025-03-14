@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,6 +23,7 @@ public class Player extends MyActor {
     float mouseX = -13314;
     float mouseY = -1321687;
     boolean isMove = true;
+    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     Player(float x, float y, Stage s) {
         super(x, y, s);
         setSize(32,32);
@@ -52,6 +54,7 @@ public class Player extends MyActor {
             mouseX = mouse.x;
             mouseY = mouse.y;
             AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
+            clickSound.play();
             if(Master.preparePlant){
                 new Tree(mouseX,mouseY,getStage());
             }

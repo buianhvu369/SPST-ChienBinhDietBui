@@ -19,19 +19,25 @@ public class ShowAQI extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        setScale(Master.AQI/2f,0.5f);
+        setScale(Master.AQI/10f,0.5f);
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             Master.AQI--;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.B)){
             Master.AQI++;
         }
-        if(Master.AQI<30){
+        if(Master.AQI<=50){
             setColor(Color.GREEN);
-        }else if(30<=Master.AQI && Master.AQI<=60){
+        }else if(Master.AQI<=100){
             setColor(Color.YELLOW);
-        }else if(60<Master.AQI){
+        }else if(Master.AQI<=150){
+            setColor(Color.ORANGE);
+        }else if(Master.AQI<=200){
             setColor(Color.RED);
+        }else if(Master.AQI<=300){
+                setColor(Color.PURPLE);
+        }else if(Master.AQI<=500){
+            setColor(Color.BROWN);
         }
     }
 }

@@ -2,6 +2,8 @@ package spst.com.Cameras;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import jdk.jshell.execution.Util;
 import spst.com.Master;
@@ -12,8 +14,8 @@ public class NormalCamera extends MyActor {
     public String name;
     public NormalCamera(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = Utils.getRegion(0,0,16,16);
-        setSize(textureRegion.getRegionWidth()*2,textureRegion.getRegionHeight()*2);
+        textureRegion = new TextureRegion(new Texture("camera2.png"));
+        setSize(32,32);
         setOrigin(getWidth()/2f,getHeight()/2f);
     }
     public void doiCamera(){

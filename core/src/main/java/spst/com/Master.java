@@ -754,7 +754,7 @@ public class Master implements Screen {
     }
 
     public void createRiver(){
-        new River(1200 - 2*32, 0, stage);
+        new River(1178, 0, stage);
     }
 
 

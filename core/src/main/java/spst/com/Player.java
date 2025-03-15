@@ -68,7 +68,7 @@ public class Player extends MyActor {
             if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                 if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 20)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;
@@ -110,7 +110,7 @@ public class Player extends MyActor {
                     }
                 } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 20)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;

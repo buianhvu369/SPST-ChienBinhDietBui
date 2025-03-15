@@ -408,25 +408,25 @@ public class Master implements Screen {
         roads.add(blankRoad3);
         roads.add(corner32);
 
-        CornerPool cornerPool = new CornerPool(0, 800 - 32 * 3, stage, "UL");
-        CornerPool cornerPool2 = new CornerPool(32 * 19, 800 - 32 * 3, stage, "UR");
-        CornerPool cornerPool3 = new CornerPool(0, 800 - 32 * 9, stage, "DL");
-        CornerPool cornerPool4 = new CornerPool(32 * 19, 800 - 32 * 9, stage, "DR");
+//        CornerPool cornerPool = new CornerPool(32*5, 800 - 32 * 3, stage, "UL");
+//        CornerPool cornerPool2 = new CornerPool(32 * 15, 800 - 32 * 3, stage, "UR");
+        CornerPool cornerPool3 = new CornerPool(32*4, 800 - 32 * 9, stage, "DL");
+        CornerPool cornerPool4 = new CornerPool(32 * 15, 800 - 32 * 9, stage, "DR");
 //        for (int i = 0; i < 18; i++) {
 //            WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 8, stage, 'U');
 //        }
-        for (int i = 0; i < 18; i++) {
-            WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 8, stage, 'D');
+//        for (int i = 0; i < 15; i++) {
+//            WallPool wallPool = new WallPool(32*5 + 32 * i, 800 - 32 * 8, stage, 'D');
+//        }
+        for (int i = 0; i < 10; i++) {
+            WallPool wallPool = new WallPool(32*4, 800+32 - 32 * i, stage, 'L');
         }
         for (int i = 0; i < 10; i++) {
-            WallPool wallPool = new WallPool(0, 800+32 - 32 * i, stage, 'L');
-        }
-        for (int i = 0; i < 10; i++) {
-            WallPool wallPool = new WallPool(32 * 19, 800+32 - 32 * i, stage, 'R');
+            WallPool wallPool = new WallPool(32 * 15, 800+32 - 32 * i, stage, 'R');
         }
         for (int y = 0; y < 10; y++) {
-            for (int i = 0; i < 18; i++) {
-                Water water = new Water(32 + 32 * i, 800 - 32 * y, stage);
+            for (int i = 0; i < 10; i++) {
+                Water water = new Water(32*5 + 32 * i, 800 - 32 * y, stage);
             }
         }
         ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);

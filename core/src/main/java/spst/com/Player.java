@@ -3,12 +3,14 @@ package spst.com;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.math.Polygon;
+import spst.com.Cameras.NormalCamera;
 import spst.com.Roads.Tree;
 
 import java.awt.*;
@@ -55,15 +57,18 @@ public class Player extends MyActor {
             mouseY = mouse.y;
             AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
             clickSound.play();
-            if(Master.preparePlant){
+            if(Master.whatActionIfClickMouse.equals("planttree")){
                 new Tree(mouseX,mouseY,getStage());
             }
+            if(Master.whatActionIfClickMouse.equals("camera")){
+                Master.nhapTenNormalCamera(mouseX,mouseY);
+            }
         }
-        if (mouseX != -13314 && mouseY != -1321687 && !Master.preparePlant){
+        if (mouseX != -13314 && mouseY != -1321687 && Master.whatActionIfClickMouse.equals("move")){
             if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                 if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 9)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;
@@ -75,13 +80,13 @@ public class Player extends MyActor {
                     }
                 } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                     if (getY() - 2 < mouseY) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                             moveBy(0, speed);
                         }
                         time += delta;
                         textureRegion = animationUp.getKeyFrame(time);
                     } else if (mouseY < getY() + 2) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                             moveBy(0, -speed);
                         }
                         time += delta;
@@ -91,13 +96,13 @@ public class Player extends MyActor {
             } else {
                 if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                     if (getY() - 2 < mouseY) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                             moveBy(0, speed);
                         }
                         time += delta;
                         textureRegion = animationUp.getKeyFrame(time);
                     } else if (mouseY < getY() + 2) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                             moveBy(0, -speed);
                         }
                         time += delta;
@@ -105,7 +110,7 @@ public class Player extends MyActor {
                     }
                 } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 9)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;

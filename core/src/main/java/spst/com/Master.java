@@ -122,8 +122,6 @@ public class Master implements Screen {
 
         createHouses();
 
-        createRiver();
-
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
@@ -494,6 +492,7 @@ public class Master implements Screen {
 
     public void generateMap2() {
         createGroundTown();
+        createRiver();
         float xR = 1184;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
@@ -512,7 +511,7 @@ public class Master implements Screen {
             xR += 32 * 3 - 16;
         }
 
-        float x = 1184;
+        float x = 1184 - 32;
         float y = WINDOW_HEIGHT - 32 * 7-32*7;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 12; j++) {

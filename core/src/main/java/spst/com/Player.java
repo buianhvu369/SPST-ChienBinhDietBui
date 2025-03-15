@@ -58,8 +58,11 @@ public class Player extends MyActor {
             AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
             clickSound.play();
             if(Master.whatActionIfClickMouse.equals("planttree")){
-                new Tree(mouseX,mouseY,getStage());
-                new LoadingPlant(mouseX,mouseY,getStage());
+                if(Master.modePlant&&Master.amountSeed > 0 ) {
+                    Master.amountSeed--;
+                    new Tree(mouseX, mouseY, getStage());
+                    new LoadingPlant(mouseX, mouseY, getStage());
+                }
             }
             if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera(mouseX,mouseY);

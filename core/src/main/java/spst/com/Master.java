@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -59,8 +60,8 @@ public class Master implements Screen {
     OrthographicCamera camera;
     InputMultiplexer multiplexer;
     Stage stage;
-    Stage noMoveStage;
-    BitmapFont font;
+    public static Stage noMoveStage;
+    public static BitmapFont font;
     public static Player player;
     PoolRec poolRec;
     BangScience bangScience;
@@ -76,14 +77,17 @@ public class Master implements Screen {
     Array<Tree> trees = new Array<>();
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
+    public  static int amountSeed = 10;
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
+    public static boolean modePlant = false;
     public static int growth = 0;
     public Array<Rice>rices ;
     Array<NormalCamera> normalCameras = new Array<>();
     Truck truck;
+    TreeButon treeButon;
 
     public static Waterwell gieng;
     public static boolean cutting = false;
@@ -109,12 +113,14 @@ public class Master implements Screen {
         multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
 
+
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
         gieng = new Waterwell(1184+32*27,32*6,stage);
+        treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
 
         createCar();
         createTree();
@@ -234,13 +240,13 @@ public class Master implements Screen {
 
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if(whatActionIfClickMouse.equals("move")){
-                whatActionIfClickMouse = "planttree";
-            }else {
-                whatActionIfClickMouse = "move";
-            }
+        if(modePlant) {
+            whatActionIfClickMouse = "planttree";
+
+        }else{
+            whatActionIfClickMouse = "move";
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             whatActionIfClickMouse = "camera";
         }
@@ -273,6 +279,10 @@ public class Master implements Screen {
         stage.draw();
         noMoveStage.act();
         noMoveStage.draw();
+        batch.begin();
+        font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
+
+        batch.end();
     }
 
     public static void nhapTenNormalCamera(float x, float y){

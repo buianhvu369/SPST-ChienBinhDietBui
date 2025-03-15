@@ -68,7 +68,7 @@ public class Player extends MyActor {
             if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                 if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 9)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;
@@ -80,13 +80,13 @@ public class Player extends MyActor {
                     }
                 } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                     if (getY() - 2 < mouseY) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                             moveBy(0, speed);
                         }
                         time += delta;
                         textureRegion = animationUp.getKeyFrame(time);
                     } else if (mouseY < getY() + 2) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                             moveBy(0, -speed);
                         }
                         time += delta;
@@ -96,13 +96,13 @@ public class Player extends MyActor {
             } else {
                 if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                     if (getY() - 2 < mouseY) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                             moveBy(0, speed);
                         }
                         time += delta;
                         textureRegion = animationUp.getKeyFrame(time);
                     } else if (mouseY < getY() + 2) {
-                        if (!(0 <= getX() && getX() < 32 * 9 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                        if (!(0 <= getX() && getX() < 32 * 20 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                             moveBy(0, -speed);
                         }
                         time += delta;
@@ -110,7 +110,7 @@ public class Player extends MyActor {
                     }
                 } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {
-                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 9)) {
+                        if (!(32 * 16 <= getY() && getY() < 32 * 23 && getX() <= 32 * 20)) {
                             moveBy(-speed, 0);
                         }
                         time += delta;

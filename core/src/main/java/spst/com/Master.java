@@ -65,7 +65,7 @@ public class Master implements Screen {
     BangScience bangScience;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
-    ShowAQI showAQI;
+    public static ShowAQI showAQI;
     Dark dark;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -151,10 +151,10 @@ public class Master implements Screen {
         // Tạo TextField
         textField = new TextField("", textFieldStyle);
         textField.setSize(220, 50);
-        textField.setPosition(370, 6); // Vị trí giữa màn hình
+        textField.setPosition(220, 6); // Vị trí giữa màn hình
         textField.setVisible(false);
 
-        stage.addActor(textField);
+        noMoveStage.addActor(textField);
 
         Gdx.input.setInputProcessor(multiplexer);
 
@@ -259,7 +259,7 @@ public class Master implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             String inputText = textField.getText();
             textField.setVisible(false);
-            stage.unfocusAll();
+            noMoveStage.unfocusAll();
             NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
             normalCameras.add(normalCamera);
             normalCamera.name = inputText;
@@ -275,7 +275,7 @@ public class Master implements Screen {
     public static void nhapTenNormalCamera(float x, float y){
         textField.setVisible(true);
         textField.setText(""); // Xóa nội dung cũ
-        player.getStage().setKeyboardFocus(textField);
+        showAQI.getStage().setKeyboardFocus(textField);
         cameraPosition.set(x,y);
         System.out.println(765);
     }
@@ -409,23 +409,23 @@ public class Master implements Screen {
         roads.add(corner32);
 
         CornerPool cornerPool = new CornerPool(0, 800 - 32 * 3, stage, "UL");
-        CornerPool cornerPool2 = new CornerPool(32 * 8, 800 - 32 * 3, stage, "UR");
+        CornerPool cornerPool2 = new CornerPool(32 * 19, 800 - 32 * 3, stage, "UR");
         CornerPool cornerPool3 = new CornerPool(0, 800 - 32 * 9, stage, "DL");
-        CornerPool cornerPool4 = new CornerPool(32 * 8, 800 - 32 * 9, stage, "DR");
-        for (int i = 0; i < 7; i++) {
+        CornerPool cornerPool4 = new CornerPool(32 * 19, 800 - 32 * 9, stage, "DR");
+        for (int i = 0; i < 18; i++) {
             WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 3, stage, 'U');
         }
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 18; i++) {
             WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 8, stage, 'D');
         }
         for (int i = 0; i < 5; i++) {
             WallPool wallPool = new WallPool(0, 800 - 32 * 4 - 32 * i, stage, 'L');
         }
         for (int i = 0; i < 5; i++) {
-            WallPool wallPool = new WallPool(32 * 8, 800 - 32 * 4 - 32 * i, stage, 'R');
+            WallPool wallPool = new WallPool(32 * 19, 800 - 32 * 4 - 32 * i, stage, 'R');
         }
         for (int y = 0; y < 5; y++) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 18; i++) {
                 Water water = new Water(32 + 32 * i, 800 - 32 * 5 - 32 * y, stage);
             }
         }
@@ -774,6 +774,7 @@ public class Master implements Screen {
 
     @Override
     public void dispose() {
+        GameState.saveGame();
         batch.dispose();
     }
 }

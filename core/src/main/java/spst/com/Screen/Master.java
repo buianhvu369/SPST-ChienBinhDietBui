@@ -1,4 +1,4 @@
-package spst.com;
+package spst.com.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,15 +7,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -25,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
+import spst.com.*;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -54,12 +50,11 @@ import static com.badlogic.gdx.math.MathUtils.random;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Master implements Screen {
-    private SpriteBatch batch;
+    public static SpriteBatch batch;
     OrthographicCamera camera;
     InputMultiplexer multiplexer;
     Stage stage;
     Stage noMoveStage;
-    BitmapFont font;
     public static Player player;
     PoolRec poolRec;
     BangScience bangScience;
@@ -67,6 +62,7 @@ public class Master implements Screen {
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
     Dark dark;
+    Texture thaprua = new Texture("thaprua.png");
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -125,13 +121,6 @@ public class Master implements Screen {
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Lonely Cake.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = 25;
-        fontParameter.color = Color.BLUE;
-        font = fontGenerator.generateFont(fontParameter);
-        fontGenerator.dispose();
-
     }
 
     @Override
@@ -143,7 +132,7 @@ public class Master implements Screen {
         });
 
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = font;
+        textFieldStyle.font = StartGame.font;
         textFieldStyle.fontColor = Color.RED;
 
         textFieldStyle.background = new TextureRegionDrawable(Utils.getRegion(0,0,16,16));
@@ -270,6 +259,9 @@ public class Master implements Screen {
         stage.draw();
         noMoveStage.act();
         noMoveStage.draw();
+        batch.begin();
+        batch.draw(thaprua,0,0,32,32*5);
+        batch.end();
     }
 
     public static void nhapTenNormalCamera(float x, float y){

@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import spst.com.Screen.Master;
 
 public class GameState{
     public static int money=0;
@@ -12,7 +13,7 @@ public class GameState{
         preferences.putInteger( "money", money);
         preferences.putInteger( "greenscore", greenscore);
         preferences.putInteger( "ernegy", ernegy);
-        preferences.putFloat( "AQI",Master.AQI );
+        preferences.putFloat( "AQI", Master.AQI );
         preferences.flush();
     }
     public static void loadGame() {

@@ -1,19 +1,13 @@
 package spst.com;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.math.Polygon;
-import spst.com.Cameras.NormalCamera;
 import spst.com.Roads.Tree;
-
-import java.awt.*;
+import spst.com.Screen.Master;
 
 public class Player extends MyActor {
     Animation<TextureRegion> animationLeft;
@@ -26,7 +20,7 @@ public class Player extends MyActor {
     float mouseY = -1321687;
     boolean isMove = true;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
-    Player(float x, float y, Stage s) {
+    public Player(float x, float y, Stage s) {
         super(x, y, s);
         setSize(32,32);
         TextureRegion[] textureRegionLeft = {Utils.getRegion(16*23,0,16,16),Utils.getRegion(16*23,32,16,16),Utils.getRegion(16*23,16*2,16,16)};

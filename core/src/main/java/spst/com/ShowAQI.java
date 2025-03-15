@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import java.security.Key;
+import spst.com.Screen.Master;
 
 public class ShowAQI extends MyActor {
     public ShowAQI(float x, float y, Stage s){

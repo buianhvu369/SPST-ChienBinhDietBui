@@ -3,8 +3,6 @@ package spst.com.Cameras;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import jdk.jshell.execution.Util;
-import spst.com.Master;
 import spst.com.MyActor;
 import spst.com.Utils;
 

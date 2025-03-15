@@ -507,8 +507,8 @@ public class Master implements Screen {
         xR = 1184;
         yR = WINDOW_HEIGHT - 32 * 4;
         for (int j = 0; j < 13; j++) {
-            new Hangraongang(xR, yR, stage);
-            xR += 32 * 3 - 16;
+            new Hangraongang(xR, yR, stage,1);
+            xR += 32 * 2;
         }
 
         float x = 1184 - 32;
@@ -531,7 +531,18 @@ public class Master implements Screen {
             }
         }
 
-
+        x = 1184 ;
+        y = WINDOW_HEIGHT - 32*11;
+        for(int i = 0;i<3;i++){
+            new Hangraongang(x,y,stage,2);
+            x += 16*3-10;
+        }
+        x = 1184 ;
+        y = WINDOW_HEIGHT - 32*14;
+        for(int i = 0;i<3;i++){
+            new Hangraongang(x,y,stage,2);
+            x += 16*3-10;
+        }
         createHouseRed3(1184+32*8,32*16);
         createHouseBlue3(1184+32*9,32*2);
         createHouseRed2(1184+32*11, 32*8);

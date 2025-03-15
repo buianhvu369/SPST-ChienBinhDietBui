@@ -59,6 +59,7 @@ public class Player extends MyActor {
             clickSound.play();
             if(Master.whatActionIfClickMouse.equals("planttree")){
                 new Tree(mouseX,mouseY,getStage());
+                new LoadingPlant(mouseX,mouseY,getStage());
             }
             if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera(mouseX,mouseY);

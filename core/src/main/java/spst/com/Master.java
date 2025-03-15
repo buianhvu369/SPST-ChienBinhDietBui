@@ -118,6 +118,8 @@ public class Master implements Screen {
 
         createHouses();
 
+        createRiver();
+
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
@@ -749,6 +751,10 @@ public class Master implements Screen {
         new partofCastle(x, y, stage, 7);x -= 32 * 3;new partofCastle(x, y, stage, 7);
 
 
+    }
+
+    public void createRiver(){
+        new River(1200 - 2*32, 0, stage);
     }
 
 

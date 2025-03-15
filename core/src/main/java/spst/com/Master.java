@@ -119,7 +119,6 @@ public class Master implements Screen {
         createCar();
         createTree();
         createWaste();
-
         createHouses();
 
         player = new Player(1200 / 2, 800 / 2, stage);
@@ -493,6 +492,10 @@ public class Master implements Screen {
     public void generateMap2() {
         createGroundTown();
         createRiver();
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         float xR = 1184;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {

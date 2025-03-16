@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -131,6 +132,9 @@ public class Master implements Screen {
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
+        // thằng này đang chắn ỏ lớp trên, nên các actor cùng stage ko nhận được click
+        // nên cần disabled nó
+        dark.setTouchable(Touchable.disabled);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 

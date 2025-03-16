@@ -22,7 +22,6 @@ public class TreeButon extends MyActor {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("clicked");
                 if(!Master.modePlant){
                     Master.modePlant = true;
                     textureRegion = new TextureRegion(texture1);

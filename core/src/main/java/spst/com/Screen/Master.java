@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -31,6 +34,7 @@ import spst.com.House.HotelCenter;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
+import spst.com.People.People1;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
@@ -55,7 +59,8 @@ public class Master implements Screen {
     OrthographicCamera camera;
     InputMultiplexer multiplexer;
     Stage stage;
-    Stage noMoveStage;
+    public static Stage noMoveStage;
+    public static BitmapFont font;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     CheTao cheTaoButton;
@@ -77,6 +82,7 @@ public class Master implements Screen {
     Array<Tree> trees = new Array<>();
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
+    public  static int amountSeed = 10;
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -85,10 +91,13 @@ public class Master implements Screen {
     public Array<Rice>rices ;
     Array<NormalCamera> normalCameras = new Array<>();
     Truck truck;
+    TreeButon treeButon;
+
+    public static Waterwell gieng;
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-    static Vector2 cameraPosition = new Vector2();
+    static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
     float[]toadox = new float[]{
@@ -98,6 +107,7 @@ public class Master implements Screen {
         11,10,10,10,10,11,10,9,7,7,7,7,7,8,5,5,5,5,6,1,1,1,2,3,4,12,11,10,9,9,9,9,9,11,10,9,9,9,13,12,11,10,10,10,10,2,2,2,2,2,2,3,4,5,6,7,8,10
     };
     public static TextField textField;
+    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
 
     public Master() {
         batch = new SpriteBatch();
@@ -118,11 +128,12 @@ public class Master implements Screen {
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
+        gieng = new Waterwell(1184+32*27,32*6,stage);
+        treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
 
         createCar();
         createTree();
         createWaste();
-
         createHouses();
 
         player = new Player(1200 / 2, 800 / 2, stage);
@@ -130,6 +141,9 @@ public class Master implements Screen {
         bangScience = new BangScience(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
+        // thằng này đang chắn ỏ lớp trên, nên các actor cùng stage ko nhận được click
+        // nên cần disabled nó
+        dark.setTouchable(Touchable.disabled);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -266,13 +280,7 @@ public class Master implements Screen {
 
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if(whatActionIfClickMouse.equals("move")){
-                whatActionIfClickMouse = "planttree";
-            }else {
-                whatActionIfClickMouse = "move";
-            }
-        }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             whatActionIfClickMouse = "camera";
         }
@@ -287,6 +295,31 @@ public class Master implements Screen {
             camera.zoom = 1f;
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            bangScience.setPosition(-1002343,-1101);
+        }
+
+        if (Gdx.input.justTouched()) {
+            Vector2 mouse = new Vector2();
+            mouse.set(Gdx.input.getX(), Gdx.input.getY());
+            stage.getViewport().unproject(mouse);
+
+            cameraPosition.x = mouse.x;
+            cameraPosition.y = mouse.y;
+
+            if(Master.whatActionIfClickMouse.equals("planttree")){
+                if(Master.amountSeed > 0 ) {
+                    Master.amountSeed--;
+                    new LoadingPlant(mouse.x, mouse.y, stage);
+                }
+            } else if(Master.whatActionIfClickMouse.equals("camera")){
+                Master.nhapTenNormalCamera();
+            } else {
+                AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32, stage);
+                clickSound.play();
+            }
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             String inputText = textField.getText();
             textField.setVisible(false);
@@ -294,6 +327,7 @@ public class Master implements Screen {
             NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
             normalCameras.add(normalCamera);
             normalCamera.name = inputText;
+            whatActionIfClickMouse = "move";
         }
 
         stage.act();
@@ -302,16 +336,15 @@ public class Master implements Screen {
         noMoveStage.act();
         noMoveStage.draw();
         batch.begin();
+        font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
         batch.draw(thaprua,0,0,32,32*5);
         batch.end();
     }
 
-    public static void nhapTenNormalCamera(float x, float y){
+    public static void nhapTenNormalCamera(){
         textField.setVisible(true);
         textField.setText(""); // Xóa nội dung cũ
         showAQI.getStage().setKeyboardFocus(textField);
-        cameraPosition.set(x,y);
-        System.out.println(765);
     }
     private void xulyngaydem(){
         gio1phan60++;
@@ -551,6 +584,11 @@ public class Master implements Screen {
 
     public void generateMap2() {
         createGroundTown();
+        createRiver();
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         float xR = 1184;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
@@ -565,12 +603,12 @@ public class Master implements Screen {
         xR = 1184;
         yR = WINDOW_HEIGHT - 32 * 4;
         for (int j = 0; j < 13; j++) {
-            new Hangraongang(xR, yR, stage);
-            xR += 32 * 3 - 16;
+            new Hangraongang(xR, yR, stage,1);
+            xR += 32 * 2;
         }
 
-        float x = 1184;
-        float y = WINDOW_HEIGHT - 32 * 7;
+        float x = 1184 - 32;
+        float y = WINDOW_HEIGHT - 32 * 7-32*7;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 12; j++) {
                 new RoadWay(x, y, stage, true);
@@ -580,7 +618,7 @@ public class Master implements Screen {
             x += 32;
         }
         x = 1184 + 32 * 15;
-        y = WINDOW_HEIGHT - 32 * 8 + 8;
+        y = WINDOW_HEIGHT - 32 * 8 +8-32*7;
         for(int i = 0;i<4;i++){
             for (int j = -1; j < 5; j++) {
                 new RoadWay(x, y, stage, false);
@@ -588,37 +626,37 @@ public class Master implements Screen {
                 y -= 32;
             }
         }
-        for (int i = 0; i < 58; i++) {
-            x = toadox[i];
-            y =  toadoy[i] ;
-            new Randomblock(x*32 + 1184,y*32,stage,5);
-        }
 
-        createHouseBlue1(1184+32*2,32*12);
-        createHouseRed3(1184+32*8,32*12);
-        createHouseBlue2(1184+32*4,32*6);
+        x = 1184 ;
+        y = WINDOW_HEIGHT - 32*11;
+        for(int i = 0;i<3;i++){
+            new Hangraongang(x,y,stage,2);
+            x += 16*3-10;
+        }
+        x = 1184 ;
+        y = WINDOW_HEIGHT - 32*14;
+        for(int i = 0;i<3;i++){
+            new Hangraongang(x,y,stage,2);
+            x += 16*3-10;
+        }
+        createHouseRed3(1184+32*8,32*16);
         createHouseBlue3(1184+32*9,32*2);
         createHouseRed2(1184+32*11, 32*8);
-        new Waterwell(1184+32*8,32*9,stage);
-        createHouseBlue2(1184+32*34,32*13);
-        createHouseRed1(1184+32*20,32*12);
-        createHouseBlue1(1184+32*28, 32*11);
+
+        createHouseBlue2(1184+32*25,32*17);
+        createHouseRed1(1184+32*20,32*7);
+        createHouseBlue1(1184+32*16, 32*16);
+        createHouseBlue1(1184+32*22, 32);
         creatCastle(1184+32*30,32*2);
-        new Waterwell(1184+32*27,32*8,stage);
 
-        new RoadWay(32*37,800/2f-48,stage,true);
-        new RoadWay(32*38,800/2f-48,stage,true);
-        new RoadWay(32*39,800/2f-48,stage,true);
-        for (int i = 0;i<4;i++){
-            new RoadWay(37f*32,800/2f+48+3*32-32*i,stage,false);
-        }
+        new People1(32*5+1184,32,stage,true);
+        new People1(32*30+ 1184,48,stage,true );
 
-        BlankRoad blankRoad = new BlankRoad(1184 + 32, 800 / 2f + 48 + 4*32, stage);
-        Corner corner1 = new Corner(1184 + 2 * 32, 800 / 2f + 48 + 4*32, stage, "UL");
 
-        Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32, stage, "UR");
-        BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32, stage);
-        Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32, stage, "UL");
+
+        Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UR");
+        BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32-7*32, stage);
+        Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UL");
     }
 
     public void createGroundTown() {
@@ -628,6 +666,19 @@ public class Master implements Screen {
                 new Ground2(x, y, stage);
                 x += 32 * 3;
             }
+
+        x = 1184;
+        y = WINDOW_HEIGHT - 32 * 5;
+        for(int i = 0; i < 8; i++) {
+            for (int j = 0; j < 40; j++) {
+                int rand = MathUtils.random(1, 2);
+                new Randomblock(x, y, stage, rand);
+                x += 32;
+            }
+            x = 1184;
+            y -= 32;
+        }
+
         x = 1184 + 32 * 30;
         y = WINDOW_HEIGHT;
         for (int i = 0; i < 5; i++) {
@@ -812,6 +863,10 @@ public class Master implements Screen {
         new partofCastle(x, y, stage, 7);x -= 32 * 3;new partofCastle(x, y, stage, 7);
 
 
+    }
+
+    public void createRiver(){
+        new River(1178, 0, stage);
     }
 
 

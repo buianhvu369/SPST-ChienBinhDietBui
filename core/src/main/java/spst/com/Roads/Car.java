@@ -66,8 +66,6 @@ public class Car extends MyActor {
             setPosition(32*23-8,800);
         }
         setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
-        Master.noPlaced.add(this.getBound());
-
     }
 
     @Override

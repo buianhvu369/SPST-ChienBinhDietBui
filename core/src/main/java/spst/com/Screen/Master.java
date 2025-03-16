@@ -614,11 +614,7 @@ public class Master implements Screen {
 
     public void generateMap2() {
         createGroundTown();
-        createRiver();
-        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
-        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
-        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
-        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        createRiverAndBoats();
         float xR = 1184;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
@@ -892,11 +888,14 @@ public class Master implements Screen {
         new partofCastle(x,y,stage,5);x += 32*3;y +=32;
         new partofCastle(x, y, stage, 7);x -= 32 * 3;new partofCastle(x, y, stage, 7);
 
-
     }
 
-    public void createRiver(){
+    public void createRiverAndBoats(){
         new River(1178, 0, stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+        new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
     }
 
 

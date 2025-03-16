@@ -13,6 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+import spst.com.Button.Continue;
+import spst.com.Button.Exit;
+import spst.com.Button.Guide;
+import spst.com.Button.Start;
 import spst.com.GameState;
 
 public class MenuScreen implements Screen  {
@@ -20,11 +24,10 @@ public class MenuScreen implements Screen  {
     StartGame game;
     OrthographicCamera camera;
     Stage stage;
-    Texture startButtonImage;
-    Texture exitButtonImage;
-    Texture continueButtonImage;
-
-    Texture guideButtonImage;
+    Continue continueButton;
+    Exit exitButton;
+    Guide guideButton;
+    Start startButton;
     public MenuScreen(StartGame game){
         this.game = game;
         stage = new Stage();
@@ -36,37 +39,18 @@ public class MenuScreen implements Screen  {
         camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         Master.batch = new SpriteBatch();
 
-        startButtonImage = new Texture("start.png");
-        continueButtonImage = new Texture("continue.png");
-        exitButtonImage = new Texture("exit.png");
-        guideButtonImage = new Texture("guide.png");
-
         layout = new GlyphLayout();
 
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = StartGame.font;
-        style.fontColor = Color.WHITE;
-        style.up = new TextureRegionDrawable(startButtonImage);
-        TextButton startButton = new TextButton( "",style);
-        startButton.setPosition(0,
-            Gdx.graphics.getHeight() /2f - startButton.getHeight()/2) ;
-        stage.addActor(startButton);
-        Gdx.input.setInputProcessor(stage);
+        startButton = new Start(0,0,stage);
+        startButton.setPosition(Gdx.graphics.getWidth()/2f-startButton.getWidth()/2f, 400); ;
         startButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(game.master);
             }
         });
 
-        TextButton.TextButtonStyle style3 = new TextButton.TextButtonStyle();
-        style3.font = StartGame.font;
-        style3.fontColor = Color.WHITE;
-        style3.up = new TextureRegionDrawable(continueButtonImage);
-        TextButton continueButton = new TextButton( "",style3);
-        continueButton.setPosition(32*7,
-            Gdx.graphics.getHeight() /2f - startButton.getHeight()/2) ;
-        stage.addActor(continueButton);
-        Gdx.input.setInputProcessor(stage);
+        continueButton = new Continue(0,0,stage);
+        continueButton.setPosition(Gdx.graphics.getWidth()/2f-continueButton.getWidth()/2f, 300); ;
         continueButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 GameState.loadGame();
@@ -74,35 +58,23 @@ public class MenuScreen implements Screen  {
             }
         });
 
-        TextButton.TextButtonStyle style4 = new TextButton.TextButtonStyle();
-        style4.font = StartGame.font;
-        style4.fontColor = Color.WHITE;
-        style4.up = new TextureRegionDrawable(exitButtonImage);
-        TextButton exitButton = new TextButton( "",style4);
-        exitButton.setPosition(32*14,
-            Gdx.graphics.getHeight() /2f - startButton.getHeight()/2) ;
-        stage.addActor(exitButton);
-        Gdx.input.setInputProcessor(stage);
+        exitButton = new Exit(0,0,stage);
+        exitButton.setPosition(Gdx.graphics.getWidth()/2f-exitButton.getWidth()/2f, 200); ;
         exitButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
             }
         });
 
-        TextButton.TextButtonStyle style5 = new TextButton.TextButtonStyle();
-        style5.font = StartGame.font;
-        style5.fontColor = Color.WHITE;
-        style5.up = new TextureRegionDrawable(guideButtonImage);
-        TextButton guideButton = new TextButton( "",style5);
-        guideButton.setPosition(32*21,
-            Gdx.graphics.getHeight() /2f - startButton.getHeight()/2) ;
-        stage.addActor(guideButton);
-        Gdx.input.setInputProcessor(stage);
+        guideButton = new Guide(0,0,stage);
+        guideButton.setPosition(Gdx.graphics.getWidth()/2f-guideButton.getWidth()/2f, 100); ;
         guideButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(game.guideScreen);
             }
         });
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

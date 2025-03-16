@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import spst.com.*;
+import spst.com.Button.*;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -55,9 +56,14 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     Stage stage;
     Stage noMoveStage;
+    ThongTin thongTinButton;
+    NghienCuu nghienCuuButton;
+    CheTao cheTaoButton;
+    CaiDat caiDatButton;
     public static Player player;
     PoolRec poolRec;
     BangScience bangScience;
+    Cross bangScienceCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
@@ -102,6 +108,11 @@ public class Master implements Screen {
         multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
 
+        thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
+        nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
+        cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
+        caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
+
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
         generateMap();
@@ -117,6 +128,7 @@ public class Master implements Screen {
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
+        bangScienceCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
@@ -128,6 +140,40 @@ public class Master implements Screen {
         scienceDoor.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 showBangScience(32,32);
+            }
+        });
+        bangScienceCross.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                bangScience.setPosition(-1002343,-1101);
+                bangScienceCross.setPosition(-1002343,-1101);
+                thongTinButton.setPosition(-1002343,-1101);
+                nghienCuuButton.setPosition(-1002343,-1101);
+                cheTaoButton.setPosition(-1002343,-1101);
+                caiDatButton.setPosition(-1002343,-1101);
+            }
+        });
+
+        thongTinButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moThongTin();
+            }
+        });
+
+        nghienCuuButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moNghienCuu();
+            }
+        });
+
+        cheTaoButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moCheTao();
+            }
+        });
+
+        caiDatButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moCaiDat();
             }
         });
 
@@ -241,10 +287,6 @@ public class Master implements Screen {
             camera.zoom = 1f;
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            bangScience.setPosition(-1002343,-1101);
-        }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             String inputText = textField.getText();
             textField.setVisible(false);
@@ -273,40 +315,69 @@ public class Master implements Screen {
     }
     private void xulyngaydem(){
         gio1phan60++;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                if(gio1phan60 == 60*22){
+        if(gio1phan60 == 60*22 || gio1phan60 == 60*22*2){
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dark.toFront();
                     dark.addAction(Actions.fadeIn(2));
                 }
-            }
-        },0);
+            },0);
+        }
         if(gio1phan60 == 60*24){
             day++;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     dark.addAction(Actions.fadeOut(2));
+                    dark.toBack();
                 }
             },0);
         }
         if(gio1phan60 == 60*24*2){
             gio1phan60 = 0;
             day++;
-            new Tree(player.getX(),player.getY(),stage );
+            sukiensau2ngay();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     dark.addAction(Actions.fadeOut(2));
+                    dark.toBack();
                 }
             },0);
         }
     }
+    private void sukiensau2ngay(){
+        new Tree(player.getX(),player.getY(),stage);
+    }
     private void showBangScience(float x, float y){
         if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
             bangScience.setPosition(x,y);
+            bangScienceCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+            thongTinButton.setPosition(32*2+192*0-16,Gdx.graphics.getHeight()-32*2-64);
+            nghienCuuButton.setPosition(32*3+192*1-16,Gdx.graphics.getHeight()-32*2-64);
+            cheTaoButton.setPosition(32*4+192*2-16,Gdx.graphics.getHeight()-32*2-64);
+            caiDatButton.setPosition(32*5+192*3-16,Gdx.graphics.getHeight()-32*2-64);
+
             bangScience.toFront();
+            thongTinButton.toFront();
+            nghienCuuButton.toFront();
+            cheTaoButton.toFront();
+            caiDatButton.toFront();
+            bangScienceCross.toFront();
         }
+    }
+    private void moThongTin(){
+        new Car(400,400,noMoveStage,true);
+    }
+    private void moNghienCuu(){
+        new Car(300,300,noMoveStage,true);
+    }
+    private void moCheTao(){
+        new Car(200,200,noMoveStage,true);
+    }
+    private void moCaiDat(){
+        new Car(100,100,noMoveStage,true);
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");

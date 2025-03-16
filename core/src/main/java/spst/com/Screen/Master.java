@@ -64,6 +64,7 @@ public class Master implements Screen {
     public static Stage noMoveStage;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
+    WhiteButton nangCapMLKK;
     CheTao cheTaoButton;
     CaiDat caiDatButton;
     public static Player player;
@@ -77,7 +78,6 @@ public class Master implements Screen {
     Line line;
     Line line2;
     Line lineThongTin;
-    Line lineThongTin2;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -132,6 +132,7 @@ public class Master implements Screen {
 
         thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
+        nangCapMLKK = new WhiteButton(-1000,-1000,noMoveStage);
         cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
 
@@ -159,6 +160,7 @@ public class Master implements Screen {
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
+        lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*6-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -177,10 +179,15 @@ public class Master implements Screen {
                 bangScienceCross.setPosition(-1002343,-1101);
                 thongTinButton.setPosition(-1002343,-1101);
                 nghienCuuButton.setPosition(-1002343,-1101);
+                nangCapMLKK.setPosition(-1002343,-1101);
                 cheTaoButton.setPosition(-1002343,-1101);
                 caiDatButton.setPosition(-1002343,-1101);
                 line.setHeight(0);
+                line2.setHeight(0);
+                dongThongtin();
+                dongNghienCuu();
                 hienChiSo = false;
+                hienNghienCuu = false;
             }
         });
 
@@ -193,6 +200,12 @@ public class Master implements Screen {
         nghienCuuButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 moNghienCuu();
+            }
+        });
+
+        nangCapMLKK.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                GameState.levelmaylockhongkhi++;
             }
         });
 
@@ -367,6 +380,12 @@ public class Master implements Screen {
         }
         if(hienThongTin){
             game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
+        }
+        if(hienNghienCuu){
+            game.font3.draw(batch, "Cấp độ máy lọc không khí: " + GameState.levelmaylockhongkhi,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*2, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
         }
         batch.end();
     }
@@ -434,16 +453,34 @@ public class Master implements Screen {
             line.toFront();
         }
     }
+    private void dongThongtin(){
+        lineThongTin.setHeight(0);
+        hienThongTin = false;
+    }
+    private void dongNghienCuu(){
+        hienNghienCuu = false;
+        nangCapMLKK.setPosition(-1398,-10092);
+    }
     private void moThongTin(){
+        hienThongTin = true;
+        dongNghienCuu();
+
+        lineThongTin.setHeight(4);
     }
     private void moNghienCuu(){
-        new Car(300,300,noMoveStage);
+        hienNghienCuu = true;
+        nangCapMLKK.setPosition(32*2-21,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16);
+        nangCapMLKK.toFront();
+        dongThongtin();
     }
     private void moCheTao(){
         new Car(200,200,noMoveStage);
+        dongThongtin();
+        dongNghienCuu();
     }
     private void moCaiDat(){
-        new Car(100,100,noMoveStage);
+        dongThongtin();
+        dongNghienCuu();
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");

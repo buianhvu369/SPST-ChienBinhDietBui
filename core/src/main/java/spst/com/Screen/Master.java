@@ -120,6 +120,7 @@ public class Master implements Screen {
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
@@ -134,11 +135,11 @@ public class Master implements Screen {
         gieng = new Waterwell(1184+32*27,32*6,stage);
         treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
 
-        createCar();
         createTree();
         createWaste();
         createHouses();
 
+        new ThapRua(32*9+8,800/2+48+32*6+8,stage);
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
@@ -218,26 +219,21 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        createCar();
         xulyngaydem();
         if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
             stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
-            camera.position.x = player.getX() + player.getWidth() / 2;
         }else if((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()){
             stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
-            camera.position.x = Gdx.graphics.getWidth() / 2f;
         }else if(player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2){
             stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
-            camera.position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
         }
         if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
             stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
-            camera.position.y = player.getY() + player.getHeight() / 2;
         }else if((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()){
             stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
-            camera.position.y = Gdx.graphics.getHeight() / 2f;
         }else if(player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2){
             stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
-            camera.position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
         }
 
         growth++;
@@ -339,8 +335,7 @@ public class Master implements Screen {
         noMoveStage.act();
         noMoveStage.draw();
         batch.begin();
-        game.font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
-        batch.draw(thaprua,0,0,32,32*5);
+        game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
         batch.end();
     }
 
@@ -404,16 +399,16 @@ public class Master implements Screen {
         }
     }
     private void moThongTin(){
-        new Car(400,400,noMoveStage,true);
+        new Car(400,400,noMoveStage);
     }
     private void moNghienCuu(){
-        new Car(300,300,noMoveStage,true);
+        new Car(300,300,noMoveStage);
     }
     private void moCheTao(){
-        new Car(200,200,noMoveStage,true);
+        new Car(200,200,noMoveStage);
     }
     private void moCaiDat(){
-        new Car(100,100,noMoveStage,true);
+        new Car(100,100,noMoveStage);
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");
@@ -532,11 +527,8 @@ public class Master implements Screen {
     }
 
     private void createCar() {
-        for (int y = 0; y < 3; y++) {
-            Car car = new Car(1184 / 3 * y, 800 / 2f - 48 + 8, stage, true);
-            cars.add(car);
-            Car car2 = new Car(1184 / 3 * y, 800 / 2f - 48 + 32 * 2 - 8, stage, false);
-            cars.add(car2);
+        if(gio1phan60%180 == 0){
+            new Car(0,0,stage);//dat x,y cho hop ly vi Car extends MyActor chu vao trong car no dat lai
         }
     }
     private void createParking(float x, float y){

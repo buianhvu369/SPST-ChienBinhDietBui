@@ -24,7 +24,7 @@ public class LoadingPlant extends MyActor{
             }
         }
 
-        animation = new Animation(0.1f, frames);
+        animation = new Animation<>(0.1f, frames);
         animation.setPlayMode(Animation.PlayMode.LOOP);
         textureRegion = animation.getKeyFrame(time);
         System.out.println(width + "   "+ tex.getHeight());

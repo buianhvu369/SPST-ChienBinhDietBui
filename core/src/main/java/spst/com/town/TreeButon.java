@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import spst.com.Master;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 
 public class TreeButon extends MyActor {
     public TreeButon(float x, float y, Stage s) {

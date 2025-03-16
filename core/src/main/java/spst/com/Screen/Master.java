@@ -1,4 +1,4 @@
-package spst.com;
+package spst.com.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,14 +9,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -28,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
+import spst.com.*;
+import spst.com.Button.*;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -58,19 +56,24 @@ import static com.badlogic.gdx.math.MathUtils.random;
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Master implements Screen {
-    private SpriteBatch batch;
+    public static SpriteBatch batch;
     OrthographicCamera camera;
     InputMultiplexer multiplexer;
     Stage stage;
     public static Stage noMoveStage;
-    public static BitmapFont font;
+    ThongTin thongTinButton;
+    NghienCuu nghienCuuButton;
+    CheTao cheTaoButton;
+    CaiDat caiDatButton;
     public static Player player;
     PoolRec poolRec;
     BangScience bangScience;
+    Cross bangScienceCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
     Dark dark;
+    Texture thaprua = new Texture("thaprua.png");
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -94,7 +97,7 @@ public class Master implements Screen {
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-    static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
+    public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
     float[]toadox = new float[]{
@@ -105,8 +108,11 @@ public class Master implements Screen {
     };
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
+    StartGame game;
 
-    public Master() {
+    public Master(StartGame game) {
+        this.game = game;
+
         batch = new SpriteBatch();
         multiplexer = new InputMultiplexer();
         stage = new Stage();
@@ -115,6 +121,10 @@ public class Master implements Screen {
         multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
 
+        thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
+        nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
+        cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
+        caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -132,19 +142,13 @@ public class Master implements Screen {
         player = new Player(1200 / 2, 800 / 2, stage);
 
         bangScience = new BangScience(-10000,-100,noMoveStage);
+        bangScienceCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
         // thằng này đang chắn ỏ lớp trên, nên các actor cùng stage ko nhận được click
         // nên cần disabled nó
         dark.setTouchable(Touchable.disabled);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
-
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Lonely Cake.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = 25;
-        fontParameter.color = Color.BLUE;
-        font = fontGenerator.generateFont(fontParameter);
-        fontGenerator.dispose();
 
     }
 
@@ -155,9 +159,43 @@ public class Master implements Screen {
                 showBangScience(32,32);
             }
         });
+        bangScienceCross.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                bangScience.setPosition(-1002343,-1101);
+                bangScienceCross.setPosition(-1002343,-1101);
+                thongTinButton.setPosition(-1002343,-1101);
+                nghienCuuButton.setPosition(-1002343,-1101);
+                cheTaoButton.setPosition(-1002343,-1101);
+                caiDatButton.setPosition(-1002343,-1101);
+            }
+        });
+
+        thongTinButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moThongTin();
+            }
+        });
+
+        nghienCuuButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moNghienCuu();
+            }
+        });
+
+        cheTaoButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moCheTao();
+            }
+        });
+
+        caiDatButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moCaiDat();
+            }
+        });
 
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = font;
+        textFieldStyle.font = StartGame.font;
         textFieldStyle.fontColor = Color.RED;
 
         textFieldStyle.background = new TextureRegionDrawable(Utils.getRegion(0,0,16,16));
@@ -301,8 +339,8 @@ public class Master implements Screen {
         noMoveStage.act();
         noMoveStage.draw();
         batch.begin();
-        font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
-
+        game.font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
+        batch.draw(thaprua,0,0,32,32*5);
         batch.end();
     }
 
@@ -313,40 +351,69 @@ public class Master implements Screen {
     }
     private void xulyngaydem(){
         gio1phan60++;
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                if(gio1phan60 == 60*22){
+        if(gio1phan60 == 60*22 || gio1phan60 == 60*22*2){
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dark.toFront();
                     dark.addAction(Actions.fadeIn(2));
                 }
-            }
-        },0);
+            },0);
+        }
         if(gio1phan60 == 60*24){
             day++;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     dark.addAction(Actions.fadeOut(2));
+                    dark.toBack();
                 }
             },0);
         }
         if(gio1phan60 == 60*24*2){
             gio1phan60 = 0;
             day++;
-            new Tree(player.getX(),player.getY(),stage );
+            sukiensau2ngay();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     dark.addAction(Actions.fadeOut(2));
+                    dark.toBack();
                 }
             },0);
         }
     }
+    private void sukiensau2ngay(){
+        new Tree(player.getX(),player.getY(),stage);
+    }
     private void showBangScience(float x, float y){
         if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
             bangScience.setPosition(x,y);
+            bangScienceCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+            thongTinButton.setPosition(32*2+192*0-16,Gdx.graphics.getHeight()-32*2-64);
+            nghienCuuButton.setPosition(32*3+192*1-16,Gdx.graphics.getHeight()-32*2-64);
+            cheTaoButton.setPosition(32*4+192*2-16,Gdx.graphics.getHeight()-32*2-64);
+            caiDatButton.setPosition(32*5+192*3-16,Gdx.graphics.getHeight()-32*2-64);
+
             bangScience.toFront();
+            thongTinButton.toFront();
+            nghienCuuButton.toFront();
+            cheTaoButton.toFront();
+            caiDatButton.toFront();
+            bangScienceCross.toFront();
         }
+    }
+    private void moThongTin(){
+        new Car(400,400,noMoveStage,true);
+    }
+    private void moNghienCuu(){
+        new Car(300,300,noMoveStage,true);
+    }
+    private void moCheTao(){
+        new Car(200,200,noMoveStage,true);
+    }
+    private void moCaiDat(){
+        new Car(100,100,noMoveStage,true);
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");
@@ -440,25 +507,25 @@ public class Master implements Screen {
         roads.add(blankRoad3);
         roads.add(corner32);
 
-        CornerPool cornerPool = new CornerPool(0, 800 - 32 * 3, stage, "UL");
-        CornerPool cornerPool2 = new CornerPool(32 * 19, 800 - 32 * 3, stage, "UR");
-        CornerPool cornerPool3 = new CornerPool(0, 800 - 32 * 9, stage, "DL");
-        CornerPool cornerPool4 = new CornerPool(32 * 19, 800 - 32 * 9, stage, "DR");
+//        CornerPool cornerPool = new CornerPool(32*5, 800 - 32 * 3, stage, "UL");
+//        CornerPool cornerPool2 = new CornerPool(32 * 15, 800 - 32 * 3, stage, "UR");
+        CornerPool cornerPool3 = new CornerPool(32*4, 800 - 32 * 9, stage, "DL");
+        CornerPool cornerPool4 = new CornerPool(32 * 15, 800 - 32 * 9, stage, "DR");
 //        for (int i = 0; i < 18; i++) {
 //            WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 8, stage, 'U');
 //        }
-        for (int i = 0; i < 18; i++) {
-            WallPool wallPool = new WallPool(32 + 32 * i, 800 - 32 * 8, stage, 'D');
+//        for (int i = 0; i < 15; i++) {
+//            WallPool wallPool = new WallPool(32*5 + 32 * i, 800 - 32 * 8, stage, 'D');
+//        }
+        for (int i = 0; i < 10; i++) {
+            WallPool wallPool = new WallPool(32*4, 800+32 - 32 * i, stage, 'L');
         }
         for (int i = 0; i < 10; i++) {
-            WallPool wallPool = new WallPool(0, 800+32 - 32 * i, stage, 'L');
-        }
-        for (int i = 0; i < 10; i++) {
-            WallPool wallPool = new WallPool(32 * 19, 800+32 - 32 * i, stage, 'R');
+            WallPool wallPool = new WallPool(32 * 15, 800+32 - 32 * i, stage, 'R');
         }
         for (int y = 0; y < 10; y++) {
-            for (int i = 0; i < 18; i++) {
-                Water water = new Water(32 + 32 * i, 800 - 32 * y, stage);
+            for (int i = 0; i < 10; i++) {
+                Water water = new Water(32*5 + 32 * i, 800 - 32 * y, stage);
             }
         }
         ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);

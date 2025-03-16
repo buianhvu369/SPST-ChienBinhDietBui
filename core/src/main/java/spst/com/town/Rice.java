@@ -1,7 +1,7 @@
 package spst.com.town;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import spst.com.Master;
+import spst.com.Screen.Master;
 import spst.com.MyActor;
 import spst.com.Utils;
 

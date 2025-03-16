@@ -9,7 +9,6 @@ public class Rice extends MyActor {
 
     public Rice(float x, float y, Stage s) {
         super(x, y, s);
-        Master.noPlaced.add(this.getBound());
     }
 
     @Override

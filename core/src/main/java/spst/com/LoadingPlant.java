@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.Roads.Tree;
 
 public class LoadingPlant extends MyActor{
     Animation<TextureRegion> animation;
@@ -36,6 +37,7 @@ public class LoadingPlant extends MyActor{
         time += delta;
         textureRegion = animation.getKeyFrame(time);
         if(time > 2){
+            new Tree(getX(), getY(), getStage());
             remove();
         }
     }

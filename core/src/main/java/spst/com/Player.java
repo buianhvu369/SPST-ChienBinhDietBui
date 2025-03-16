@@ -24,8 +24,7 @@ public class Player extends MyActor {
     float time;
     float mouseX = -13314;
     float mouseY = -1321687;
-    boolean isMove = true;
-    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
+
     Player(float x, float y, Stage s) {
         super(x, y, s);
         setSize(32,32);
@@ -48,27 +47,11 @@ public class Player extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        Vector2 mouse = new Vector2();
-        mouse.set(Gdx.input.getX(), Gdx.input.getY());
-        getStage().getViewport().unproject(mouse);
 
-        if (Gdx.input.justTouched()) {
-            mouseX = mouse.x;
-            mouseY = mouse.y;
-            AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32,getStage());
-            clickSound.play();
-            if(Master.whatActionIfClickMouse.equals("planttree")){
-                if(Master.modePlant&&Master.amountSeed > 0 ) {
-                    Master.amountSeed--;
-                    new Tree(mouseX, mouseY, getStage());
-                    new LoadingPlant(mouseX, mouseY, getStage());
-                }
-            }
-            if(Master.whatActionIfClickMouse.equals("camera")){
-                Master.nhapTenNormalCamera(mouseX,mouseY);
-            }
-        }
-        if (mouseX != -13314 && mouseY != -1321687 && Master.whatActionIfClickMouse.equals("move")){
+        mouseX = Master.cameraPosition.x;
+        mouseY = Master.cameraPosition.y;
+
+        if (Master.whatActionIfClickMouse.equals("move")){
             if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                 if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {

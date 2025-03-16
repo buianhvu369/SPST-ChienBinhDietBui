@@ -22,11 +22,11 @@ public class TreeButon extends MyActor {
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!Master.modePlant){
-                    Master.modePlant = true;
+                if(!Master.whatActionIfClickMouse.equals("planttree")){
+                    Master.whatActionIfClickMouse = "planttree";
                     textureRegion = new TextureRegion(texture1);
                 }else{
-                    Master.modePlant = false;
+                    Master.whatActionIfClickMouse = "move";
                     textureRegion = new TextureRegion(texture);
                 }
             }

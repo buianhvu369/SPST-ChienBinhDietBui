@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -83,7 +84,6 @@ public class Master implements Screen {
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
-    public static boolean modePlant = false;
     public static int growth = 0;
     public Array<Rice>rices ;
     Array<NormalCamera> normalCameras = new Array<>();
@@ -94,7 +94,7 @@ public class Master implements Screen {
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-    static Vector2 cameraPosition = new Vector2();
+    static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
     float[]toadox = new float[]{
@@ -104,6 +104,7 @@ public class Master implements Screen {
         11,10,10,10,10,11,10,9,7,7,7,7,7,8,5,5,5,5,6,1,1,1,2,3,4,12,11,10,9,9,9,9,9,11,10,9,9,9,13,12,11,10,10,10,10,2,2,2,2,2,2,3,4,5,6,7,8,10
     };
     public static TextField textField;
+    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
 
     public Master() {
         batch = new SpriteBatch();
@@ -244,12 +245,6 @@ public class Master implements Screen {
 
             }
         }
-        if(modePlant) {
-            whatActionIfClickMouse = "planttree";
-
-        }else{
-            whatActionIfClickMouse = "move";
-        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
             whatActionIfClickMouse = "camera";
@@ -269,6 +264,27 @@ public class Master implements Screen {
             bangScience.setPosition(-1002343,-1101);
         }
 
+        if (Gdx.input.justTouched()) {
+            Vector2 mouse = new Vector2();
+            mouse.set(Gdx.input.getX(), Gdx.input.getY());
+            stage.getViewport().unproject(mouse);
+
+            cameraPosition.x = mouse.x;
+            cameraPosition.y = mouse.y;
+
+            if(Master.whatActionIfClickMouse.equals("planttree")){
+                if(Master.amountSeed > 0 ) {
+                    Master.amountSeed--;
+                    new LoadingPlant(mouse.x, mouse.y, stage);
+                }
+            } else if(Master.whatActionIfClickMouse.equals("camera")){
+                Master.nhapTenNormalCamera();
+            } else {
+                AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32, stage);
+                clickSound.play();
+            }
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             String inputText = textField.getText();
             textField.setVisible(false);
@@ -276,6 +292,7 @@ public class Master implements Screen {
             NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
             normalCameras.add(normalCamera);
             normalCamera.name = inputText;
+            whatActionIfClickMouse = "move";
         }
 
         stage.act();
@@ -289,12 +306,10 @@ public class Master implements Screen {
         batch.end();
     }
 
-    public static void nhapTenNormalCamera(float x, float y){
+    public static void nhapTenNormalCamera(){
         textField.setVisible(true);
         textField.setText(""); // Xóa nội dung cũ
         showAQI.getStage().setKeyboardFocus(textField);
-        cameraPosition.set(x,y);
-        System.out.println(765);
     }
     private void xulyngaydem(){
         gio1phan60++;

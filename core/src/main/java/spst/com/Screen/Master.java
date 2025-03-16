@@ -315,13 +315,17 @@ public class Master implements Screen {
 
             if(Master.whatActionIfClickMouse.equals("planttree")){
                 if(Master.amountSeed > 0 ) {
-                    System.out.println(noPlaced.size);
-                    for(Rectangle rec : noPlaced) {
-                        if(!rec.contains(mouse.x, mouse.y)) {
-                            Master.amountSeed--;
-                            new LoadingPlant(mouse.x, mouse.y, stage);
-                        }
-                    }
+                   boolean isFree = true;
+                   for(Rectangle rec : noPlaced){
+                       if(rec.contains(mouse.x,mouse.y)){
+                           isFree = false;
+                           break;
+                       }
+                   }
+                   if(isFree){
+                       Master.amountSeed--;
+                       new LoadingPlant(mouse.x-16,mouse.y,stage);
+                   }
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();

@@ -25,7 +25,7 @@ public class LoadingPlant extends MyActor{
             }
         }
 
-        animation = new Animation<>(0.1f, frames);
+        animation = new Animation<>(0.05f, frames);
         animation.setPlayMode(Animation.PlayMode.LOOP);
         textureRegion = animation.getKeyFrame(time);
         System.out.println(width + "   "+ tex.getHeight());
@@ -37,7 +37,7 @@ public class LoadingPlant extends MyActor{
         time += delta;
         textureRegion = animation.getKeyFrame(time);
         if(time > 2){
-            new Tree(getX(), getY(), getStage());
+            new Tree(getX() , getY(), getStage());
             remove();
         }
     }

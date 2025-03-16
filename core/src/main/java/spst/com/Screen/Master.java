@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -60,7 +61,6 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     Stage stage;
     public static Stage noMoveStage;
-    public static BitmapFont font;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     CheTao cheTaoButton;
@@ -97,7 +97,7 @@ public class Master implements Screen {
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-    static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
+    public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
     float[]toadox = new float[]{
@@ -108,8 +108,11 @@ public class Master implements Screen {
     };
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
+    StartGame game;
 
-    public Master() {
+    public Master(StartGame game) {
+        this.game = game;
+
         batch = new SpriteBatch();
         multiplexer = new InputMultiplexer();
         stage = new Stage();
@@ -336,7 +339,7 @@ public class Master implements Screen {
         noMoveStage.act();
         noMoveStage.draw();
         batch.begin();
-        font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
+        game.font.draw(batch, ""+amountSeed,WINDOW_WIDTH - 50, WINDOW_HEIGHT-50);
         batch.draw(thaprua,0,0,32,32*5);
         batch.end();
     }

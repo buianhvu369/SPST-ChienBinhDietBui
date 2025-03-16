@@ -9,10 +9,10 @@ import spst.com.Screen.Master;
 import spst.com.Screen.MenuScreen;
 
 public class StartGame extends Game {
-    Master master;
     GuideScreen guideScreen;
     MenuScreen menuScreen;
     public static BitmapFont font;
+    Master master;
     @Override
     public void create() {
 
@@ -23,7 +23,9 @@ public class StartGame extends Game {
         font = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
 
-        this.master = new Master();
+        menuScreen = new MenuScreen(this);
+
+        this.master = new Master(menuScreen.game);
         this.guideScreen = new GuideScreen(this);
         this.menuScreen = new MenuScreen(this);
         setScreen(menuScreen);

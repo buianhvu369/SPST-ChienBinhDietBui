@@ -45,7 +45,7 @@ public class MenuScreen implements Screen  {
         startButton.setPosition(Gdx.graphics.getWidth()/2f-startButton.getWidth()/2f, 400); ;
         startButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(game.master);
+                game.setScreen(new Master(game));
             }
         });
 

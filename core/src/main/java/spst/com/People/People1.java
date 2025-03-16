@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.AnimationClickMouse;
-import spst.com.Master;
 import spst.com.MyActor;
 import spst.com.Roads.Tree;
 import spst.com.Utils;

@@ -2,6 +2,7 @@ package spst.com.town;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class Hangraongang extends MyActor {
@@ -15,5 +16,6 @@ public class Hangraongang extends MyActor {
             textureRegion = Utils.getRegion2(16 * 8, 16 * 6, 48, 16);
             setSize(textureRegion.getRegionWidth() , textureRegion.getRegionHeight() );
         }
+        Master.noPlaced.add(this.getBound());
     }
 }

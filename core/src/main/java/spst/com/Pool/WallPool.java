@@ -3,6 +3,7 @@ package spst.com.Pool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class WallPool extends MyActor {
@@ -22,5 +23,7 @@ public class WallPool extends MyActor {
             setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
         }
         setColor(Color.GREEN);
+        Master.noPlaced.add(this.getBound());
+
     }
 }

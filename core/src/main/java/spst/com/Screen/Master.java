@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -83,6 +84,7 @@ public class Master implements Screen {
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
+    public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
@@ -135,6 +137,7 @@ public class Master implements Screen {
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
+        Array noPlaces = new Array();
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
@@ -318,8 +321,17 @@ public class Master implements Screen {
 
             if(Master.whatActionIfClickMouse.equals("planttree")){
                 if(Master.amountSeed > 0 ) {
-                    Master.amountSeed--;
-                    new LoadingPlant(mouse.x, mouse.y, stage);
+                   boolean isFree = true;
+                   for(Rectangle rec : noPlaced){
+                       if(rec.contains(mouse.x,mouse.y)){
+                           isFree = false;
+                           break;
+                       }
+                   }
+                   if(isFree){
+                       Master.amountSeed--;
+                       new LoadingPlant(mouse.x-16,mouse.y,stage);
+                   }
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();

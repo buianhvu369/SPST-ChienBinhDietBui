@@ -2,6 +2,7 @@ package spst.com.Parking;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class RoundCorner extends MyActor {
@@ -14,5 +15,7 @@ public class RoundCorner extends MyActor {
             case "DR" -> textureRegion = Utils.getRegion(16*6,16*17,16,16);
         }
         setSize(textureRegion.getRegionWidth()*2,textureRegion.getRegionHeight()*2);
+        Master.noPlaced.add(this.getBound());
+
     }
 }

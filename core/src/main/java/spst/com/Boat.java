@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.Screen.Master;
 
 public class Boat extends MyActor{
     float speedY = MathUtils.random(-1f , -0.2f);

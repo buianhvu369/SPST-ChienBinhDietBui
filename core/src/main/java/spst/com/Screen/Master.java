@@ -73,7 +73,10 @@ public class Master implements Screen {
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
     Dark dark;
-    Texture thaprua = new Texture("thaprua.png");
+    Line line;
+    Line line2;
+    Line lineThongTin;
+    Line lineThongTin2;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     Array<Car> cars = new Array<>();
@@ -97,6 +100,9 @@ public class Master implements Screen {
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
+    boolean hienChiSo = false;
+    boolean hienThongTin = false;
+    boolean hienNghienCuu = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
@@ -148,6 +154,8 @@ public class Master implements Screen {
         // thằng này đang chắn ỏ lớp trên, nên các actor cùng stage ko nhận được click
         // nên cần disabled nó
         dark.setTouchable(Touchable.disabled);
+        line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
+        line2 = new Line(32,32*2+8,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -168,6 +176,8 @@ public class Master implements Screen {
                 nghienCuuButton.setPosition(-1002343,-1101);
                 cheTaoButton.setPosition(-1002343,-1101);
                 caiDatButton.setPosition(-1002343,-1101);
+                line.setHeight(0);
+                hienChiSo = false;
             }
         });
 
@@ -197,7 +207,7 @@ public class Master implements Screen {
 
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = StartGame.font;
-        textFieldStyle.fontColor = Color.RED;
+        textFieldStyle.fontColor = Color.BLACK;
 
         textFieldStyle.background = new TextureRegionDrawable(Utils.getRegion(0,0,16,16));
 
@@ -336,6 +346,16 @@ public class Master implements Screen {
         noMoveStage.draw();
         batch.begin();
         game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
+        if(hienChiSo){
+            game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*13, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "AQI: " + AQI,32*24, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Hạt giống cây: " + amountSeed,32*2, 32*2);
+            game.font3.draw(batch, "Gỗ: " + GameState.woods,32*23, 32*2);
+        }
+        if(hienThongTin){
+            game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
+        }
         batch.end();
     }
 
@@ -389,6 +409,9 @@ public class Master implements Screen {
             nghienCuuButton.setPosition(32*3+192*1-16,Gdx.graphics.getHeight()-32*2-64);
             cheTaoButton.setPosition(32*4+192*2-16,Gdx.graphics.getHeight()-32*2-64);
             caiDatButton.setPosition(32*5+192*3-16,Gdx.graphics.getHeight()-32*2-64);
+            line.setHeight(4);
+            line2.setHeight(4);
+            hienChiSo = true;
 
             bangScience.toFront();
             thongTinButton.toFront();
@@ -396,10 +419,10 @@ public class Master implements Screen {
             cheTaoButton.toFront();
             caiDatButton.toFront();
             bangScienceCross.toFront();
+            line.toFront();
         }
     }
     private void moThongTin(){
-        new Car(400,400,noMoveStage);
     }
     private void moNghienCuu(){
         new Car(300,300,noMoveStage);

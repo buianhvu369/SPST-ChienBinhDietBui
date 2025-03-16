@@ -17,8 +17,6 @@ public class NormalCamera extends MyActor {
         setOrigin(getWidth()/2f,getHeight()/2f);
     }
     public void doiCamera(){
-        OrthographicCamera camera = (OrthographicCamera) getStage().getViewport().getCamera();
-        camera.zoom = 0.3f;
         if(getX() <= Gdx.graphics.getWidth()/2f){
             getStage().getCamera().position.x = Gdx.graphics.getWidth()/2f;
         }else {
@@ -29,5 +27,7 @@ public class NormalCamera extends MyActor {
         }else{
             getStage().getCamera().position.y = getY()+getHeight()/2f;
         }
+        OrthographicCamera camera = (OrthographicCamera) getStage().getViewport().getCamera();
+        camera.zoom = 0.3f;
     }
 }

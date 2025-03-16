@@ -12,6 +12,8 @@ public class StartGame extends Game {
     GuideScreen guideScreen;
     MenuScreen menuScreen;
     public static BitmapFont font;
+    public static BitmapFont font2;
+    public static BitmapFont font3;
     Master master;
     @Override
     public void create() {
@@ -22,6 +24,21 @@ public class StartGame extends Game {
         fontParameter.color = Color.BLUE;
         font = fontGenerator.generateFont(fontParameter);
         fontGenerator.dispose();
+
+        FreeTypeFontGenerator fontGenerator2 = new FreeTypeFontGenerator(Gdx.files.internal("OpenSans.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter2.size = 32*2;
+        fontParameter2.color = Color.BLACK;
+        font2 = fontGenerator2.generateFont(fontParameter2);
+        fontGenerator2.dispose();
+
+
+        FreeTypeFontGenerator fontGenerator3 = new FreeTypeFontGenerator(Gdx.files.internal("vietnamese.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter3.size = 25;
+        fontParameter3.color = Color.BLACK;
+        font3 = fontGenerator3.generateFont(fontParameter3);
+        fontGenerator3.dispose();
 
         menuScreen = new MenuScreen(this);
 

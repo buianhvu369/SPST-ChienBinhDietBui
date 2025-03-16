@@ -2,6 +2,7 @@ package spst.com.town;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class CrossWalk extends MyActor {
@@ -14,5 +15,7 @@ public class CrossWalk extends MyActor {
             textureRegion = Utils.getRegion(32, 18*16 - 2*16 , 48, 16);
             setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
         }
+        Master.noPlaced.add(this.getBound());
+
     }
 }

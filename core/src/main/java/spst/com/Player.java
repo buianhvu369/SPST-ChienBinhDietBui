@@ -22,11 +22,11 @@ public class Player extends MyActor {
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     public Player(float x, float y, Stage s) {
         super(x, y, s);
-        setSize(32,32);
-        TextureRegion[] textureRegionLeft = {Utils.getRegion(16*23,0,16,16),Utils.getRegion(16*23,32,16,16),Utils.getRegion(16*23,16*2,16,16)};
-        TextureRegion[] textureRegionDown = {Utils.getRegion(16*24,0,16,16),Utils.getRegion(16*24,32,16,16),Utils.getRegion(16*24,16*2,16,16)};
-        TextureRegion[] textureRegionUp = {Utils.getRegion(16*25,0,16,16),Utils.getRegion(16*25,32,16,16),Utils.getRegion(16*25,16*2,16,16)};
-        TextureRegion[] textureRegionRight = {Utils.getRegion(16*26,0,16,16),Utils.getRegion(16*26,32,16,16),Utils.getRegion(16*26,16*2,16,16)};
+        setSize(32, 32);
+        TextureRegion[] textureRegionLeft = {Utils.getRegion(16 * 23, 0, 16, 16), Utils.getRegion(16 * 23, 32, 16, 16), Utils.getRegion(16 * 23, 16 * 2, 16, 16)};
+        TextureRegion[] textureRegionDown = {Utils.getRegion(16 * 24, 0, 16, 16), Utils.getRegion(16 * 24, 32, 16, 16), Utils.getRegion(16 * 24, 16 * 2, 16, 16)};
+        TextureRegion[] textureRegionUp = {Utils.getRegion(16 * 25, 0, 16, 16), Utils.getRegion(16 * 25, 32, 16, 16), Utils.getRegion(16 * 25, 16 * 2, 16, 16)};
+        TextureRegion[] textureRegionRight = {Utils.getRegion(16 * 26, 0, 16, 16), Utils.getRegion(16 * 26, 32, 16, 16), Utils.getRegion(16 * 26, 16 * 2, 16, 16)};
         animationLeft = new Animation<TextureRegion>(0.1f, textureRegionLeft);
         animationRight = new Animation<TextureRegion>(0.1f, textureRegionRight);
         animationUp = new Animation<TextureRegion>(0.1f, textureRegionUp);

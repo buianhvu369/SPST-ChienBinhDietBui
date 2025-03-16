@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 import java.util.Random;
@@ -37,6 +38,8 @@ public class Car extends MyActor {
         }
 
         setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
+        Master.noPlaced.add(this.getBound());
+
     }
 
     @Override

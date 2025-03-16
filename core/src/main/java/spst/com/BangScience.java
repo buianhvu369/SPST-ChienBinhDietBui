@@ -1,6 +1,7 @@
 package spst.com;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.Screen.Master;
 
 public class BangScience extends MyActor{
     public BangScience(float x, float y, Stage s) {

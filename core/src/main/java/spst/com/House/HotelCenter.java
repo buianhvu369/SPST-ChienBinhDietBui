@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class HotelCenter extends MyActor {
@@ -35,6 +36,8 @@ public class HotelCenter extends MyActor {
         textureRegionWindowBig = Utils.getRegion(11*16, 16*16, 16, 2*16);
 
         setSize(4*32, 6*32);
+        Master.noPlaced.add(this.getBound());
+
     }
 
     @Override

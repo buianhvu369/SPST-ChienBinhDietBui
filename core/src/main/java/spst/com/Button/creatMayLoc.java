@@ -16,8 +16,8 @@ import spst.com.Screen.StartGame;
 public class creatMayLoc extends MyActor {
     public creatMayLoc(float x, float y, Stage s) {
         super(x, y, s);
-        Texture texture = new Texture("no.png");
-        Texture texture1 = new Texture("yes.png");
+        Texture texture = new Texture("noMLKK.png");
+        Texture texture1 = new Texture("yesMLKK.png");
         textureRegion = new TextureRegion(texture);
         setSize(80,80);
         addListener(new ClickListener() {

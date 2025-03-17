@@ -14,6 +14,7 @@ public class StartGame extends Game {
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
+    public static BitmapFont font4;
     Master master;
     @Override
     public void create() {
@@ -33,12 +34,57 @@ public class StartGame extends Game {
         fontGenerator2.dispose();
 
 
-        FreeTypeFontGenerator fontGenerator3 = new FreeTypeFontGenerator(Gdx.files.internal("vietnamese.ttf"));
+        FreeTypeFontGenerator fontGenerator3 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter3.size = 25;
-        fontParameter3.color = Color.BLACK;
+        fontParameter3.color = Color.GOLD;
+        fontParameter3.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
         font3 = fontGenerator3.generateFont(fontParameter3);
         fontGenerator3.dispose();
+
+        FreeTypeFontGenerator fontGenerator4 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter4 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter4.size = 25;
+        fontParameter4.color = Color.BLACK;
+        fontParameter4.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        font4 = fontGenerator4.generateFont(fontParameter4);
+        fontGenerator4.dispose();
 
         menuScreen = new MenuScreen(this);
 

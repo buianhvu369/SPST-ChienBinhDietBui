@@ -26,16 +26,17 @@ Thành phố đang chìm trong sương bụi mịn và khí độc do khí thả
 
 Thuế môi trường:
 
-- GDP thành phố: 100,000 💰
+- GDP thành phố: 100,000(100 000 dân) 💰
 - Thuế môi trường thu được mỗi : 5% GDP = 5,000 💰/ tháng
-- Nếu AQI < 100, GDP tăng 2% mỗi , thuế tăng theo.
-- Nếu AQI > 200, GDP giảm 5% mỗi , thuế giảm theo.
+- Nếu AQI < 100, dân số tăng 2%.
+- Nếu AQI > 200, dân số giảm 5% , thuế giảm theo.
+- 1 biển báo đốt rác hoặc chặt cây giảm ngẫu nhiên (từ 0 đến 0.4% dân số/tháng nhưng sẽ tính theo ngày(chia theo ngày (chia cho 30 vì 1 tháng tính 30 ngày)) và hàng ngày sẽ cập nhật 1 random mới).
 
 **3.3 Hệ thống nguồn ô nhiễm theo giờ**
 
 Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 
-| **Thời gian** | **Nguồn ô nhiễm** | **Mức độ ảnh hưởng** |
+| **Thời gian** | **Nguồn ô nhiễm** | **Mức độ ảnh hưởng**  (trên 1 giờ)|
 | --- | --- | --- |
 | 06:00-09:00 | Giao thông cao điểm | +20 µg/m³ NO2, +15 µg/m³ CO |
 | 10:00-12:00 | Hoạt động công nghiệp | +30 µg/m³ SO2, +20 µg/m³ PM2.5 |
@@ -48,7 +49,7 @@ Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 
 | **Biện pháp**                     | **Giảm nồng độ chất ô nhiễm mỗi giờ** | **Chi phí (💰)** | **Năng lượng (⚡)** | **Điểm xanh (🌿)** |  **Năng lượng hoạt động (⚡)** |
 |-----------------------------------| --- | --- | --- | --- | --- |
-| Một máy lọc không khí             | \-6 µg/m³ PM2.5, -4 µg/m³ NO2 | 500 | 20  | 0   | 5 |
+| Một cái máy lọc không khí         | \-6 µg/m³ PM2.5, -4 µg/m³ NO2 | 500 | 20  | 0   | 5 |
 | Một hệ thống giao thông xanh      | \-8 µg/m³ NO2, -6 µg/m³ CO | 1000 | 50  | 20  | 5 |
 | Một level công nghệ sản xuất sạch | \-10 µg/m³ SO2, -8 µg/m³ NO2 | 1500 | 30  | 30  | 5 |
 | Một cây xanh                      | \-0.2 µg/m³ PM10, -0.15 µg/m³ CO | 100 | 0   | 5   | 1$  |

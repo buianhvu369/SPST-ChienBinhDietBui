@@ -14,26 +14,22 @@ import spst.com.Screen.Master;
 import spst.com.Screen.StartGame;
 
 public class creatMayLoc extends MyActor {
-   Texture button = new Texture("buttonblank.png");
     public creatMayLoc(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = new TextureRegion(button);
-        setSize(64, 64);
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = StartGame.font2;
-        style.fontColor = Color.RED;
-        style.up = new TextureRegionDrawable(button);
-        TextButton startButton = new TextButton("Tạo một máy lọc không khí",style);
-        startButton.setSize(200,80);
-        startButton.setPosition(x,
-            y ) ;
-        startButton.setSize(50,800);
-        s.addActor(startButton);
-        startButton.toFront();
-        startButton.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
-                Master.soMayLoc ++;
-                System.out.println(Master.soMayLoc);
+        Texture texture = new Texture("no.png");
+        Texture texture1 = new Texture("yes.png");
+        textureRegion = new TextureRegion(texture);
+        setSize(80,80);
+        addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(!Master.whatActionIfClickMouse.equals("createMayLoc")) {
+                    Master.whatActionIfClickMouse = "createMayLoc";
+                    textureRegion = new TextureRegion(texture1);
+                }else{
+                    Master.whatActionIfClickMouse = "move";
+                    textureRegion = new TextureRegion(texture);
+                }
             }
         });
     }

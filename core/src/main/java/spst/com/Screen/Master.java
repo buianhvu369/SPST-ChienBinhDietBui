@@ -39,6 +39,7 @@ import spst.com.House.HotelCenter;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
+import spst.com.People.People;
 import spst.com.People.People1;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
@@ -95,10 +96,9 @@ public class Master implements Screen {
     TextButton factoryButton;
     TextButton trafficButton;
 
-    Array<Car> cars = new Array<>();
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
-    Array<Tree> trees = new Array<>();
+    public static Array<Tree> trees = new Array<>();
     Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 500;
@@ -127,12 +127,6 @@ public class Master implements Screen {
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     int gio1phan60 = 0;
-    float[]toadox = new float[]{
-        4,4,5,6,7,9,9,9,12,11,10,9,8,8,5,6,7,8,8,10,9,8,8,8,8,22,22,22,22,23,24,25,26,30,30,30,29,28,35,35,35,35,34,33,31,32,31,30,29,28,27,27,27,27,27,27,27,32
-    };
-    float[]toadoy = new float[]{
-        11,10,10,10,10,11,10,9,7,7,7,7,7,8,5,5,5,5,6,1,1,1,2,3,4,12,11,10,9,9,9,9,9,11,10,9,9,9,13,12,11,10,10,10,10,2,2,2,2,2,2,3,4,5,6,7,8,10
-    };
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     StartGame game;
@@ -902,7 +896,9 @@ public class Master implements Screen {
         new People1(32*5+1184,32,stage,true);
         new People1(32*30+ 1184,48,stage,true );
 
-
+        for (int i = 0; i < 10; i++) {
+            new People(MathUtils.random(0, 2000), MathUtils.random(0, 700), stage);
+        }
 
         Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UR");
         BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32-7*32, stage);

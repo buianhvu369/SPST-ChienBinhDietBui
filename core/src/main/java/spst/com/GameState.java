@@ -14,7 +14,6 @@ public class GameState{
     public static String event = "Người dân đốt biển cấm đốt rác.";
     public static String camxucnguoidan = "Vui vẻ.";
     public static String lydocamxucnguoidan = "Thuế = 0; tiền phạt = 0; số biển cấm đốt rác = 0; LUẬT PHÁP = 0.";
-    public static int levelmaylockhongkhi = 1;
     public static int levelcongnghexanh = 1;
     public static int levelgiaothongxanh = 1;
     public static int greenscore = 1;
@@ -46,7 +45,6 @@ public class GameState{
         preferences.putString( "xuhuongdantangorgiam", xuhuongdantangorgiam);
         preferences.putInteger( "thue", thue);
         preferences.putInteger( "phat", phat);
-        preferences.putInteger( "levelmaylockhongkhi", levelmaylockhongkhi);
         preferences.putInteger( "levelcongnghexanh", levelcongnghexanh);
         preferences.putInteger( "levelgiaothongxanh", levelgiaothongxanh);
         preferences.putString( "event", event);
@@ -70,7 +68,6 @@ public class GameState{
         xuhuongdantangorgiam = preferences.getString("xuhuongdantangorgiam", "tăng");
         thue = preferences.getInteger("thue", 0);
         phat = preferences.getInteger("phat", 0);
-        levelmaylockhongkhi = preferences.getInteger("levelmaylockhongkhi",1);
         levelcongnghexanh = preferences.getInteger("levelcongnghexanh",1);
         levelgiaothongxanh = preferences.getInteger("levelgiaothongxanh",1);
         event = preferences.getString("event","");

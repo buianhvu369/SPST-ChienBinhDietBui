@@ -7,7 +7,8 @@ import spst.com.Screen.Master;
 public class GameState{
     public static int money=0;
     public static int ernegy=0;
-    public static int woods = 0;
+    public static int danso = 0;
+    public static String xuhuongdantangorgiam = "tăng dân số";
     public static int thue = 0;
     public static int phat = 0;
     public static String event = "Người dân đốt biển cấm đốt rác.";
@@ -21,10 +22,14 @@ public class GameState{
     public static float NO2 = 0;
     public static float CO1 = 0;
     public static float O3 = 0;
+    public static float PM2_5 = 0;
+    public static float PM10 = 0;
     public static float AQISO2 = 0;
     public static float AQINO2 = 0;
     public static float AQICO1 = 0;
     public static float AQIO3 = 0;
+    public static float AQIPM2_5 = 0;
+    public static float AQIPM10 = 0;
     public static void saveGame() {
         Preferences preferences = Gdx.app.getPreferences("save");
         preferences.putInteger( "money", money);
@@ -34,9 +39,11 @@ public class GameState{
         preferences.putFloat( "CO1", CO1);
         preferences.putFloat( "NO2", NO2);
         preferences.putFloat( "O3", O3);
+        preferences.putFloat( "PM2_5", PM2_5);
+        preferences.putFloat( "PM10", PM10);
         preferences.putInteger( "ernegy", ernegy);
-        preferences.putInteger( "treeseeds", Master.amountSeed);
-        preferences.putInteger( "woods", woods);
+        preferences.putInteger( "danso", danso);
+        preferences.putString( "xuhuongdantangorgiam", xuhuongdantangorgiam);
         preferences.putInteger( "thue", thue);
         preferences.putInteger( "phat", phat);
         preferences.putInteger( "levelmaylockhongkhi", levelmaylockhongkhi);
@@ -55,10 +62,12 @@ public class GameState{
         CO1 = preferences.getFloat("CO1",CO1);
         NO2 = preferences.getFloat("NO2",NO2);
         O3 = preferences.getFloat("O3",O3);
+        PM2_5 = preferences.getFloat("PM2_5",PM2_5);
+        PM10 = preferences.getFloat("PM10",PM10);
         greenscore = preferences.getInteger("greenscore",0);
         ernegy = preferences.getInteger("ernegy", 0);
-        Master.amountSeed = preferences.getInteger("treeseeds", 0);
-        woods = preferences.getInteger("woods", 0);
+        danso = preferences.getInteger("danso", 100000);
+        xuhuongdantangorgiam = preferences.getString("xuhuongdantangorgiam", "tăng");
         thue = preferences.getInteger("thue", 0);
         phat = preferences.getInteger("phat", 0);
         levelmaylockhongkhi = preferences.getInteger("levelmaylockhongkhi",1);

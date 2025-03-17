@@ -162,7 +162,7 @@ public class Master implements Screen {
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
-        lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*9-4,896,0,noMoveStage);
+        lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -390,14 +390,16 @@ public class Master implements Screen {
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
-            game.font3.draw(batch, "Hạt giống cây: " + amountSeed,32*2, 32*2);
-            game.font3.draw(batch, "Gỗ: " + GameState.woods,32*23, 32*2);
+            game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
+            game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
         }
         if(hienThongTin){
             game.font3.draw(batch, "AQI của SO2: " + GameState.AQISO2,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
             game.font3.draw(batch, "AQI của CO1: " + GameState.AQICO1,32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
-            game.font3.draw(batch, "AQI của NO2: " + GameState.AQINO2,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
-            game.font3.draw(batch, "AQI của O3: " + GameState.AQIO3,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
+            game.font3.draw(batch, "AQI của NO2: " + GameState.AQINO2,32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của O3: " + GameState.AQIO3,32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "AQI của PM2.5: " + GameState.AQIPM2_5,32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của PM10: " + GameState.AQIPM10,32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
             game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
             game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*9-(25+8*2));
             game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*10-(25+8*2));

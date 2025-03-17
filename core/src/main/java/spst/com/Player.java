@@ -46,7 +46,7 @@ public class Player extends MyActor {
         mouseX = Master.cameraPosition.x;
         mouseY = Master.cameraPosition.y;
 
-        if (Master.whatActionIfClickMouse.equals("move")){
+        if (Master.whatActionIfClickMouse.equals("move")&& !Master.hienChiSo){
             if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                 if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                     if (mouseX < getX() + 2) {

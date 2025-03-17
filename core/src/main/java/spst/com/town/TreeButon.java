@@ -31,6 +31,5 @@ public class TreeButon extends MyActor {
                 }
             }
         });
-        Master.noPlaced.add(getBound());
     }
 }

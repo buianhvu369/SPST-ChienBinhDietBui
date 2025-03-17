@@ -82,6 +82,7 @@ public class Master implements Screen {
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
 
+
     Dark dark;
     Line line;
     Line line2;
@@ -103,7 +104,7 @@ public class Master implements Screen {
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
-    public static int soMayLoc = 0;
+    public static int soMayLoc = 5;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -113,13 +114,14 @@ public class Master implements Screen {
     Array<NormalCamera> normalCameras = new Array<>();
     Truck truck;
     TreeButon treeButon;
+    creatMayLoc taoMayLockk;
     creatMayLoc nutMayLoc;
 
     public static Waterwell gieng;
     public static boolean cutting = false;
     int speedX = -2 ;
     int  luotcat = 1;
-    boolean hienChiSo = false;
+    public static boolean hienChiSo = false;
     boolean hienThongTin = false;
     boolean hienNghienCuu = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
@@ -141,11 +143,34 @@ public class Master implements Screen {
         style.fontColor = Color.RED;
         style.up = new TextureRegionDrawable(button);
 
-        startButton = new TextButton("start", style);
-        wasteButton = new TextButton("waste", style);
-        factoryButton = new TextButton("factory", style);
-        plantButton = new TextButton("plant", style);
-        trafficButton = new TextButton("traffic", style);
+        startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
+        startButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                Master.soMayLoc++;
+            }
+        });
+        wasteButton = new TextButton("Mua một biển cấm đốt rác ", style);
+        wasteButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+        factoryButton = new TextButton("Tạo cộng nghê xanh", style);
+        factoryButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+        plantButton = new TextButton("Mua một cây đột biến", style);
+        plantButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                Master.amountSeed++;
+            }
+        });
+        trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
+        trafficButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+
 
         this.game = game;
 
@@ -178,6 +203,7 @@ public class Master implements Screen {
         truck = new Truck(32*33+1184,800 - 32*3, stage);
         gieng = new Waterwell(1184+32*27,32*6,stage);
         treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-100,noMoveStage);
 
         createTree();
         createWaste();
@@ -350,7 +376,7 @@ public class Master implements Screen {
             if (luotcat == 2) {
                 truck.setScaleX(1);
             }
-            if (truck.getX() < 1184) {
+            if (truck.getX() < 1184+32*4) {
                 truck.setScaleX(1);
                 speedX = 2;
                 luotcat = 2;
@@ -416,6 +442,20 @@ public class Master implements Screen {
                        Master.amountSeed--;
                        new LoadingPlant(mouse.x-16,mouse.y,stage);
                    }
+                }
+            } else if (Master.whatActionIfClickMouse.equals("createMayLoc")) {
+                if(Master.soMayLoc > 0 ) {
+                    boolean isFree = true;
+                    for(Rectangle rec : noPlaced){
+                        if(rec.contains(mouse.x,mouse.y)){
+                            isFree = false;
+                            break;
+                        }
+                    }
+                    if(isFree){
+                        Master.soMayLoc--;
+                        new MayLoc(mouse.x-16,mouse.y,stage,27*2,47*2);
+                    }
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();
@@ -589,56 +629,32 @@ public class Master implements Screen {
             startButton.setSize(600, 50);
             noMoveStage.addActor(startButton);
             startButton.toFront();
-            startButton.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    Master.soMayLoc++;
-                    System.out.println(Master.soMayLoc);
-                    batch.begin();
-                    game.font.draw(batch, "+1", Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.6f);
-                    batch.end();
-                }
-            });
+
 
 
             wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.5f);
             wasteButton.setSize(600, 50);
             noMoveStage.addActor(wasteButton);
             wasteButton.toFront();
-            wasteButton.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    System.out.println(Master.soMayLoc);
-                }
-            });
+
 
             plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.4f);
             plantButton.setSize(600, 50);
             noMoveStage.addActor(plantButton);
             plantButton.toFront();
-            plantButton.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    Master.amountSeed++;
-                }
-            });
+
 
             factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.3f);
             factoryButton.setSize(600, 50);
             noMoveStage.addActor(factoryButton);
             factoryButton.toFront();
-            factoryButton.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    System.out.println(Master.soMayLoc);
-                }
-            });
+
 
             trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.2f);
             trafficButton.setSize(600, 50);
             noMoveStage.addActor(trafficButton);
             trafficButton.toFront();
-            trafficButton.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    System.out.println(Master.soMayLoc);
-                }
-            });
+
 
     }
 

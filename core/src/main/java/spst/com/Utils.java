@@ -3,6 +3,11 @@ package spst.com;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 public class Utils {
     // 27 x 18
     private static Texture texture = new Texture("tilemap.png");
@@ -24,5 +29,52 @@ public class Utils {
     }
     public static TextureRegion getRegionLoading(int x, int y, int width, int height) {
         return new TextureRegion(texture4, x, y, width, height);
+    }
+
+    public static List<Double> calculateAQIList(Map<String, Double> observedData, Map<String, int[]> breakpointsData, int[] indexValues) {
+        List<Double> aqiList = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : observedData.entrySet()) {
+            double concentration = entry.getValue();
+            int[] breakpoints = breakpointsData.get(entry.getKey());
+            aqiList.add(calculateAQI(concentration, breakpoints, indexValues));
+        }
+        return aqiList;
+    }
+
+    private static Double calculateAQI(double concentration, int[] breakpoints, int[] indexValues) {
+        for (int i = 0; i < breakpoints.length - 1; i++) {
+            if (concentration >= breakpoints[i] && concentration <= breakpoints[i + 1]) {
+                return ((indexValues[i + 1] - indexValues[i]) / (double) (breakpoints[i + 1] - breakpoints[i]))
+                    * (concentration - breakpoints[i]) + indexValues[i];
+            }
+        }
+        return null; // Ngoài phạm vi bảng
+    }
+
+    static Map<String, int[]> breakpointsData = Map.of(
+        "PM2.5", new int[]{0, 25, 50, 80, 150, 250, 350, 500},
+        "PM10", new int[]{0, 50, 150, 250, 350, 420, 500, 600},
+        "NO2", new int[]{0, 100, 200, 700, 1200, 2340, 3090, 3840},
+        "SO2", new int[]{0, 125, 350, 550, 800, 1600, 2100, 2620},
+        "CO", new int[]{0, 10000, 30000, 45000, 60000, 90000, 120000, 150000},
+        "O3", new int[]{0, 160, 200, 300, 400, 800, 1000, 1200}
+    );
+
+    static int[] indexValues = {0, 50, 100, 150, 200, 300, 400, 500};
+
+
+    public static void test(){
+        Map<String, Double> observedData = Map.of(
+            "PM2.5", 100.0,
+            "PM10", 150.0,
+            "NO2", 90.0,
+            "SO2", 50.0,
+            "CO", 10.0,
+            "O3", 80.0
+        );
+        List<Double> aqiList = calculateAQIList(observedData, breakpointsData, indexValues);
+
+        System.out.println("Danh sách AQI: " + aqiList);
+        System.out.printf("Chỉ số AQI tổng: %.2f%n", Collections.max(aqiList));
     }
 }

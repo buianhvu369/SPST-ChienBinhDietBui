@@ -166,6 +166,8 @@ public class Master implements Screen {
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
+        Utils.test();
+
     }
 
     @Override

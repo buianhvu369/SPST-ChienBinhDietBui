@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class MayLoc extends MyActor{
+    public String name;
+    public int level;
     Texture mayloc = new Texture("maylockhongkhi.png");
     public MayLoc(float x, float y, Stage s,float width, float height) {
         super(x, y, s);

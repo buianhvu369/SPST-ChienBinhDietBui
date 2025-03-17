@@ -28,6 +28,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import spst.com.*;
 import spst.com.Button.*;
+import spst.com.Button.ButtonTrongNghienCuuScreen.ButtonLeftMLKK;
+import spst.com.Button.ButtonTrongNghienCuuScreen.ButtonRightMLKK;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -66,6 +68,8 @@ public class Master implements Screen {
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
+    ButtonLeftMLKK buttonLeftMLKK;
+    ButtonRightMLKK buttonRightMLKK;
     WhiteButton nangCapCNX;
     WhiteButton nangCapGTX;
     CheTao cheTaoButton;
@@ -95,12 +99,13 @@ public class Master implements Screen {
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
     Array<Tree> trees = new Array<>();
+    Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
     public static int soMayLoc = 5;
-
+    public static int sohieucuaMLKKdangchondenangcap = 0;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
@@ -181,6 +186,9 @@ public class Master implements Screen {
         thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
         nangCapMLKK = new WhiteButton(-1000,-1000,noMoveStage);
+        nangCapMLKK.setHeight(nangCapMLKK.getHeight()*2);
+        buttonLeftMLKK = new ButtonLeftMLKK(-1000,-1000,noMoveStage);
+        buttonRightMLKK = new ButtonRightMLKK(-1000,-1000,noMoveStage);
         nangCapCNX = new WhiteButton(-1000,-1000,noMoveStage);
         nangCapGTX = new WhiteButton(-1000,-1000,noMoveStage);
         cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
@@ -210,7 +218,7 @@ public class Master implements Screen {
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
-        lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*9-4,896,0,noMoveStage);
+        lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
@@ -261,7 +269,23 @@ public class Master implements Screen {
 
         nangCapMLKK.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                GameState.levelmaylockhongkhi++;
+                if(MLKKs.size>=1){
+                    MLKKs.get(sohieucuaMLKKdangchondenangcap).level++;
+                }
+            }
+        });
+        buttonLeftMLKK.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(MLKKs.size < sohieucuaMLKKdangchondenangcap){
+                    sohieucuaMLKKdangchondenangcap--;
+                }
+            }
+        });
+        buttonRightMLKK.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(MLKKs.size > sohieucuaMLKKdangchondenangcap){
+                    sohieucuaMLKKdangchondenangcap++;
+                }
             }
         });
 
@@ -462,25 +486,36 @@ public class Master implements Screen {
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
-            game.font3.draw(batch, "Hạt giống cây: " + amountSeed,32*2, 32*2);
-            game.font3.draw(batch, "Gỗ: " + GameState.woods,32*23, 32*2);
+            game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
+            game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
         }
         if(hienThongTin){
             game.font3.draw(batch, "AQI của SO2: " + GameState.AQISO2,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
             game.font3.draw(batch, "AQI của CO1: " + GameState.AQICO1,32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
-            game.font3.draw(batch, "AQI của NO2: " + GameState.AQINO2,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
-            game.font3.draw(batch, "AQI của O3: " + GameState.AQIO3,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
-            game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
-            game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*9-(25+8*2));
-            game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*10-(25+8*2));
+            game.font3.draw(batch, "AQI của NO2: " + GameState.AQINO2,32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của O3: " + GameState.AQIO3,32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "AQI của PM2.5: " + GameState.AQIPM2_5,32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của PM10: " + GameState.AQIPM10,32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
+            game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
+            game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
         }
         if(hienNghienCuu){
-            game.font3.draw(batch, "Cấp độ máy lọc không khí: " + GameState.levelmaylockhongkhi,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
-            game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*2, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
-            game.font3.draw(batch, "Cấp độ công nghệ xanh: " + GameState.levelcongnghexanh,32*17, Gdx.graphics.getHeight()-32*4-(25+8*2));
-            game.font4.draw(batch, "Nâng cấp công nghệ xanh",32*17, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
+            if(MLKKs.size>=1) {
+                game.font3.draw(batch, "Cấp độ máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).level,32*9, Gdx.graphics.getHeight()-32*4-(25+8*2));
+                game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*9, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
+                game.font4.draw(batch, "Tên máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);
+            }else {
+                game.font4.draw(batch, "Chưa có máy lọc không khí", 32 * 9, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16);
+            }
+            game.font3.draw(batch, "Cấp độ công nghệ xanh: " + GameState.levelcongnghexanh,32*17, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
+            game.font4.draw(batch, "Nâng cấp công nghệ xanh",32*17, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
             game.font3.draw(batch, "Cấp độ giao thông xanh: " + GameState.levelgiaothongxanh,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
             game.font4.draw(batch, "Nâng cấp giao thông xanh",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
+            if(Gdx.input.isKeyPressed(Input.Keys.K)){
+                MayLoc may = new MayLoc(0,0,stage,32,32);
+                MLKKs.add(may);
+            }
         }
         batch.end();
     }
@@ -528,7 +563,7 @@ public class Master implements Screen {
         new Tree(player.getX(),player.getY(),stage);
     }
     private void showBangScience(float x, float y){
-        if(Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
+        if(!hienChiSo&&Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
             bangScience.setPosition(x,y);
             bangScienceCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
             thongTinButton.setPosition(32*2+192*0-16,Gdx.graphics.getHeight()-32*2-64);
@@ -557,6 +592,8 @@ public class Master implements Screen {
     private void dongNghienCuu(){
         hienNghienCuu = false;
         nangCapMLKK.setPosition(-1398,-10092);
+        buttonLeftMLKK.setPosition(-1398,-10092);
+        buttonRightMLKK.setPosition(-1398,-10092);
         nangCapCNX.setPosition(-1398,-10092);
         nangCapGTX.setPosition(-1398,-10092);
     }
@@ -569,10 +606,14 @@ public class Master implements Screen {
 
     private void moNghienCuu(){
         hienNghienCuu = true;
-        nangCapMLKK.setPosition(32*2-21,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16);
-        nangCapCNX.setPosition(32*17-30,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16);
+        nangCapMLKK.setPosition(32*9-21,Gdx.graphics.getHeight()-32*7-(25+8*2)-25-19-16);
+        buttonLeftMLKK.setPosition(32*9-21-26-10,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16+10);
+        buttonRightMLKK.setPosition(32*9-21+370+10,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16+10);
+        nangCapCNX.setPosition(32*17-30,Gdx.graphics.getHeight()-32*9-(25+8*2)-25-19-16*3);
         nangCapGTX.setPosition(32*2-30,Gdx.graphics.getHeight()-32*9-(25+8*2)-25-19-16*3);
         nangCapMLKK.toFront();
+        buttonLeftMLKK.toFront();
+        buttonRightMLKK.toFront();
         nangCapCNX.toFront();
         nangCapGTX.toFront();
         dongThongtin();

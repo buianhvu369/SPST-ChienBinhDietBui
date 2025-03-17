@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -76,11 +77,18 @@ public class Master implements Screen {
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     public static ShowAQI showAQI;
+
     Dark dark;
     Line line;
     Line line2;
     Line lineThongTin;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
+    Texture button = new Texture("buttonblank.png");
+    TextButton startButton ;
+    TextButton plantButton;
+    TextButton wasteButton;
+    TextButton factoryButton;
+    TextButton trafficButton;
 
     Array<Car> cars = new Array<>();
     Array<MyActor> roads = new Array<>();
@@ -90,6 +98,7 @@ public class Master implements Screen {
     public static float AQI = 500;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
+    public static int soMayLoc = 0;
 
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -99,6 +108,7 @@ public class Master implements Screen {
     Array<NormalCamera> normalCameras = new Array<>();
     Truck truck;
     TreeButon treeButon;
+    creatMayLoc nutMayLoc;
 
     public static Waterwell gieng;
     public static boolean cutting = false;
@@ -121,6 +131,17 @@ public class Master implements Screen {
     StartGame game;
 
     public Master(StartGame game) {
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = StartGame.font3;
+        style.fontColor = Color.RED;
+        style.up = new TextureRegionDrawable(button);
+
+        startButton = new TextButton("start", style);
+        wasteButton = new TextButton("waste", style);
+        factoryButton = new TextButton("factory", style);
+        plantButton = new TextButton("plant", style);
+        trafficButton = new TextButton("traffic", style);
+
         this.game = game;
 
         batch = new SpriteBatch();
@@ -139,6 +160,7 @@ public class Master implements Screen {
         nangCapGTX = new WhiteButton(-1000,-1000,noMoveStage);
         cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
+       // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -196,13 +218,18 @@ public class Master implements Screen {
 
         thongTinButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                moThongTin();
+
+                dongCheTao();
+                   moThongTin();
             }
         });
 
         nghienCuuButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+
+                dongCheTao();
                 moNghienCuu();
+
             }
         });
 
@@ -231,10 +258,15 @@ public class Master implements Screen {
         });
 
         caiDatButton.addListener(new ClickListener() {
+
             public void clicked(InputEvent event, float x, float y) {
+
+                dongCheTao();
                 moCaiDat();
             }
         });
+
+
 
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
         textFieldStyle.font = StartGame.font;
@@ -303,7 +335,7 @@ public class Master implements Screen {
                 cutting = false;
                 truck.setX(32 * 33+1184);
                 luotcat = 1;
-                float xR = 1184;
+                float xR = 1184+32*4;
                 speedX = -2;
                 float yR =  WINDOW_HEIGHT - 32 * 2;
                 rices.clear();
@@ -314,7 +346,7 @@ public class Master implements Screen {
                         rices.add(lua);
                         xR += 32;
                     }
-                    xR = 1184;
+                    xR = 1184+32*4;
                     yR -= 32;
                 }
 
@@ -477,6 +509,8 @@ public class Master implements Screen {
         }
     }
     private void dongThongtin(){
+
+        dongCheTao();
         lineThongTin.setHeight(0);
         hienThongTin = false;
     }
@@ -492,6 +526,7 @@ public class Master implements Screen {
 
         lineThongTin.setHeight(4);
     }
+
     private void moNghienCuu(){
         hienNghienCuu = true;
         nangCapMLKK.setPosition(32*2-21,Gdx.graphics.getHeight()-32*5-(25+8*2)-25-19-16);
@@ -503,9 +538,75 @@ public class Master implements Screen {
         dongThongtin();
     }
     private void moCheTao(){
-        new Car(200,200,noMoveStage);
+//        nutMayLoc.setPosition(Gdx.graphics.getWidth()*0.2f, Gdx.graphics.getHeight()*0.8f);
+//        nutMayLoc.toFront();
         dongThongtin();
         dongNghienCuu();
+
+
+            startButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
+            startButton.setSize(600, 50);
+            noMoveStage.addActor(startButton);
+            startButton.toFront();
+            startButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    Master.soMayLoc++;
+                    System.out.println(Master.soMayLoc);
+                    batch.begin();
+                    game.font.draw(batch, "+1", Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.6f);
+                    batch.end();
+                }
+            });
+
+
+            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.5f);
+            wasteButton.setSize(600, 50);
+            noMoveStage.addActor(wasteButton);
+            wasteButton.toFront();
+            wasteButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println(Master.soMayLoc);
+                }
+            });
+
+            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.4f);
+            plantButton.setSize(600, 50);
+            noMoveStage.addActor(plantButton);
+            plantButton.toFront();
+            plantButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    Master.amountSeed++;
+                }
+            });
+
+            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.3f);
+            factoryButton.setSize(600, 50);
+            noMoveStage.addActor(factoryButton);
+            factoryButton.toFront();
+            factoryButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println(Master.soMayLoc);
+                }
+            });
+
+            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.2f);
+            trafficButton.setSize(600, 50);
+            noMoveStage.addActor(trafficButton);
+            trafficButton.toFront();
+            trafficButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println(Master.soMayLoc);
+                }
+            });
+
+    }
+
+    public void dongCheTao(){
+        startButton.remove();
+        wasteButton.remove();
+        factoryButton.remove();
+        plantButton.remove();
+        trafficButton.remove();
     }
     private void moCaiDat(){
         dongThongtin();
@@ -681,7 +782,7 @@ public class Master implements Screen {
     public void generateMap2() {
         createGroundTown();
         createRiverAndBoats();
-        float xR = 1184;
+        float xR = 1184+32*4;
         float yR = WINDOW_HEIGHT - 32 * 2;
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 21; i++) {
@@ -689,10 +790,10 @@ public class Master implements Screen {
                 rices.add(lua);
                 xR += 32;
             }
-            xR = 1184;
+            xR = 1184+32*4;
             yR -= 32;
         }
-        xR = 1184;
+        xR = 1184+32*4;
         yR = WINDOW_HEIGHT - 32 * 4;
         for (int j = 0; j < 13; j++) {
             new Hangraongang(xR, yR, stage,1);

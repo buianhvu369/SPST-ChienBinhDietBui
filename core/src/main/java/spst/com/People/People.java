@@ -29,8 +29,14 @@ public class People extends MyActor {
             if(isCutting){
                 if(!Master.trees.isEmpty()){
                     System.out.println("Chat cay thoi anh em!");
-                    Tree tree = Master.trees.get(MathUtils.random(0, Master.trees.size - 1));
+                    Tree tree = Master.trees.removeIndex(MathUtils.random(0, Master.trees.size - 1));
                     tree.isCutDown = true;
+
+                    // Thêm action đó là đợi 5 giây sau thì xóa cây
+                    tree.addAction(Actions.sequence(
+                        Actions.delay(5),
+                        Actions.removeActor()
+                    ));
                     setPosition(tree.getX() + 32, tree.getY());
                 }
             } else {

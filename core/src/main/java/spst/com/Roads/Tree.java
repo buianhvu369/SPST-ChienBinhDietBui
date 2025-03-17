@@ -17,12 +17,13 @@ public class Tree extends MyActor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
         if(isCutDown){
             TextureRegion root = Utils.getRegion(16 * 16, 9 * 16, 16, 16);
             batch.draw(root, getX(), getY(), getOriginX(), getOriginY(), getWidth(), 32, getScaleX(), getScaleY(), getRotation());
             TextureRegion branch = Utils.getRegion(16 * 16, 8 * 16, 16, 16);
-            batch.draw(branch, getX(), getY() + 32, getOriginX(), getOriginY(), getWidth(), 32, getScaleX(), getScaleY(), getRotation() - 135);
+            batch.draw(branch, getX() + 16, getY() + 32, getOriginX(), getOriginY(), getWidth(), 32, getScaleX(), getScaleY(), getRotation() - 135);
+        } else {
+            super.draw(batch, parentAlpha);
         }
     }
 }

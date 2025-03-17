@@ -448,25 +448,34 @@ public class Master implements Screen {
                     }
                     if(isFree){
                         Master.soMayLoc--;
-                        new MayLoc(mouse.x-16,mouse.y,stage,27*2,47*2);
+                        Master.nhapTenMLKK();
                     }
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();
-            } else {
-                AnimationClickMouse animationClickMouse = new AnimationClickMouse(mouse.x-32,mouse.y-32, stage);
-                clickSound.play();
             }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            String inputText = textField.getText();
-            textField.setVisible(false);
-            noMoveStage.unfocusAll();
-            NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
-            normalCameras.add(normalCamera);
-            normalCamera.name = inputText;
-            whatActionIfClickMouse = "move";
+            if(Master.whatActionIfClickMouse.equals("createMayLoc")){
+                String inputText = textField.getText();
+                textField.setVisible(false);
+                noMoveStage.unfocusAll();
+                Master.soMayLoc--;
+                MayLoc mayLoc = new MayLoc(cameraPosition.x,cameraPosition.y,stage,27*2,47*2);
+                MLKKs.add(mayLoc);
+                mayLoc.name = inputText;
+                whatActionIfClickMouse = "move";
+                System.out.println("243287");
+            }else if(Master.whatActionIfClickMouse.equals("camera")){
+                String inputText = textField.getText();
+                textField.setVisible(false);
+                noMoveStage.unfocusAll();
+                NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
+                normalCameras.add(normalCamera);
+                normalCamera.name = inputText;
+                whatActionIfClickMouse = "move";
+            }
         }
 
         stage.act();
@@ -506,15 +515,16 @@ public class Master implements Screen {
             game.font4.draw(batch, "Nâng cấp công nghệ xanh",32*17, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
             game.font3.draw(batch, "Cấp độ giao thông xanh: " + GameState.levelgiaothongxanh,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
             game.font4.draw(batch, "Nâng cấp giao thông xanh",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
-            if(Gdx.input.isKeyPressed(Input.Keys.K)){
-                MayLoc may = new MayLoc(0,0,stage,32,32);
-                MLKKs.add(may);
-            }
         }
         batch.end();
     }
 
     public static void nhapTenNormalCamera(){
+        textField.setVisible(true);
+        textField.setText(""); // Xóa nội dung cũ
+        showAQI.getStage().setKeyboardFocus(textField);
+    }
+    public static void nhapTenMLKK(){
         textField.setVisible(true);
         textField.setText(""); // Xóa nội dung cũ
         showAQI.getStage().setKeyboardFocus(textField);

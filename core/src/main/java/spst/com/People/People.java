@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import spst.com.MyActor;
+import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
 import spst.com.Utils;
 
@@ -28,7 +29,9 @@ public class People extends MyActor {
             if(isCutting){
                 if(!Master.trees.isEmpty()){
                     System.out.println("Chat cay thoi anh em!");
-                    setPosition(Master.trees.get(MathUtils.random(0, Master.trees.size - 1)).getX() + 32, Master.trees.get(MathUtils.random(0, Master.trees.size - 1)).getY());
+                    Tree tree = Master.trees.get(MathUtils.random(0, Master.trees.size - 1));
+                    tree.isCutDown = true;
+                    setPosition(tree.getX() + 32, tree.getY());
                 }
             } else {
                 setPosition(MathUtils.random(0, 2000), MathUtils.random(0, 700));

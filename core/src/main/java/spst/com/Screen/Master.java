@@ -107,6 +107,8 @@ public class Master implements Screen {
     public  static int amountSeed = 10;
     public static int soMayLoc = 5;
     public static int soCamera = 5;
+    public static int soCamDotRac =  2;
+    public static int soCamChatCay = 2;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -144,12 +146,21 @@ public class Master implements Screen {
         startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
         startButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                Master.soMayLoc++;
+                if(GameState.money>800) {
+                    Master.soMayLoc++;
+                    GameState.money-=800;
+                }
+
             }
         });
         wasteButton = new TextButton("Mua một biển cấm đốt rác ", style);
         wasteButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>200&&GameState.greenscore >5) {
+                    GameState.greenscore  -= 5;
+                    Master.soCamDotRac++;
+                    GameState.money-=200;
+                }
             }
         });
         factoryButton = new TextButton("Tạo công nghệ xanh ", style);
@@ -160,7 +171,11 @@ public class Master implements Screen {
         plantButton = new TextButton("Mua một cây đột biến", style);
         plantButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                Master.amountSeed++;
+                if(GameState.money>100&&GameState.greenscore  >5) {
+                    Master.amountSeed++;
+                    GameState.greenscore -= 5;
+                    GameState.money-=100;
+                }
             }
         });
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
@@ -171,11 +186,20 @@ public class Master implements Screen {
         deforestButton = new TextButton("Mua một biển cấm chặt cây ", style);
         deforestButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>200&&GameState.greenscore  >5) {
+                    soCamChatCay++;
+                    GameState.greenscore -= 5;
+                    GameState.money-=200;
+                }
             }
         });
         litterButton = new TextButton("Mua một cái camera ", style);
         litterButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money >500){
+                    soCamera++;
+                    GameState.money-=500;
+                }
             }
         });
 
@@ -404,6 +428,7 @@ public class Master implements Screen {
 
             }
         }
+
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
             for(NormalCamera n : normalCameras){
                 if(n.name.equals("camera")){
@@ -438,6 +463,7 @@ public class Master implements Screen {
                    }
                    if(isFree){
                        Master.amountSeed--;
+                       GameState.greenscore += 10;
                        new LoadingPlant(mouse.x-16,mouse.y,stage);
                    }
                 }
@@ -565,6 +591,9 @@ public class Master implements Screen {
         }
         if(gio1phan60 == 60*24){
             day++;
+            if(day % 30 == 0 ){
+                GameState.money += GameState.danso/20;
+            }
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -577,6 +606,9 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24*2){
             gio1phan60 = 0;
             day++;
+            if(day % 30 == 0 ){
+                GameState.money += GameState.danso/20;
+            }
             sukiensau2ngay();
             Timer.schedule(new Timer.Task() {
                 @Override

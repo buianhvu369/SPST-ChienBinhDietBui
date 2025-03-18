@@ -94,7 +94,7 @@ Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 
 **08:00 - 09:00**
 
-- Giao thông đạt đỉnh: +20 µg/m³ NO2, +15 µg/m³ CO
+- Giao thông đạt đỉnh: +35 µg/m³ NO2, +25 µg/m³ CO
 - Máy lọc không khí và giao thông xanh cùng tác động: -14 µg/m³ NO2, -10 µg/m³ CO
 - AQI duy trì mức cao nhưng không vượt ngưỡng nguy hiểm
 
@@ -118,26 +118,26 @@ Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 
 **12:00 - 13:00**
 
-- Ô nhiễm quang hóa tăng do ánh sáng mạnh: +25 µg/m³ O3
+- Ô nhiễm quang hóa tăng do ánh sáng mạnh: +35 µg/m³ O3
 - Không có biện pháp giảm trừ tức thời, AQI tăng trở lại
 
 **13:00 - 14:00**
 
-- Ô nhiễm quang hóa tiếp tục: +25 µg/m³ O3
+- Ô nhiễm quang hóa tiếp tục: +20 µg/m³ O3
 - Cây xanh giúp giảm nhẹ tác động: -1 µg/m³ O3
 - AQI vẫn cao do ảnh hưởng ozone
 
-**14:00 - 15:00 (Yếu tố bất ngờ: Sự cố nhà máy điện xanh)**
+**14:00 - 15:00 (Yếu tố bất ngờ: Một cơn gió mang theo bụi tràn về)**
 
 - Nhà máy điện xanh bị gián đoạn, hệ thống lọc không khí hoạt động kém hơn
 - AQI tăng nhanh hơn dự kiến
 
-**15:00 - 16:00**
+**15:00 - 16:00 (Yếu tố bất ngờ chỉ có tai nạn giao thông)**
 
 - Giờ cao điểm buổi chiều: +20 µg/m³ NO2, +15 µg/m³ CO
 - Biện pháp giao thông xanh giúp giảm thiểu tác động
 
-**16:00 - 17:00**
+**16:00 - 17:00(Yếu tố bất ngờ chỉ có mưa)**
 
 - Giao thông vẫn căng thẳng: +20 µg/m³ NO2, +15 µg/m³ CO
 - AQI tiếp tục tăng nhẹ
@@ -154,7 +154,7 @@ Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 - Hệ thống lọc khí và giao thông xanh giảm nhẹ tác động: -14 µg/m³ NO2, -10 µg/m³ CO
 - AQI tăng nhanh, người chơi phải tìm cách kiểm soát
 
-**19:00 - 20:00**
+**19:00 - 20:00(Yếu tố bất ngờ chỉ có hỏa hoạn do đốt rác)**
 
 - Đốt rác sinh hoạt lộ thiên gia tăng: +25 µg/m³ PM2.5, +20 µg/m³ SO2
 - Biển cấm đốt rác giúp giảm: -6 µg/m³ PM2.5, -5 µg/m³ SO2

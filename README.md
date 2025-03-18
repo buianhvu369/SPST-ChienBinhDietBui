@@ -50,6 +50,7 @@ Mỗi giờ, các nguồn ô nhiễm sẽ phát sinh hoặc thay đổi:
 | **Biện pháp**                     | **Giảm nồng độ chất ô nhiễm mỗi giờ** | **Chi phí (💰)** | **Năng lượng (⚡)** | **Điểm xanh (🌿)** |  **Năng lượng hoạt động (⚡)** |
 |-----------------------------------| --- | --- | --- | --- | --- |
 | Một cái máy lọc không khí         | \-6 µg/m³ PM2.5, -4 µg/m³ NO2 | 500 | 20  | 0   | 5 |
+| Một level máy lọc không khí       | \-2 µg/m³ PM2.5, -1 µg/m³ NO2
 | Một hệ thống giao thông xanh      | \-8 µg/m³ NO2, -6 µg/m³ CO | 1000 | 50  | 20  | 5 |
 | Một level công nghệ sản xuất sạch | \-10 µg/m³ SO2, -8 µg/m³ NO2 | 1500 | 30  | 30  | 5 |
 | Một cây xanh                      | \-0.2 µg/m³ PM10, -0.15 µg/m³ CO | 100 | 0   | 5   | 1$  |

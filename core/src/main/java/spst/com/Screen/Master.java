@@ -270,7 +270,7 @@ public class Master implements Screen {
         });
         buttonLeftMLKK.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(MLKKs.size < sohieucuaMLKKdangchondenangcap){
+                if(sohieucuaMLKKdangchondenangcap>0){
                     sohieucuaMLKKdangchondenangcap--;
                 }
             }
@@ -504,7 +504,7 @@ public class Master implements Screen {
             game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
         }
         if(hienNghienCuu){
-            if(MLKKs.size>=1) {
+            if(MLKKs.size>0) {
                 game.font3.draw(batch, "Cấp độ máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).level,32*9, Gdx.graphics.getHeight()-32*4-(25+8*2));
                 game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*9, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
                 game.font4.draw(batch, "Tên máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);

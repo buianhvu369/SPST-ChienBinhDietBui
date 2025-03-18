@@ -7,7 +7,7 @@ import spst.com.Screen.Master;
 public class GameState{
     public static int money = 9999999;
     public static int ernegy=999999;
-    public static int danso = 0;
+    public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";
     public static int thue = 0;
     public static int phat = 0;

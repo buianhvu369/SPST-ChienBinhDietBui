@@ -85,6 +85,7 @@ public class Master implements Screen {
 
 
     Dark dark;
+    Rain rain;
     Line line;
     Line line2;
     Line lineThongTin;
@@ -95,6 +96,8 @@ public class Master implements Screen {
     TextButton wasteButton;
     TextButton factoryButton;
     TextButton trafficButton;
+    TextButton litterButton;
+    TextButton  deforestButton;
 
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
@@ -148,7 +151,7 @@ public class Master implements Screen {
             public void clicked(InputEvent event, float x, float y) {
             }
         });
-        factoryButton = new TextButton("Tạo cộng nghê xanh", style);
+        factoryButton = new TextButton("Tạo công nghệ xanh ", style);
         factoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
             }
@@ -161,6 +164,16 @@ public class Master implements Screen {
         });
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
         trafficButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+        deforestButton = new TextButton("Mua một biển cấm chặt cây ", style);
+        deforestButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
+        litterButton = new TextButton("Mua một cái camera ", style);
+        litterButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
             }
         });
@@ -209,7 +222,10 @@ public class Master implements Screen {
         bangScience = new BangScience(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
+        ///rain = new Rain(0,0,noMoveStage);
         dark.setTouchable(Touchable.disabled);
+        //rain.setTouchable(Touchable.disabled);
+        //muaPhuBay();
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
@@ -539,7 +555,7 @@ public class Master implements Screen {
                 public void run() {
                     closeScienceBoard();
                     dark.addAction(Actions.fadeOut(2));
-                    dark.toBack();
+                   dark.toBack();
                 }
             },0);
         }
@@ -615,6 +631,11 @@ public class Master implements Screen {
         nangCapGTX.toFront();
         dongThongtin();
     }
+
+    private void muaPhuBay(){
+        rain.toFront();
+        rain.addAction(Actions.fadeIn(10));
+    }
     private void moCheTao(){
 //        nutMayLoc.setPosition(Gdx.graphics.getWidth()*0.2f, Gdx.graphics.getHeight()*0.8f);
 //        nutMayLoc.toFront();
@@ -623,34 +644,45 @@ public class Master implements Screen {
 
 
             startButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
-            startButton.setSize(600, 50);
+            startButton.setSize(600, 40);
             noMoveStage.addActor(startButton);
             startButton.toFront();
 
 
 
-            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.5f);
-            wasteButton.setSize(600, 50);
+            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40);
+            wasteButton.setSize(600, 40);
             noMoveStage.addActor(wasteButton);
             wasteButton.toFront();
 
+            deforestButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40*2);
+        deforestButton.setSize(600, 40);
+            noMoveStage.addActor(deforestButton);
+        deforestButton.toFront();
 
-            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.4f);
-            plantButton.setSize(600, 50);
+
+        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*3);
+        litterButton.setSize(600, 40);
+        noMoveStage.addActor(litterButton);
+        litterButton.toFront();
+
+            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*4);
+            plantButton.setSize(600, 40);
             noMoveStage.addActor(plantButton);
             plantButton.toFront();
 
 
-            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.3f);
-            factoryButton.setSize(600, 50);
+            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*5);
+            factoryButton.setSize(600, 40);
             noMoveStage.addActor(factoryButton);
             factoryButton.toFront();
 
 
-            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.2f);
-            trafficButton.setSize(600, 50);
+            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*6);
+            trafficButton.setSize(600, 40);
             noMoveStage.addActor(trafficButton);
             trafficButton.toFront();
+
 
 
     }
@@ -661,6 +693,8 @@ public class Master implements Screen {
         factoryButton.remove();
         plantButton.remove();
         trafficButton.remove();
+        litterButton.remove();
+        deforestButton.remove();
     }
     private void moCaiDat(){
         dongThongtin();

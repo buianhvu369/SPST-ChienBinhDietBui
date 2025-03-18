@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -105,6 +103,7 @@ public class Master implements Screen {
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
     public static int soMayLoc = 5;
+    public static int soCamera = 5;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
@@ -115,7 +114,9 @@ public class Master implements Screen {
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
-
+    creatCamera taoCamera;
+    float ktHetEvent = 2;
+    boolean ktDangChayEvent = false;
     public static Waterwell gieng;
     public static boolean cutting = false;
     int speedX = -2 ;
@@ -129,7 +130,7 @@ public class Master implements Screen {
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     StartGame game;
-    int timeOfDay = 0;
+    public static int timeOfDay = 0;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -198,6 +199,7 @@ public class Master implements Screen {
         gieng = new Waterwell(1184+32*27,32*6,stage);
         treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
         taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoCamera = new creatCamera(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-100,noMoveStage);
 
         createTree();
         createWaste();
@@ -251,9 +253,9 @@ public class Master implements Screen {
 
         nangCapMLKK.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(MLKKs.size>=1){
+                try{
                     MLKKs.get(sohieucuaMLKKdangchondenangcap).level++;
-                }
+                }catch (Exception ignored){}
             }
         });
         buttonLeftMLKK.addListener(new ClickListener() {
@@ -265,7 +267,7 @@ public class Master implements Screen {
         });
         buttonRightMLKK.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(MLKKs.size > sohieucuaMLKKdangchondenangcap){
+                if(MLKKs.size >= sohieucuaMLKKdangchondenangcap+1){
                     sohieucuaMLKKdangchondenangcap++;
                 }
             }
@@ -324,6 +326,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        ktHetEven();
         calculAQI();
         createCar();
         xulyngaydem();
@@ -385,10 +388,6 @@ public class Master implements Screen {
 
             }
         }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
-            whatActionIfClickMouse = "camera";
-        }
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
             for(NormalCamera n : normalCameras){
                 if(n.name.equals("camera")){
@@ -436,7 +435,6 @@ public class Master implements Screen {
                         }
                     }
                     if(isFree){
-                        Master.soMayLoc--;
                         Master.nhapTenMLKK();
                     }
                 }
@@ -459,6 +457,7 @@ public class Master implements Screen {
                 mayLoc.name = inputText;
                 whatActionIfClickMouse = "move";
                 System.out.println("243287");
+                taoMayLockk.isSong = true;
             }else if(Master.whatActionIfClickMouse.equals("camera")){
                 String inputText = textField.getText();
                 textField.setVisible(false);
@@ -467,6 +466,7 @@ public class Master implements Screen {
                 normalCameras.add(normalCamera);
                 normalCamera.name = inputText;
                 whatActionIfClickMouse = "move";
+                taoCamera.isSong = true;
             }
         }
 
@@ -477,6 +477,7 @@ public class Master implements Screen {
         noMoveStage.draw();
         batch.begin();
         game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
+        game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -496,11 +497,12 @@ public class Master implements Screen {
             game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
         }
         if(hienNghienCuu){
-            if(MLKKs.size>0) {
+            try {
                 game.font3.draw(batch, "Cấp độ máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).level,32*9, Gdx.graphics.getHeight()-32*4-(25+8*2));
                 game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*9, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
-                game.font4.draw(batch, "Tên máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);
-            }else {
+                game.font4.draw(batch, "Tên máy lọc không khí:", 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);
+                game.font4.draw(batch, MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 7 - (25 + 8 * 2) - 16);
+            }catch(Exception e) {
                 game.font4.draw(batch, "Chưa có máy lọc không khí", 32 * 9, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16);
             }
             game.font3.draw(batch, "Cấp độ công nghệ xanh: " + GameState.levelcongnghexanh,32*17, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
@@ -511,6 +513,19 @@ public class Master implements Screen {
         batch.end();
     }
 
+    private void ktHetEven(){
+        if(!GameState.event.isEmpty() && !ktDangChayEvent){
+            ktHetEvent = 0;
+            ktDangChayEvent = true;
+        }
+        if(ktDangChayEvent){
+            ktHetEvent++;
+        }
+        if(!GameState.event.isEmpty() && ktHetEvent==60 && ktDangChayEvent){
+            ktDangChayEvent = false;
+            GameState.event = "";
+        }
+    }
     public static void nhapTenNormalCamera(){
         textField.setVisible(true);
         textField.setText(""); // Xóa nội dung cũ
@@ -788,18 +803,243 @@ public class Master implements Screen {
         if(timeOfDay%60 == 0){
             hour = timeOfDay / 60;
             hour = hour%24;
-            if(hour >= 0 && hour <= 6) {
-                GameState.CO1 += 1;
-                GameState.NO2 += 2;
-                GameState.O3 += 3;
-                GameState.PM10 += 4;
-                GameState.PM2_5 += 5;
-                GameState.SO2 += 6;
-            } else {
-
+            if(hour == 6) {
+                GameState.CO1 += 15/60f;
+                GameState.NO2 += 20/60f;
+            } else if(hour == 7) {
+                GameState.CO1 += 15/60f;
+                GameState.NO2 += 20/60f;
+            } else if(hour == 8) {
+                GameState.CO1 += 35/60f;
+                GameState.NO2 += 25/60f;
+            } else if(hour == 9) {
+                int ran = random.nextInt(1,100);
+                switch (ran){
+                    case 1, 3,5,7,10,11,23,99,45 -> {
+                        System.out.println("tai nan giao thong !!!");
+                        GameState.event = "Tai nạn giao thông";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                    }
+                    case 2,24,26 -> {
+                        System.out.println("co 1 con mua rua sach khong khi");
+                        GameState.event = "Có 1 cơn mưa nhỏ";
+                        if(GameState.PM2_5 >= 20/60f){
+                            GameState.PM2_5 -= 20/60f;
+                        }else {
+                            GameState.PM2_5 = 0;
+                        }
+                        if(GameState.PM10 >= 15/60f){
+                            GameState.PM10 -= 15/60f;
+                        }else {
+                            GameState.PM10 = 0;
+                        }
+                    }
+                    case 8,25 -> {
+                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
+                        GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
+                        GameState.SO2 += 25/60f;
+                        GameState.NO2 += 20/60f;
+                        GameState.PM2_5 += 15/60f;
+                    }
+                    case 9,52,56,78,93 -> {
+                        System.out.println("co 1 con gio mua mang theo bui");
+                        GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
+                        GameState.PM2_5 += 30/60f;
+                        GameState.PM10 += 20/60f;
+                    }
+                }
+            } else if(hour == 10) {
+                GameState.SO2 += 30;
+                GameState.PM2_5 += 20;
+            } else if(hour == 11) {
+                int ran = random.nextInt(1,100);
+                switch (ran){
+                    case 1, 3,5,7,10 -> {
+                        System.out.println("tai nan giao thong !!!");
+                        GameState.event = "Tai nạn giao thông";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                    }
+                    case 2,24,26,67,68,69,79,89 -> {
+                        System.out.println("co 1 con mua rua sach khong khi");
+                        GameState.event = "Có 1 cơn mưa nhỏ";
+                        if(GameState.PM2_5 >= 20/60f){
+                            GameState.PM2_5 -= 20/60f;
+                        }else {
+                            GameState.PM2_5 = 0;
+                        }
+                        if(GameState.PM10 >= 15/60f){
+                            GameState.PM10 -= 15/60f;
+                        }else {
+                            GameState.PM10 = 0;
+                        }
+                    }
+                    case 8,25,54,33 -> {
+                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
+                        GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
+                        GameState.SO2 += 25/60f;
+                        GameState.NO2 += 20/60f;
+                        GameState.PM2_5 += 15/60f;
+                    }
+                    case 9,52,56,78,93,58,57,35 -> {
+                        System.out.println("co 1 con gio mua mang theo bui");
+                        GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
+                        GameState.PM2_5 += 30/60f;
+                        GameState.PM10 += 20/60f;
+                    }
+                }
+            } else if(hour == 12) {
+                GameState.O3 += 35;
+            } else if(hour == 13) {
+                GameState.O3 += 20;
+            } else if(hour == 14) {
+                int ran = random.nextInt(1,100);
+                switch (ran){
+                    case 1, 3,5 -> {
+                        System.out.println("tai nan giao thong !!!");
+                        GameState.event = "Tai nạn giao thông";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                    }
+                    case 2,24,26,67,68,69,79,89 -> {
+                        System.out.println("co 1 con mua rua sach khong khi");
+                        GameState.event = "Có 1 cơn mưa nhỏ";
+                        if(GameState.PM2_5 >= 20/60f){
+                            GameState.PM2_5 -= 20/60f;
+                        }else {
+                            GameState.PM2_5 = 0;
+                        }
+                        if(GameState.PM10 >= 15/60f){
+                            GameState.PM10 -= 15/60f;
+                        }else {
+                            GameState.PM10 = 0;
+                        }
+                    }
+                    case 8,25,54,33 -> {
+                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
+                        GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
+                        GameState.SO2 += 25/60f;
+                        GameState.NO2 += 20/60f;
+                        GameState.PM2_5 += 15/60f;
+                    }
+                    case 9,52,56,78,93,58,57 -> {
+                        System.out.println("co 1 con gio mua mang theo bui");
+                        GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
+                        GameState.PM2_5 += 30/60f;
+                        GameState.PM10 += 20/60f;
+                    }
+                }
+            } else if(hour == 15) {
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
+                int ran = random.nextInt(1,21);
+                switch (ran){
+                    case 1, 20 -> {
+                        System.out.println("tai nan giao thong !!!");
+                        GameState.event = "Tai nạn giao thông";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                    }
+                }
+            } else if(hour == 16) {
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
+                int ran = random.nextInt(1,21);
+                switch (ran){
+                    case 1, 20,19 -> {
+                        System.out.println("tai nan giao thong !!!");
+                        GameState.event = "Tai nạn giao thông";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                    }
+                }
+            } else if(hour == 17) {
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
+            } else if(hour == 18) {
+                int ran = random.nextInt(1,101);
+                switch (ran){
+                    case 1, 20,19,45,67,23,55 -> {
+                        System.out.println("su kien the thao lon");
+                        GameState.event = "Sự kiện thể thao lớn";
+                        GameState.NO2 += 30/60f;
+                        GameState.CO1 += 20/60f;
+                        int ran2 = random.nextInt(1,101);
+                        if(25<ran2 && ran2<=50 ){
+                            System.out.println("tai nan giao thong !!!");
+                            GameState.event = "Tai nạn giao thông";
+                            GameState.NO2 += 30/60f;
+                            GameState.CO1 += 20/60f;
+                        }
+                    }
+                    case 49,11,68,56,87 -> {
+                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
+                        GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
+                        GameState.SO2 += 25/60f;
+                        GameState.NO2 += 20/60f;
+                        GameState.PM2_5 += 15/60f;
+                    }
+                }
+            } else if(hour == 19) {
+                GameState.PM2_5 += 25;
+                GameState.SO2 += 20;
+                int ran = random.nextInt(1,101);
+                switch (ran) {
+                    case 1, 20, 19, 45, 67, 23, 55,5,3 -> {
+                        System.out.println("Chay nha chay nha");
+                        GameState.event = "Cháy 1 ngôi nhà";
+                        GameState.SO2 += 15/60f;
+                        GameState.NO2 += 20/60f;
+                        GameState.PM2_5 += 25/60f;
+                        if (ran == 20) {
+                            System.out.println("Chay 2 ngoi nha");
+                            GameState.event = "Cháy 2 ngôi nhà";
+                            GameState.SO2 += 30/60f;
+                            GameState.NO2 += 40/60f;
+                            GameState.PM2_5 += 50/60f;
+                        }
+                    }
+                }
+            } else if(hour == 20) {
+                GameState.PM2_5 += 25/60f;
+                GameState.NO2 += 20/60f;
+                GameState.SO2 += 15/60f;
+            } else if(hour == 21) {
+                int ran = random.nextInt(1,101);
+                switch (ran){
+                    case 34,43,56,65,78,87,12,21,10,91 -> {
+                        System.out.println("Mưa lon");
+                        GameState.event = "Có 1 cơn mưa lớn";
+                        if(GameState.PM2_5 >= 30/60f){
+                            GameState.PM2_5 -= 30/60f;
+                        }else {
+                            GameState.PM2_5 = 0;
+                        }
+                        if(GameState.PM10 >= 20/60f){
+                            GameState.PM10 -= 20/60f;
+                        }else {
+                            GameState.PM10 = 0;
+                        }
+                    }
+                }
+            } else if(hour == 22) {
+                GameState.PM10 += 20/60f;
+                GameState.CO1 += 15/60f;
+            } else if(hour == 23) {
+                GameState.PM10 += 20/60f;
+                GameState.CO1 += 15/60f;
+            }
+            else if(hour == 0) {
+                GameState.PM10 += 20/60f;
+                GameState.CO1 += 15/60f;
+            }
+            else if(hour == 5) {
+                GameState.NO2 += 10/60f;
+                GameState.CO1 += 8/60f;
             }
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
-
+            new FloatingNews(noMoveStage, GameState.event);
         }
 
     }

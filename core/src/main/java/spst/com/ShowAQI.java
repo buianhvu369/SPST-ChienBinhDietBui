@@ -19,12 +19,6 @@ public class ShowAQI extends MyActor {
     public void act(float delta) {
         super.act(delta);
         setScale(Master.AQI/10f,0.5f);
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            Master.AQI--;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.B)){
-            Master.AQI++;
-        }
         if(Master.AQI<=50){
             setColor(Color.GREEN);
         }else if(Master.AQI<=100){

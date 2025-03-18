@@ -11,7 +11,7 @@ public class GameState{
     public static String xuhuongdantangorgiam = "tăng dân số";
     public static int thue = 0;
     public static int phat = 0;
-    public static String event = "Người dân đốt biển cấm đốt rác.";
+    public static String event = "";
     public static String camxucnguoidan = "Vui vẻ.";
     public static String lydocamxucnguoidan = "Thuế = 0; tiền phạt = 0; số biển cấm đốt rác = 0; LUẬT PHÁP = 0.";
     public static int levelcongnghexanh = 1;

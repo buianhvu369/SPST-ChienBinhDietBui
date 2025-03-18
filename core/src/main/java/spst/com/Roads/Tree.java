@@ -3,6 +3,7 @@ package spst.com.Roads;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.GameState;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
 import spst.com.Utils;
@@ -13,6 +14,19 @@ public class Tree extends MyActor {
         super(x, y, s);
         textureRegion = Utils.getRegion(16 * 16, 8 * 16, 16, 32);
         setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(Master.timeOfDay%60==0){
+            if(GameState.PM10>=0.2f){
+                GameState.PM10 -=0.2f;
+            }
+            if(GameState.CO1 >= 0.15f){
+                GameState.CO1 -= 0.15f;
+            }
+        }
     }
 
     @Override

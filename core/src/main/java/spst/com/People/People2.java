@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import spst.com.Direction;
+import spst.com.GameState;
 import spst.com.MyActor;
 import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
@@ -52,6 +55,14 @@ public class People2 extends MyActor {
         animationDown.setPlayMode(Animation.PlayMode.LOOP);
         time = 0;
         textureRegion = animationRight.getKeyFrame(time);
+
+        this.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(isCutting){
+                    GameState.money += 225;
+                }
+            }
+        });
     }
     @Override
     public void act(float delta) {

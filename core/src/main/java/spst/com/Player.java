@@ -110,5 +110,11 @@ public class Player extends MyActor {
                 }
             }
         }
+        if(getX() > 1180 && getX() < 1180 + 4*32 - 10){
+            textureRegion = Utils.getRegion(23*16, 0, 16, 6);
+            setSize(32, 12);
+        } else {
+            setSize(32,32);
+        }
     }
 }

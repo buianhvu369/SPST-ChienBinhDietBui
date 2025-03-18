@@ -39,7 +39,7 @@ import spst.com.House.HotelCenter;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
-import spst.com.People.People;
+//import spst.com.People.People;
 import spst.com.People.People1;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
@@ -922,7 +922,7 @@ public class Master implements Screen {
         new People1(32*30+ 1184,48,stage,true );
 
         for (int i = 0; i < 10; i++) {
-            new People(MathUtils.random(0, 2000), MathUtils.random(0, 700), stage);
+           // new People(MathUtils.random(0, 2000), MathUtils.random(0, 700), stage);
         }
 
         Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UR");

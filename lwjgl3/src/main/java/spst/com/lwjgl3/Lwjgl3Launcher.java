@@ -16,7 +16,9 @@ public class Lwjgl3Launcher {
         return new Lwjgl3Application(new StartGame(), getDefaultConfiguration());
     }
 
-    private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
+    private static Lwjgl3ApplicationConfiguration getDefaultConfiguration(
+        
+    ) {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("ChienBinhDietBui");
         configuration.useVsync(true);

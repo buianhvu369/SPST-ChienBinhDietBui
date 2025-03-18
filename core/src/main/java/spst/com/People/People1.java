@@ -5,13 +5,16 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import spst.com.AnimationClickMouse;
-import spst.com.Direction;
-import spst.com.MyActor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import spst.com.*;
 import spst.com.Roads.Tree;
-import spst.com.Utils;
+import spst.com.Screen.Master;
+
+import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 
 public class People1 extends MyActor {
     Animation<TextureRegion> animationLeft;
@@ -20,10 +23,19 @@ public class People1 extends MyActor {
     Animation<TextureRegion> animationDown;
     float time;
     int timeDirection;
+    int speed = 1;
+    float mouseX = 100000000;
+    float mouseY = 100000000;
+    boolean isCutting = false;
+    boolean isFiring = false;
+    boolean isFine = false;
+    boolean isMoving = false;
 
     Direction direction = Direction.LEFT;
     float speedX = 0;
     float speedY = 0;
+
+    Tree treeTarget;
 
     public People1(float x, float y, Stage s, boolean rightside) {
         super(x, y, s);
@@ -48,42 +60,103 @@ public class People1 extends MyActor {
     public void act(float delta) {
         super.act(delta);
         time+= delta;
-        switch (direction){
-            case UP -> {
-                speedX = 0;
-                speedY = 1;
-                textureRegion = animationUp.getKeyFrame(time);
-            }
-            case DOWN -> {
-                speedX = 0;
-                speedY = -1;
-                textureRegion = animationDown.getKeyFrame(time);
-            }
-            case LEFT -> {
-                speedX = -1;
-                speedY = 0;
-                textureRegion = animationLeft.getKeyFrame(time);
-            }
-            case RIGHT -> {
-                speedX = 1;
-                speedY = 0;
-                textureRegion = animationRight.getKeyFrame(time);
-            }
-        }
-        moveBy(speedX, speedY);
-        if(getX()< 0){
-            direction = Direction.RIGHT;
-        } else if (getX()> 2400) {
-            direction = Direction.LEFT;
-        } else if (getY()> 800) {
-            direction = Direction.DOWN;
-        } else if (getY() < 0) {
-            direction = Direction.UP;
-        }
         timeDirection++;
-        if(timeDirection % 300 == 0){
-            timeDirection = 0;
-            direction = Direction.values()[MathUtils.random(0, Direction.values().length -1)];
+        if(timeDirection % 300 == 0 && !isCutting){
+            isCutting = MathUtils.randomBoolean();
+            if(isCutting){
+                if(!Master.trees.isEmpty()){
+                    treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
+                    System.out.println("Chat cay thoi anh em!" + Master.trees.size);
+                    mouseX = treeTarget.getX() + 32;
+                    mouseY = treeTarget.getY();
+                    isMoving = true;
+
+                }
+            }
         }
+
+        if(treeTarget != null){
+            Rectangle rec = new Rectangle(treeTarget.getX()+32, treeTarget.getY(), 33, 64);
+            if(rec.overlaps(getBound()) && !treeTarget.isCutDown) {
+                treeTarget.isCutDown = true;
+                treeTarget.addAction(Actions.sequence(
+                    Actions.delay(5),
+                    Actions.removeActor()
+                ));
+                addAction(Actions.sequence(
+                    Actions.delay(5),
+                    Actions.run(()->{
+                        isCutting = false;
+                        treeTarget = null;
+                    })
+                ));
+            }
+            rec = null;
+        }
+
+        if(isMoving){
+            if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
+                if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
+                    if (mouseX < getX() + 2) {
+                        if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                            moveBy(-speed, 0);
+                        }
+                        time += delta;
+                        textureRegion = animationLeft.getKeyFrame(time);
+                    } else if (mouseX > getX() - 2) {
+                        if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
+                            moveBy(speed, 0);
+                        }
+                        time += delta;
+                        textureRegion = animationRight.getKeyFrame(time);
+                    }
+                } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
+                    if (getY() - 2 < mouseY) {
+                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                            moveBy(0, speed);
+                        }
+                        time += delta;
+                        textureRegion = animationUp.getKeyFrame(time);
+                    } else if (mouseY < getY() + 2) {
+                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                            moveBy(0, -speed);
+                        }
+                        time += delta;
+                        textureRegion = animationDown.getKeyFrame(time);
+                    }
+                }
+            } else {
+                if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
+                    if (getY() - 2 < mouseY) {
+                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                            moveBy(0, speed);
+                        }
+                        time += delta;
+                        textureRegion = animationUp.getKeyFrame(time);
+                    } else if (mouseY < getY() + 2) {
+                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                            moveBy(0, -speed);
+                        }
+                        time += delta;
+                        textureRegion = animationDown.getKeyFrame(time);
+                    }
+                } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
+                    if (mouseX < getX() + 2) {
+                        if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                            moveBy(-speed, 0);
+                        }
+                        time += delta;
+                        textureRegion = animationLeft.getKeyFrame(time);
+                    } else if (mouseX > getX() - 2) {
+                        if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
+                            moveBy(speed, 0);
+                        }
+                        time += delta;
+                        textureRegion = animationRight.getKeyFrame(time);
+                    }
+                }
+            }
+        }
+
     }
 }

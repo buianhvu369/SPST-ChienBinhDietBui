@@ -5,8 +5,8 @@ import com.badlogic.gdx.Preferences;
 import spst.com.Screen.Master;
 
 public class GameState{
-    public static int money=0;
-    public static int ernegy=0;
+    public static int money = 9999999;
+    public static int ernegy=999999;
     public static int danso = 0;
     public static String xuhuongdantangorgiam = "tăng dân số";
     public static int thue = 0;
@@ -14,9 +14,9 @@ public class GameState{
     public static String event = "";
     public static String camxucnguoidan = "Vui vẻ.";
     public static String lydocamxucnguoidan = "Thuế = 0; tiền phạt = 0; số biển cấm đốt rác = 0; LUẬT PHÁP = 0.";
-    public static int levelcongnghexanh = 1;
-    public static int levelgiaothongxanh = 1;
-    public static int greenscore = 1;
+    public static int levelcongnghexanh = 0;
+    public static int levelgiaothongxanh = 0;
+    public static int greenscore = 9999999;
     public static float SO2 = 0;
     public static float NO2 = 0;
     public static float CO1 = 0;

@@ -106,6 +106,8 @@ public class Master implements Screen {
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
     public static int soMayLoc = 5;
+    public static boolean isCNX = false;
+    public static boolean isGTX = false;
     public static int soCamera = 5;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     final float WINDOW_WIDTH = 2400;
@@ -153,10 +155,6 @@ public class Master implements Screen {
             }
         });
         factoryButton = new TextButton("Tạo công nghệ xanh ", style);
-        factoryButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-            }
-        });
         plantButton = new TextButton("Mua một cây đột biến", style);
         plantButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -164,10 +162,6 @@ public class Master implements Screen {
             }
         });
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
-        trafficButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-            }
-        });
         deforestButton = new TextButton("Mua một biển cấm chặt cây ", style);
         deforestButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -269,9 +263,13 @@ public class Master implements Screen {
 
         nangCapMLKK.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                try{
-                    MLKKs.get(sohieucuaMLKKdangchondenangcap).level++;
-                }catch (Exception ignored){}
+                if(GameState.money >= 1000 && GameState.ernegy >= 5){
+                    try{
+                        MLKKs.get(sohieucuaMLKKdangchondenangcap).level++;
+                        GameState.money -= 1000;
+                        GameState.ernegy -= 5;
+                    }catch (Exception ignored){}
+                }
             }
         });
         buttonLeftMLKK.addListener(new ClickListener() {
@@ -291,19 +289,51 @@ public class Master implements Screen {
 
         nangCapCNX.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                GameState.levelcongnghexanh++;
+                if(isCNX && GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
+                    GameState.levelcongnghexanh++;
+                    GameState.money -= 1500;
+                    GameState.ernegy -= 30;
+                    GameState.greenscore -= 30;
+                }
             }
         });
 
         nangCapGTX.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                GameState.levelgiaothongxanh++;
+                if(isGTX && GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
+                    GameState.levelgiaothongxanh++;
+                    GameState.money -= 1500;
+                    GameState.ernegy -= 30;
+                    GameState.greenscore -= 30;
+                }
             }
         });
 
         cheTaoButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 moCheTao();
+            }
+        });
+        factoryButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
+                    isCNX = true;
+                    factoryButton.setColor(Color.GRAY);
+                    GameState.money -=1500;
+                    GameState.ernegy -=30;
+                    GameState.greenscore -=30;
+                }
+            }
+        });
+        trafficButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
+                    isGTX = true;
+                    trafficButton.setColor(Color.GRAY);
+                    GameState.money -=1000;
+                    GameState.ernegy -=50;
+                    GameState.greenscore -=20;
+                }
             }
         });
 
@@ -342,6 +372,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        xuLyCNXVaGTX();
         ktHetEven();
         calculAQI();
         createCar();
@@ -529,6 +560,40 @@ public class Master implements Screen {
         batch.end();
     }
 
+    private void xuLyCNXVaGTX(){
+        //xu ly CNX
+        if(GameState.SO2 >= 10*GameState.levelcongnghexanh){
+            GameState.SO2 -= 10*GameState.levelcongnghexanh;
+        }else {
+            GameState.SO2 = 0;
+        }
+        if(GameState.CO1 >= 8*GameState.levelcongnghexanh){
+            GameState.CO1 -= 8*GameState.levelcongnghexanh;
+        }else {
+            GameState.CO1 = 0;
+        }
+        if(!isCNX){
+            nangCapCNX.setColor(Color.GRAY);
+        }else {
+            nangCapCNX.setColor(1,1,1,1);
+        }
+        //xu ly GTX
+        if(GameState.SO2 >= 8*GameState.levelgiaothongxanh){
+            GameState.SO2 -= 8*GameState.levelgiaothongxanh;
+        }else {
+            GameState.SO2 = 0;
+        }
+        if(GameState.CO1 >= 6*GameState.levelgiaothongxanh){
+            GameState.CO1 -= 6*GameState.levelgiaothongxanh;
+        }else {
+            GameState.CO1 = 0;
+        }
+        if(!isGTX){
+            nangCapGTX.setColor(Color.GRAY);
+        }else {
+            nangCapGTX.setColor(1,1,1,1);
+        }
+    }
     private void ktHetEven(){
         if(!GameState.event.isEmpty() && !ktDangChayEvent){
             ktHetEvent = 0;

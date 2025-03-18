@@ -14,10 +14,11 @@ import spst.com.Screen.Master;
 import spst.com.Screen.StartGame;
 
 public class creatMayLoc extends MyActor {
+    public boolean isSong = false;
+    Texture texture = new Texture("noMLKK.png");
+    Texture texture1 = new Texture("yesMLKK.png");
     public creatMayLoc(float x, float y, Stage s) {
         super(x, y, s);
-        Texture texture = new Texture("noMLKK.png");
-        Texture texture1 = new Texture("yesMLKK.png");
         textureRegion = new TextureRegion(texture);
         setSize(80,80);
         addListener(new ClickListener() {
@@ -32,5 +33,13 @@ public class creatMayLoc extends MyActor {
                 }
             }
         });
+    }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(isSong){
+            isSong = false;
+            textureRegion = new TextureRegion(texture);
+        }
     }
 }

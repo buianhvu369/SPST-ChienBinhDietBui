@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.GameState;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
 import spst.com.Utils;

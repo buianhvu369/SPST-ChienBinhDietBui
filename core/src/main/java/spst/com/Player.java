@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -108,6 +109,12 @@ public class Player extends MyActor {
                     }
                 }
             }
+        }
+        if(getX() > 1180 && getX() < 1180 + 4*32 - 10){
+            textureRegion = Utils.getRegion(23*16, 0, 16, 6);
+            setSize(32, 12);
+        } else {
+            setSize(32,32);
         }
     }
 }

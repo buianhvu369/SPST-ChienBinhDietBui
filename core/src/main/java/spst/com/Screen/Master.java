@@ -101,7 +101,7 @@ public class Master implements Screen {
     public static Array<Tree> trees = new Array<>();
     Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
-    public static float AQI = 500;
+    public static float AQI = 10;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
     public static int soMayLoc = 5;
@@ -115,7 +115,6 @@ public class Master implements Screen {
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
-    creatMayLoc nutMayLoc;
 
     public static Waterwell gieng;
     public static boolean cutting = false;
@@ -130,6 +129,7 @@ public class Master implements Screen {
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     StartGame game;
+    int timeOfDay = 0;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -229,26 +229,14 @@ public class Master implements Screen {
         });
         bangScienceCross.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                bangScience.setPosition(-1002343,-1101);
-                bangScienceCross.setPosition(-1002343,-1101);
-                thongTinButton.setPosition(-1002343,-1101);
-                nghienCuuButton.setPosition(-1002343,-1101);
-                cheTaoButton.setPosition(-1002343,-1101);
-                caiDatButton.setPosition(-1002343,-1101);
-                line.setHeight(0);
-                line2.setHeight(0);
-                dongThongtin();
-                dongNghienCuu();
-                hienChiSo = false;
-                hienNghienCuu = false;
+                closeScienceBoard();
             }
         });
 
         thongTinButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-
                 dongCheTao();
-                   moThongTin();
+                moThongTin();
             }
         });
 
@@ -336,6 +324,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        calculAQI();
         createCar();
         xulyngaydem();
         if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
@@ -453,6 +442,9 @@ public class Master implements Screen {
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();
+            } else {
+                new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
+                clickSound.play();
             }
         }
 
@@ -545,6 +537,7 @@ public class Master implements Screen {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    closeScienceBoard();
                     dark.addAction(Actions.fadeOut(2));
                     dark.toBack();
                 }
@@ -787,6 +780,28 @@ public class Master implements Screen {
             }
         }
         ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
+    }
+
+    private void calculAQI(){
+        timeOfDay++;
+        int hour = 0;
+        if(timeOfDay%60 == 0){
+            hour = timeOfDay / 60;
+            hour = hour%24;
+            if(hour >= 0 && hour <= 6) {
+                GameState.CO1 += 1;
+                GameState.NO2 += 2;
+                GameState.O3 += 3;
+                GameState.PM10 += 4;
+                GameState.PM2_5 += 5;
+                GameState.SO2 += 6;
+            } else {
+
+            }
+            Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
+
+        }
+
     }
 
     private void createCar() {
@@ -1126,6 +1141,21 @@ public class Master implements Screen {
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
+    }
+
+    private void closeScienceBoard(){
+        bangScience.setPosition(-1002343,-1101);
+        bangScienceCross.setPosition(-1002343,-1101);
+        thongTinButton.setPosition(-1002343,-1101);
+        nghienCuuButton.setPosition(-1002343,-1101);
+        cheTaoButton.setPosition(-1002343,-1101);
+        caiDatButton.setPosition(-1002343,-1101);
+        line.setHeight(0);
+        line2.setHeight(0);
+        dongThongtin();
+        dongNghienCuu();
+        hienChiSo = false;
+        hienNghienCuu = false;
     }
 
 

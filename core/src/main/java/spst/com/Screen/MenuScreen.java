@@ -18,6 +18,7 @@ import spst.com.Button.Exit;
 import spst.com.Button.Guide;
 import spst.com.Button.Start;
 import spst.com.GameState;
+import spst.com.Piece;
 
 public class MenuScreen implements Screen  {
     GlyphLayout layout;
@@ -79,12 +80,14 @@ public class MenuScreen implements Screen  {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.BLUE);
+        ScreenUtils.clear(0,0,0,0);
         camera.update();
         Master.batch.setProjectionMatrix(camera.combined);
         Master.batch.begin();
         game.font.draw(Master.batch, layout, Gdx.graphics.getWidth()/2 - layout.width/2,Gdx.graphics.getHeight()/2 + 2*layout.height);
         Master.batch.end();
+
+        new Piece(0, 0, stage).toBack();
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }

@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import spst.com.Screen.Master;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,5 +77,21 @@ public class Utils {
 
         System.out.println("Danh sách AQI: " + aqiList);
         System.out.printf("Chỉ số AQI tổng: %.2f%n", Collections.max(aqiList));
+    }
+
+    public static void updateAQI( double co1, double no2, double pm10, double pm25, double o3, double so2){
+        Map<String, Double> observedData = Map.of(
+            "PM2.5", pm25,
+            "PM10", pm10,
+            "NO2", no2,
+            "SO2", so2,
+            "CO", co1,
+            "O3", o3
+        );
+        List<Double> aqiList = calculateAQIList(observedData, breakpointsData, indexValues);
+        Master.AQI = Collections.max(aqiList).floatValue();
+        System.out.println("Danh sách AQI: " + aqiList);
+        System.out.printf("Chỉ số AQI tổng: %.2f%n", Master.AQI);
+
     }
 }

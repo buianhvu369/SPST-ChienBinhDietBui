@@ -82,49 +82,50 @@ public class People1 extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(isAlive){
-        time+= delta;
-        timeDirection++;
-        if(timeDirection % 300 == 0 && !isCutting && !isFiring){
-            randomAction = MathUtils.random(0,10);
-            if(randomAction < 7){
-                isJogging = true;
-                isCutting = false;
-                isFiring = false;
-            }else if(randomAction == 7 || randomAction ==  8){
-                isCutting = true;
-                isFiring = false;
-                isJogging = false;
-            }else if(randomAction == 9 || randomAction == 10){
-                isFiring = true;
-                isCutting = false;
-                isJogging = false;
-            }
-            if(isCutting){
-                if(!Master.trees.isEmpty()){
-                    treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
-                    System.out.println("Chat cay thoi anh em!" + Master.trees.size);
-                    mouseX = treeTarget.getX() + 32;
-                    mouseY = treeTarget.getY();
+        if(isAlive) {
+            time += delta;
+            timeDirection++;
+            if (timeDirection % 300 == 0 && !isCutting && !isFiring) {
+                randomAction = MathUtils.random(0, 10);
+                if (randomAction < 7) {
+                    isJogging = true;
+                    isCutting = false;
+                    isFiring = false;
+                } else if (randomAction == 7 || randomAction == 8) {
+                    isCutting = true;
+                    isFiring = false;
+                    isJogging = false;
+                } else if (randomAction == 9 || randomAction == 10) {
+                    isFiring = true;
+                    isCutting = false;
+                    isJogging = false;
+                }
+                if (isCutting) {
+                    if (!Master.trees.isEmpty()) {
+                        treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
+                        System.out.println("Chat cay thoi anh em!" + Master.trees.size);
+                        mouseX = treeTarget.getX() + 32;
+                        mouseY = treeTarget.getY();
+                        isMoving = true;
+                    }
+                }
+                if (isJogging) {
+                    mouseX = MathUtils.random(100, 2200);
+                    mouseY = MathUtils.random(20, 780);
+                    isMoving = true;
+                }
+                if (isFiring) {
+                    mouseX = MathUtils.random(100, 2200);
+                    mouseY = MathUtils.random(20, 780);
+                    rectangle.setSize(30, 26);
+                    rectangle.setPosition(mouseX - 4, mouseY - 4);
                     isMoving = true;
                 }
             }
-            if(isJogging){
-                mouseX = MathUtils.random(100,2200);
-                mouseY = MathUtils.random(20,780);
-                isMoving = true;
-            }if(isFiring){
-                mouseX = MathUtils.random(100,2200);
-                mouseY = MathUtils.random(20,780);
-                rectangle.setSize(30,26);
-                rectangle.setPosition(mouseX - 4,mouseY - 4);
-                isMoving = true;
-            }
-        }
 
-            if(treeTarget != null){
-                Rectangle rec = new Rectangle(treeTarget.getX()+32, treeTarget.getY(), 33, 64);
-                if(rec.overlaps(getBound()) && !treeTarget.isCutDown) {
+            if (treeTarget != null) {
+                Rectangle rec = new Rectangle(treeTarget.getX() + 32, treeTarget.getY(), 33, 64);
+                if (rec.overlaps(getBound()) && !treeTarget.isCutDown) {
                     treeTarget.isCutDown = true;
                     treeTarget.addAction(Actions.sequence(
                         Actions.delay(5),
@@ -132,7 +133,7 @@ public class People1 extends MyActor {
                     ));
                     addAction(Actions.sequence(
                         Actions.delay(5),
-                        Actions.run(()->{
+                        Actions.run(() -> {
                             isCutting = false;
                             treeTarget = null;
                         })
@@ -141,84 +142,84 @@ public class People1 extends MyActor {
                 rec = null;
             }
 
-        if(rectangle.contains(getX(), getY())){
-            Fire fire = new Fire(getX()+32,getY(),getStage());
-            addAction(Actions.sequence(
-                Actions.delay(5),
-                Actions.run(()->{
-                    isFiring = false;
-                    fire.remove();
-                })
-            ));
-            rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f,1000000000.9999999999999999999999999999999999999999999999999999999999f);
+            if (rectangle.contains(getX(), getY())) {
+                Fire fire = new Fire(getX() + 32, getY(), getStage());
+                addAction(Actions.sequence(
+                    Actions.delay(5),
+                    Actions.run(() -> {
+                        isFiring = false;
+                        fire.remove();
+                    })
+                ));
+                rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
 
 
-        }
+            }
 
-        if(isMoving){
-            if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
-                if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
-                    if (mouseX < getX() + 2) {
-                        if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
-                            moveBy(-speed, 0);
+            if (isMoving) {
+                if (Math.abs(getX() - mouseX) < Math.abs(getY() - mouseY)) {
+                    if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
+                        if (mouseX < getX() + 2) {
+                            if (!(getX() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                                moveBy(-speed, 0);
+                            }
+                            time += delta;
+                            textureRegion = animationLeft.getKeyFrame(time);
+                        } else if (mouseX > getX() - 2) {
+                            if (!(getX() < 32 * 8 && getY() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() > 32 * 3)) {
+                                moveBy(speed, 0);
+                            }
+                            time += delta;
+                            textureRegion = animationRight.getKeyFrame(time);
                         }
-                        time += delta;
-                        textureRegion = animationLeft.getKeyFrame(time);
-                    } else if (mouseX > getX() - 2) {
-                        if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
-                            moveBy(speed, 0);
+                    } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
+                        if (getY() - 2 < mouseY) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                                moveBy(0, speed);
+                            }
+                            time += delta;
+                            textureRegion = animationUp.getKeyFrame(time);
+                        } else if (mouseY < getY() + 2) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                                moveBy(0, -speed);
+                            }
+                            time += delta;
+                            textureRegion = animationDown.getKeyFrame(time);
                         }
-                        time += delta;
-                        textureRegion = animationRight.getKeyFrame(time);
                     }
-                } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
-                    if (getY() - 2 < mouseY) {
-                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
-                            moveBy(0, speed);
+                } else {
+                    if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
+                        if (getY() - 2 < mouseY) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                                moveBy(0, speed);
+                            }
+                            time += delta;
+                            textureRegion = animationUp.getKeyFrame(time);
+                        } else if (mouseY < getY() + 2) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                                moveBy(0, -speed);
+                            }
+                            time += delta;
+                            textureRegion = animationDown.getKeyFrame(time);
                         }
-                        time += delta;
-                        textureRegion = animationUp.getKeyFrame(time);
-                    } else if (mouseY < getY() + 2) {
-                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
-                            moveBy(0, -speed);
+                    } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
+                        if (mouseX < getX() + 2) {
+                            if (!(getX() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                                moveBy(-speed, 0);
+                            }
+                            time += delta;
+                            textureRegion = animationLeft.getKeyFrame(time);
+                        } else if (mouseX > getX() - 2) {
+                            if (!(getX() < 32 * 8 && getY() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() > 32 * 3)) {
+                                moveBy(speed, 0);
+                            }
+                            time += delta;
+                            textureRegion = animationRight.getKeyFrame(time);
                         }
-                        time += delta;
-                        textureRegion = animationDown.getKeyFrame(time);
-                    }
-                }
-            } else {
-                if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
-                    if (getY() - 2 < mouseY) {
-                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
-                            moveBy(0, speed);
-                        }
-                        time += delta;
-                        textureRegion = animationUp.getKeyFrame(time);
-                    } else if (mouseY < getY() + 2) {
-                        if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
-                            moveBy(0, -speed);
-                        }
-                        time += delta;
-                        textureRegion = animationDown.getKeyFrame(time);
-                    }
-                } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
-                    if (mouseX < getX() + 2) {
-                        if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
-                            moveBy(-speed, 0);
-                        }
-                        time += delta;
-                        textureRegion = animationLeft.getKeyFrame(time);
-                    } else if (mouseX > getX() - 2) {
-                        if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
-                            moveBy(speed, 0);
-                        }
-                        time += delta;
-                        textureRegion = animationRight.getKeyFrame(time);
                     }
                 }
             }
         }
-}
         if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);
             setSize(32, 12);

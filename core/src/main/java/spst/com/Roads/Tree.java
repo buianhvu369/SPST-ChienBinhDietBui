@@ -19,13 +19,11 @@ public class Tree extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(Master.timeOfDay%60==0){
-            if(GameState.PM10>=0.2f){
-                GameState.PM10 -=0.2f;
-            }
-            if(GameState.CO1 >= 0.15f){
-                GameState.CO1 -= 0.15f;
-            }
+        if(GameState.PM10>=0.2f/60f){
+            GameState.PM10 -=0.2f/60f;
+        }
+        if(GameState.CO1 >= 0.15f/60f){
+            GameState.CO1 -= 0.15f/60f;
         }
     }
 

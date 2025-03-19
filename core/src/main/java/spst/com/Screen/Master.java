@@ -102,9 +102,10 @@ public class Master implements Screen {
     public static Array<Tree> trees = new Array<>();
     Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
-    public static float AQI = 10;
+    public static float AQI = 180;
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 10;
+    public static int soBienCam = 5;
     public static int soMayLoc = 5;
     public static boolean isCNX = false;
     public static boolean isGTX = false;
@@ -122,6 +123,7 @@ public class Master implements Screen {
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
     creatCamera taoCamera;
+    creatSign taoSign;
     float ktHetEvent = 2;
     boolean ktDangChayEvent = false;
     public static Waterwell gieng;
@@ -231,6 +233,7 @@ public class Master implements Screen {
         treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
         taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-100,noMoveStage);
         taoCamera = new creatCamera(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoSign = new creatSign(Gdx.graphics.getWidth()-400,Gdx.graphics.getHeight()-100,noMoveStage);
 
         createTree();
         createWaste();
@@ -513,7 +516,22 @@ public class Master implements Screen {
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
                 Master.nhapTenNormalCamera();
-            } else {
+            } else if(Master.whatActionIfClickMouse.equals("createSign")){
+                if(Master.soBienCam > 0 ) {
+                    boolean isFree = true;
+                    for(Rectangle rec : noPlaced){
+                        if(rec.contains(mouse.x,mouse.y)){
+                            isFree = false;
+                            break;
+                        }
+                    }
+                    if(isFree){
+                        Master.soBienCam--;
+                        new Sign(mouse.x-16,mouse.y,random.nextBoolean(),stage);
+                        System.out.println("hahajsdh");
+                    }
+                }
+            }else {
                 new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
                 clickSound.play();
             }
@@ -588,13 +606,13 @@ public class Master implements Screen {
 
     private void xuLyCNXVaGTX(){
         //xu ly CNX
-        if(GameState.SO2 >= 10*GameState.levelcongnghexanh){
-            GameState.SO2 -= 10*GameState.levelcongnghexanh;
+        if(GameState.SO2 >= 10*GameState.levelcongnghexanh/60f){
+            GameState.SO2 -= 10*GameState.levelcongnghexanh/60f;
         }else {
             GameState.SO2 = 0;
         }
-        if(GameState.CO1 >= 8*GameState.levelcongnghexanh){
-            GameState.CO1 -= 8*GameState.levelcongnghexanh;
+        if(GameState.CO1 >= 8*GameState.levelcongnghexanh/60f){
+            GameState.CO1 -= 8*GameState.levelcongnghexanh/60f;
         }else {
             GameState.CO1 = 0;
         }
@@ -604,13 +622,13 @@ public class Master implements Screen {
             nangCapCNX.setColor(1,1,1,1);
         }
         //xu ly GTX
-        if(GameState.SO2 >= 8*GameState.levelgiaothongxanh){
-            GameState.SO2 -= 8*GameState.levelgiaothongxanh;
+        if(GameState.SO2 >= 8*GameState.levelgiaothongxanh/60f){
+            GameState.SO2 -= 8*GameState.levelgiaothongxanh/60f;
         }else {
             GameState.SO2 = 0;
         }
-        if(GameState.CO1 >= 6*GameState.levelgiaothongxanh){
-            GameState.CO1 -= 6*GameState.levelgiaothongxanh;
+        if(GameState.CO1 >= 6*GameState.levelgiaothongxanh/60f){
+            GameState.CO1 -= 6*GameState.levelgiaothongxanh/60f;
         }else {
             GameState.CO1 = 0;
         }
@@ -981,8 +999,8 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 10) {
-                GameState.SO2 += 30;
-                GameState.PM2_5 += 20;
+                GameState.SO2 += 30/60f;
+                GameState.PM2_5 += 20/60f;
             } else if(hour == 11) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
@@ -1021,9 +1039,9 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 12) {
-                GameState.O3 += 35;
+                GameState.O3 += 35/60f;
             } else if(hour == 13) {
-                GameState.O3 += 20;
+                GameState.O3 += 20/60f;
             } else if(hour == 14) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
@@ -1062,8 +1080,8 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 15) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 20/60f;
+                GameState.CO1 += 15/60f;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20 -> {
@@ -1074,8 +1092,8 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 16) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 20/60f;
+                GameState.CO1 += 15/60f;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20,19 -> {
@@ -1086,8 +1104,8 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 17) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 20/60f;
+                GameState.CO1 += 15/60f;
             } else if(hour == 18) {
                 int ran = random.nextInt(1,101);
                 switch (ran){
@@ -1113,8 +1131,8 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 19) {
-                GameState.PM2_5 += 25;
-                GameState.SO2 += 20;
+                GameState.PM2_5 += 25/60f;
+                GameState.SO2 += 20/60f;
                 int ran = random.nextInt(1,101);
                 switch (ran) {
                     case 1, 20, 19, 45, 67, 23, 55,5,3 -> {

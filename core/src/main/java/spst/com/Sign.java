@@ -18,7 +18,7 @@ public class Sign extends MyActor {
         }else {
             textureRegion = new TextureRegion(new Texture("signCAMCHATCAY.png"));
         }
-        setSize(64,64);
+        setSize(45,45);
     }
 
     @Override

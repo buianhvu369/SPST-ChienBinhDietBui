@@ -84,6 +84,10 @@ public class Master implements Screen {
     Cross bangScienceCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
+
+    FactoryCenter factoryCenter;
+    HotelCenter hotelCenter;
+    ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
 
 
@@ -167,9 +171,9 @@ public class Master implements Screen {
         startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
         startButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>800) {
+                if(GameState.money>500) {
                     Master.soMayLoc++;
-                    GameState.money-=800;
+                    GameState.money-=500;
                 }
 
             }
@@ -177,10 +181,10 @@ public class Master implements Screen {
         wasteButton = new TextButton("Mua một biển cấm  ", style);
         wasteButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>200&&GameState.greenscore >5) {
+                if(GameState.money>300&&GameState.greenscore >5) {
                     GameState.greenscore  -= 5;
-                    Master.soCamDotRac++;
-                    GameState.money-=200;
+                    Master.soBienCam++;
+                    GameState.money-=300;
                 }
             }
         });
@@ -195,13 +199,14 @@ public class Master implements Screen {
                 }
             }
         });
+
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
         litterButton = new TextButton("Mua một cái camera ", style);
         litterButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >500){
+                if(GameState.money >300){
                     soCamera++;
-                    GameState.money-=500;
+                    GameState.money-=300;
                 }
             }
         });
@@ -304,7 +309,16 @@ public class Master implements Screen {
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
-
+        Rectangle rectangle = new Rectangle(21*32,15*32,32*3,32*10);
+        noPlaced.add(rectangle);
+        Rectangle rectangle1 = new Rectangle(0, 11*32,80*32,32*3);
+        noPlaced.add(rectangle1);
+        Rectangle rectangle2 = new Rectangle(9*32,0,3*32,32*10);
+        noPlaced.add(rectangle2);
+        Rectangle rectangle3 = new Rectangle(25*32,0,3*32,32*10);
+        noPlaced.add(rectangle3);
+        Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
+        noPlaced.add(rectangle4);
         Utils.test();
     }
 
@@ -492,6 +506,9 @@ public class Master implements Screen {
         ScreenUtils.clear(Color.GRAY);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        if(Gdx.input.isTouched()){
+            System.out.println("x = " + Gdx.input.getX()/32 + " y = " + (Gdx.graphics.getHeight()/32 - Gdx.input.getY()/32));
+        }
 
         taoChatCay();
         xuLyCNXVaGTX();
@@ -695,7 +712,30 @@ public class Master implements Screen {
                 turnOffTraffic.toFront();
             }
         }
+        if(player.getBound().overlaps(scienceCenter.getBound())){
+            if(player.getY()<scienceCenter.getY()){
+                player.toFront();
 
+            }else {
+                scienceCenter.toFront();
+                scienceDoor.toFront();
+            }
+        }
+        if(player.getBound().overlaps(hotelCenter.getBound())){
+            if(player.getY()<hotelCenter.getY()){
+                player.toFront();
+            }else {
+                hotelCenter.toFront();
+                hotelDoor.toFront();
+            }
+        }
+        if(player.getBound().overlaps(factoryCenter.getBound())){
+            if(player.getY()<factoryCenter.getY()){
+                player.toFront();
+            }else {
+                factoryCenter.toFront();
+            }
+        }
         stage.act();
         truck.toFront();
         stage.draw();
@@ -814,9 +854,9 @@ public class Master implements Screen {
         }
         if(gio1phan60 == 60*24){
             day++;
-            if(day % 30 == 0 ){
-                GameState.money += GameState.danso/20;
-            }
+            GameState.money += GameState.danso/20/30;
+            GameState.ernegy += 80;
+
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -1363,11 +1403,10 @@ public class Master implements Screen {
         new LetterP(x+32,y,stage);
     }
     private void createHouses(){
-        new ScienceCenter(28*32,32*16,stage);
+        scienceCenter = new ScienceCenter(28*32,32*16,stage);
         scienceDoor = new MordernDoor(32*29,32*16,stage);
-        new FactoryCenter(13 * 32, 0, stage);
-        new MordernDoor(32*14,0,stage);
-        new HotelCenter(32*32,32*5,stage) ;
+        factoryCenter = new FactoryCenter(13 * 32, 32, stage);
+        hotelCenter = new HotelCenter(32*32,32*5,stage) ;
         hotelDoor = new MordernDoor(32*33,32*5,stage);
     }
 

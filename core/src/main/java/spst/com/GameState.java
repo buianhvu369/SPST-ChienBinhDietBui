@@ -22,7 +22,7 @@ public class GameState{
     public static float CO1 = 10;
     public static float O3 = 80;
     public static float PM2_5 = 100;
-    public static float PM10 = 150;
+    public static float PM10 = 100;
     public static float AQISO2 = 0;
     public static float AQINO2 = 0;
     public static float AQICO1 = 0;

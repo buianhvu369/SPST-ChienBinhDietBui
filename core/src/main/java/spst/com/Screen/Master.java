@@ -115,6 +115,7 @@ public class Master implements Screen {
     Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 180;
+    public static char WLK = 'K';
     public static String whatActionIfClickMouse = "move";
     public  static int amountSeed = 0;
     public static int soBienCam = 0;
@@ -493,6 +494,8 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        tinhThangThua();
+        tanggiamdanso();
         taoChatCay();
         xuLyCNXVaGTX();
         ktHetEven();
@@ -832,7 +835,6 @@ public class Master implements Screen {
             if(day % 30 == 0 ){
                 GameState.money += GameState.danso/20;
             }
-            sukiensau2ngay();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -841,9 +843,6 @@ public class Master implements Screen {
                 }
             },0);
         }
-    }
-    private void sukiensau2ngay(){
-        new Tree(player.getX(),player.getY(),stage);
     }
     private void showBangScience(float x, float y){
         if(!hienChiSo&&Math.abs(player.getX()-scienceDoor.getX())<32*6 && Math.abs(player.getY()-scienceDoor.getY()) < 32*6){
@@ -1092,6 +1091,25 @@ public class Master implements Screen {
         }
     }
 
+    private void tinhThangThua(){
+        if(AQI>300){
+            GameState.event = "YOU LOSE";
+            new FloatingNews(random.nextInt(0,32*75)
+                ,random.nextInt(0,800)
+                , stage,"YOU LOSE"
+                ,new Color(random.nextFloat(0,1),random.nextFloat(0,1)
+                ,random.nextFloat(0,1),random.nextFloat(0,1)));
+            WLK = 'L';
+        }
+        if(WLK == 'L'){
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.exit();
+                }
+            },2);
+        }
+    }
     private void calculAQI(){
         timeOfDay++;
         int hour = 0;
@@ -1115,6 +1133,7 @@ public class Master implements Screen {
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
+                        GameState.danso--;
                     }
                     case 2,24,26 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1155,6 +1174,7 @@ public class Master implements Screen {
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
+                        GameState.danso--;
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1196,6 +1216,7 @@ public class Master implements Screen {
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
+                        GameState.danso--;
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1235,6 +1256,7 @@ public class Master implements Screen {
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
+                        GameState.danso--;
                     }
                 }
             } else if(hour == 16) {
@@ -1247,6 +1269,7 @@ public class Master implements Screen {
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
+                        GameState.danso--;
                     }
                 }
             } else if(hour == 17) {
@@ -1266,6 +1289,7 @@ public class Master implements Screen {
                             GameState.event = "Tai nạn giao thông";
                             GameState.NO2 += 30;
                             GameState.CO1 += 20;
+                            GameState.danso-= 5;
                         }
                     }
                     case 49,11,68,56,87 -> {
@@ -1287,12 +1311,25 @@ public class Master implements Screen {
                         GameState.SO2 += 15;
                         GameState.NO2 += 20;
                         GameState.PM2_5 += 25;
+                        switch (ran){
+                            case 1 -> GameState.danso-=1;
+                            case 20 -> GameState.danso-=2;
+                            case 45 -> GameState.danso-=3;
+                            case 55 -> GameState.danso-=4;
+                        }
                         if (ran == 20) {
                             System.out.println("Chay 2 ngoi nha");
                             GameState.event = "Cháy 2 ngôi nhà";
                             GameState.SO2 += 30;
                             GameState.NO2 += 40;
                             GameState.PM2_5 += 50;
+                            int ran100 = random.nextInt(1,10);
+                            switch (ran){
+                                case 1 -> GameState.danso-=2;
+                                case 2 -> GameState.danso-=3;
+                                case 3 -> GameState.danso-=4;
+                                case 4 -> GameState.danso-=5;
+                            }
                         }
                     }
                 }
@@ -1334,22 +1371,42 @@ public class Master implements Screen {
                 GameState.CO1 += 8;
             }
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
-            new FloatingNews(500,400,noMoveStage, GameState.event,Color.YELLOW);
+            new FloatingNews(0,500,noMoveStage, GameState.event,Color.YELLOW);
         }
 
     }
 
+    private void tanggiamdanso(){
+        if(AQI<100){
+            GameState.xuhuongdantangorgiam = "giảm mạnh dân số";
+            if(timeOfDay%(24*60)==0){
+                createRandomPeople();
+                GameState.danso += Math.round(GameState.danso*2/100/30);
+            }
+        }else if(AQI<=200){
+            GameState.xuhuongdantangorgiam = "giảm dân số";
+        }else if(AQI>200){
+            GameState.xuhuongdantangorgiam = "tăng dân số";
+            if(timeOfDay%(24*60)==0){
+                createRandomPeople();
+                GameState.danso -= Math.round(GameState.danso*5/100/30);
+            }
+        }
+    }
     private void taoChatCay(){
         if(timeOfDay%180==0){
             if(random.nextBoolean()){
-                switch (random.nextInt(1,6)){
-                    case 1 -> new People1(32*5+1184,32,stage,true);
-                    case 2 -> new People2(32*5+1184,32,stage,true);
-                    case 3 -> new People3(32*5+1184,32,stage,true);
-                    case 4 -> new People4(32*5+1184,32,stage,true);
-                    case 5 -> new People5(32*5+1184,32,stage,true);
-                }
+                createRandomPeople();
             }
+        }
+    }
+    private void createRandomPeople(){
+        switch (random.nextInt(1,6)){
+            case 1 -> new People1(32*5+1184,32,stage,true);
+            case 2 -> new People2(32*5+1184,32,stage,true);
+            case 3 -> new People3(32*5+1184,32,stage,true);
+            case 4 -> new People4(32*5+1184,32,stage,true);
+            case 5 -> new People5(32*5+1184,32,stage,true);
         }
     }
     private void createCar() {

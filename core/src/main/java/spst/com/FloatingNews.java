@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 public class FloatingNews extends Actor {
     private String text;
     private BitmapFont font;
-
+    private Color myColor;
     public FloatingNews(float x,float y,Stage s, String news, Color color) {
         text = news;
         font = StartGame.font3; // Font mặc định của LibGDX
@@ -28,11 +28,12 @@ public class FloatingNews extends Actor {
         System.out.println(news);
         toFront();
         s.addActor(this);
+        myColor = color;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        font.setColor(1, 1, 1, getColor().a * parentAlpha);
+        font.setColor(myColor);
         font.draw(batch, text, getX(), getY());
     }
 }

@@ -183,9 +183,6 @@ public class People2 extends MyActor {
                 addAction(Actions.sequence(
                         Actions.fadeOut(6),
                         Actions.run(()->{
-                                new FloatingNews(0,Gdx.graphics.getHeight()/2f,Master.noMoveStage,
-                                    "Có 1 người chết, cảnh sát phát hiện ra xác nạn nhân ở bờ sông Hồng, hiện các cơ " +
-                                        "quan chức năng đang điều tra về vụ việc này", Color.RED);
                                 GameState.danso--;
                                 remove();
                             }
@@ -203,7 +200,6 @@ public class People2 extends MyActor {
                 addAction(Actions.sequence(
                     Actions.fadeOut(6),
                     Actions.run(()->{
-                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"Đã có 1 tài xế đâm người và bỏ chạy, hiện cơ quan chức năng đang điều tra thêm", Color.YELLOW);
                         GameState.danso--;
                         remove();
                     })

@@ -9,8 +9,6 @@ public class GameState{
     public static int ernegy=200;
     public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";
-    public static int thue = 0;
-    public static int phat = 0;
     public static String event = "";
     public static String camxucnguoidan = "Vui vẻ.";
     public static String lydocamxucnguoidan = "Thuế = 0; tiền phạt = 0; số biển cấm đốt rác = 0; LUẬT PHÁP = 0.";
@@ -43,8 +41,6 @@ public class GameState{
         preferences.putInteger( "ernegy", ernegy);
         preferences.putInteger( "danso", danso);
         preferences.putString( "xuhuongdantangorgiam", xuhuongdantangorgiam);
-        preferences.putInteger( "thue", thue);
-        preferences.putInteger( "phat", phat);
         preferences.putInteger( "levelcongnghexanh", levelcongnghexanh);
         preferences.putInteger( "levelgiaothongxanh", levelgiaothongxanh);
         preferences.putString( "event", event);
@@ -66,8 +62,6 @@ public class GameState{
         ernegy = preferences.getInteger("ernegy", 0);
         danso = preferences.getInteger("danso", 100000);
         xuhuongdantangorgiam = preferences.getString("xuhuongdantangorgiam", "tăng");
-        thue = preferences.getInteger("thue", 0);
-        phat = preferences.getInteger("phat", 0);
         levelcongnghexanh = preferences.getInteger("levelcongnghexanh",1);
         levelgiaothongxanh = preferences.getInteger("levelgiaothongxanh",1);
         event = preferences.getString("event","");

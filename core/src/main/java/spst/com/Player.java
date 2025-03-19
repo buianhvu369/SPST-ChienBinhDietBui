@@ -139,6 +139,8 @@ public class Player extends MyActor {
 
         for(Car c : Master.cars){
             if(getBound().overlaps(c.getBound())){
+                c.setPosition(-247387907,-782457328);
+                c.remove();
                 isAlive = false;
                 isBep = true;
                 addAction(Actions.sequence(

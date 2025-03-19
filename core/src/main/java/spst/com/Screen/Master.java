@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -66,6 +67,10 @@ public class Master implements Screen {
     Stage stage;
     public static Stage noMoveStage;
     private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
+    GlyphLayout layout = new GlyphLayout();
+
+
+    Replay replay;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
@@ -73,7 +78,7 @@ public class Master implements Screen {
     ButtonRight buttonRightMLKK;
     ButtonLeft cameraLookingLeft;
     ButtonRight cameraLookingRight;
-    WhiteButton cameraLooking;
+    SelectCamera cameraLooking;
     WhiteButton nangCapCNX;
     WhiteButton nangCapGTX;
     CheTao cheTaoButton;
@@ -165,6 +170,8 @@ public class Master implements Screen {
         style.fontColor = Color.RED;
         style.up = new TextureRegionDrawable(button);
 
+        layout.width = 300;
+        layout.height = 40;
         startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
         startButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -261,6 +268,7 @@ public class Master implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
+        replay = new Replay(-10080,-32760,noMoveStage);
         thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
         nangCapMLKK = new WhiteButton(-1000,-1000,noMoveStage);
@@ -273,9 +281,9 @@ public class Master implements Screen {
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
-        cameraLookingLeft = new ButtonLeft(400+100+20,Gdx.graphics.getHeight()-13-38-100,noMoveStage);
-        cameraLooking = new WhiteButton(436+100+20,Gdx.graphics.getHeight()-64-100,noMoveStage);
-        cameraLookingRight = new ButtonRight(436+370+36-26+100+20,Gdx.graphics.getHeight()-13-38-100,noMoveStage);
+        cameraLookingLeft = new ButtonLeft(400,Gdx.graphics.getHeight()-100,noMoveStage);
+        cameraLooking = new SelectCamera(400+26,Gdx.graphics.getHeight()-100,noMoveStage);
+        cameraLookingRight = new ButtonRight(400+26+80,Gdx.graphics.getHeight()-100,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -319,6 +327,13 @@ public class Master implements Screen {
         bangScienceCross.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 closeScienceBoard();
+            }
+        });
+
+        replay.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                WLK = 'K';
+                game.setScreen(game.menuScreen);
             }
         });
 
@@ -471,7 +486,7 @@ public class Master implements Screen {
         textFieldStyle.font = StartGame.font;
         textFieldStyle.fontColor = Color.BLACK;
 
-        textFieldStyle.background = new TextureRegionDrawable(Utils.getRegion(0,0,16,16));
+        textFieldStyle.background = new TextureRegionDrawable(new Texture("input.png"));
 
         // Tạo TextField
         textField = new TextField("", textFieldStyle);
@@ -705,14 +720,17 @@ public class Master implements Screen {
         noMoveStage.act();
         noMoveStage.draw();
         batch.begin();
+        try{
+            layout.setText(game.font3,"Camera: " + normalCameras.get(soCuaCameraDangLooking).name);
+        }catch (Exception e){
+            layout.setText(game.font3,"Chưa có camera");
+        }
         game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soCamera,Gdx.graphics.getWidth() - 50 -200, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soBienCam,Gdx.graphics.getWidth() - 50 -300, Gdx.graphics.getHeight()-50);
-        try {
-            game.font.draw(batch, "Camera: " + normalCameras.get(soCuaCameraDangLooking).name, Gdx.graphics.getWidth() - 50 - 300-32, Gdx.graphics.getHeight()-120);
-        }catch (Exception ignored){}
-        if(hienChiSo){
+        game.font3.draw(batch, layout, 466-layout.width/2f, Gdx.graphics.getHeight()-100);
+            if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -1105,7 +1123,29 @@ public class Master implements Screen {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    Gdx.app.exit();
+                    dark.toFront();
+                    dark.setColor(0,0,0,0f);if(WLK == 'L'){
+                        Timer.schedule(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                dark.toFront();
+                                dark.setColor(0,0,0,0f);
+                                new Piece(0,0,noMoveStage).toFront();
+                                replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
+                                replay.toFront();
+                            }
+                        },2);
+                    }
+                }
+            },2);
+        }if(WLK == 'W'){
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dark.toFront();
+                    dark.setColor(0,0,0,0f);
+                    replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
+                    replay.toFront();
                 }
             },2);
         }

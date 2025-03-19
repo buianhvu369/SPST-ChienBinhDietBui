@@ -10,24 +10,13 @@ import spst.com.Utils;
 
 public class NormalCamera extends MyActor {
     public String name;
+    public boolean isOpen = false;
+
     public NormalCamera(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("camera2.png"));
-        setSize(32,32);
-        setOrigin(getWidth()/2f,getHeight()/2f);
+        setSize(32, 32);
+        setOrigin(getWidth() / 2f, getHeight() / 2f);
     }
-    public void doiCamera(){
-        if(getX() <= Gdx.graphics.getWidth()/2f){
-            getStage().getCamera().position.x = Gdx.graphics.getWidth()/2f;
-        }else {
-            getStage().getCamera().position.x = getX()+getWidth()/2f;
-        }
-        if(getY() <= Gdx.graphics.getHeight()/2f){
-            getStage().getCamera().position.y = Gdx.graphics.getHeight()/2f;
-        }else{
-            getStage().getCamera().position.y = getY()+getHeight()/2f;
-        }
-        OrthographicCamera camera = (OrthographicCamera) getStage().getViewport().getCamera();
-        camera.zoom = 0.3f;
-    }
+
 }

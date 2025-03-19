@@ -34,6 +34,9 @@ public class Sign extends MyActor {
         }else{
             GameState.SO2 = 0;
         }
+        if(isFire){
+            textureRegion = new TextureRegion(new Texture("signfire.png"));
+        }
     }
 //
 //    @Override

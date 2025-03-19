@@ -26,8 +26,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
 import spst.com.*;
 import spst.com.Button.*;
-import spst.com.Button.ButtonTrongNghienCuuScreen.ButtonLeftMLKK;
-import spst.com.Button.ButtonTrongNghienCuuScreen.ButtonRightMLKK;
+import spst.com.Button.ButtonLeft;
+import spst.com.Button.ButtonRight;
 import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
@@ -38,7 +38,7 @@ import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
 //import spst.com.People.People;
-import spst.com.People.People1;
+import spst.com.People.*;
 import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
@@ -67,8 +67,11 @@ public class Master implements Screen {
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
-    ButtonLeftMLKK buttonLeftMLKK;
-    ButtonRightMLKK buttonRightMLKK;
+    ButtonLeft buttonLeftMLKK;
+    ButtonRight buttonRightMLKK;
+    ButtonLeft cameraLookingLeft;
+    ButtonRight cameraLookingRight;
+    WhiteButton cameraLooking;
     WhiteButton nangCapCNX;
     WhiteButton nangCapGTX;
     CheTao cheTaoButton;
@@ -97,6 +100,7 @@ public class Master implements Screen {
     TextButton litterButton;
     TextButton  deforestButton;
 
+    public static Array<Car> cars = new Array<>();
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
     public static Array<Tree> trees = new Array<>();
@@ -109,7 +113,7 @@ public class Master implements Screen {
     public static int soMayLoc = 0;
     public static boolean isCNX = false;
     public static boolean isGTX = false;
-    public static int soCamera = 0;
+    public static int soCamera = 20;
     public static int soCamDotRac =  2;
     public static int soCamChatCay = 2;
     public static int sohieucuaMLKKdangchondenangcap = 0;
@@ -119,6 +123,7 @@ public class Master implements Screen {
     public static int growth = 0;
     public Array<Rice>rices ;
     Array<NormalCamera> normalCameras = new Array<>();
+    int soCuaCameraDangLooking = 0;
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
@@ -215,13 +220,17 @@ public class Master implements Screen {
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
         nangCapMLKK = new WhiteButton(-1000,-1000,noMoveStage);
         nangCapMLKK.setHeight(nangCapMLKK.getHeight()*2);
-        buttonLeftMLKK = new ButtonLeftMLKK(-1000,-1000,noMoveStage);
-        buttonRightMLKK = new ButtonRightMLKK(-1000,-1000,noMoveStage);
+        buttonLeftMLKK = new ButtonLeft(-1000,-1000,noMoveStage);
+        buttonRightMLKK = new ButtonRight(-1000,-1000,noMoveStage);
         nangCapCNX = new WhiteButton(-1000,-1000,noMoveStage);
         nangCapGTX = new WhiteButton(-1000,-1000,noMoveStage);
         cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
+
+        cameraLookingLeft = new ButtonLeft(400+100+20,Gdx.graphics.getHeight()-13-38-100,noMoveStage);
+        cameraLooking = new WhiteButton(436+100+20,Gdx.graphics.getHeight()-64-100,noMoveStage);
+        cameraLookingRight = new ButtonRight(436+370+36-26+100+20,Gdx.graphics.getHeight()-13-38-100,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -245,10 +254,7 @@ public class Master implements Screen {
         bangScience = new BangScience(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
-        ///rain = new Rain(0,0,noMoveStage);
         dark.setTouchable(Touchable.disabled);
-        //rain.setTouchable(Touchable.disabled);
-        //muaPhuBay();
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
@@ -325,22 +331,54 @@ public class Master implements Screen {
             }
         });
 
-        nangCapGTX.addListener(new ClickListener() {
+        cameraLookingLeft.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(isGTX && GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
-                    GameState.levelgiaothongxanh++;
-                    GameState.money -= 1500;
-                    GameState.ernegy -= 30;
-                    GameState.greenscore -= 30;
+                if(soCuaCameraDangLooking>0){
+                    soCuaCameraDangLooking--;
                 }
             }
         });
 
-        cheTaoButton.addListener(new ClickListener() {
+        cameraLookingRight.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                moCheTao();
+                if(soCuaCameraDangLooking+1<normalCameras.size){
+                    soCuaCameraDangLooking++;
+                }
             }
         });
+
+        try {
+        cameraLooking.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                try{
+
+                        NormalCamera currentCamera = normalCameras.get(soCuaCameraDangLooking);
+                        OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
+                        if(camera.zoom == 1f) {
+                            camera.zoom = 0.3f;
+                            if (currentCamera.getX() <= Gdx.graphics.getWidth() / 2f) {
+                                stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
+                            } else {
+                                stage.getCamera().position.x = currentCamera.getX() + currentCamera.getWidth() / 2f;
+                            }
+                            if (currentCamera.getY() <= Gdx.graphics.getHeight() / 2f) {
+                                stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
+                            } else {
+                                stage.getCamera().position.y = currentCamera.getY() + currentCamera.getHeight() / 2f;
+                            }
+                        } else {
+                            camera.zoom = 1f;
+                        }
+
+                }catch (Exception ignored){}
+                System.out.println("654321");
+
+                }
+            });
+        }catch (Exception ignored){
+            System.out.println(soCuaCameraDangLooking);
+            System.out.println("123456");
+        }
         factoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
@@ -404,19 +442,22 @@ public class Master implements Screen {
         calculAQI();
         createCar();
         xulyngaydem();
-        if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
-            stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
-        }else if((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()){
-            stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
-        }else if(player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2){
-            stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
-        }
-        if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
-            stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
-        }else if((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()){
-            stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
-        }else if(player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2){
-            stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
+        OrthographicCamera c = (OrthographicCamera) stage.getViewport().getCamera();
+        if(c.zoom == 1f) {
+            if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
+                stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
+            } else if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()) {
+                stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
+            } else if (player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
+                stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
+            }
+            if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
+                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+            } else if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()) {
+                stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
+            } else if (player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
+                stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
+            }
         }
 
         growth++;
@@ -461,17 +502,6 @@ public class Master implements Screen {
                 }
 
             }
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            for(NormalCamera n : normalCameras){
-                if(n.name.equals("camera")){
-                    n.doiCamera();
-                }
-            }
-        }else {
-            OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
-            camera.zoom = 1f;
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
@@ -577,6 +607,9 @@ public class Master implements Screen {
         game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soCamera,Gdx.graphics.getWidth() - 50 -200, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soBienCam,Gdx.graphics.getWidth() - 50 -300, Gdx.graphics.getHeight()-50);
+        try {
+            game.font.draw(batch, "Camera: " + normalCameras.get(soCuaCameraDangLooking).name, Gdx.graphics.getWidth() - 50 - 300-32, Gdx.graphics.getHeight()-120);
+        }catch (Exception ignored){}
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -951,7 +984,6 @@ public class Master implements Screen {
                 Water water = new Water(32*5 + 32 * i, 800 - 32 * y, stage);
             }
         }
-        ////ScienceHouse scienceHouse = new ScienceHouse(32 * 13, 0, stage);
     }
 
     private void calculAQI(){
@@ -1196,14 +1228,28 @@ public class Master implements Screen {
                 GameState.CO1 += 8;
             }
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
-            new FloatingNews(noMoveStage, GameState.event);
+            new FloatingNews(500,400,noMoveStage, GameState.event,Color.YELLOW);
         }
 
     }
 
+    private void taoChatCay(){
+        if(timeOfDay%180==0){
+            if(random.nextBoolean()){
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*5+1184,32,stage,true);
+                    case 2 -> new People2(32*5+1184,32,stage,true);
+                    case 3 -> new People3(32*5+1184,32,stage,true);
+                    case 4 -> new People4(32*5+1184,32,stage,true);
+                    case 5 -> new People5(32*5+1184,32,stage,true);
+                }
+            }
+        }
+    }
     private void createCar() {
         if(gio1phan60%180 == 0){
-            new Car(0,0,stage);//dat x,y cho hop ly vi Car extends MyActor chu vao trong car no dat lai
+            Car car = new Car(0,0,stage);//dat x,y cho hop ly vi Car extends MyActor chu vao trong car no dat lai
+            cars.add(car);
         }
     }
     private void createParking(float x, float y){

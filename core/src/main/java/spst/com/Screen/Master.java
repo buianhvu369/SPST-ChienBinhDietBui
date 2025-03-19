@@ -95,7 +95,13 @@ public class Master implements Screen {
     TextButton factoryButton;
     TextButton trafficButton;
     TextButton litterButton;
-    TextButton  deforestButton;
+    TextButton  turnOffMLKK;
+    TextButton  turnOnMLKK;
+    TextButton  turnOffFactory;
+    TextButton  turnOnFactory;
+    TextButton  turnOffTraffic;
+    TextButton  turnOnTraffic;
+
 
     Array<MyActor> roads = new Array<>();
     Array<Waste> wastes = new Array<>();
@@ -113,6 +119,7 @@ public class Master implements Screen {
     public static int soCamDotRac =  2;
     public static int soCamChatCay = 2;
     public static int sohieucuaMLKKdangchondenangcap = 0;
+    public boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
@@ -128,6 +135,9 @@ public class Master implements Screen {
     boolean ktDangChayEvent = false;
     public static Waterwell gieng;
     public static boolean cutting = false;
+    public static boolean mLKKAction = true;
+    public static boolean factoryAction = true;
+    public  static boolean trafficAction = true;
     int speedX = -2 ;
     int  luotcat = 1;
     public static boolean hienChiSo = false;
@@ -157,7 +167,7 @@ public class Master implements Screen {
 
             }
         });
-        wasteButton = new TextButton("Mua một biển cấm đốt rác ", style);
+        wasteButton = new TextButton("Mua một biển cấm  ", style);
         wasteButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>200&&GameState.greenscore >5) {
@@ -168,7 +178,7 @@ public class Master implements Screen {
             }
         });
         factoryButton = new TextButton("Tạo công nghệ xanh ", style);
-        plantButton = new TextButton("Mua một cây đột biến", style);
+        plantButton = new TextButton("Mua một cây xanh", style);
         plantButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>100&&GameState.greenscore  >5) {
@@ -179,16 +189,6 @@ public class Master implements Screen {
             }
         });
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
-        deforestButton = new TextButton("Mua một biển cấm chặt cây ", style);
-        deforestButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>200&&GameState.greenscore  >5) {
-                    soCamChatCay++;
-                    GameState.greenscore -= 5;
-                    GameState.money-=200;
-                }
-            }
-        });
         litterButton = new TextButton("Mua một cái camera ", style);
         litterButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -196,6 +196,48 @@ public class Master implements Screen {
                     soCamera++;
                     GameState.money-=500;
                 }
+            }
+        });
+
+        turnOffMLKK = new TextButton(" Tắt máy lọc không khí  ", style);
+        turnOffMLKK.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                mLKKAction = true;
+            }
+        });
+
+        turnOnMLKK = new TextButton(" Bật máy lọc không khí  ", style);
+        turnOnMLKK.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                mLKKAction = false;
+            }
+        });
+
+        turnOffFactory = new TextButton(" Tắt công nghệ sản xuất xanh  ", style);
+        turnOffFactory.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                factoryAction = true;
+            }
+        });
+
+        turnOnFactory = new TextButton(" Bật công nghệ sản xuất xanh ", style);
+        turnOnFactory.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                factoryAction = false;
+            }
+        });
+
+        turnOffTraffic = new TextButton(" Tắt hệ thống giao thông xanh", style);
+        turnOffTraffic.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                trafficAction = true;
+            }
+        });
+
+        turnOnTraffic = new TextButton(" Bật hệ thống giao thông xanh ", style);
+        turnOnTraffic.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                trafficAction = false;
             }
         });
 
@@ -275,6 +317,8 @@ public class Master implements Screen {
         thongTinButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 dongCheTao();
+                isOpenSetting = false;
+                dongCaiDat();
                 moThongTin();
             }
         });
@@ -283,6 +327,8 @@ public class Master implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 dongCheTao();
+                isOpenSetting = false;
+                dongCaiDat();
                 moNghienCuu();
 
             }
@@ -338,6 +384,8 @@ public class Master implements Screen {
 
         cheTaoButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                isOpenSetting = false;
+                dongCaiDat();
                 moCheTao();
             }
         });
@@ -567,6 +615,48 @@ public class Master implements Screen {
             }
         }
 
+        if(isOpenSetting){
+            if(mLKKAction){
+                turnOffMLKK.remove();
+                turnOnMLKK.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40);
+                turnOnMLKK.setSize(600, 80);
+                noMoveStage.addActor(turnOnMLKK);
+                turnOnMLKK.toFront();
+            }else if (!mLKKAction){
+                turnOnMLKK.remove();
+                turnOffMLKK.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40);
+                turnOffMLKK.setSize(600, 80);
+                noMoveStage.addActor(turnOffMLKK);
+                turnOffMLKK.toFront();
+            }
+            if(factoryAction){
+                turnOffFactory.remove();
+                turnOnFactory.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
+                turnOnFactory.setSize(600, 80);
+                noMoveStage.addActor(turnOnFactory);
+                turnOnFactory.toFront();
+            }else if (!factoryAction){
+                turnOnFactory.remove();
+                turnOffFactory.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
+                turnOffFactory.setSize(600, 80);
+                noMoveStage.addActor(turnOffFactory);
+                turnOffFactory.toFront();
+            }
+            if(trafficAction){
+                turnOffTraffic.remove();
+                turnOnTraffic.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
+                turnOnTraffic.setSize(600, 80);
+                noMoveStage.addActor(turnOnTraffic);
+                turnOnTraffic.toFront();
+            }else if (!trafficAction){
+                turnOnTraffic.remove();
+                turnOffTraffic.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
+                turnOffTraffic.setSize(600, 80);
+                noMoveStage.addActor(turnOffTraffic);
+                turnOffTraffic.toFront();
+            }
+        }
+
         stage.act();
         truck.toFront();
         stage.draw();
@@ -737,6 +827,8 @@ public class Master implements Screen {
     private void dongThongtin(){
 
         dongCheTao();
+        isOpenSetting = false;
+        dongCaiDat();
         lineThongTin.setHeight(0);
         hienThongTin = false;
     }
@@ -780,44 +872,39 @@ public class Master implements Screen {
         dongThongtin();
         dongNghienCuu();
 
-
             startButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
-            startButton.setSize(600, 40);
+            startButton.setSize(600, 50);
             noMoveStage.addActor(startButton);
             startButton.toFront();
 
 
 
-            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40);
-            wasteButton.setSize(600, 40);
+            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-50);
+            wasteButton.setSize(600, 50);
             noMoveStage.addActor(wasteButton);
             wasteButton.toFront();
 
-            deforestButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40*2);
-        deforestButton.setSize(600, 40);
-            noMoveStage.addActor(deforestButton);
-        deforestButton.toFront();
 
 
-        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*3);
-        litterButton.setSize(600, 40);
+        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*2);
+        litterButton.setSize(600, 50);
         noMoveStage.addActor(litterButton);
         litterButton.toFront();
 
-            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*4);
-            plantButton.setSize(600, 40);
+            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*3);
+            plantButton.setSize(600, 50);
             noMoveStage.addActor(plantButton);
             plantButton.toFront();
 
 
-            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*5);
-            factoryButton.setSize(600, 40);
+            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*4);
+            factoryButton.setSize(600, 50);
             noMoveStage.addActor(factoryButton);
             factoryButton.toFront();
 
 
-            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*6);
-            trafficButton.setSize(600, 40);
+            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*5);
+            trafficButton.setSize(600, 50);
             noMoveStage.addActor(trafficButton);
             trafficButton.toFront();
 
@@ -832,11 +919,21 @@ public class Master implements Screen {
         plantButton.remove();
         trafficButton.remove();
         litterButton.remove();
-        deforestButton.remove();
+    }
+    public void dongCaiDat(){
+       turnOffMLKK.remove();
+       turnOffFactory.remove();
+       turnOffTraffic.remove();
+       turnOnFactory.remove();
+       turnOnMLKK.remove();
+       turnOnTraffic.remove();
     }
     private void moCaiDat(){
         dongThongtin();
         dongNghienCuu();
+        isOpenSetting = true;
+
+
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");

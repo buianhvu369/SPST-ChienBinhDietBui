@@ -8,7 +8,7 @@ import spst.com.MyActor;
 public class Cross extends MyActor {
     public Cross(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = new TextureRegion(new Texture("cross.png"));
+        textureRegion = new TextureRegion(new Texture("close.png"));
         setSize(32,32);
     }
 }

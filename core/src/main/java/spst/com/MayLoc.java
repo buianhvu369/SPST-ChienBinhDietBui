@@ -18,15 +18,17 @@ public class MayLoc extends MyActor{
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(GameState.PM2_5>=6+(level-1)*2/60f){
-            GameState.PM2_5 -=(6+(level-1)*2)/60f;
-        }else{
-            GameState.PM2_5 = 0;
-        }
-        if(GameState.NO2 >= 4+(level-1)*1/60f){
-            GameState.NO2 -= (4+(level-1)*1)/60f;
-        }else{
-            GameState.NO2 = 0;
+        if(Master.mLKKAction) {
+            if (GameState.PM2_5 >= 6 + (level - 1) * 2 / 60f) {
+                GameState.PM2_5 -= (6 + (level - 1) * 2) / 60f;
+            } else {
+                GameState.PM2_5 = 0;
+            }
+            if (GameState.NO2 >= 4 + (level - 1) * 1 / 60f) {
+                GameState.NO2 -= (4 + (level - 1) * 1) / 60f;
+            } else {
+                GameState.NO2 = 0;
+            }
         }
     }
 }

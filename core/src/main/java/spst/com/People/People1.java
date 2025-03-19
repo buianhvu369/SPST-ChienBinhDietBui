@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import spst.com.*;
 import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
+import spst.com.town.Fire;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
@@ -24,6 +25,7 @@ public class People1 extends MyActor {
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
     float time;
+    int timeFire;
     int timeDirection;
     int speed = 1;
     float mouseX = 100000000;
@@ -32,6 +34,10 @@ public class People1 extends MyActor {
     boolean isFiring = false;
     boolean isFine = false;
     boolean isMoving = false;
+    boolean isJogging = false;
+    int randomAction = 0;
+    Rectangle rectangle = new Rectangle();
+
 
     Direction direction = Direction.LEFT;
     float speedX = 0;
@@ -57,12 +63,14 @@ public class People1 extends MyActor {
         time = 0;
         textureRegion = animationRight.getKeyFrame(time);
 
-        this.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(isCutting){
-                    GameState.money += 225;
-                }
-            }
+        addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+               if(isCutting||isFiring){
+                   GameState.money += 150 ;
+               }else {
+                  GameState.money -= 50;
+               }
+           }
         });
 
     }
@@ -72,8 +80,21 @@ public class People1 extends MyActor {
         super.act(delta);
         time+= delta;
         timeDirection++;
-        if(timeDirection % 300 == 0 && !isCutting){
-            isCutting = MathUtils.randomBoolean();
+        if(timeDirection % 300 == 0 && !isCutting && !isFiring){
+            randomAction = MathUtils.random(0,10);
+            if(randomAction < 7){
+                isJogging = true;
+                isCutting = false;
+                isFiring = false;
+            }else if(randomAction == 7 || randomAction ==  8){
+                isCutting = true;
+                isFiring = false;
+                isJogging = false;
+            }else if(randomAction == 9 || randomAction == 10){
+                isFiring = true;
+                isCutting = false;
+                isJogging = false;
+            }
             if(isCutting){
                 if(!Master.trees.isEmpty()){
                     treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
@@ -81,8 +102,18 @@ public class People1 extends MyActor {
                     mouseX = treeTarget.getX() + 32;
                     mouseY = treeTarget.getY();
                     isMoving = true;
-
                 }
+            }
+            if(isJogging){
+                mouseX = MathUtils.random(100,2200);
+                mouseY = MathUtils.random(20,780);
+                isMoving = true;
+            }if(isFiring){
+                mouseX = MathUtils.random(100,2200);
+                mouseY = MathUtils.random(20,780);
+                rectangle.setSize(30,26);
+                rectangle.setPosition(mouseX - 4,mouseY - 4);
+                isMoving = true;
             }
         }
 
@@ -103,6 +134,20 @@ public class People1 extends MyActor {
                 ));
             }
             rec = null;
+        }
+
+        if(rectangle.contains(getX(), getY())){
+            Fire fire = new Fire(getX()+32,getY(),getStage());
+            addAction(Actions.sequence(
+                Actions.delay(5),
+                Actions.run(()->{
+                    isFiring = false;
+                    fire.remove();
+                })
+            ));
+            rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f,1000000000.9999999999999999999999999999999999999999999999999999999999f);
+
+
         }
 
         if(isMoving){

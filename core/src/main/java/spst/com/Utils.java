@@ -80,6 +80,7 @@ public class Utils {
     }
 
     public static void updateAQI( double co1, double no2, double pm10, double pm25, double o3, double so2){
+        try{
         Map<String, Double> observedData = Map.of(
             "PM2.5", pm25,
             "PM10", pm10,
@@ -101,6 +102,7 @@ public class Utils {
 
         System.out.println("Danh sách AQI: " + aqiList);
         System.out.printf("Chỉ số AQI tổng: %.2f%n", Master.AQI);
+        }catch (Exception ignored){}
 
     }
 }

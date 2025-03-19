@@ -2,6 +2,7 @@ package spst.com.People;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import spst.com.*;
+import spst.com.Roads.Car;
 import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
 import spst.com.town.Fire;
@@ -39,6 +41,8 @@ public class People1 extends MyActor {
     Rectangle rectangle = new Rectangle();
 
 
+    boolean isAlive = true;
+    boolean isBep = false;
     Direction direction = Direction.LEFT;
     float speedX = 0;
     float speedY = 0;
@@ -78,6 +82,7 @@ public class People1 extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if(isAlive){
         time+= delta;
         timeDirection++;
         if(timeDirection % 300 == 0 && !isCutting && !isFiring){
@@ -117,24 +122,24 @@ public class People1 extends MyActor {
             }
         }
 
-        if(treeTarget != null){
-            Rectangle rec = new Rectangle(treeTarget.getX()+32, treeTarget.getY(), 33, 64);
-            if(rec.overlaps(getBound()) && !treeTarget.isCutDown) {
-                treeTarget.isCutDown = true;
-                treeTarget.addAction(Actions.sequence(
-                    Actions.delay(5),
-                    Actions.removeActor()
-                ));
-                addAction(Actions.sequence(
-                    Actions.delay(5),
-                    Actions.run(()->{
-                        isCutting = false;
-                        treeTarget = null;
-                    })
-                ));
+            if(treeTarget != null){
+                Rectangle rec = new Rectangle(treeTarget.getX()+32, treeTarget.getY(), 33, 64);
+                if(rec.overlaps(getBound()) && !treeTarget.isCutDown) {
+                    treeTarget.isCutDown = true;
+                    treeTarget.addAction(Actions.sequence(
+                        Actions.delay(5),
+                        Actions.removeActor()
+                    ));
+                    addAction(Actions.sequence(
+                        Actions.delay(5),
+                        Actions.run(()->{
+                            isCutting = false;
+                            treeTarget = null;
+                        })
+                    ));
+                }
+                rec = null;
             }
-            rec = null;
-        }
 
         if(rectangle.contains(getX(), getY())){
             Fire fire = new Fire(getX()+32,getY(),getStage());
@@ -212,6 +217,50 @@ public class People1 extends MyActor {
                     }
                 }
             }
+        }
+}
+        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
+            textureRegion = Utils.getRegion(23*16, 0, 16, 6);
+            setSize(32, 12);
+            if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
+                isAlive = false;
+                if(getY()<=32*11){
+                    addAction(Actions.moveBy(0,-200,6));
+                }else {
+                    addAction(Actions.moveBy(0,-200,6));
+                }
+                addAction(Actions.sequence(
+                        Actions.fadeOut(6),
+                        Actions.run(()->{
+                                new FloatingNews(0,Gdx.graphics.getHeight()/2f,Master.noMoveStage,
+                                    "Có 1 người chết, cảnh sát phát hiện ra xác nạn nhân ở bờ sông Hồng, hiện các cơ " +
+                                        "quan chức năng đang điều tra về vụ việc này", Color.RED);
+                                GameState.danso--;
+                                remove();
+                            }
+                        )
+                    )
+                );
+            }
+        } else {
+            setSize(32,32);
+        }
+        for(Car c : Master.cars){
+            if(getBound().overlaps(c.getBound())){
+                isAlive = false;
+                isBep = true;
+                addAction(Actions.sequence(
+                    Actions.fadeOut(6),
+                    Actions.run(()->{
+                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"Đã có 1 tài xế đâm người và bỏ chạy, hiện cơ quan chức năng đang điều tra thêm", Color.YELLOW);
+                        GameState.danso--;
+                        remove();
+                    })
+                ));
+            }
+        }
+        if(isBep){
+            setSize(32, 8);
         }
 
     }

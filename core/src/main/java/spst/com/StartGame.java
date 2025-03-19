@@ -1,21 +1,22 @@
-package spst.com.Screen;
+package spst.com;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import spst.com.Screen.GuideScreen;
 import spst.com.Screen.Master;
 import spst.com.Screen.MenuScreen;
 
 public class StartGame extends Game {
-    GuideScreen guideScreen;
-    MenuScreen menuScreen;
+    public GuideScreen guideScreen;
+    public MenuScreen menuScreen;
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
     public static BitmapFont font4;
-    Master master;
+    public Master master;
     @Override
     public void create() {
 

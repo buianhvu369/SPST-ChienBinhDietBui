@@ -2,16 +2,13 @@ package spst.com.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import spst.com.Button.Continue;
 import spst.com.Button.Exit;
@@ -19,16 +16,18 @@ import spst.com.Button.Guide;
 import spst.com.Button.Start;
 import spst.com.GameState;
 import spst.com.Piece;
+import spst.com.StartGame;
 
 public class MenuScreen implements Screen  {
     GlyphLayout layout;
-    StartGame game;
+    public StartGame game;
     OrthographicCamera camera;
     Stage stage;
     Continue continueButton;
     Exit exitButton;
     Guide guideButton;
     Start startButton;
+    public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("gioithieu.mp3"));
     public MenuScreen(StartGame game){
         this.game = game;
         stage = new Stage();
@@ -76,6 +75,9 @@ public class MenuScreen implements Screen  {
         });
 
         Gdx.input.setInputProcessor(stage);
+
+        nen.isLooping();
+        nen.play();
     }
 
     @Override

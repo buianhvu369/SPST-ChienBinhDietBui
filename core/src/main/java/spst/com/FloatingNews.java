@@ -6,18 +6,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import spst.com.Screen.StartGame;
 
 public class FloatingNews extends Actor {
     private String text;
     private BitmapFont font;
 
-    public FloatingNews(Stage s, String news) {
+    public FloatingNews(float x,float y,Stage s, String news, Color color) {
         text = news;
         font = StartGame.font3; // Font mặc định của LibGDX
-        font.setColor(Color.BLACK);
+        font.setColor(color);
 
-        setPosition(500,  400);
+        setPosition(x,  y);
         setColor(1, 1, 1, 1); // Đảm bảo alpha ban đầu là 1 (không trong suốt)
 
         // Hiệu ứng di chuyển lên + làm mờ dần + xóa sau 1 giây

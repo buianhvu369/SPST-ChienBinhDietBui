@@ -104,12 +104,12 @@ public class Master implements Screen {
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 180;
     public static String whatActionIfClickMouse = "move";
-    public  static int amountSeed = 10;
-    public static int soBienCam = 5;
-    public static int soMayLoc = 5;
+    public  static int amountSeed = 0;
+    public static int soBienCam = 0;
+    public static int soMayLoc = 0;
     public static boolean isCNX = false;
     public static boolean isGTX = false;
-    public static int soCamera = 5;
+    public static int soCamera = 0;
     public static int soCamDotRac =  2;
     public static int soCamChatCay = 2;
     public static int sohieucuaMLKKdangchondenangcap = 0;
@@ -513,9 +513,15 @@ public class Master implements Screen {
                     if(isFree){
                         Master.nhapTenMLKK();
                     }
+                }else{
+                    Master.whatActionIfClickMouse = "move";
                 }
             } else if(Master.whatActionIfClickMouse.equals("camera")){
-                Master.nhapTenNormalCamera();
+                if(soCamera >0 ){
+                    Master.nhapTenNormalCamera();
+                }else{
+                    Master.whatActionIfClickMouse = "move";
+                }
             } else if(Master.whatActionIfClickMouse.equals("createSign")){
                 if(Master.soBienCam > 0 ) {
                     boolean isFree = true;
@@ -528,7 +534,6 @@ public class Master implements Screen {
                     if(isFree){
                         Master.soBienCam--;
                         new Sign(mouse.x-16,mouse.y,random.nextBoolean(),stage);
-                        System.out.println("hahajsdh");
                     }
                 }
             }else {
@@ -538,7 +543,7 @@ public class Master implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            if(Master.whatActionIfClickMouse.equals("createMayLoc")){
+            if(Master.whatActionIfClickMouse.equals("createMayLoc") && soMayLoc >0){
                 String inputText = textField.getText();
                 textField.setVisible(false);
                 noMoveStage.unfocusAll();
@@ -549,10 +554,11 @@ public class Master implements Screen {
                 whatActionIfClickMouse = "move";
                 System.out.println("243287");
                 taoMayLockk.isSong = true;
-            }else if(Master.whatActionIfClickMouse.equals("camera")){
+            }else if(Master.whatActionIfClickMouse.equals("camera") && soCamera >0){
                 String inputText = textField.getText();
                 textField.setVisible(false);
                 noMoveStage.unfocusAll();
+                Master.soCamera--;
                 NormalCamera normalCamera = new NormalCamera(cameraPosition.x,cameraPosition.y,stage);
                 normalCameras.add(normalCamera);
                 normalCamera.name = inputText;
@@ -569,6 +575,8 @@ public class Master implements Screen {
         batch.begin();
         game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
         game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
+        game.font.draw(batch, ""+soCamera,Gdx.graphics.getWidth() - 50 -200, Gdx.graphics.getHeight()-50);
+        game.font.draw(batch, ""+soBienCam,Gdx.graphics.getWidth() - 50 -300, Gdx.graphics.getHeight()-50);
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -953,33 +961,33 @@ public class Master implements Screen {
             hour = timeOfDay / 60;
             hour = hour%24;
             if(hour == 6) {
-                GameState.CO1 += 15/60f;
-                GameState.NO2 += 20/60f;
+                GameState.CO1 += 15;
+                GameState.NO2 += 20;
             } else if(hour == 7) {
-                GameState.CO1 += 15/60f;
-                GameState.NO2 += 20/60f;
+                GameState.CO1 += 15;
+                GameState.NO2 += 20;
             } else if(hour == 8) {
-                GameState.CO1 += 35/60f;
-                GameState.NO2 += 25/60f;
+                GameState.CO1 += 35;
+                GameState.NO2 += 25;
             } else if(hour == 9) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10,11,23,99,45 -> {
                         System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                     }
                     case 2,24,26 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20/60f){
-                            GameState.PM2_5 -= 20/60f;
+                        if(GameState.PM2_5 >= 20){
+                            GameState.PM2_5 -= 20;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15/60f){
-                            GameState.PM10 -= 15/60f;
+                        if(GameState.PM10 >= 15 ){
+                            GameState.PM10 -= 15 ;
                         }else {
                             GameState.PM10 = 0;
                         }
@@ -987,39 +995,39 @@ public class Master implements Screen {
                     case 8,25 -> {
                         System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25/60f;
-                        GameState.NO2 += 20/60f;
-                        GameState.PM2_5 += 15/60f;
+                        GameState.SO2 += 25;
+                        GameState.NO2 += 20;
+                        GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93 -> {
                         System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30/60f;
-                        GameState.PM10 += 20/60f;
+                        GameState.PM2_5 += 30;
+                        GameState.PM10 += 20;
                     }
                 }
             } else if(hour == 10) {
-                GameState.SO2 += 30/60f;
-                GameState.PM2_5 += 20/60f;
+                GameState.SO2 += 30;
+                GameState.PM2_5 += 20;
             } else if(hour == 11) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10 -> {
                         System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20/60f){
-                            GameState.PM2_5 -= 20/60f;
+                        if(GameState.PM2_5 >= 20){
+                            GameState.PM2_5 -= 20;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15/60f){
-                            GameState.PM10 -= 15/60f;
+                        if(GameState.PM10 >= 15){
+                            GameState.PM10 -= 15;
                         }else {
                             GameState.PM10 = 0;
                         }
@@ -1027,40 +1035,40 @@ public class Master implements Screen {
                     case 8,25,54,33 -> {
                         System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25/60f;
-                        GameState.NO2 += 20/60f;
-                        GameState.PM2_5 += 15/60f;
+                        GameState.SO2 += 25;
+                        GameState.NO2 += 20;
+                        GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93,58,57,35 -> {
                         System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30/60f;
-                        GameState.PM10 += 20/60f;
+                        GameState.PM2_5 += 30;
+                        GameState.PM10 += 20;
                     }
                 }
             } else if(hour == 12) {
-                GameState.O3 += 35/60f;
+                GameState.O3 += 35;
             } else if(hour == 13) {
-                GameState.O3 += 20/60f;
+                GameState.O3 += 20;
             } else if(hour == 14) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5 -> {
                         System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20/60f){
-                            GameState.PM2_5 -= 20/60f;
+                        if(GameState.PM2_5 >= 20){
+                            GameState.PM2_5 -= 20;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15/60f){
-                            GameState.PM10 -= 15/60f;
+                        if(GameState.PM10 >= 15){
+                            GameState.PM10 -= 15;
                         }else {
                             GameState.PM10 = 0;
                         }
@@ -1068,124 +1076,124 @@ public class Master implements Screen {
                     case 8,25,54,33 -> {
                         System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25/60f;
-                        GameState.NO2 += 20/60f;
-                        GameState.PM2_5 += 15/60f;
+                        GameState.SO2 += 25;
+                        GameState.NO2 += 20;
+                        GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93,58,57 -> {
                         System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30/60f;
-                        GameState.PM10 += 20/60f;
+                        GameState.PM2_5 += 30;
+                        GameState.PM10 += 20;
                     }
                 }
             } else if(hour == 15) {
-                GameState.NO2 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20 -> {
                         System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                     }
                 }
             } else if(hour == 16) {
-                GameState.NO2 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20,19 -> {
                         System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                     }
                 }
             } else if(hour == 17) {
-                GameState.NO2 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.NO2 += 20;
+                GameState.CO1 += 15;
             } else if(hour == 18) {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 1, 20,19,45,67,23,55 -> {
                         System.out.println("su kien the thao lon");
                         GameState.event = "Sự kiện thể thao lớn";
-                        GameState.NO2 += 30/60f;
-                        GameState.CO1 += 20/60f;
+                        GameState.NO2 += 30;
+                        GameState.CO1 += 20;
                         int ran2 = random.nextInt(1,101);
                         if(25<ran2 && ran2<=50 ){
                             System.out.println("tai nan giao thong !!!");
                             GameState.event = "Tai nạn giao thông";
-                            GameState.NO2 += 30/60f;
-                            GameState.CO1 += 20/60f;
+                            GameState.NO2 += 30;
+                            GameState.CO1 += 20;
                         }
                     }
                     case 49,11,68,56,87 -> {
                         System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25/60f;
-                        GameState.NO2 += 20/60f;
-                        GameState.PM2_5 += 15/60f;
+                        GameState.SO2 += 25;
+                        GameState.NO2 += 20;
+                        GameState.PM2_5 += 15;
                     }
                 }
             } else if(hour == 19) {
-                GameState.PM2_5 += 25/60f;
-                GameState.SO2 += 20/60f;
+                GameState.PM2_5 += 25;
+                GameState.SO2 += 20;
                 int ran = random.nextInt(1,101);
                 switch (ran) {
                     case 1, 20, 19, 45, 67, 23, 55,5,3 -> {
                         System.out.println("Chay nha chay nha");
                         GameState.event = "Cháy 1 ngôi nhà";
-                        GameState.SO2 += 15/60f;
-                        GameState.NO2 += 20/60f;
-                        GameState.PM2_5 += 25/60f;
+                        GameState.SO2 += 15;
+                        GameState.NO2 += 20;
+                        GameState.PM2_5 += 25;
                         if (ran == 20) {
                             System.out.println("Chay 2 ngoi nha");
                             GameState.event = "Cháy 2 ngôi nhà";
-                            GameState.SO2 += 30/60f;
-                            GameState.NO2 += 40/60f;
-                            GameState.PM2_5 += 50/60f;
+                            GameState.SO2 += 30;
+                            GameState.NO2 += 40;
+                            GameState.PM2_5 += 50;
                         }
                     }
                 }
             } else if(hour == 20) {
-                GameState.PM2_5 += 25/60f;
-                GameState.NO2 += 20/60f;
-                GameState.SO2 += 15/60f;
+                GameState.PM2_5 += 25;
+                GameState.NO2 += 20;
+                GameState.SO2 += 15;
             } else if(hour == 21) {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 34,43,56,65,78,87,12,21,10,91 -> {
                         System.out.println("Mưa lon");
                         GameState.event = "Có 1 cơn mưa lớn";
-                        if(GameState.PM2_5 >= 30/60f){
-                            GameState.PM2_5 -= 30/60f;
+                        if(GameState.PM2_5 >= 30){
+                            GameState.PM2_5 -= 30;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 20/60f){
-                            GameState.PM10 -= 20/60f;
+                        if(GameState.PM10 >= 20){
+                            GameState.PM10 -= 20;
                         }else {
                             GameState.PM10 = 0;
                         }
                     }
                 }
             } else if(hour == 22) {
-                GameState.PM10 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.PM10 += 20;
+                GameState.CO1 += 15;
             } else if(hour == 23) {
-                GameState.PM10 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.PM10 += 20;
+                GameState.CO1 += 15;
             }
             else if(hour == 0) {
-                GameState.PM10 += 20/60f;
-                GameState.CO1 += 15/60f;
+                GameState.PM10 += 20;
+                GameState.CO1 += 15;
             }
             else if(hour == 5) {
-                GameState.NO2 += 10/60f;
-                GameState.CO1 += 8/60f;
+                GameState.NO2 += 10;
+                GameState.CO1 += 8;
             }
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
             new FloatingNews(noMoveStage, GameState.event);

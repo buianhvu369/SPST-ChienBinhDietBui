@@ -26,6 +26,9 @@ public class creatCamera extends MyActor {
                     Master.whatActionIfClickMouse = "move";
                     textureRegion = new TextureRegion(texture);
                 }
+                if(Master.soCamera < 1){
+                    textureRegion = new TextureRegion(texture);
+                }
             }
         });
     }

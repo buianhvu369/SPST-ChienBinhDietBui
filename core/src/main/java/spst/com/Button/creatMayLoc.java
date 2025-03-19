@@ -31,6 +31,9 @@ public class creatMayLoc extends MyActor {
                     Master.whatActionIfClickMouse = "move";
                     textureRegion = new TextureRegion(texture);
                 }
+                if(Master.soMayLoc < 1){
+                    textureRegion = new TextureRegion(texture);
+                }
             }
         });
     }

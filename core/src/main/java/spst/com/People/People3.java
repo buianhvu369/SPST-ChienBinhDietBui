@@ -173,7 +173,6 @@ public class People3 extends MyActor {
         if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);
             setSize(32, 12);
-
             if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
                 isAlive = false;
                 if(getY()<=32*11){
@@ -183,13 +182,14 @@ public class People3 extends MyActor {
                 }
                 addAction(Actions.sequence(
                         Actions.fadeOut(6),
-                    Actions.run(()->{
-                            new FloatingNews(0,Gdx.graphics.getHeight()/2f,Master.noMoveStage,
-                                "Có 1 người chết, cảnh sát phát hiện ra xác nạn nhân ở bờ sông Hồng, hiện các cơ " +
-                                    "quan chức năng đang điều tra về vụ việc này", Color.RED);
-                            remove();
-                        }
-                    )
+                        Actions.run(()->{
+                                new FloatingNews(0,Gdx.graphics.getHeight()/2f,Master.noMoveStage,
+                                    "Có 1 người chết, cảnh sát phát hiện ra xác nạn nhân ở bờ sông Hồng, hiện các cơ " +
+                                        "quan chức năng đang điều tra về vụ việc này", Color.RED);
+                                GameState.danso--;
+                                remove();
+                            }
+                        )
                     )
                 );
             }
@@ -204,8 +204,10 @@ public class People3 extends MyActor {
                     Actions.fadeOut(6),
                     Actions.run(()->{
                         new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"Đã có 1 tài xế đâm người và bỏ chạy, hiện cơ quan chức năng đang điều tra thêm", Color.YELLOW);
+                        GameState.danso--;
                         remove();
-                    })));
+                    })
+                ));
             }
         }
         if(isBep){

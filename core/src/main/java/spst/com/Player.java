@@ -3,17 +3,12 @@ package spst.com;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import spst.com.Roads.Car;
-import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
-import spst.com.Screen.StartGame;
 
 public class Player extends MyActor {
     Animation<TextureRegion> animationLeft;

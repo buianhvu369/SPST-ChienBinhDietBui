@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -64,6 +65,7 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     Stage stage;
     public static Stage noMoveStage;
+    private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
@@ -262,7 +264,6 @@ public class Master implements Screen {
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
 
         Utils.test();
-
     }
 
     @Override
@@ -351,7 +352,6 @@ public class Master implements Screen {
         cameraLooking.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 try{
-
                         NormalCamera currentCamera = normalCameras.get(soCuaCameraDangLooking);
                         OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
                         if(camera.zoom == 1f) {
@@ -429,6 +429,9 @@ public class Master implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
 
+        MenuScreen.nen.stop();
+        nen.isLooping();
+        nen.play();
     }
 
     @Override
@@ -437,6 +440,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        taoChatCay();
         xuLyCNXVaGTX();
         ktHetEven();
         calculAQI();

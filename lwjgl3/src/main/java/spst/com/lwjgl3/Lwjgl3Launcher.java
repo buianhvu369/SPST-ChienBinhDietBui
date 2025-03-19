@@ -2,7 +2,7 @@ package spst.com.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import spst.com.Screen.StartGame;
+import spst.com.StartGame;
 
 
 /** Launches the desktop (LWJGL3) applicatio3q3sae3qn. */
@@ -17,7 +17,7 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration(
-        
+
     ) {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("ChienBinhDietBui");

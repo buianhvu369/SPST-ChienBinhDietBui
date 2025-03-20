@@ -91,6 +91,10 @@ public class Master implements Screen {
     Cross bangScienceCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
+
+    FactoryCenter factoryCenter;
+    HotelCenter hotelCenter;
+    ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
     boolean hienCheTao = false;
 
@@ -105,6 +109,7 @@ public class Master implements Screen {
     TextButton plantButton;
     TextButton wasteButton;
     TextButton factoryButton;
+    TextButton energyButton;
     TextButton trafficButton;
     TextButton litterButton;
     TextButton  turnOffMLKK;
@@ -178,9 +183,9 @@ public class Master implements Screen {
         startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
         startButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>800) {
+                if(GameState.money>=500) {
                     Master.soMayLoc++;
-                    GameState.money-=800;
+                    GameState.money-=500;
                 }
 
             }
@@ -188,10 +193,10 @@ public class Master implements Screen {
         wasteButton = new TextButton("Mua một biển cấm  ", style);
         wasteButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>200&&GameState.greenscore >5) {
+                if(GameState.money>=300&&GameState.greenscore >=5) {
                     GameState.greenscore  -= 5;
-                    Master.soCamDotRac++;
-                    GameState.money-=200;
+                    Master.soBienCam++;
+                    GameState.money-=300;
                 }
             }
         });
@@ -199,20 +204,31 @@ public class Master implements Screen {
         plantButton = new TextButton("Mua một cây xanh", style);
         plantButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>100&&GameState.greenscore  >5) {
+                if(GameState.money>=100&&GameState.greenscore  >=5) {
                     Master.amountSeed++;
                     GameState.greenscore -= 5;
                     GameState.money-=100;
                 }
             }
         });
+
         trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
         litterButton = new TextButton("Mua một cái camera ", style);
         litterButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >500){
+                if(GameState.money >=300){
                     soCamera++;
-                    GameState.money-=500;
+                    GameState.money-=300;
+                }
+            }
+        });
+
+        energyButton = new TextButton("Mua 100 năng  lượng ", style);
+        energyButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=75) {
+                    GameState.ernegy+= 100;
+                    GameState.money-=75;
                 }
             }
         });
@@ -316,7 +332,16 @@ public class Master implements Screen {
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
-
+        Rectangle rectangle = new Rectangle(21*32,15*32,32*3,32*10);
+        noPlaced.add(rectangle);
+        Rectangle rectangle1 = new Rectangle(0, 11*32,80*32,32*3);
+        noPlaced.add(rectangle1);
+        Rectangle rectangle2 = new Rectangle(9*32,0,3*32,32*10);
+        noPlaced.add(rectangle2);
+        Rectangle rectangle3 = new Rectangle(25*32,0,3*32,32*10);
+        noPlaced.add(rectangle3);
+        Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
+        noPlaced.add(rectangle4);
         Utils.test();
     }
 
@@ -511,6 +536,9 @@ public class Master implements Screen {
         ScreenUtils.clear(Color.GRAY);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        if(Gdx.input.isTouched()){
+            System.out.println("x = " + Gdx.input.getX()/32 + " y = " + (Gdx.graphics.getHeight()/32 - Gdx.input.getY()/32));
+        }
 
         tinhThangThua();
         tanggiamdanso();
@@ -716,7 +744,56 @@ public class Master implements Screen {
                 turnOffTraffic.toFront();
             }
         }
-
+        if(player.getBound().overlaps(scienceCenter.getBound())){
+            if(player.getY()<scienceCenter.getY()){
+                player.toFront();
+                if(player.getY() > scienceCenter.getY()-5){
+                    player.setY(scienceCenter.getY()-5);
+                }
+            }else {
+                scienceCenter.toFront();
+                scienceDoor.toFront();
+                if(player.getY() < scienceCenter.getY()+10){
+                    player.setY(scienceCenter.getY()+10);
+                }
+            }
+        }
+        if(player.getBound().overlaps(hotelCenter.getBound())){
+            if(player.getY()<hotelCenter.getY()){
+                player.toFront();
+                if(player.getY() > hotelCenter.getY()-5){
+                    player.setY(hotelCenter.getY()-5);
+                }
+            }else {
+                hotelCenter.toFront();
+                hotelDoor.toFront();
+                if(player.getY() < hotelCenter.getY()+10){
+                    player.setY(hotelCenter.getY()+10);
+                }
+            }
+        }
+        if(player.getBound().overlaps(factoryCenter.getBound())){
+            if(player.getY()<factoryCenter.getY()){
+                player.toFront();
+                if(player.getY() > factoryCenter.getY()-5){
+                    player.setY(factoryCenter.getY()-5);
+                }
+            }else {
+                factoryCenter.toFront();
+                if(player.getY() < factoryCenter.getY()+10){
+                    player.setY(factoryCenter.getY()+10);
+                }
+            }
+        }
+        for(Car car : cars) {
+            if (player.getBound().overlaps(car.getBound())) {
+                if(car.getY()>player.getY()){
+                    player.toFront();
+                }if(car.getY()<player.getY()){
+                    car.toFront();
+                }
+            }
+        }
         stage.act();
         truck.toFront();
         stage.draw();
@@ -792,15 +869,20 @@ public class Master implements Screen {
 
     private void xuLyCNXVaGTX(){
         //xu ly CNX
-        if(GameState.SO2 >= 10*GameState.levelcongnghexanh/60f){
-            GameState.SO2 -= 10*GameState.levelcongnghexanh/60f;
-        }else {
-            GameState.SO2 = 0;
+        if(GameState.ernegy >= 10 && factoryAction) {
+            if (GameState.SO2 >= 10 * GameState.levelcongnghexanh / 60f) {
+                GameState.SO2 -= 10 * GameState.levelcongnghexanh / 60f;
+            } else {
+                GameState.SO2 = 0;
+            }
+            if (GameState.CO1 >= 8 * GameState.levelcongnghexanh / 60f) {
+                GameState.CO1 -= 8 * GameState.levelcongnghexanh / 60f;
+            } else {
+                GameState.CO1 = 0;
+            }
         }
-        if(GameState.CO1 >= 8*GameState.levelcongnghexanh/60f){
-            GameState.CO1 -= 8*GameState.levelcongnghexanh/60f;
-        }else {
-            GameState.CO1 = 0;
+        if (timeOfDay %120 == 0 && GameState.ernegy >= 10 && factoryAction && isCNX){
+            GameState.ernegy -= 10;
         }
         if(!isCNX){
             nangCapCNX.setColor(Color.GRAY);
@@ -808,15 +890,20 @@ public class Master implements Screen {
             nangCapCNX.setColor(1,1,1,1);
         }
         //xu ly GTX
-        if(GameState.SO2 >= 8*GameState.levelgiaothongxanh/60f){
-            GameState.SO2 -= 8*GameState.levelgiaothongxanh/60f;
-        }else {
-            GameState.SO2 = 0;
+        if(GameState.ernegy >= 15 && trafficAction) {
+            if (GameState.SO2 >= 8 * GameState.levelgiaothongxanh / 60f) {
+                GameState.SO2 -= 8 * GameState.levelgiaothongxanh / 60f;
+            } else {
+                GameState.SO2 = 0;
+            }
+            if (GameState.CO1 >= 6 * GameState.levelgiaothongxanh / 60f) {
+                GameState.CO1 -= 6 * GameState.levelgiaothongxanh / 60f;
+            } else {
+                GameState.CO1 = 0;
+            }
         }
-        if(GameState.CO1 >= 6*GameState.levelgiaothongxanh/60f){
-            GameState.CO1 -= 6*GameState.levelgiaothongxanh/60f;
-        }else {
-            GameState.CO1 = 0;
+        if(GameState.ernegy >= 15 && trafficAction&& timeOfDay%120 == 0 && isGTX){
+            GameState.ernegy -= 15;
         }
         if(!isGTX){
             nangCapGTX.setColor(Color.GRAY);
@@ -860,9 +947,9 @@ public class Master implements Screen {
         }
         if(gio1phan60 == 60*24){
             day++;
-            if(day % 30 == 0 ){
-                GameState.money += GameState.danso/20;
-            }
+            GameState.money += GameState.danso/20/30;
+            GameState.ernegy += 80;
+
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -958,40 +1045,47 @@ public class Master implements Screen {
         hienCheTao = true;
 
             startButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
-            startButton.setSize(600, 50);
+            startButton.setSize(600, 40);
             noMoveStage.addActor(startButton);
             startButton.toFront();
 
 
 
-            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-50);
-            wasteButton.setSize(600, 50);
+            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40);
+            wasteButton.setSize(600, 40);
             noMoveStage.addActor(wasteButton);
             wasteButton.toFront();
 
 
 
-        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*2);
-        litterButton.setSize(600, 50);
+        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*2);
+        litterButton.setSize(600, 40);
         noMoveStage.addActor(litterButton);
         litterButton.toFront();
 
-            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*3);
-            plantButton.setSize(600, 50);
+            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*3);
+            plantButton.setSize(600, 40);
             noMoveStage.addActor(plantButton);
             plantButton.toFront();
 
+            energyButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*4);
+            energyButton.setSize(600, 40);
+            noMoveStage.addActor(energyButton);
+        energyButton.toFront();
 
-            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*4);
-            factoryButton.setSize(600, 50);
+
+            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*5);
+            factoryButton.setSize(600, 40);
             noMoveStage.addActor(factoryButton);
             factoryButton.toFront();
 
 
-            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 50*5);
-            trafficButton.setSize(600, 50);
+            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*6);
+            trafficButton.setSize(600, 40);
             noMoveStage.addActor(trafficButton);
             trafficButton.toFront();
+
+
 
 
 
@@ -1004,6 +1098,7 @@ public class Master implements Screen {
         plantButton.remove();
         trafficButton.remove();
         litterButton.remove();
+        energyButton.remove();
         hienCheTao = false;
     }
     public void dongCaiDat(){
@@ -1494,11 +1589,10 @@ public class Master implements Screen {
         new LetterP(x+32,y,stage);
     }
     private void createHouses(){
-        new ScienceCenter(28*32,32*16,stage);
+        scienceCenter = new ScienceCenter(28*32,32*16,stage);
         scienceDoor = new MordernDoor(32*29,32*16,stage);
-        new FactoryCenter(13 * 32, 0, stage);
-        new MordernDoor(32*14,0,stage);
-        new HotelCenter(32*32,32*5,stage) ;
+        factoryCenter = new FactoryCenter(13 * 32, 32, stage);
+        hotelCenter = new HotelCenter(32*32,32*5,stage) ;
         hotelDoor = new MordernDoor(32*33,32*5,stage);
     }
 

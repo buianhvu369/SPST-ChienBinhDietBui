@@ -46,10 +46,9 @@ public class People3 extends MyActor {
 
     Tree treeTarget;
 
-
     public People3(float x, float y, Stage s, boolean rightside) {
         super(x, y, s);
-        setSize(32, 32);
+        setSize(32,32);
         TextureRegion[] textureRegionLeft = {Utils.getRegion(16 * 23, 16 * 9, 16, 16), Utils.getRegion(16 * 23, 16 * 10, 16, 16), Utils.getRegion(16 * 23, 16 * 11, 16, 16)};
         TextureRegion[] textureRegionDown = {Utils.getRegion(16 * 24, 16 * 9, 16, 16), Utils.getRegion(16 * 24, 16 * 10, 16, 16), Utils.getRegion(16 * 24, 16 * 11, 16, 16)};
         TextureRegion[] textureRegionUp = {Utils.getRegion(16 * 25, 16 * 9, 16, 16), Utils.getRegion(16 * 25, 16 * 10, 16, 16), Utils.getRegion(16 * 25, 16 * 11, 16, 16)};
@@ -77,6 +76,7 @@ public class People3 extends MyActor {
                 }
             }
         });
+
     }
 
     @Override
@@ -143,12 +143,12 @@ public class People3 extends MyActor {
             }
 
             if (rectangle.contains(getX(), getY())) {
-                Fire fire = new Fire(getX() + 32, getY(), getStage());
+                WasteFire wasteFire = new WasteFire(getX() + 32, getY(), getStage());
                 addAction(Actions.sequence(
                     Actions.delay(5),
                     Actions.run(() -> {
                         isFiring = false;
-                        fire.remove();
+                        wasteFire.remove();
                     })
                 ));
                 rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
@@ -245,7 +245,7 @@ public class People3 extends MyActor {
             setSize(32,32);
         }
         for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBound())){
+            if(getBound().overlaps(c.getBoundCar())){
                 isAlive = false;
                 isBep = true;
                 addAction(Actions.sequence(

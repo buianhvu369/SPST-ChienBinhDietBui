@@ -3,6 +3,7 @@ package spst.com.Roads;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.GameState;
 import spst.com.MyActor;
@@ -174,5 +175,8 @@ public class Car extends MyActor {
                 ran2 = MathUtils.random.nextInt(1,3);
             }
         }
+    }
+    public Rectangle getBoundCar(){
+        return new Rectangle(getX(), getY()+getHeight()/3, getWidth(), getHeight()/4);
     }
 }

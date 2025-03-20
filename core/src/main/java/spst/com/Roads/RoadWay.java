@@ -15,7 +15,6 @@ public class RoadWay extends MyActor {
             textureRegion = Utils.getRegion(32, 18*16 - 1*16, 16*3, 16);
             setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
         }
-        Master.noPlaced.add(this.getBound());
 
     }
 }

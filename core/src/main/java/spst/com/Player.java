@@ -15,9 +15,10 @@ public class Player extends MyActor {
     Animation<TextureRegion> animationRight;
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
-    int speed = 2;
+    public  static int speedX = 2;
+    public static int speedY = 2;
     float time;
-    float mouseX = -13314;
+     float mouseX = -13314;
     float mouseY = -1321687;
     boolean isMove = true;
     boolean isAlive = true;
@@ -54,13 +55,15 @@ public class Player extends MyActor {
                     if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                         if (mouseX < getX() + 2) {
                             if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
-                                moveBy(-speed, 0);
+                                speedX = -2;
+                                moveBy(speedX, 0);
                             }
                             time += delta;
                             textureRegion = animationLeft.getKeyFrame(time);
                         } else if (mouseX > getX() - 2) {
                             if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
-                                moveBy(speed, 0);
+                                speedX = 2;
+                                moveBy(speedX, 0);
                             }
                             time += delta;
                             textureRegion = animationRight.getKeyFrame(time);
@@ -68,13 +71,15 @@ public class Player extends MyActor {
                     } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                         if (getY() - 2 < mouseY) {
                             if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
-                                moveBy(0, speed);
+                                speedY = 2;
+                                moveBy(0, speedY);
                             }
                             time += delta;
                             textureRegion = animationUp.getKeyFrame(time);
                         } else if (mouseY < getY() + 2) {
                             if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
-                                moveBy(0, -speed);
+                                speedY = -2;
+                                moveBy(0, speedY);
                             }
                             time += delta;
                             textureRegion = animationDown.getKeyFrame(time);
@@ -84,13 +89,15 @@ public class Player extends MyActor {
                     if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                         if (getY() - 2 < mouseY) {
                             if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
-                                moveBy(0, speed);
+                                speedY = 2;
+                                moveBy(0, speedY);
                             }
                             time += delta;
                             textureRegion = animationUp.getKeyFrame(time);
                         } else if (mouseY < getY() + 2) {
                             if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
-                                moveBy(0, -speed);
+                                speedY = -2;
+                                moveBy(0, speedY);
                             }
                             time += delta;
                             textureRegion = animationDown.getKeyFrame(time);
@@ -98,13 +105,15 @@ public class Player extends MyActor {
                     } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                         if (mouseX < getX() + 2) {
                             if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
-                                moveBy(-speed, 0);
+                                speedX = -2;
+                                moveBy(speedX, 0);
                             }
                             time += delta;
                             textureRegion = animationLeft.getKeyFrame(time);
                         } else if (mouseX > getX() - 2) {
                             if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
-                                moveBy(speed, 0);
+                                speedX = 2;
+                                moveBy(speedX, 0);
                             }
                             time += delta;
                             textureRegion = animationRight.getKeyFrame(time);
@@ -138,7 +147,7 @@ public class Player extends MyActor {
         }
 
         for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBound())){
+            if(getBound().overlaps(c.getBoundCar())){
                 c.setPosition(-247387907,-782457328);
                 c.remove();
                 isAlive = false;

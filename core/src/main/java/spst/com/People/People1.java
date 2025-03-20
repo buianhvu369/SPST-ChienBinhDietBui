@@ -146,12 +146,12 @@ public class People1 extends MyActor {
             }
 
             if (rectangle.contains(getX(), getY())) {
-                Fire fire = new Fire(getX() + 32, getY(), getStage());
+                WasteFire wasteFire = new WasteFire(getX() + 32, getY(), getStage());
                 addAction(Actions.sequence(
                     Actions.delay(5),
                     Actions.run(() -> {
                         isFiring = false;
-                        fire.remove();
+                        wasteFire.remove();
                     })
                 ));
                 rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
@@ -247,7 +247,7 @@ public class People1 extends MyActor {
             setSize(32,32);
         }
         for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBound())){
+            if(getBound().overlaps(c.getBoundCar())){
                 isAlive = false;
                 isBep = true;
                 addAction(Actions.sequence(

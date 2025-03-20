@@ -11,7 +11,7 @@ public class Waste extends MyActor {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("waste.png"));
         setSize(32, 32);
-        Master.noPlaced.add(this.getBound());
+
     }
 
     @Override

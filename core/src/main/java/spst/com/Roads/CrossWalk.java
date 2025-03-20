@@ -15,7 +15,6 @@ public class CrossWalk extends MyActor {
             textureRegion = Utils.getRegion(32, 18*16 - 2*16 , 48, 16);
             setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
         }
-        Master.noPlaced.add(this.getBound());
 
     }
 }

@@ -46,6 +46,10 @@ public class GameState{
         preferences.putString( "event", event);
         preferences.putString( "camxucnguoidan", camxucnguoidan);
         preferences.putString( "lydocamxucnguoidan", lydocamxucnguoidan);
+        preferences.putInteger(".", Master.soBienCam);
+        preferences.putInteger("1",Master.soMayLoc );
+        preferences.putInteger("",Master.soCamera);
+        preferences.putInteger("",Master.amountSeed);
         preferences.flush();
     }
     public static void loadGame() {
@@ -67,7 +71,10 @@ public class GameState{
         event = preferences.getString("event","");
         camxucnguoidan = preferences.getString("camxucnguoidan","");
         lydocamxucnguoidan = preferences.getString("lydocamxucnguoidan","");
-
+        Master.soBienCam = preferences.getInteger(".", 0);
+        Master.amountSeed = preferences.getInteger(".", 0);
+        Master.soMayLoc = preferences.getInteger(".", 0);
+        Master.soCamera = preferences.getInteger(".", 0);
         System.out.println("Saved Data: " + preferences.get());
     }
     public static void reset(){

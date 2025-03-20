@@ -34,8 +34,7 @@ import spst.com.Cameras.NormalCamera;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
-import spst.com.House.FactoryCenter;
-import spst.com.House.HotelCenter;
+import spst.com.House.*;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
@@ -51,8 +50,6 @@ import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Roads.Car;
 import spst.com.Roads.CrossWalk;
 import spst.com.Roads.Tree;
-import spst.com.House.MordernDoor;
-import spst.com.House.ScienceCenter;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -852,12 +849,13 @@ public class Master implements Screen {
                 }
             }
             if(hienCheTao){
-                game.font5.draw(batch, "800 money",32*20+10,Gdx.graphics.getHeight() * 0.6f+50-12.5f);
+                game.font5.draw(batch, "800 money",32*20+10,Gdx.graphics.getHeight() * 0.6f+50-12.5f-20);
                 game.font5.draw(batch, "300 money: ",32*20+10, Gdx.graphics.getHeight() * 0.6f+0-12.5f);
-                game.font5.draw(batch, "500 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50-12.5f);
-                game.font5.draw(batch, "100 money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2);
-                game.font5.draw(batch, "1500 money, 30 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3);
-                game.font5.draw(batch, "30 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-20);
+                game.font5.draw(batch, "500 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50-12.5f+10);
+                game.font5.draw(batch, "100 money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2+5);
+                game.font5.draw(batch, "75 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2-30);
+                game.font5.draw(batch, "1500 money, 30 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-10);
+                game.font5.draw(batch, "30 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-20-10);
                 game.font5.draw(batch, "1000 money, 50 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4);
                 game.font5.draw(batch, "20 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4-20);
             }
@@ -960,9 +958,6 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24*2){
             gio1phan60 = 0;
             day++;
-            if(day % 30 == 0 ){
-                GameState.money += GameState.danso/20;
-            }
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -1300,6 +1295,7 @@ public class Master implements Screen {
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         GameState.danso--;
+                        new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1341,6 +1337,7 @@ public class Master implements Screen {
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         GameState.danso--;
+                        new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1383,6 +1380,7 @@ public class Master implements Screen {
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         GameState.danso--;
+                        new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         System.out.println("co 1 con mua rua sach khong khi");
@@ -1423,6 +1421,8 @@ public class Master implements Screen {
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         GameState.danso--;
+                        new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
+
                     }
                 }
             } else if(hour == 16) {
@@ -1436,6 +1436,8 @@ public class Master implements Screen {
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         GameState.danso--;
+                        new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
+
                     }
                 }
             } else if(hour == 17) {
@@ -1456,6 +1458,8 @@ public class Master implements Screen {
                             GameState.NO2 += 30;
                             GameState.CO1 += 20;
                             GameState.danso-= 5;
+                            new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
+
                         }
                     }
                     case 49,11,68,56,87 -> {
@@ -1478,10 +1482,22 @@ public class Master implements Screen {
                         GameState.NO2 += 20;
                         GameState.PM2_5 += 25;
                         switch (ran){
-                            case 1 -> GameState.danso-=1;
-                            case 20 -> GameState.danso-=2;
-                            case 45 -> GameState.danso-=3;
-                            case 55 -> GameState.danso-=4;
+                            case 1 -> {
+                                GameState.danso-=1;
+                                new FloatingNews(0,500,noMoveStage,"Cháy 1 ngôi nhà chết 1 người",Color.RED).toFront();
+                            }
+                            case 20 -> {
+                                GameState.danso-=2;
+                                new FloatingNews(0,500,noMoveStage,"Cháy 1 ngôi nhà chết 2 người",Color.RED).toFront();
+                            }
+                            case 45 -> {
+                                GameState.danso-=3;
+                                new FloatingNews(0,500,noMoveStage,"Cháy 1 ngôi nhà chết 3 người",Color.RED).toFront();
+                            }
+                            case 55 -> {
+                                GameState.danso-=4;
+                                new FloatingNews(0,500,noMoveStage,"Cháy 1 ngôi nhà chết 4 người",Color.RED).toFront();
+                            }
                         }
                         if (ran == 20) {
                             System.out.println("Chay 2 ngoi nha");
@@ -1491,10 +1507,22 @@ public class Master implements Screen {
                             GameState.PM2_5 += 50;
                             int ran100 = random.nextInt(1,10);
                             switch (ran){
-                                case 1 -> GameState.danso-=2;
-                                case 2 -> GameState.danso-=3;
-                                case 3 -> GameState.danso-=4;
-                                case 4 -> GameState.danso-=5;
+                                case 1 -> {
+                                    GameState.danso-=2;
+                                    new FloatingNews(0,500,noMoveStage,"Cháy 2 ngôi nhà chết 2 người",Color.RED).toFront();
+                                }
+                                case 2 -> {
+                                    GameState.danso-=3;
+                                    new FloatingNews(0,500,noMoveStage,"Cháy 2 ngôi nhà chết 3 người",Color.RED).toFront();
+                                }
+                                case 3 -> {
+                                    GameState.danso-=4;
+                                    new FloatingNews(0,500,noMoveStage,"Cháy 2 ngôi nhà chết 4 người",Color.RED).toFront();
+                                }
+                                case 4 -> {
+                                    GameState.danso-=5;
+                                    new FloatingNews(0,500,noMoveStage,"Cháy 2 ngôi nhà chết 5 người",Color.RED).toFront();
+                                }
                             }
                         }
                     }
@@ -1544,18 +1572,52 @@ public class Master implements Screen {
 
     private void tanggiamdanso(){
         if(AQI<100){
-            GameState.xuhuongdantangorgiam = "giảm mạnh dân số";
+            GameState.xuhuongdantangorgiam = "tăng dân số";
             if(timeOfDay%(24*60)==0){
                 createRandomPeople();
                 GameState.danso += Math.round(GameState.danso*2/100/30);
+                int ran = random.nextInt(1,15);
+                switch (ran){
+                    case 1 ->new FloatingNews(0,500,noMoveStage,"Thành phố quá xinh đẹp nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 2 -> new FloatingNews(0,500,noMoveStage,"Thành phố xinh đẹp nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 3 -> new FloatingNews(0,500,noMoveStage,"Thành phố hiện đái nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 4 -> new FloatingNews(0,500,noMoveStage," Thành phố tiến tiến nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 5 -> new FloatingNews(0,500,noMoveStage,"Thành phố sạch sẽ nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 6 -> new FloatingNews(0,500,noMoveStage,"Ronando chuyển đến nên " + Math.round(GameState.danso*2/100/30) + " người đi theo",Color.GREEN);
+                    case 7 -> new FloatingNews(0,500,noMoveStage,"Messi chuyển đến nên  " + Math.round(GameState.danso*2/100/30) + " người  đi theo",Color.GREEN);
+                    case 8 -> new FloatingNews(0,500,noMoveStage,"M pa pê chuyển đến nên  " + Math.round(GameState.danso*2/100/30) + " người  đi theo",Color.GREEN);
+                    case 9 -> new FloatingNews(0,500,noMoveStage,"Haland chuyển đến nên  " + Math.round(GameState.danso*2/100/30) + " người  đi theo",Color.GREEN);
+                    case 10 -> new FloatingNews(0,500,noMoveStage,"Thích Minh Toại chuyển đến nên  " + Math.round(GameState.danso*2/100/30) + " người  đi theo",Color.GREEN);
+                    case 11 -> new FloatingNews(0,500,noMoveStage,"Có bãi biển đẹp nên  " + Math.round(GameState.danso*2/100/30) + " người  tham quan",Color.GREEN);
+                    case 12 -> new FloatingNews(0,500,noMoveStage," Giá đất rẻ nên " + Math.round(GameState.danso*2/100/30) + " người đến ở",Color.GREEN);
+                    case 13 -> new FloatingNews(0,500,noMoveStage,"Nền kinh tế phát triển nên " + Math.round(GameState.danso*2/100/30) + " người đến ",Color.GREEN);
+                    case 14 -> new FloatingNews(0,500,noMoveStage," Con Sông Hồng tuyệt sắc  " + Math.round(GameState.danso*2/100/30) + " người  đến",Color.GREEN);
+                    case 15 -> new FloatingNews(0,500,noMoveStage," Công nghệ phát triển  nên " + Math.round(GameState.danso*2/100/30) + " người  đến",Color.GREEN);
+
+                }
             }
         }else if(AQI<=200){
             GameState.xuhuongdantangorgiam = "giảm dân số";
         }else if(AQI>200){
-            GameState.xuhuongdantangorgiam = "tăng dân số";
+            GameState.xuhuongdantangorgiam = "giảm mạnh dân số";
             if(timeOfDay%(24*60)==0){
                 createRandomPeople();
                 GameState.danso -= Math.round(GameState.danso*5/100/30);
+                int ran = random.nextInt(1,10);
+                switch (ran) {
+                    case 1 ->new FloatingNews(0, 500, noMoveStage, "Thành phố quá bẩn nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 2 ->new FloatingNews(0, 500, noMoveStage, "Messi rời đi nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 3 ->new FloatingNews(0, 500, noMoveStage, "Ronando rời đi nên " + Math.round(GameState.danso * 2 / 100 / 30) + "người rời đi", Color.RED);
+                    case 4 ->new FloatingNews(0, 500, noMoveStage, " Không khí ô nhiễm nặng " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 5->new FloatingNews(0, 500, noMoveStage, " Nội thất giảm sút " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 6 ->new FloatingNews(0, 500, noMoveStage, " Tiền thuê nhà tăng lên  " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 7 ->new FloatingNews(0, 500, noMoveStage, " Có  " + Math.round(GameState.danso * 2 / 100 / 30) + " người chuyển nhà", Color.RED);
+                    case 8 ->new FloatingNews(0, 500, noMoveStage, " Dịch bệnh nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người chết", Color.RED);
+                    case 9 ->new FloatingNews(0, 500, noMoveStage, " Thành phần người dân hổ báo nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 10 ->new FloatingNews(0, 500, noMoveStage, "Biến đổi khí hậu nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+
+
+                }
             }
         }
     }
@@ -1699,6 +1761,12 @@ public class Master implements Screen {
         Corner corner2 = new Corner(1184 + 15 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UR");
         BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32-7*32, stage);
         Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UL");
+
+        new TruSo(18*32,6*32,stage,2);
+        new TruSo(20*32,0,stage,3);
+        new TruSo(33*32,32*22,stage,1);
+        new TruSo(17*32,32*19,stage,1);
+        new TruSo(29*32,32*8,stage,1);
     }
 
     public void createGroundTown() {

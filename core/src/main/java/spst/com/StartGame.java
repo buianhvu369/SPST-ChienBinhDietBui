@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,7 +20,6 @@ public class StartGame extends Game {
     public static BitmapFont font4;
     public static BitmapFont font5;
     public static BitmapFont font6;
-    public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.wav"));
     public Master master;
     @Override
     public void create() {

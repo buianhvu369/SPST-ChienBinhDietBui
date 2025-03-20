@@ -64,12 +64,14 @@ public class Master implements Screen {
     public static SpriteBatch batch;
     OrthographicCamera camera;
     InputMultiplexer multiplexer;
-    Stage stage;
+    public static Stage stage;
     public static Stage noMoveStage;
     private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
 
 
+    public static River river;
+    public static Blood blood;
     Replay replay;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
@@ -160,7 +162,8 @@ public class Master implements Screen {
     public static int day = 0;
     int gio1phan60 = 0;
     public static TextField textField;
-    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
+    private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));
+    public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.mp3"));
     StartGame game;
     public static int timeOfDay = 0;
 
@@ -509,7 +512,7 @@ public class Master implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        //tinhThangThua();
+        tinhThangThua();
         tanggiamdanso();
         taoChatCay();
         xuLyCNXVaGTX();
@@ -1134,7 +1137,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI>300){
+        if(AQI>300 && WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)
@@ -1148,7 +1151,8 @@ public class Master implements Screen {
                 @Override
                 public void run() {
                     dark.toFront();
-                    dark.setColor(0,0,0,0f);if(WLK == 'L'){
+                    dark.setColor(0,0,0,0f);
+                    if(WLK == 'L'){
                         Timer.schedule(new Timer.Task() {
                             @Override
                             public void run() {
@@ -1162,16 +1166,22 @@ public class Master implements Screen {
                     }
                 }
             },2);
-        }if(WLK == 'W'){
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    dark.toFront();
-                    dark.setColor(0,0,0,0f);
-                    replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
-                    replay.toFront();
-                }
-            },2);
+        }
+        if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){
+            dark.toFront();
+            dark.setColor(0,0,0,1);
+            WLK = 'W';
+        }
+        if(WLK == 'W'){
+            dark = new Dark(0,0,noMoveStage);
+            new FloatingNews(random.nextInt(0,32*75),random.nextInt(0,800),stage ,"WIN",Color.GREEN).toFront();
+            new Piece(0,0,noMoveStage).toFront();
+            player.toFront();
+            camera.zoom = 0.3f;
+            camera.position.x = 480;
+            camera.position.y = 270;
+            player.setX(480);
+            player.setY(270);
         }
     }
     private void calculAQI(){
@@ -1806,7 +1816,8 @@ public class Master implements Screen {
     }
 
     public void createRiverAndBoats(){
-        new River(1178, 0, stage);
+        river = new River(1178, 0, stage);
+        blood = new Blood(1178+15, 0, stage);
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);
         new Boat(MathUtils.random(1190, 1230), MathUtils.random(0, 800), stage);

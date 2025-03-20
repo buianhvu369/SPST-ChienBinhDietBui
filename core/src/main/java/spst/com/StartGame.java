@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -16,6 +17,9 @@ public class StartGame extends Game {
     public static BitmapFont font2;
     public static BitmapFont font3;
     public static BitmapFont font4;
+    public static BitmapFont font5;
+    public static BitmapFont font6;
+    public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.wav"));
     public Master master;
     @Override
     public void create() {
@@ -86,6 +90,39 @@ public class StartGame extends Game {
 
         font4 = fontGenerator4.generateFont(fontParameter4);
         fontGenerator4.dispose();
+
+        FreeTypeFontGenerator fontGenerator5 = new FreeTypeFontGenerator(Gdx.files.internal("Lonely Cake.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter5 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter5.size = 20;
+        fontParameter5.color = Color.GREEN;
+        font5 = fontGenerator5.generateFont(fontParameter5);
+        fontGenerator5.dispose();
+
+        FreeTypeFontGenerator fontGenerator6 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter6 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter6.size = 25;
+        fontParameter6.color = Color.BLACK;
+        fontParameter6.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        font6 = fontGenerator6.generateFont(fontParameter6);
+        fontGenerator6.dispose();
 
         menuScreen = new MenuScreen(this);
 

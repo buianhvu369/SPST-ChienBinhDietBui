@@ -14,6 +14,7 @@ import spst.com.*;
 import spst.com.Roads.Car;
 import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
+import spst.com.town.Fire;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -22,21 +23,27 @@ public class People5 extends MyActor {
     Animation<TextureRegion> animationRight;
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
-    int speed = 2;
     float time;
-    float mouseX = -13314;
-    float mouseY = -1321687;
-    boolean takeWater = true;
+    int timeFire;
     int timeDirection;
+    int speed = 1;
+    float mouseX = 100000000;
+    float mouseY = 100000000;
+    boolean isCutting = false;
+    boolean isFiring = false;
+    boolean isFine = false;
+    boolean isMoving = false;
+    boolean isJogging = false;
+    int randomAction = 0;
+    Rectangle rectangle = new Rectangle();
 
+
+    boolean isAlive = true;
+    boolean isBep = false;
     Direction direction = Direction.LEFT;
     float speedX = 0;
     float speedY = 0;
-    boolean isMoving = false;
-    boolean isCutting = false;
-    boolean isFiring = false;
-    boolean isAlive = true;
-    boolean isBep = false;
+
     Tree treeTarget;
 
 
@@ -60,8 +67,13 @@ public class People5 extends MyActor {
 
         this.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(isCutting){
-                    GameState.money += 225;
+                if(isCutting||isFiring){
+                    GameState.money += 150 ;
+                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    StartGame.collect.play();
+                }else {
+                    GameState.money -= 50;
+                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
                 }
             }
         });
@@ -70,26 +82,50 @@ public class People5 extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(isAlive){
-            time+= delta;
+        if(isAlive) {
+            time += delta;
             timeDirection++;
-            if(timeDirection % 300 == 0 && !isCutting){
-                isCutting = MathUtils.randomBoolean();
-                if(isCutting){
-                    if(!Master.trees.isEmpty()){
+            if (timeDirection % 300 == 0 && !isCutting && !isFiring) {
+                randomAction = MathUtils.random(0, 10);
+                if (randomAction < 7) {
+                    isJogging = true;
+                    isCutting = false;
+                    isFiring = false;
+                } else if (randomAction == 7 || randomAction == 8) {
+                    isCutting = true;
+                    isFiring = false;
+                    isJogging = false;
+                } else if (randomAction == 9 || randomAction == 10) {
+                    isFiring = true;
+                    isCutting = false;
+                    isJogging = false;
+                }
+                if (isCutting) {
+                    if (!Master.trees.isEmpty()) {
                         treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
                         System.out.println("Chat cay thoi anh em!" + Master.trees.size);
                         mouseX = treeTarget.getX() + 32;
                         mouseY = treeTarget.getY();
                         isMoving = true;
-
                     }
+                }
+                if (isJogging) {
+                    mouseX = MathUtils.random(100, 2200);
+                    mouseY = MathUtils.random(20, 780);
+                    isMoving = true;
+                }
+                if (isFiring) {
+                    mouseX = MathUtils.random(100, 2200);
+                    mouseY = MathUtils.random(20, 780);
+                    rectangle.setSize(30, 26);
+                    rectangle.setPosition(mouseX - 4, mouseY - 4);
+                    isMoving = true;
                 }
             }
 
-            if(treeTarget != null){
-                Rectangle rec = new Rectangle(treeTarget.getX()+32, treeTarget.getY(), 33, 64);
-                if(rec.overlaps(getBound()) && !treeTarget.isCutDown) {
+            if (treeTarget != null) {
+                Rectangle rec = new Rectangle(treeTarget.getX() + 32, treeTarget.getY(), 33, 64);
+                if (rec.overlaps(getBound()) && !treeTarget.isCutDown) {
                     treeTarget.isCutDown = true;
                     treeTarget.addAction(Actions.sequence(
                         Actions.delay(5),
@@ -97,7 +133,7 @@ public class People5 extends MyActor {
                     ));
                     addAction(Actions.sequence(
                         Actions.delay(5),
-                        Actions.run(()->{
+                        Actions.run(() -> {
                             isCutting = false;
                             treeTarget = null;
                         })
@@ -106,17 +142,31 @@ public class People5 extends MyActor {
                 rec = null;
             }
 
-            if(isMoving){
-                if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
+            if (rectangle.contains(getX(), getY())) {
+                Fire fire = new Fire(getX() + 32, getY(), getStage());
+                addAction(Actions.sequence(
+                    Actions.delay(5),
+                    Actions.run(() -> {
+                        isFiring = false;
+                        fire.remove();
+                    })
+                ));
+                rectangle.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
+
+
+            }
+
+            if (isMoving) {
+                if (Math.abs(getX() - mouseX) < Math.abs(getY() - mouseY)) {
                     if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                         if (mouseX < getX() + 2) {
-                            if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                            if (!(getX() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
                                 moveBy(-speed, 0);
                             }
                             time += delta;
                             textureRegion = animationLeft.getKeyFrame(time);
                         } else if (mouseX > getX() - 2) {
-                            if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
+                            if (!(getX() < 32 * 8 && getY() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() > 32 * 3)) {
                                 moveBy(speed, 0);
                             }
                             time += delta;
@@ -124,13 +174,13 @@ public class People5 extends MyActor {
                         }
                     } else if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                         if (getY() - 2 < mouseY) {
-                            if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                                 moveBy(0, speed);
                             }
                             time += delta;
                             textureRegion = animationUp.getKeyFrame(time);
                         } else if (mouseY < getY() + 2) {
-                            if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                                 moveBy(0, -speed);
                             }
                             time += delta;
@@ -140,13 +190,13 @@ public class People5 extends MyActor {
                 } else {
                     if (!(getY() - 2 < mouseY && mouseY < getY() + 2)) {
                         if (getY() - 2 < mouseY) {
-                            if (!(32*3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() > 32 * 16 - 8 && getY() <= 800 - 32 * 4)) {
                                 moveBy(0, speed);
                             }
                             time += delta;
                             textureRegion = animationUp.getKeyFrame(time);
                         } else if (mouseY < getY() + 2) {
-                            if (!(32*3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
+                            if (!(32 * 3 <= getX() && getX() < 32 * 16 && getY() <= 800 - 32 * 2 && getY() >= 32 * 18)) {
                                 moveBy(0, -speed);
                             }
                             time += delta;
@@ -154,13 +204,13 @@ public class People5 extends MyActor {
                         }
                     } else if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                         if (mouseX < getX() + 2) {
-                            if (!(getX()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
+                            if (!(getX() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() <= 32 * 16)) {
                                 moveBy(-speed, 0);
                             }
                             time += delta;
                             textureRegion = animationLeft.getKeyFrame(time);
                         } else if (mouseX > getX() - 2) {
-                            if(!(getX()<32*8 && getY()>32*14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX()>32*3)){
+                            if (!(getX() < 32 * 8 && getY() > 32 * 14 && 32 * 16 <= getY() && getY() < 32 * 27 && getX() > 32 * 3)) {
                                 moveBy(speed, 0);
                             }
                             time += delta;
@@ -183,10 +233,10 @@ public class People5 extends MyActor {
                 addAction(Actions.sequence(
                         Actions.fadeOut(6),
                         Actions.run(()->{
-                                GameState.danso--;
-                                remove();
-                            }
-                        )
+                            GameState.danso--;
+                            remove();
+
+                        })
                     )
                 );
             }
@@ -209,6 +259,7 @@ public class People5 extends MyActor {
         if(isBep){
             setSize(32, 8);
         }
+
     }
 }
 

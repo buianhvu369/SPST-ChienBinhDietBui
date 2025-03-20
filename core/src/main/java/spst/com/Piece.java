@@ -13,7 +13,7 @@ import spst.com.Utils;
 public class Piece extends MyActor {
     public Piece(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = Utils.getRegion( 16* MathUtils.random(0, 26),MathUtils.random(0, 17)*16,16,16);
+        textureRegion = Utils.getRegion(16 * MathUtils.random(0, 26), MathUtils.random(0, 17) * 16, 16, 16);
         setSize(32, 32);
         setPosition(MathUtils.random(0, Gdx.graphics.getWidth()), MathUtils.random(0, Gdx.graphics.getHeight()));
         addAction(Actions.sequence(

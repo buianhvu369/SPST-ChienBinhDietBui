@@ -2,6 +2,7 @@ package spst.com.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,14 +15,26 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import spst.com.StartGame;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
 public class GuideScreen implements Screen {
     Texture backButtonImage;
     StartGame game;
     Stage stage;
     OrthographicCamera camera;
+    String guide;
     public GuideScreen(StartGame game){
         this.game = game;
         stage = new Stage();
+
+        try{
+            guide = Gdx.files.internal("guide.txt").readString(String.valueOf(StandardCharsets.UTF_8));
+        }catch (Exception ignored){
+            guide = "ko đọc được file, vui lòng thử lại sau";
+        }
     }
     @Override
     public void show() {
@@ -55,6 +68,10 @@ public class GuideScreen implements Screen {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+        Master.batch.begin();
+        game.font3.draw(Master.batch,guide,0,Gdx.graphics.getHeight());
+        Master.batch.end();
     }
 
     @Override

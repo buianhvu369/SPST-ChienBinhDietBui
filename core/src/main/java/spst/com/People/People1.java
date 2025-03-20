@@ -71,8 +71,11 @@ public class People1 extends MyActor {
             public void clicked(InputEvent event, float x, float y){
                if(isCutting||isFiring){
                    GameState.money += 150 ;
+                   new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                   Master.collect.play();
                }else {
                   GameState.money -= 50;
+                   new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
                }
            }
         });
@@ -233,9 +236,9 @@ public class People1 extends MyActor {
                 addAction(Actions.sequence(
                         Actions.fadeOut(6),
                         Actions.run(()->{
-                                GameState.danso--;
-                                remove();
-
+                            GameState.danso--;
+                            Master.blood.getColor().a+=0.01f;
+                            remove();
                         })
                     )
                 );

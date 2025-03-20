@@ -96,7 +96,7 @@ public class Master implements Screen {
     HotelCenter hotelCenter;
     ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
-    boolean hienCheTao = false;
+    public static boolean hienCheTao = false;
 
     Dark dark;
     Rain rain;
@@ -121,10 +121,10 @@ public class Master implements Screen {
 
 
     public static Array<Car> cars = new Array<>();
-    Array<MyActor> roads = new Array<>();
-    Array<Waste> wastes = new Array<>();
+    public static Array<MyActor> roads = new Array<>();
+    public static Array<Waste> wastes = new Array<>();
     public static Array<Tree> trees = new Array<>();
-    Array<MayLoc> MLKKs = new Array<>();
+    public static Array<MayLoc> MLKKs = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 180;
     public static char WLK = 'K';
@@ -135,17 +135,15 @@ public class Master implements Screen {
     public static boolean isCNX = false;
     public static boolean isGTX = false;
     public static int soCamera = 9999;
-    public static int soCamDotRac =  29999;
-    public static int soCamChatCay = 2999;
     public static int sohieucuaMLKKdangchondenangcap = 0;
-    public boolean isOpenSetting = false;
+    public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
 
     public static int growth = 0;
-    public Array<Rice>rices ;
-    Array<NormalCamera> normalCameras = new Array<>();
-    int soCuaCameraDangLooking = 0;
+    public static Array<Rice>rices ;
+    public static Array<NormalCamera> normalCameras = new Array<>();
+    public static int soCuaCameraDangLooking = 0;
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
@@ -161,11 +159,11 @@ public class Master implements Screen {
     int speedX = -2 ;
     int  luotcat = 1;
     public static boolean hienChiSo = false;
-    boolean hienThongTin = false;
-    boolean hienNghienCuu = false;
+    public static boolean hienThongTin = false;
+    public static boolean hienNghienCuu = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
-    int gio1phan60 = 0;
+    public static int gio1phan60 = 0;
     public static TextField textField;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));
     public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.mp3"));
@@ -342,7 +340,6 @@ public class Master implements Screen {
         noPlaced.add(rectangle3);
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
-        Utils.test();
     }
 
     @Override
@@ -361,6 +358,7 @@ public class Master implements Screen {
         replay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 WLK = 'K';
+                GameState.reset();
                 game.setScreen(game.menuScreen);
             }
         });
@@ -810,7 +808,7 @@ public class Master implements Screen {
             game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
             game.font.draw(batch, ""+soCamera,Gdx.graphics.getWidth() - 50 -200, Gdx.graphics.getHeight()-50);
             game.font.draw(batch, ""+soBienCam,Gdx.graphics.getWidth() - 50 -300, Gdx.graphics.getHeight()-50);
-            game.font.draw(batch,String.valueOf(AQI),0, Gdx.graphics.getHeight()-20);
+            game.font.draw(batch,String.valueOf(Math.round(AQI)),0, Gdx.graphics.getHeight()-20);
             game.font3.draw(batch, layout, 466-layout.width/2f, Gdx.graphics.getHeight()-100);
             if(hienChiSo){
                 game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -820,12 +818,12 @@ public class Master implements Screen {
                 game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
             }
             if(hienThongTin){
-                game.font3.draw(batch, "AQI của SO2: " + GameState.AQISO2,32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của CO1: " + GameState.AQICO1,32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
-                game.font3.draw(batch, "AQI của NO2: " + GameState.AQINO2,32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của O3: " + GameState.AQIO3,32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
-                game.font3.draw(batch, "AQI của PM2.5: " + GameState.AQIPM2_5,32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của PM10: " + GameState.AQIPM10,32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
+                game.font3.draw(batch, "AQI của SO2: " + Math.round(GameState.AQISO2),32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
+                game.font3.draw(batch, "AQI của CO1: " + Math.round(GameState.AQICO1),32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
+                game.font3.draw(batch, "AQI của NO2: " + Math.round(GameState.AQINO2),32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
+                game.font3.draw(batch, "AQI của O3: " + Math.round(GameState.AQIO3),32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
+                game.font3.draw(batch, "AQI của PM2.5: " + Math.round(GameState.AQIPM2_5),32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
+                game.font3.draw(batch, "AQI của PM10: " + Math.round(GameState.AQIPM10),32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
                 game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
                 game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
                 game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
@@ -1272,7 +1270,6 @@ public class Master implements Screen {
             new FloatingNews(random.nextInt(0,32*75),random.nextInt(0,800),stage ,"WIN",Color.GREEN).toFront();
             new Piece(0,0,noMoveStage).toFront();
             player.toFront();
-            camera.zoom = 0.3f;
             camera.position.x = 480;
             camera.position.y = 270;
             player.setX(480);

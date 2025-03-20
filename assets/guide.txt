@@ -1,1 +1,23 @@
-Ở ĐÂY CÓ RẤT NHIỀU HƯỚNG DẪN.
+			Hướng dẫn chơi
+Cốt truyện: nhân vật chính là 1 nhà khoa học cần phải làm 1 số công việc để
+giảm thanh chỉ số AQI (ở phía trên bên trái màn hình). Thắng: khi AQI < 100
+và số dân thành phố >= 100000 dân. Thua: khi AQI đạt mức trên 300.
+
+Màn hình trụ sở khoa học(khi ấn vào cửa của trụ sở): 4 mục:
+	-Bảng thông tin
+	-Bảng nghiên cứu
+	-Bảng chế tạo
+	-Bảng cài đặt
+Nhân vật chính phải thực hiện các công việc để khiến cho thanh và chỉ số AQI giảm.
+Công việc:
+	-Trụ sở khoa học: khi ấn vào cửa sẽ hiện màn hình điện tử và ta cần làm việc ở đó.
+	-Bắt tội phạm: khi ấn vào những người chặt cây hoặc đốt lửa bừa bãi thì sẽ được 
+150$,nhưng nếu ấn vào người vô tội sẽ bị trừ 50$.
+	-Đặt máy lọc khí/cây/biển cấm/camera: nếu nhân vật mua 1 thứ trong màn hình 
+điện tử sẽ được đặt nó bằng những nút phía trên.
+	-Tắt/bật camera, chuyển đổi giữa các camera:
+		+Tắt/bật camera ở biểu tượng camera ở giữa 2 mũi tên phía trên màn hình.
+		+Chuyển đổi giữa các camera bằng cách bấm vào các mũi tên ở 2 bên nút 
+"đặt camera".
+Thông tin chi tiết tại link:
+https://github.com/buianhvu369/SPST-ChienBinhDietBui/tree/develop

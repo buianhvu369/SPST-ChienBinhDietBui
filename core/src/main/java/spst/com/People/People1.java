@@ -254,6 +254,7 @@ public class People1 extends MyActor {
                     Actions.fadeOut(6),
                     Actions.run(()->{
                         GameState.danso--;
+                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do rơi xuống sông",Color.RED).toFront();
                         remove();
                     })
                 ));

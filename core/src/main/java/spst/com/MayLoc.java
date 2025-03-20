@@ -8,6 +8,7 @@ import spst.com.Screen.Master;
 public class MayLoc extends MyActor{
     public String name;
     public int level = 1;
+    public int time = 0;
     Texture mayloc = new Texture("maylockhongkhi.png");
     public MayLoc(float x, float y, Stage s,float width, float height) {
         super(x, y, s);
@@ -18,7 +19,8 @@ public class MayLoc extends MyActor{
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(Master.mLKKAction) {
+        time++;
+        if(Master.mLKKAction && GameState.ernegy >= 5) {
             if (GameState.PM2_5 >= 6 + (level - 1) * 2 / 60f) {
                 GameState.PM2_5 -= (6 + (level - 1) * 2) / 60f;
             } else {
@@ -29,6 +31,9 @@ public class MayLoc extends MyActor{
             } else {
                 GameState.NO2 = 0;
             }
+        }
+        if(time%60 == 0 && GameState.ernegy >= 5){
+            GameState.ernegy -= 5;
         }
     }
 }

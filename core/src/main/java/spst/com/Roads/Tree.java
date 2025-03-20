@@ -10,6 +10,7 @@ import spst.com.Utils;
 
 public class Tree extends MyActor {
     public boolean isCutDown = false;
+    int time = 0;
     public Tree(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = Utils.getRegion(16 * 16, 8 * 16, 16, 32);
@@ -19,11 +20,17 @@ public class Tree extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(GameState.PM10>=0.2f/60f){
-            GameState.PM10 -=0.2f/60f;
+        time ++;
+        if(time == 30){
+            GameState.money--;
         }
-        if(GameState.CO1 >= 0.15f/60f){
-            GameState.CO1 -= 0.15f/60f;
+        if(GameState.money >= 1) {
+            if (GameState.PM10 >= 0.2f / 60f) {
+                GameState.PM10 -= 0.2f / 60f;
+            }
+            if (GameState.CO1 >= 0.15f / 60f) {
+                GameState.CO1 -= 0.15f / 60f;
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import spst.com.Utils;
 
 public class Sign extends MyActor {
     boolean isFire = false;
+    int time = 0;
     public Sign(float x, float y,boolean isCamDotRac, Stage s) {
         super(x, y, s);
         if(isCamDotRac){
@@ -24,15 +25,21 @@ public class Sign extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(GameState.PM2_5>=6/60f){
-            GameState.PM2_5 -= 6/60f;
-        }else{
-            GameState.PM2_5 = 0;
+        time++;
+        if(time % 60 == 0){
+            GameState.money--;
         }
-        if(GameState.SO2 >= 5/60f){
-            GameState.SO2 -= 5/60f;
-        }else{
-            GameState.SO2 = 0;
+        if(GameState.money >= 1) {
+            if (GameState.PM2_5 >= 6 / 60f) {
+                GameState.PM2_5 -= 6 / 60f;
+            } else {
+                GameState.PM2_5 = 0;
+            }
+            if (GameState.SO2 >= 5 / 60f) {
+                GameState.SO2 -= 5 / 60f;
+            } else {
+                GameState.SO2 = 0;
+            }
         }
         if(isFire){
             textureRegion = new TextureRegion(new Texture("signfire.png"));

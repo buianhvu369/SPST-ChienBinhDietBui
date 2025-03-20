@@ -244,7 +244,7 @@ public class People1 extends MyActor {
             setSize(32,32);
         }
         for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBound())){
+            if(getBound().overlaps(c.getBoundCar())){
                 isAlive = false;
                 isBep = true;
                 addAction(Actions.sequence(

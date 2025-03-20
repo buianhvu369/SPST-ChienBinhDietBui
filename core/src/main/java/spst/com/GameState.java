@@ -5,7 +5,7 @@ import com.badlogic.gdx.Preferences;
 import spst.com.Screen.Master;
 
 public class GameState{
-    public static int money = 500000;
+    public static int money = 5000;
     public static int ernegy=200;
     public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";
@@ -69,5 +69,50 @@ public class GameState{
         lydocamxucnguoidan = preferences.getString("lydocamxucnguoidan","");
 
         System.out.println("Saved Data: " + preferences.get());
+    }
+    public static void reset(){
+        money = 5000;
+        ernegy=200;
+        danso = 100000;
+        PM2_5 = 100;
+        PM10 = 150;
+        NO2 = 90;
+        SO2 = 50;
+        CO1 = 10;
+        O3 = 80;
+
+        Master.soCamera = 0;
+        Master.soBienCam = 0;
+        Master.soMayLoc = 0;
+        Master.amountSeed = 0;
+        Master.sohieucuaMLKKdangchondenangcap = 0;
+        Master.soCuaCameraDangLooking = 0;
+
+        Master.hienChiSo = false;
+        Master.hienThongTin = false;
+        Master.hienNghienCuu = false;
+        Master.hienCheTao = false;
+        Master.isOpenSetting = false;
+        Master.isCNX = false;
+        Master.isGTX = false;
+        Master.cutting = false;
+        Master.mLKKAction = true;
+        Master.factoryAction = true;
+        Master.trafficAction = true;
+        Master.day = 0;
+        Master.gio1phan60 = 0;
+        Master.timeOfDay = 0;
+
+        Master.WLK = 0;
+
+        Master.blood.setColor(1,0,0,0);
+
+        Master.cars.clear();
+        Master.roads.clear();
+        Master.wastes.clear();
+        Master.trees.clear();
+        Master.MLKKs.clear();
+        Master.rices.clear();
+        Master.normalCameras.clear();
     }
 }

@@ -63,22 +63,6 @@ public class Utils {
 
     static int[] indexValues = {0, 50, 100, 150, 200, 300, 400, 500};
 
-
-    public static void test(){
-        Map<String, Double> observedData = Map.of(
-            "PM2.5", 100.0,
-            "PM10", 150.0,
-            "NO2", 90.0,
-            "SO2", 50.0,
-            "CO", 10.0,
-            "O3", 80.0
-        );
-        List<Double> aqiList = calculateAQIList(observedData, breakpointsData, indexValues);
-
-        System.out.println("Danh sách AQI: " + aqiList);
-        System.out.printf("Chỉ số AQI tổng: %.2f%n", Collections.max(aqiList));
-    }
-
     public static void updateAQI( double co1, double no2, double pm10, double pm25, double o3, double so2){
         try{
         Map<String, Double> observedData = Map.of(

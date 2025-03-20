@@ -128,7 +128,6 @@ public class StartGame extends Game {
 
         this.master = new Master(menuScreen.game);
         this.guideScreen = new GuideScreen(this);
-        this.menuScreen = new MenuScreen(this);
         setScreen(menuScreen);
 
     }

@@ -17,6 +17,7 @@ public class StartGame extends Game {
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
+    public static BitmapFont fontEvent;
     public static BitmapFont font4;
     public static BitmapFont font5;
     public static BitmapFont font6;
@@ -64,6 +65,32 @@ public class StartGame extends Game {
 
         font3 = fontGenerator3.generateFont(fontParameter3);
         fontGenerator3.dispose();
+
+        FreeTypeFontGenerator fontGeneratorEvent = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameterEvent = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameterEvent.size = 25;
+        fontParameterEvent.color = Color.GOLD;
+        fontParameterEvent.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        fontEvent = fontGeneratorEvent.generateFont(fontParameterEvent);
+        fontGeneratorEvent.dispose();
 
         FreeTypeFontGenerator fontGenerator4 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter4 = new FreeTypeFontGenerator.FreeTypeFontParameter();

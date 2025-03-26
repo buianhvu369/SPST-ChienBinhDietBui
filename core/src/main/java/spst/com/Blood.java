@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.Screen.Master;
 
 public class Blood extends MyActor{
+    final public float numberBlood = 0.01f;
     public Blood(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = Utils.getRegion(16*9,16*1,16,16);

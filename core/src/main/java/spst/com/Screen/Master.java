@@ -102,13 +102,13 @@ public class Master implements Screen {
     Line lineThongTin;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Texture button = new Texture("buttonblank.png");
-    TextButton startButton ;
+    TextButton bienButton ;
     TextButton plantButton;
-    TextButton wasteButton;
+    TextButton MLKKButton;
     TextButton factoryButton;
     TextButton energyButton;
     TextButton trafficButton;
-    TextButton litterButton;
+    TextButton cameraButton;
     TextButton  turnOffMLKK;
     TextButton  turnOnMLKK;
     TextButton  turnOffFactory;
@@ -122,16 +122,18 @@ public class Master implements Screen {
     public static Array<Waste> wastes = new Array<>();
     public static Array<Tree> trees = new Array<>();
     public static Array<MayLoc> MLKKs = new Array<>();
+    public static Array<Sign> signs = new Array<>();
+    public static  Array<TruSo> truSos = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 180;
     public static char WLK = 'K';
     public static String whatActionIfClickMouse = "move";
-    public  static int amountSeed = 99999;
-    public static int soBienCam = 99999;
-    public static int soMayLoc = 99999;
+    public  static int amountSeed = 0;
+    public static int soBienCam = 0;
+    public static int soMayLoc = 0;
     public static boolean isCNX = false;
     public static boolean isGTX = false;
-    public static int soCamera = 9999;
+    public static int soCamera = 0;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
@@ -175,27 +177,52 @@ public class Master implements Screen {
 
         layout.width = 300;
         layout.height = 40;
-        startButton = new TextButton(" Mua một cái máy lọc không khí ", style);
-        startButton.addListener(new ClickListener() {
+        MLKKButton = new TextButton(" Mua một cái máy lọc không khí ", style);
+        MLKKButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=500) {
+                if(GameState.money>=500&&GameState.ernegy>=20) {
                     Master.soMayLoc++;
                     GameState.money-=500;
+                    GameState.ernegy-=20;
                 }
 
             }
         });
-        wasteButton = new TextButton("Mua một biển cấm  ", style);
-        wasteButton.addListener(new ClickListener() {
+        bienButton = new TextButton("Mua một biển cấm  ", style);
+        bienButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=300&&GameState.greenscore >=5) {
+                if(GameState.money>=300&&GameState.ernegy >=10&&GameState.greenscore >=5) {
                     GameState.greenscore  -= 5;
-                    Master.soBienCam++;
+                    GameState.ernegy  -= 10;
                     GameState.money-=300;
+                    Master.soBienCam++;
                 }
             }
         });
         factoryButton = new TextButton("Tạo công nghệ xanh ", style);
+        factoryButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
+                    isCNX = true;
+                    factoryButton.setColor(Color.GRAY);
+                    GameState.money -=1500;
+                    GameState.ernegy -=30;
+                    GameState.greenscore -=30;
+                }
+            }
+        });
+        trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
+        trafficButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
+                    isGTX = true;
+                    trafficButton.setColor(Color.GRAY);
+                    GameState.money -=1000;
+                    GameState.ernegy -=50;
+                    GameState.greenscore -=20;
+                }
+            }
+        });
         plantButton = new TextButton("Mua một cây xanh", style);
         plantButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -207,13 +234,13 @@ public class Master implements Screen {
             }
         });
 
-        trafficButton = new TextButton(" Tạo công trình giao thông xanh ", style);
-        litterButton = new TextButton("Mua một cái camera ", style);
-        litterButton.addListener(new ClickListener() {
+        cameraButton = new TextButton("Mua một cái camera ", style);
+        cameraButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >=300){
+                if(GameState.money >=300&&GameState.ernegy >=5){
                     soCamera++;
                     GameState.money-=300;
+                    GameState.ernegy-=5;
                 }
             }
         });
@@ -301,7 +328,6 @@ public class Master implements Screen {
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
-        Array noPlaces = new Array();
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
@@ -467,32 +493,10 @@ public class Master implements Screen {
 
                 }
             });
-        }catch (Exception ignored){
+        }catch (Exception ignored) {
             System.out.println(soCuaCameraDangLooking);
             System.out.println("123456");
         }
-        factoryButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
-                    isCNX = true;
-                    factoryButton.setColor(Color.GRAY);
-                    GameState.money -=1500;
-                    GameState.ernegy -=30;
-                    GameState.greenscore -=30;
-                }
-            }
-        });
-        trafficButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
-                    isGTX = true;
-                    trafficButton.setColor(Color.GRAY);
-                    GameState.money -=1000;
-                    GameState.ernegy -=50;
-                    GameState.greenscore -=20;
-                }
-            }
-        });
 
         caiDatButton.addListener(new ClickListener() {
 
@@ -781,88 +785,118 @@ public class Master implements Screen {
             }
         }
         for(Car car : cars) {
-            if (player.getBound().overlaps(car.getBound())) {
-                if(car.getY()>player.getY()){
+            if(player.getBound().overlaps(car.getBound())){
+                if(player.getY()<car.getY()){
                     player.toFront();
-                }if(car.getY()<player.getY()){
+                    if(player.getY() > car.getY()-5){
+                        player.setY(car.getY()-5);
+                    }
+                }else {
                     car.toFront();
+                    if(player.getY() < car.getY()+10){
+                        player.setY(car.getY()+10);
+                    }
+                }
+            }
+        }
+        for(TruSo x : truSos){
+            if(player.getBound().overlaps(x.getBound())){
+                if(player.getY()<x.getY()){
+                    player.toFront();
+                    if(player.getY() > x.getY()-5){
+                        player.setY(x.getY()-5);
+                    }
+                }else {
+                    x.toFront();
+                    if(player.getY() < x.getY()+10){
+                        player.setY(x.getY()+10);
+                    }
                 }
             }
         }
         stage.act();
         truck.toFront();
         stage.draw();
-        noMoveStage.act();
+        vietChuNen();
         noMoveStage.draw();
-        if(this.dark.getColor().a == 0){
+        noMoveStage.act();
+        vietChuBangScience();
+    }
+
+    private void vietChuNen(){
+        if(this.dark.getColor().a == 0) {
             batch.begin();
-            try{
-                layout.setText(game.font3,"Camera: " + normalCameras.get(soCuaCameraDangLooking).name);
-            }catch (Exception e){
-                layout.setText(game.font3,"Chưa có camera");
+            try {
+                layout.setText(game.font3, "Camera: " + normalCameras.get(soCuaCameraDangLooking).name);
+            } catch (Exception e) {
+                layout.setText(game.font3, "Chưa có camera");
             }
-            game.font.draw(batch, ""+amountSeed,Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight()-50);
-            game.font.draw(batch, ""+soMayLoc,Gdx.graphics.getWidth() - 50 -100, Gdx.graphics.getHeight()-50);
-            game.font.draw(batch, ""+soCamera,Gdx.graphics.getWidth() - 50 -200, Gdx.graphics.getHeight()-50);
-            game.font.draw(batch, ""+soBienCam,Gdx.graphics.getWidth() - 50 -300, Gdx.graphics.getHeight()-50);
-            game.font.draw(batch,String.valueOf(Math.round(AQI)),0, Gdx.graphics.getHeight()-20);
-            game.font3.draw(batch, layout, 466-layout.width/2f, Gdx.graphics.getHeight()-100);
-            if(hienChiSo){
-                game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
-                game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
-                game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
-                game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
-                game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
-            }
-            if(hienThongTin){
-                game.font3.draw(batch, "AQI của SO2: " + Math.round(GameState.AQISO2),32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của CO1: " + Math.round(GameState.AQICO1),32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
-                game.font3.draw(batch, "AQI của NO2: " + Math.round(GameState.AQINO2),32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của O3: " + Math.round(GameState.AQIO3),32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
-                game.font3.draw(batch, "AQI của PM2.5: " + Math.round(GameState.AQIPM2_5),32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                game.font3.draw(batch, "AQI của PM10: " + Math.round(GameState.AQIPM10),32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
-                game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
-                game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
-                game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
-            }
-            if(hienNghienCuu){
-                try {
-                    game.font3.draw(batch, "Cấp độ máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).level,32*9, Gdx.graphics.getHeight()-32*4-(25+8*2));
-                    game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*9, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
-                    game.font4.draw(batch, "Tên máy lọc không khí:", 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);
-                    game.font4.draw(batch, MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 7 - (25 + 8 * 2) - 16);
-                    game.font5.draw(batch, "1000 money, 5 energy", 32 * 20, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16 - 32);
-                }catch(Exception e) {
-                    game.font4.draw(batch, "Chưa có máy lọc không khí", 32 * 9, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16);
-                }
-                game.font3.draw(batch, "Cấp độ công nghệ xanh: " + GameState.levelcongnghexanh,32*17, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
-                game.font4.draw(batch, "Nâng cấp công nghệ xanh",32*17, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
-                if(isCNX) {
-                    game.font5.draw(batch, "1500 money, 30 ernegy",32*16, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-10);
-                    game.font5.draw(batch, "30 greenscore",32*16, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-25-10);
-                }
-                game.font3.draw(batch, "Cấp độ giao thông xanh: " + GameState.levelgiaothongxanh,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
-                game.font4.draw(batch, "Nâng cấp giao thông xanh",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
-                if(isGTX) {
-                    game.font5.draw(batch, "1000 money, 50 ernegy",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-10);
-                    game.font5.draw(batch, "20 greenscore",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-25-10);
-                }
-            }
-            if(hienCheTao){
-                game.font5.draw(batch, "800 money",32*20+10,Gdx.graphics.getHeight() * 0.6f+50-12.5f-20);
-                game.font5.draw(batch, "300 money: ",32*20+10, Gdx.graphics.getHeight() * 0.6f+0-12.5f);
-                game.font5.draw(batch, "500 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50-12.5f+10);
-                game.font5.draw(batch, "100 money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2+5);
-                game.font5.draw(batch, "75 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2-30);
-                game.font5.draw(batch, "1500 money, 30 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-10);
-                game.font5.draw(batch, "30 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-20-10);
-                game.font5.draw(batch, "1000 money, 50 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4);
-                game.font5.draw(batch, "20 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4-20);
-            }
+            game.font.draw(batch, "" + amountSeed, Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50);
+            game.font.draw(batch, "" + soMayLoc, Gdx.graphics.getWidth() - 50 - 100, Gdx.graphics.getHeight() - 50);
+            game.font.draw(batch, "" + soCamera, Gdx.graphics.getWidth() - 50 - 200, Gdx.graphics.getHeight() - 50);
+            game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 50 - 300, Gdx.graphics.getHeight() - 50);
+            game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
+            game.font3.draw(batch, layout, 466 - layout.width / 2f, Gdx.graphics.getHeight() - 100);
             batch.end();
         }
     }
-
+    private void vietChuBangScience(){
+        batch.begin();
+        if(hienChiSo){
+            game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
+            game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
+        }
+        if(hienThongTin){
+            game.font3.draw(batch, "AQI của SO2: " + Math.round(GameState.AQISO2),32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của CO1: " + Math.round(GameState.AQICO1),32*2, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "AQI của NO2: " + Math.round(GameState.AQINO2),32*11, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của O3: " + Math.round(GameState.AQIO3),32*11, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "AQI của PM2.5: " + Math.round(GameState.AQIPM2_5),32*20, Gdx.graphics.getHeight()-32*4-(25+8*2));
+            game.font3.draw(batch, "AQI của PM10: " + Math.round(GameState.AQIPM10),32*20, Gdx.graphics.getHeight()-32*5-(25+8*2));
+            game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
+            game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
+            game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
+        }
+        if(hienNghienCuu){
+            try {
+                game.font3.draw(batch, "Cấp độ máy lọc không khí: " + MLKKs.get(sohieucuaMLKKdangchondenangcap).level,32*9, Gdx.graphics.getHeight()-32*4-(25+8*2));
+                game.font4.draw(batch, "Nâng cấp máy lọc không khí",32*9, Gdx.graphics.getHeight()-32*5-(25+8*2)-16);
+                game.font4.draw(batch, "Tên máy lọc không khí:", 32 * 9, Gdx.graphics.getHeight() - 32 * 6 - (25 + 8 * 2) - 16);
+                game.font4.draw(batch, MLKKs.get(sohieucuaMLKKdangchondenangcap).name, 32 * 9, Gdx.graphics.getHeight() - 32 * 7 - (25 + 8 * 2) - 16);
+                game.font5.draw(batch, "1000 money, 5 energy", 32 * 20, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16 - 32);
+            }catch(Exception e) {
+                game.font4.draw(batch, "Chưa có máy lọc không khí", 32 * 9, Gdx.graphics.getHeight() - 32 * 5.5f - (25 + 8 * 2) - 16);
+            }
+            game.font3.draw(batch, "Cấp độ công nghệ xanh: " + GameState.levelcongnghexanh,32*17, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
+            game.font4.draw(batch, "Nâng cấp công nghệ xanh",32*17, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
+            if(isCNX) {
+                game.font5.draw(batch, "1500 money, 30 ernegy",32*16, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-10);
+                game.font5.draw(batch, "30 greenscore",32*16, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-25-10);
+            }
+            game.font3.draw(batch, "Cấp độ giao thông xanh: " + GameState.levelgiaothongxanh,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2)-16*2);
+            game.font4.draw(batch, "Nâng cấp giao thông xanh",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*3);
+            if(isGTX) {
+                game.font5.draw(batch, "1000 money, 50 ernegy",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-10);
+                game.font5.draw(batch, "20 greenscore",32*2, Gdx.graphics.getHeight()-32*9-(25+8*2)-16*5-25-10);
+            }
+        }
+        if(hienCheTao){
+            game.font5.draw(batch, "500 money, 5 energy",32*20+10,Gdx.graphics.getHeight() * 0.6f+50-12.5f-10);
+            game.font5.draw(batch, "300 money,10 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f+0);
+            game.font5.draw(batch, "5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f+0-20);
+            game.font5.draw(batch, "300 money, 5 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50-12.5f+10);
+            game.font5.draw(batch, "100 money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2+5);
+            game.font5.draw(batch, "75 money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2-30);
+            game.font5.draw(batch, "1500 money, 30 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-10);
+            game.font5.draw(batch, "30 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-20-10);
+            game.font5.draw(batch, "1000 money, 50 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4);
+            game.font5.draw(batch, "20 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4-20);
+        }
+        batch.end();
+    }
     private void xuLyCNXVaGTX(){
         //xu ly CNX
         if(GameState.ernegy >= 10 && factoryAction) {
@@ -1037,60 +1071,54 @@ public class Master implements Screen {
         dongNghienCuu();
         hienCheTao = true;
 
-            startButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
-            startButton.setSize(600, 40);
-            noMoveStage.addActor(startButton);
-            startButton.toFront();
+        MLKKButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f);
+        MLKKButton.setSize(600, 40);
+        noMoveStage.addActor(MLKKButton);
+        MLKKButton.toFront();
 
 
 
-            wasteButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40);
-            wasteButton.setSize(600, 40);
-            noMoveStage.addActor(wasteButton);
-            wasteButton.toFront();
+        bienButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f-40);
+        bienButton.setSize(600, 40);
+        noMoveStage.addActor(bienButton);
+        bienButton.toFront();
 
 
 
-        litterButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*2);
-        litterButton.setSize(600, 40);
-        noMoveStage.addActor(litterButton);
-        litterButton.toFront();
+        cameraButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*2);
+        cameraButton.setSize(600, 40);
+        noMoveStage.addActor(cameraButton);
+        cameraButton.toFront();
 
-            plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*3);
-            plantButton.setSize(600, 40);
-            noMoveStage.addActor(plantButton);
-            plantButton.toFront();
+        plantButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*3);
+        plantButton.setSize(600, 40);
+        noMoveStage.addActor(plantButton);
+        plantButton.toFront();
 
-            energyButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*4);
-            energyButton.setSize(600, 40);
-            noMoveStage.addActor(energyButton);
+        energyButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*4);
+        energyButton.setSize(600, 40);
+        noMoveStage.addActor(energyButton);
         energyButton.toFront();
 
 
-            factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*5);
-            factoryButton.setSize(600, 40);
-            noMoveStage.addActor(factoryButton);
-            factoryButton.toFront();
+        factoryButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*5);
+        factoryButton.setSize(600, 40);
+        noMoveStage.addActor(factoryButton);
+        factoryButton.toFront();
 
-
-            trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*6);
-            trafficButton.setSize(600, 40);
-            noMoveStage.addActor(trafficButton);
-            trafficButton.toFront();
-
-
-
-
-
+        trafficButton.setPosition(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.6f - 40*6);
+        trafficButton.setSize(600, 40);
+        noMoveStage.addActor(trafficButton);
+        trafficButton.toFront();
     }
 
     public void dongCheTao(){
-        startButton.remove();
-        wasteButton.remove();
+        MLKKButton.remove();
+        cameraButton.remove();
         factoryButton.remove();
         plantButton.remove();
         trafficButton.remove();
-        litterButton.remove();
+        bienButton.remove();
         energyButton.remove();
         hienCheTao = false;
     }
@@ -1247,6 +1275,7 @@ public class Master implements Screen {
                                 dark.toFront();
                                 dark.setColor(0,0,0,0f);
                                 new Piece(0,0,noMoveStage).toFront();
+                                new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED).toFront();
                                 replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
                                 replay.toFront();
                             }
@@ -1262,8 +1291,7 @@ public class Master implements Screen {
         }
         if(WLK == 'W'){
             dark = new Dark(0,0,noMoveStage);
-            new FloatingNews(random.nextInt(0,32*75),random.nextInt(0,800),stage ,"WIN",Color.GREEN).toFront();
-            new Piece(0,0,noMoveStage).toFront();
+            new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"WIN",Color.GREEN).toFront();
             player.toFront();
             camera.position.x = 480;
             camera.position.y = 270;
@@ -1599,7 +1627,7 @@ public class Master implements Screen {
         }else if(AQI<=200){
             GameState.xuhuongdantangorgiam = "giảm dân số";
         }else if(AQI>200){
-            GameState.xuhuongdantangorgiam = "giảm mạnh dân số";
+            GameState.xuhuongdantangorgiam = "giảm dân số";
             if(timeOfDay%(24*60)==0){
                 createRandomPeople();
                 GameState.danso -= Math.round(GameState.danso*5/100/30);
@@ -1762,11 +1790,11 @@ public class Master implements Screen {
         BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32-7*32, stage);
         Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UL");
 
-        new TruSo(18*32,6*32,stage,2);
-        new TruSo(20*32,0,stage,3);
-        new TruSo(33*32,32*22,stage,1);
-        new TruSo(17*32,32*19,stage,1);
-        new TruSo(29*32,32*8,stage,1);
+        TruSo truSo1 = new TruSo(18*32,6*32,stage,2);
+        TruSo truSo2 = new TruSo(20*32,0,stage,3);
+        TruSo truSo3 = new TruSo(33*32,32*22,stage,1);
+        TruSo truSo4 = new TruSo(17*32,32*19,stage,1);
+        TruSo truSo5 = new TruSo(29*32,32*8,stage,1);
     }
 
     public void createGroundTown() {
@@ -2021,6 +2049,7 @@ public class Master implements Screen {
 
     @Override
     public void dispose() {
+        nen.stop();
         GameState.saveGame();
         batch.dispose();
     }

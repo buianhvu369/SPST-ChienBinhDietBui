@@ -54,7 +54,7 @@ configure(subprojects) {
 
 subprojects {
   version = '1.0.0'
-  ext.appName = 'ChienBinhDietBui'
+  ext.appName = 'Eco Engineer'
   repositories {
     mavenCentral()
     maven { url 'https://s01.oss.sonatype.org' }

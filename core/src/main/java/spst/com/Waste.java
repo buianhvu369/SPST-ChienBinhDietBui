@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.Screen.Master;
 
 public class Waste extends MyActor {
-    boolean isFire;
+    public boolean isFire;
     public Waste(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("waste.png"));

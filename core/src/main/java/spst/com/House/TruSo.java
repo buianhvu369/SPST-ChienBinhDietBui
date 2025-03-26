@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 
 public class TruSo extends MyActor {
     public TruSo(float x, float y, Stage s, int type) {
@@ -21,5 +22,6 @@ public class TruSo extends MyActor {
             textureRegion = new TextureRegion(new Texture(Gdx.files.internal("3.png")));
             setSize(textureRegion.getRegionWidth()*0.8f, textureRegion.getRegionHeight()*0.8f);
         }
+        Master.truSos.add(this);
     }
 }

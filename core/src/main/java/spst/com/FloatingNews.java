@@ -1,5 +1,6 @@
 package spst.com;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,7 +14,7 @@ public class FloatingNews extends Actor {
     private Color myColor;
     public FloatingNews(float x,float y,Stage s, String news, Color color) {
         text = news;
-        font = StartGame.font3; // Font mặc định của LibGDX
+        font = StartGame.fontEvent; // Font mặc định của LibGDX
         font.setColor(color);
 
         setPosition(x,  y);

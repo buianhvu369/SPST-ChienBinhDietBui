@@ -68,23 +68,23 @@ public class People extends MyActor {
             time += delta;
             timeDirection++;
             if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste) {
-                randomAction = MathUtils.random(0, 12);
-                if (randomAction < 7) {
+                randomAction = MathUtils.random(0,20 );
+                if (randomAction < 15) {
                     isJogging = true;
                     isCutting = false;
                     isFiringWaste = false;
                     isFiringSign = false;
-                } else if (randomAction == 7 || randomAction == 8) {
+                } else if (randomAction == 15 || randomAction == 16) {
                     isCutting = true;
                     isFiringWaste = false;
                     isJogging = false;
                     isFiringSign = false;
-                } else if (randomAction == 9 || randomAction == 10) {
+                } else if (randomAction == 17 || randomAction == 18) {
                     isFiringWaste = true;
                     isCutting = false;
                     isJogging = false;
                     isFiringSign = false;
-                } else if (randomAction == 11 || randomAction == 12) {
+                } else if (randomAction == 19 || randomAction == 20) {
                     isFiringSign = true;
                     isFiringWaste = false;
                     isCutting = false;

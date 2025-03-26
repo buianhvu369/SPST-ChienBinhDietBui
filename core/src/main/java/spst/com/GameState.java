@@ -29,27 +29,44 @@ public class GameState{
     public static float AQIPM10 = 0;
     public static void saveGame() {
         Preferences preferences = Gdx.app.getPreferences("save");
-        preferences.putInteger( "money", money);
-        preferences.putFloat( "greenscore", greenscore);
-        preferences.putFloat( "AQI", Master.AQI);
-        preferences.putFloat( "SO2", SO2);
-        preferences.putFloat( "CO1", CO1);
-        preferences.putFloat( "NO2", NO2);
-        preferences.putFloat( "O3", O3);
-        preferences.putFloat( "PM2_5", PM2_5);
-        preferences.putFloat( "PM10", PM10);
-        preferences.putInteger( "ernegy", ernegy);
-        preferences.putInteger( "danso", danso);
-        preferences.putString( "xuhuongdantangorgiam", xuhuongdantangorgiam);
-        preferences.putInteger( "levelcongnghexanh", levelcongnghexanh);
-        preferences.putInteger( "levelgiaothongxanh", levelgiaothongxanh);
-        preferences.putString( "event", event);
-        preferences.putString( "camxucnguoidan", camxucnguoidan);
-        preferences.putString( "lydocamxucnguoidan", lydocamxucnguoidan);
-        preferences.putInteger(".", Master.soBienCam);
-        preferences.putInteger("1",Master.soMayLoc );
-        preferences.putInteger("",Master.soCamera);
-        preferences.putInteger("",Master.amountSeed);
+        preferences.putInteger("money", money);
+        preferences.putInteger("energy", ernegy);
+        preferences.putInteger("greenscore", greenscore);
+        preferences.putInteger("danso", danso);
+        preferences.putFloat("PM2_5",PM2_5);
+        preferences.putFloat("PM10",PM10);
+        preferences.putFloat("SO2",SO2);
+        preferences.putFloat("NO2",NO2);
+        preferences.putFloat("CO1",CO1);
+        preferences.putFloat("O3",O3);
+
+        preferences.putInteger("socamera", Master.soCamera);
+        preferences.putInteger("sobiencam",Master.soBienCam);
+        preferences.putInteger("somayloc",Master.soMayLoc);
+        preferences.putInteger("socay",Master.amountSeed);
+        preferences.putInteger("sohieucuaMLKKdangchondenangcap",Master.sohieucuaMLKKdangchondenangcap);
+        preferences.putInteger("soCuaCameraDangLooking",Master.soCuaCameraDangLooking);
+
+        preferences.putBoolean("isCNX", Master.isCNX);
+        preferences.putBoolean("isGTX", Master.isGTX);
+        preferences.putBoolean("mLKKAction", Master.mLKKAction);
+        preferences.putBoolean("trafficAction", Master.trafficAction);
+        preferences.putBoolean("factoryAction", Master.factoryAction);
+        preferences.putInteger("day", Master.day);
+        preferences.putFloat("gio1phan60", Master.gio1phan60);
+        preferences.putFloat("timeofday", Master.timeOfDay);
+
+        preferences.putString("WLK", String.valueOf(Master.WLK));
+
+        preferences.putString("Color",Master.blood.getColor().toString());
+
+//        Master.cars.clear();
+//        Master.roads.clear();
+//        Master.wastes.clear();
+//        Master.trees.clear();
+//        Master.MLKKs.clear();
+//        Master.rices.clear();
+//        Master.normalCameras.clear();
         preferences.flush();
     }
     public static void loadGame() {
@@ -119,7 +136,6 @@ public class GameState{
         Master.isOpenSetting = false;
         Master.isCNX = false;
         Master.isGTX = false;
-        Master.cutting = false;
         Master.mLKKAction = true;
         Master.factoryAction = true;
         Master.trafficAction = true;

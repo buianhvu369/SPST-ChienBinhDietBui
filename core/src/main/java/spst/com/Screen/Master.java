@@ -337,7 +337,7 @@ public class Master implements Screen {
         taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200-32,Gdx.graphics.getHeight()-100,noMoveStage);
         taoCamera = new creatCamera(Gdx.graphics.getWidth()-300-32,Gdx.graphics.getHeight()-100,noMoveStage);
         taoSign = new creatSign(Gdx.graphics.getWidth()-400-32,Gdx.graphics.getHeight()-100,noMoveStage);
-        saveNut = new SaveNut(Gdx.graphics.getWidth()-32,Gdx.graphics.getHeight()-32,noMoveStage);
+        saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
 
         createTree();
         createWaste();

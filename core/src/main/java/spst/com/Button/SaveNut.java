@@ -16,7 +16,7 @@ public class SaveNut extends MyActor {
     public SaveNut(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("save.png"));
-        setSize(32,32);
+        setSize(48,48);
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

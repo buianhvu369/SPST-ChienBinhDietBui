@@ -83,8 +83,7 @@ public class GameState{
 
         Master.WLK = preferences.getString("WLK", "K").charAt(0);
 
-        Master.blood.setColor(1,0,0,0);
-
+        Master.blood.setColor(preferences.getFloat("ColorOfBlood",0),0,0,0);
 //        Master.cars.clear();
 //        Master.roads.clear();
 //        Master.wastes.clear();

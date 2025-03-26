@@ -60,30 +60,30 @@ public class GameState{
         danso = preferences.getInteger("danso",100000);
         PM2_5 = preferences.getFloat("PM2_5",100);
         PM10 = preferences.getFloat("PM10",150);
-        NO2 = preferences.getFloat("PM10",90);
-        SO2 = preferences.getFloat("PM10",50);
-        CO1 = preferences.getFloat("PM10",10);
-        O3 = preferences.getFloat("PM10",80);
+        NO2 = preferences.getFloat("NO2",90);
+        SO2 = preferences.getFloat("SO2",50);
+        CO1 = preferences.getFloat("CO1",10);
+        O3 = preferences.getFloat("O3",80);
 
-        Master.soCamera = preferences.getInteger("soCamera",0);
-        Master.soBienCam = preferences.getInteger("soBienCam",0);
-        Master.soMayLoc = preferences.getInteger("soMayLoc",0);
-        Master.amountSeed = preferences.getInteger("amountSeed",0);
+        Master.soCamera = preferences.getInteger("socamera",0);
+        Master.soBienCam = preferences.getInteger("sobienCam",0);
+        Master.soMayLoc = preferences.getInteger("somayloc",0);
+        Master.amountSeed = preferences.getInteger("socay",0);
         Master.sohieucuaMLKKdangchondenangcap = preferences.getInteger("sohieucuaMLKKdangchondenangcap",0);
         Master.soCuaCameraDangLooking = preferences.getInteger("soCuaCameraDangLooking",0);
 
-        Master.isCNX = preferences.getBoolean("",false);
-        Master.isGTX = preferences.getBoolean("",false);
-        Master.mLKKAction = preferences.getBoolean("",true );
-        Master.factoryAction = preferences.getBoolean("",true);
-        Master.trafficAction = preferences.getBoolean("",true);
+        Master.isCNX = preferences.getBoolean("isCNX",false);
+        Master.isGTX = preferences.getBoolean("isGTX",false);
+        Master.mLKKAction = preferences.getBoolean("mLKKAction",true );
+        Master.factoryAction = preferences.getBoolean("factoryAction",true);
+        Master.trafficAction = preferences.getBoolean("trafficAction",true);
         Master.day = preferences.getInteger("day",0);
         Master.gio1phan60 = preferences.getInteger("gio1phan60",0);
-        Master.timeOfDay = preferences.getInteger("timeOfDay",0);
+        Master.timeOfDay = preferences.getInteger("timeofday",0);
 
         Master.WLK = preferences.getString("WLK", "K").charAt(0);
 
-        Master.blood.setColor(preferences.getFloat("ColorOfBlood",0),0,0,0);
+        Master.blood.setColor(preferences.getFloat("Color",0),0,0,0);
 //        Master.cars.clear();
 //        Master.roads.clear();
 //        Master.wastes.clear();

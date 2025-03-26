@@ -30,7 +30,7 @@ public class GameState{
     public static void saveGame() {
         Preferences preferences = Gdx.app.getPreferences("save");
         preferences.putInteger( "money", money);
-        preferences.putFloat( "greenscore", greenscore);
+        preferences.putInteger( "greenscore", greenscore);
         preferences.putFloat( "AQI", Master.AQI);
         preferences.putFloat( "SO2", SO2);
         preferences.putFloat( "CO1", CO1);

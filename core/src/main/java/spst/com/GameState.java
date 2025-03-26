@@ -53,12 +53,12 @@ public class GameState{
         preferences.putBoolean("trafficAction", Master.trafficAction);
         preferences.putBoolean("factoryAction", Master.factoryAction);
         preferences.putInteger("day", Master.day);
-        preferences.putFloat("gio1phan60", Master.gio1phan60);
-        preferences.putFloat("timeofday", Master.timeOfDay);
+        preferences.putInteger("gio1phan60", Master.gio1phan60);
+        preferences.putInteger("timeofday", Master.timeOfDay);
 
         preferences.putString("WLK", String.valueOf(Master.WLK));
 
-        preferences.putString("Color",Master.blood.getColor().toString());
+        preferences.putFloat("Color",Master.blood.getColor().r);
 
 //        Master.cars.clear();
 //        Master.roads.clear();

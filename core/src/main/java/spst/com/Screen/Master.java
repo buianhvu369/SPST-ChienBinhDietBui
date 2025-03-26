@@ -1659,12 +1659,97 @@ public class Master implements Screen {
         }
     }
     private void createRandomPeople(){
-        switch (random.nextInt(1,6)){
-            case 1 -> new People1(32*5+1184,32,stage,true);
-            case 2 -> new People2(32*5+1184,32,stage,true);
-            case 3 -> new People3(32*5+1184,32,stage,true);
-            case 4 -> new People4(32*5+1184,32,stage,true);
-            case 5 -> new People5(32*5+1184,32,stage,true);
+        switch (random.nextInt(1,10)){
+            case 1 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(14*32,32,stage,true);
+                    case 2 -> new People2(14*32,32,stage,true);
+                    case 3 -> new People3(14*32,32,stage,true);
+                    case 4 -> new People4(14*32,32,stage,true);
+                    case 5 -> new People5(14*32,32,stage,true);
+                }
+            }
+            case 2 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(29*32,16*32,stage,true);
+                    case 2 -> new People2(29*32,16*32,stage,true);
+                    case 3 -> new People3(29*32,16*32,stage,true);
+                    case 4 -> new People4(29*32,16*32,stage,true);
+                    case 5 -> new People5(29*32,16*32,stage,true);
+                }
+            }
+            case 3 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(33*32,32*5,stage,true);
+                    case 2 -> new People2(33*32,32*5,stage,true);
+                    case 3 -> new People3(33*32,32*5,stage,true);
+                    case 4 -> new People4(33*32,32*5,stage,true);
+                    case 5 -> new People5(33*32,32*5,stage,true);
+                }
+            }
+            case 4 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*47,32*2,stage,true);
+                    case 2 -> new People2(32*47,32*2,stage,true);
+                    case 3 -> new People3(32*47,32*2,stage,true);
+                    case 4 -> new People4(32*47,32*2,stage,true);
+                    case 5 -> new People5(32*47,32*2,stage,true);
+                }
+            }
+            case 5 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*49,32*8,stage,true);
+                    case 2 -> new People2(32*49,32*8,stage,true);
+                    case 3 -> new People3(32*49,32*8,stage,true);
+                    case 4 -> new People4(32*49,32*8,stage,true);
+                    case 5 -> new People5(32*49,32*8,stage,true);
+                }
+            }
+            case 6 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*46,32*16,stage,true);
+                    case 2 -> new People2(32*46,32*16,stage,true);
+                    case 3 -> new People3(32*46,32*16,stage,true);
+                    case 4 -> new People4(32*46,32*16,stage,true);
+                    case 5 -> new People5(32*46,32*16,stage,true);
+                }
+            }
+            case 7 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*55,32*16,stage,true);
+                    case 2 -> new People2(32*55,32*16,stage,true);
+                    case 3 -> new People3(32*55,32*16,stage,true);
+                    case 4 -> new People4(32*55,32*16,stage,true);
+                    case 5 -> new People5(32*55,32*16,stage,true);
+                }
+            }
+            case 8 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*59,32*7,stage,true);
+                    case 2 -> new People2(32*59,32*7,stage,true);
+                    case 3 -> new People3(32*59,32*7,stage,true);
+                    case 4 -> new People4(32*59,32*7,stage,true);
+                    case 5 -> new People5(32*559,32*7,stage,true);
+                }
+            }
+            case 9 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*61,32,stage,true);
+                    case 2 -> new People2(32*61,32,stage,true);
+                    case 3 -> new People3(32*61,32,stage,true);
+                    case 4 -> new People4(32*61,32,stage,true);
+                    case 5 -> new People5(32*61,32,stage,true);
+                }
+            }
+            case 10 -> {
+                switch (random.nextInt(1,6)){
+                    case 1 -> new People1(32*63,32*17,stage,true);
+                    case 2 -> new People2(32*63,32*17,stage,true);
+                    case 3 -> new People3(32*63,32*17,stage,true);
+                    case 4 -> new People4(32*63,32*17,stage,true);
+                    case 5 -> new People5(32*63,32*17,stage,true);
+                }
+            }
         }
     }
     private void createCar() {

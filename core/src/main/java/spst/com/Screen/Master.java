@@ -148,6 +148,7 @@ public class Master implements Screen {
     creatMayLoc taoMayLockk;
     creatCamera taoCamera;
     creatSign taoSign;
+    SaveNut saveNut;
     float ktHetEvent = 2;
     boolean ktDangChayEvent = false;
     public static Waterwell gieng;
@@ -332,10 +333,11 @@ public class Master implements Screen {
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
         gieng = new Waterwell(1184+32*27,32*6,stage);
-        treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoCamera = new creatCamera(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoSign = new creatSign(Gdx.graphics.getWidth()-400,Gdx.graphics.getHeight()-100,noMoveStage);
+        treeButon = new TreeButon(Gdx.graphics.getWidth()-100-32,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200-32,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoCamera = new creatCamera(Gdx.graphics.getWidth()-300-32,Gdx.graphics.getHeight()-100,noMoveStage);
+        taoSign = new creatSign(Gdx.graphics.getWidth()-400-32,Gdx.graphics.getHeight()-100,noMoveStage);
+        saveNut = new SaveNut(Gdx.graphics.getWidth()-32,Gdx.graphics.getHeight()-32,noMoveStage);
 
         createTree();
         createWaste();
@@ -2050,7 +2052,6 @@ public class Master implements Screen {
     @Override
     public void dispose() {
         nen.stop();
-        GameState.saveGame();
         batch.dispose();
     }
 }

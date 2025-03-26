@@ -23,5 +23,6 @@ public class TruSo extends MyActor {
             setSize(textureRegion.getRegionWidth()*0.8f, textureRegion.getRegionHeight()*0.8f);
         }
         Master.truSos.add(this);
+        Master.noPlaced.add(this.getBound());
     }
 }

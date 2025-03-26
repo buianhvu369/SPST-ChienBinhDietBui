@@ -54,32 +54,50 @@ public class GameState{
     }
     public static void loadGame() {
         Preferences preferences = Gdx.app.getPreferences("save");
-        money = preferences.getInteger("money", 0);
-        Master.AQI = preferences.getFloat("AQI", 500);
-        SO2 = preferences.getFloat("SO2",SO2);
-        CO1 = preferences.getFloat("CO1",CO1);
-        NO2 = preferences.getFloat("NO2",NO2);
-        O3 = preferences.getFloat("O3",O3);
-        PM2_5 = preferences.getFloat("PM2_5",PM2_5);
-        PM10 = preferences.getFloat("PM10",PM10);
-        greenscore = preferences.getInteger("greenscore",0);
-        ernegy = preferences.getInteger("ernegy", 0);
-        danso = preferences.getInteger("danso", 100000);
-        xuhuongdantangorgiam = preferences.getString("xuhuongdantangorgiam", "tăng");
-        levelcongnghexanh = preferences.getInteger("levelcongnghexanh",1);
-        levelgiaothongxanh = preferences.getInteger("levelgiaothongxanh",1);
-        event = preferences.getString("event","");
-        camxucnguoidan = preferences.getString("camxucnguoidan","");
-        lydocamxucnguoidan = preferences.getString("lydocamxucnguoidan","");
-        Master.soBienCam = preferences.getInteger(".", 0);
-        Master.amountSeed = preferences.getInteger(".", 0);
-        Master.soMayLoc = preferences.getInteger(".", 0);
-        Master.soCamera = preferences.getInteger(".", 0);
+        money = preferences.getInteger("money",5000);
+        ernegy= preferences.getInteger("energy",200);
+        greenscore= preferences.getInteger("greenscore",50);
+        danso = preferences.getInteger("danso",100000);
+        PM2_5 = preferences.getFloat("PM2_5",100);
+        PM10 = preferences.getFloat("PM10",150);
+        NO2 = preferences.getFloat("PM10",90);
+        SO2 = preferences.getFloat("PM10",50);
+        CO1 = preferences.getFloat("PM10",10);
+        O3 = preferences.getFloat("PM10",80);
+
+        Master.soCamera = preferences.getInteger("soCamera",0);
+        Master.soBienCam = preferences.getInteger("soBienCam",0);
+        Master.soMayLoc = preferences.getInteger("soMayLoc",0);
+        Master.amountSeed = preferences.getInteger("amountSeed",0);
+        Master.sohieucuaMLKKdangchondenangcap = preferences.getInteger("sohieucuaMLKKdangchondenangcap",0);
+        Master.soCuaCameraDangLooking = preferences.getInteger("soCuaCameraDangLooking",0);
+
+        Master.isCNX = preferences.getBoolean("",false);
+        Master.isGTX = preferences.getBoolean("",false);
+        Master.mLKKAction = preferences.getBoolean("",true );
+        Master.factoryAction = preferences.getBoolean("",true);
+        Master.trafficAction = preferences.getBoolean("",true);
+        Master.day = preferences.getInteger("day",0);
+        Master.gio1phan60 = preferences.getInteger("gio1phan60",0);
+        Master.timeOfDay = preferences.getInteger("timeOfDay",0);
+
+        Master.WLK = preferences.getString("WLK", "K").charAt(0);
+
+        Master.blood.setColor(1,0,0,0);
+
+//        Master.cars.clear();
+//        Master.roads.clear();
+//        Master.wastes.clear();
+//        Master.trees.clear();
+//        Master.MLKKs.clear();
+//        Master.rices.clear();
+//        Master.normalCameras.clear();
         System.out.println("Saved Data: " + preferences.get());
     }
     public static void reset(){
         money = 5000;
         ernegy=200;
+        greenscore=200;
         danso = 100000;
         PM2_5 = 100;
         PM10 = 150;

@@ -143,7 +143,7 @@ public class GameState{
         Master.gio1phan60 = 0;
         Master.timeOfDay = 0;
 
-        Master.WLK = 0;
+        Master.WLK = 'K';
 
         Master.blood.setColor(1,0,0,0);
 

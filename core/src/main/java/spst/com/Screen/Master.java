@@ -382,7 +382,6 @@ public class Master implements Screen {
 
         replay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                WLK = 'K';
                 GameState.reset();
                 game.setScreen(game.menuScreen);
             }

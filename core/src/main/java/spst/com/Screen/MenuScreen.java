@@ -17,6 +17,7 @@ import spst.com.Button.Start;
 import spst.com.GameState;
 import spst.com.Piece;
 import spst.com.StartGame;
+import spst.com.Utils;
 
 public class MenuScreen implements Screen  {
     GlyphLayout layout;
@@ -53,7 +54,8 @@ public class MenuScreen implements Screen  {
         continueButton.setPosition(Gdx.graphics.getWidth()/2f-continueButton.getWidth()/2f, 300); ;
         continueButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                GameState.loadGame();
+                //GameState.loadGame();
+                Utils.loadGameData();
                 game.setScreen(game.master);
             }
         });

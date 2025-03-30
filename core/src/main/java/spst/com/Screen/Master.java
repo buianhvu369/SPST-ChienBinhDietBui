@@ -1301,7 +1301,6 @@ public class Master implements Screen {
         }
     }
     private void calculAQI(){
-        timeOfDay++;
         int hour = 0;
         if(timeOfDay%60 == 0){
             hour = timeOfDay / 60;
@@ -1596,7 +1595,7 @@ public class Master implements Screen {
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
             new FloatingNews(0,500,noMoveStage, GameState.event,Color.YELLOW);
         }
-
+        timeOfDay++;
     }
 
     private void tanggiamdanso(){

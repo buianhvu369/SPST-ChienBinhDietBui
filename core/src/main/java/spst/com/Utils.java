@@ -1,7 +1,11 @@
 package spst.com;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import spst.com.Screen.Master;
 
 import java.util.ArrayList;
@@ -15,6 +19,8 @@ public class Utils {
     private static Texture texture2 = new Texture("nongthon.png");
     private static Texture texture3 = new Texture("buttons.png");
     public static Texture  texture4 = new Texture("loading.png");
+
+    private static final String FILE_PATH = "gamedata.json"; // Đường dẫn file lưu dữ liệu
 
     public static TextureRegion getRegion(int x, int y, int width, int height) {
         return new TextureRegion(texture, x, y, width, height);
@@ -89,4 +95,26 @@ public class Utils {
         }catch (Exception ignored){}
 
     }
+
+    public static void saveGameData(GameStateTmp data) {
+        Json json = new Json();
+        String jsonData = json.toJson(data);
+
+        FileHandle file = Gdx.files.local(FILE_PATH);
+        file.writeString(jsonData, false);
+    }
+
+    public static void loadGameData() {
+        FileHandle file = Gdx.files.local(FILE_PATH);
+        if (!file.exists()) {
+            // do nothing
+        } else {
+            Json json = new Json();
+            GameStateTmp gameState =  json.fromJson(GameStateTmp.class, file.readString());
+            System.out.println("Level: " + gameState.danso);
+            System.out.println("Score: " + gameState.money);
+            System.out.println("Items: " + gameState.trees);
+        }
+    }
+
 }

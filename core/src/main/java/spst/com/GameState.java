@@ -68,6 +68,8 @@ public class GameState{
 //        Master.rices.clear();
 //        Master.normalCameras.clear();
         preferences.flush();
+
+
     }
     public static void loadGame() {
         Preferences preferences = Gdx.app.getPreferences("save");

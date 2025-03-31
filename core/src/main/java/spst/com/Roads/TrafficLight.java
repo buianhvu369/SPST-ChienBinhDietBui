@@ -12,10 +12,10 @@ public class TrafficLight extends MyActor {
         if(huong == 'L') {
             textureRegion = Utils.getRegion(16*3, 16 * 15, 16, 16);
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
-        } else if(huong == 'D') {
+        } else if(huong == 'U') {
             textureRegion = Utils.getRegion(16*4, 16 * 15, 16, 16);
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
-        }else if(huong == 'U') {
+        }else if(huong == 'D') {
             textureRegion = Utils.getRegion(16*5, 16 * 15, 16, 16);
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
         }else if(huong == 'R') {
@@ -24,5 +24,11 @@ public class TrafficLight extends MyActor {
         }
         Master.noPlaced.add(this.getBound());
 
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        toFront();
     }
 }

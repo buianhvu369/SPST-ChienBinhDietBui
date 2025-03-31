@@ -18,6 +18,8 @@ public class StartGame extends Game {
     public static BitmapFont font2;
     public static BitmapFont font3;
     public static BitmapFont fontEvent;
+    public static BitmapFont fontTextField;
+    public static BitmapFont fontTenNha;
     public static BitmapFont font4;
     public static BitmapFont font5;
     public static BitmapFont font6;
@@ -91,6 +93,58 @@ public class StartGame extends Game {
 
         fontEvent = fontGeneratorEvent.generateFont(fontParameterEvent);
         fontGeneratorEvent.dispose();
+
+        FreeTypeFontGenerator fontGeneratorTenNha = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameterTenNha = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameterTenNha.size = 10;
+        fontParameterTenNha.color = Color.BLACK;
+        fontParameterTenNha.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        fontTenNha = fontGeneratorTenNha.generateFont(fontParameterTenNha);
+        fontGeneratorTenNha.dispose();
+
+        FreeTypeFontGenerator fontGeneratorTextField = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameterTextField = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameterTextField.size = 25;
+        fontParameterTextField.color = Color.GOLD;
+        fontParameterTextField.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        fontTextField = fontGeneratorTextField.generateFont(fontParameterTextField);
+        fontGeneratorTextField.dispose();
 
         FreeTypeFontGenerator fontGenerator4 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter4 = new FreeTypeFontGenerator.FreeTypeFontParameter();

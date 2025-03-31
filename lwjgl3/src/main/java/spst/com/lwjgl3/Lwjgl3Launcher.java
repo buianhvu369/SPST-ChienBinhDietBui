@@ -4,7 +4,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import spst.com.StartGame;
 
-
 /** Launches the desktop (LWJGL3) applicatio3q3sae3qn. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
@@ -15,9 +14,7 @@ public class Lwjgl3Launcher {
     private static Lwjgl3Application createApplication() {
         return new Lwjgl3Application(new StartGame(), getDefaultConfiguration());
     }
-    private static Lwjgl3ApplicationConfiguration getDefaultConfiguration(
-
-    ) {
+    private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Eco Engineer");
         configuration.useVsync(true);

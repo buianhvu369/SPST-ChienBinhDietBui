@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import spst.com.*;
 import spst.com.Roads.Car;
 import spst.com.Roads.Tree;
@@ -43,6 +44,7 @@ public class People extends MyActor {
     boolean isFine = false;
     boolean isMoving = false;
     boolean isJogging = false;
+    boolean isDangerous = false;
     int randomAction = 0;
     Rectangle rectangle = new Rectangle();
 
@@ -58,7 +60,6 @@ public class People extends MyActor {
 
     public People(float x, float y, Stage s, boolean rightside) {
         super(x, y, s);
-
     }
 
     @Override
@@ -67,7 +68,7 @@ public class People extends MyActor {
         if(isAlive) {
             time += delta;
             timeDirection++;
-            if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste) {
+            if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous) {
                 randomAction = MathUtils.random(0,20 );
                 if (randomAction < 15) {
                     isJogging = true;
@@ -121,6 +122,34 @@ public class People extends MyActor {
                     }
                 }
             }
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    if(1180-6<getX() && getX() < 1180 + 4*32 - 10+6 &&!(11*32-6<getY() && getY()<14*32+6)){
+                        isFiringWaste = false;
+                        isCutting = false;
+                        isJogging = true;
+                        isDangerous = true;
+                        isFiringSign = false;
+                        mouseX = MathUtils.random(100, 2200);
+                        mouseY = MathUtils.random(20, 780);
+                        isMoving = true;
+                    }else{
+                        isDangerous = false;
+                    }
+                    if(getX()+getWidth()/2f-32*5<Master.player.getX()+Master.player.getWidth()/2f
+                        &&Master.player.getX()+Master.player.getWidth()/2f<getX()+getWidth()/2f+32*5
+                        &&getY()+getHeight()/2f-32*5<Master.player.getY()+Master.player.getHeight()/2f
+                        &&Master.player.getY()+Master.player.getHeight()/2f<getY()+getHeight()/2f+32*5)
+                    {
+                        isFiringWaste = false;
+                        isCutting = false;
+                        isJogging = true;
+                        isDangerous = true;
+                        isFiringSign = false;
+                    }
+                }
+            },0);
 
             if (treeTarget != null) {
                 Rectangle rec = new Rectangle(treeTarget.getX() + 32, treeTarget.getY(), 33, 64);
@@ -266,6 +295,7 @@ public class People extends MyActor {
             if(getBound().overlaps(c.getBoundCar())){
                 isAlive = false;
                 isBep = true;
+                c.toFront();
                 addAction(Actions.sequence(
                     Actions.fadeOut(6),
                     Actions.run(()->{

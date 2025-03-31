@@ -2,6 +2,7 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import spst.com.Screen.Master;
 
 public class GameState{
@@ -56,7 +57,8 @@ public class GameState{
         preferences.putInteger("gio1phan60", Master.gio1phan60);
         preferences.putInteger("timeofday", Master.timeOfDay);
 
-        preferences.putString("WLK", String.valueOf(Master.WLK));
+//        preferences.putString("WLK", String.valueOf(Master.WLK));
+        preferences.putString("WLK", "K");
 
         preferences.putFloat("Color",Master.blood.getColor().r);
 
@@ -144,6 +146,10 @@ public class GameState{
         Master.timeOfDay = 0;
 
         Master.WLK = 'K';
+        Master.replay.setPosition(-10930,-2389);
+        for(Actor a : Master.winsorloses){
+            a.setPosition(-1435435,-32958);
+        }
 
         Master.blood.setColor(1,0,0,0);
 

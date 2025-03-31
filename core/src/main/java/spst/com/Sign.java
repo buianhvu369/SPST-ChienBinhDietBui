@@ -27,7 +27,7 @@ public class Sign extends MyActor {
     public void act(float delta) {
         super.act(delta);
         time++;
-        if(time % 60 == 0){
+        if(time % 60 == 0 && GameState.money >= 1){
             GameState.money--;
         }
         if(GameState.money >= 1) {

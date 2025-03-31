@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -44,12 +45,10 @@ import spst.com.Pool.CornerPool;
 import spst.com.Pool.PoolRec;
 import spst.com.Pool.WallPool;
 import spst.com.Pool.Water;
-import spst.com.Roads.RoadWay;
+import spst.com.Roads.*;
 import spst.com.Roads.CrossRoad.BlankRoad;
 import spst.com.Roads.CrossRoad.Corner;
-import spst.com.Roads.Car;
 import spst.com.Roads.CrossWalk;
-import spst.com.Roads.Tree;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -69,7 +68,7 @@ public class Master implements Screen {
 
     public static River river;
     public static Blood blood;
-    Replay replay;
+    public static Replay replay;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
@@ -117,6 +116,7 @@ public class Master implements Screen {
     TextButton  turnOnTraffic;
 
 
+    public static Array<Actor> winsorloses = new Array<>();
     public static Array<Car> cars = new Array<>();
     public static Array<MyActor> roads = new Array<>();
     public static Array<Waste> wastes = new Array<>();
@@ -511,7 +511,7 @@ public class Master implements Screen {
 
 
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = StartGame.font;
+        textFieldStyle.font = StartGame.fontTextField;
         textFieldStyle.fontColor = Color.BLACK;
 
         textFieldStyle.background = new TextureRegionDrawable(new Texture("input.png"));
@@ -1135,8 +1135,6 @@ public class Master implements Screen {
         dongThongtin();
         dongNghienCuu();
         isOpenSetting = true;
-
-
     }
     private void createViaHe(float x, float y, float width,float height){
         new GroundCorner(x,y,stage,"DL");
@@ -1251,6 +1249,7 @@ public class Master implements Screen {
                 Water water = new Water(32*5 + 32 * i, 800 - 32 * y, stage);
             }
         }
+        new TrafficLight(23*32+16,32*14+8,stage,'L');
     }
 
     private void tinhThangThua(){
@@ -1275,10 +1274,13 @@ public class Master implements Screen {
                             public void run() {
                                 dark.toFront();
                                 dark.setColor(0,0,0,0f);
-                                new Piece(0,0,noMoveStage).toFront();
-                                new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED).toFront();
+                                winsorloses.add(new Piece(0,0,noMoveStage));
+                                winsorloses.add(new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED));
                                 replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
-                                replay.toFront();
+                                winsorloses.add(replay);
+                                for(Actor a : winsorloses){
+                                    a.toFront();
+                                }
                             }
                         },2);
                     }
@@ -1288,8 +1290,7 @@ public class Master implements Screen {
         if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){
             dark.toFront();
             dark.setColor(0,0,0,1);
-            WLK = 'W';
-        }
+            WLK = 'W';}
         if(WLK == 'W'){
             dark = new Dark(0,0,noMoveStage);
             new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"WIN",Color.GREEN).toFront();
@@ -1609,7 +1610,7 @@ public class Master implements Screen {
                 switch (ran){
                     case 1 ->new FloatingNews(0,500,noMoveStage,"Thành phố quá xinh đẹp nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
                     case 2 -> new FloatingNews(0,500,noMoveStage,"Thành phố xinh đẹp nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
-                    case 3 -> new FloatingNews(0,500,noMoveStage,"Thành phố hiện đái nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
+                    case 3 -> new FloatingNews(0,500,noMoveStage,"Thành phố hiện đại nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
                     case 4 -> new FloatingNews(0,500,noMoveStage," Thành phố tiến tiến nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
                     case 5 -> new FloatingNews(0,500,noMoveStage,"Thành phố sạch sẽ nên " + Math.round(GameState.danso*2/100/30) + " người đến",Color.GREEN);
                     case 6 -> new FloatingNews(0,500,noMoveStage,"Ronando chuyển đến nên " + Math.round(GameState.danso*2/100/30) + " người đi theo",Color.GREEN);
@@ -1643,7 +1644,7 @@ public class Master implements Screen {
                     case 7 ->new FloatingNews(0, 500, noMoveStage, " Có  " + Math.round(GameState.danso * 2 / 100 / 30) + " người chuyển nhà", Color.RED);
                     case 8 ->new FloatingNews(0, 500, noMoveStage, " Dịch bệnh nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người chết", Color.RED);
                     case 9 ->new FloatingNews(0, 500, noMoveStage, " Thành phần người dân hổ báo nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
-                    case 10 ->new FloatingNews(0, 500, noMoveStage, "Biến đổi khí hậu nên " + Math.round(GameState.danso * 2 / 100 / 30) + " người rời đi", Color.RED);
+                    case 10 ->new FloatingNews(0, 500, noMoveStage, "Biến đổi khí hậu nên " + Math.round(GameState.danso * 2 / 100 / 30) + " ngườio rời đi", Color.RED);
 
 
                 }

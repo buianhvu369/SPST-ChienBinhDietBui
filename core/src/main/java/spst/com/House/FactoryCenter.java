@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
+import spst.com.StartGame;
 import spst.com.Utils;
 
 public class FactoryCenter extends MyActor {
@@ -72,5 +73,6 @@ public class FactoryCenter extends MyActor {
         batch.draw(textureRegionWindowBig, x + 64, y + 50, getOriginX(), getOriginY(), 32, 40, getScaleX(), getScaleY(), getRotation());
         batch.draw(ongkhoi,x+64,y+32*4,getOriginX(), getOriginY(),32,64,getScaleX(), getScaleY(), getRotation());
         batch.draw(miengongkhoi,x+64,y+32*5,getOriginX(), getOriginY(),32,32,getScaleX(), getScaleY(), getRotation());
+        StartGame.fontTenNha.draw(batch,"Nhà máy Nhiệt điện Hà Nội",x,y+96);
     }
 }

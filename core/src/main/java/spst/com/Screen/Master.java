@@ -1855,14 +1855,14 @@ public class Master implements Screen {
             new Hangraongang(x,y,stage,2);
             x += 16*3-10;
         }
-        createHouseRed3(1184+32*8,32*16);
-        createHouseBlue3(1184+32*9,32*2);
-        createHouseRed2(1184+32*11, 32*8);
+        new House3(1184+32*8,32*16, stage, false);
+         new House3(1184+32*9,32*2,stage,true);
+         new House2(1184+32*11, 32*8,stage , false);
 
-        createHouseBlue2(1184+32*25,32*17);
-        createHouseRed1(1184+32*20,32*7);
-        createHouseBlue1(1184+32*16, 32*16);
-        createHouseBlue1(1184+32*22, 32);
+        new House2(1184+32*25,32*17,stage , true);
+        new House1(1184+32*20,32*7,stage,false);
+        new House1(1184+32*16, 32*16,stage , true);
+        new House1(1184+32*22, 32,stage , true);
         creatCastle(1184+32*30,32*2);
 
         new People1(32*5+1184,32,stage,true);
@@ -1938,154 +1938,10 @@ public class Master implements Screen {
         }
     }
 
-    public void createHouseBlue1(float x, float y) {
-        new Wall(x, y, stage, true);
-        x += 32;
-        new WindowHouse(x, y, stage, true);
-        x += 32;
-        new DoorHouse(x, y, stage, true);
-        x += 32;
-        ;
-        new Wall(x, y, stage, true);
-        x -= 32 * 3;
-        y += 32;
-        for (int i = 0; i < 4; i++) {
-            new RoofHouse(x, y, stage, true);
-            x += 32;
-        }
-        x -= 32 * 2;
-        new SpecialRoof(x, y, stage, true);
-        x -= 32;
-        y += 32;
-        new Chimney(x, y, stage, true);
-    }
 
-    public void createHouseBlue2(float x, float y) {
-        new Wall(x, y, stage, true);
-        x += 32;
-        new DoorHouse(x, y, stage, true);
-        x += 32;
-        new Wall(x, y, stage, true);
-        x -= 32 * 2;
-        y += 32;
-        for (int i = 0; i < 3; i++) {
-            new RoofHouse(x, y, stage, true);
-            x += 32;
-        }
-        x -= 32 * 2;
-        new SpecialRoof(x, y, stage, true);
-    }
 
-    public void createHouseBlue3(float x, float y) {
-        new Wall(x, y, stage, true);
-        x += 32;
-        new DoorHouse(x, y, stage, true);
-        x += 32;
-        new Wall(x, y, stage, true);
-        x -= 32 * 2;
-        y += 32;
-        new Wall(x, y, stage, true);
-        x += 32;
-        new WindowHouse(x, y, stage, true);
-        x += 32;
-        new Wall(x, y, stage, true);
-        x -= 32 * 2;
-        y += 32;
-        for (int i = 0; i < 3; i++) {
-            new RoofHouse(x, y, stage, true);
-            x += 32;
-        }
-    }
-
-    public void createHouseRed1(float x, float y) {
-        new Wall(x, y, stage, false);
-        x += 32;
-        new WindowHouse(x, y, stage, false);
-        x += 32;
-        new DoorHouse(x, y, stage, false);
-        x += 32;
-        ;
-        new Wall(x, y, stage, false);
-        x -= 32 * 3;
-        y += 32;
-        for (int i = 0; i < 4; i++) {
-            new RoofHouse(x, y, stage, false);
-            x += 32;
-        }
-        x -= 32 * 2;
-        new SpecialRoof(x, y, stage, false);
-        x -= 32;
-        y += 32;
-        new Chimney(x, y, stage, false);
-    }
-
-    public void createHouseRed2(float x, float y) {
-        new Wall(x, y, stage, false);
-        x += 32;
-        new DoorHouse(x, y, stage, false);
-        x += 32;
-        new Wall(x, y, stage, false);
-        x -= 32 * 2;
-        y += 32;
-        for (int i = 0; i < 3; i++) {
-            new RoofHouse(x, y, stage, false);
-            x += 32;
-        }
-        x -= 32 * 2;
-        new SpecialRoof(x, y, stage, false);
-    }
-
-    public void createHouseRed3(float x, float y) {
-        new Wall(x, y, stage, false);
-        x += 32;
-        new DoorHouse(x, y, stage, false);
-        x += 32;
-        new Wall(x, y, stage, false);
-        x -= 32 * 2;
-        y += 32;
-        new Wall(x, y, stage, false);
-        x += 32;
-        new WindowHouse(x, y, stage, false);
-        x += 32;
-        new Wall(x, y, stage, false);
-        x -= 32 * 2;
-        y += 32;
-        for (int i = 0; i < 3; i++) {
-            new RoofHouse(x, y, stage, false);
-            x += 32;
-        }
-
-    }
     public void creatCastle(float x , float y ){
-        new partofCastle(x,y,stage,5);x+= 32;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,6);x += 32*2;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,5);x -= 32*5;y += 32;
-        new partofCastle(x,y,stage,5);x+= 32;
-        new partofCastle(x,y,stage,5);x += 32*3;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,5);x -= 32*5;y += 32;
-        new partofCastle(x,y,stage,2);x += 32;
-        new partofCastle(x,y,stage,5);x+=32;
-        new partofCastle(x,y,stage,5);x+=32;
-        new partofCastle(x,y,stage,5);x+= 32;
-        new partofCastle(x,y,stage,5);x+= 32;
-        new partofCastle(x,y,stage,4);x -= 32*5;y += 32;
-        new partofCastle(x,y,stage,1);x += 32;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,9);x += 32;
-        new partofCastle(x,y,stage,9);x += 32;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,3);x -= 32*4;y += 32;
-        new partofCastle(x,y,stage,5);x += 32;
-        new partofCastle(x,y,stage,8);x += 32;
-        new partofCastle(x,y,stage,8);x += 32;
-        new partofCastle(x,y,stage,5);y+= 32;
-        new partofCastle(x,y,stage,5);x -= 32*3;
-        new partofCastle(x,y,stage,5);x += 32*3;y +=32;
-        new partofCastle(x, y, stage, 7);x -= 32 * 3;new partofCastle(x, y, stage, 7);
-
+        new Castle(x,y,stage);
     }
 
     public void createRiverAndBoats(){

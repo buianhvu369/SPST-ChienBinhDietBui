@@ -15,6 +15,5 @@ public class SpecialRoof extends MyActor{
             textureRegion = Utils.getRegion2(16*7, 16 *5, 16, 16);
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
         }
-        Master.noPlaced.add(this.getBound());
     }
 }

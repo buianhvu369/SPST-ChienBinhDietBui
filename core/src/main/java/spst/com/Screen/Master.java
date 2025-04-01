@@ -1858,7 +1858,6 @@ public class Master implements Screen {
         new House3(1184+32*8,32*16, stage, false);
          new House3(1184+32*9,32*2,stage,true);
          new House2(1184+32*11, 32*8,stage , false);
-
         new House2(1184+32*25,32*17,stage , true);
         new House1(1184+32*20,32*7,stage,false);
         new House1(1184+32*16, 32*16,stage , true);

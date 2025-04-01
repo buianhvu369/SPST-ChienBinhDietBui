@@ -61,7 +61,7 @@ public class Master implements Screen {
     public static Stage noMoveStage;
     private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
-
+    boolean thongTinMode = false;
 
     public static River river;
     public static Blood blood;
@@ -376,62 +376,65 @@ public class Master implements Screen {
         noPlaced.add(rectangle3);
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
-
-        noMoveStage.addListener(new InputListener(){
-            @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                MyActor actor = (MyActor) noMoveStage.hit(x,y,true);
-                if(actor instanceof TreeButon){
-                    thongTinNutCay = true;
-                }else {
-                    thongTinNutCay = false;
+            noMoveStage.addListener(new InputListener(){
+                @Override
+                public boolean mouseMoved(InputEvent event, float x, float y) {
+                    MyActor actor = (MyActor) noMoveStage.hit(x,y,true);
+                    if(thongTinMode) {
+                        if(actor instanceof TreeButon){
+                            thongTinNutCay = true;
+                        }else {
+                            thongTinNutCay = false;
+                        }
+                        if(actor instanceof creatMayLoc){
+                            thongTinNutML = true;
+                        }else {
+                            thongTinNutML = false;
+                        }
+                        if(actor instanceof creatSign){
+                            thongTinNutSign = true;
+                        }else {
+                            thongTinNutSign = false;
+                        }
+                        if(actor instanceof creatCamera){
+                            thongTinNutCam = true;
+                        }else {
+                            thongTinNutCam = false;
+                        }
+                        if(actor instanceof SelectCamera){
+                            thongTinNutSoiCam = true;
+                        }else {
+                            thongTinNutSoiCam = false;
+                        }
+                    }
+                    return super.mouseMoved(event, x, y);
                 }
-                if(actor instanceof creatMayLoc){
-                    thongTinNutML = true;
-                }else {
-                    thongTinNutML = false;
+            });
+            stage.addListener(new InputListener(){
+                @Override
+                public boolean mouseMoved(InputEvent event, float x, float y) {
+                    MyActor actor = (MyActor) stage.hit(x,y,true);
+                    if(thongTinMode) {
+                        if(actor instanceof FactoryCenter){
+                            thongTinFac = true;
+                            System.out.println(567);
+                        }else {
+                            thongTinFac = false;
+                        }
+                        if(actor instanceof HotelCenter){
+                            thongTinHotel = true;
+                        }else {
+                            thongTinHotel = false;
+                        }
+                        if(actor instanceof ScienceCenter){
+                            thongTinSaiUn = true;
+                        }else {
+                            thongTinSaiUn = false;
+                        }
+                    }
+                    return super.mouseMoved(event, x, y);
                 }
-                if(actor instanceof creatSign){
-                    thongTinNutSign = true;
-                }else {
-                    thongTinNutSign = false;
-                }
-                if(actor instanceof creatCamera){
-                    thongTinNutCam = true;
-                }else {
-                    thongTinNutCam = false;
-                }
-                if(actor instanceof SelectCamera){
-                    thongTinNutSoiCam = true;
-                }else {
-                    thongTinNutSoiCam = false;
-                }
-                return super.mouseMoved(event, x, y);
-            }
-        });
-        stage.addListener(new InputListener(){
-            @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                MyActor actor = (MyActor) stage.hit(x,y,true);
-                if(actor instanceof FactoryCenter){
-                    thongTinFac = true;
-                    System.out.println(567);
-                }else {
-                    thongTinFac = false;
-                }
-                if(actor instanceof HotelCenter){
-                    thongTinHotel = true;
-                }else {
-                    thongTinHotel = false;
-                }
-                if(actor instanceof ScienceCenter){
-                    thongTinSaiUn = true;
-                }else {
-                    thongTinSaiUn = false;
-                }
-                return super.mouseMoved(event, x, y);
-            }
-        });
+            });
     }
 
     @Override
@@ -605,6 +608,15 @@ public class Master implements Screen {
         batch.setProjectionMatrix(camera.combined);
         if(Gdx.input.isTouched()){
             System.out.println("x = " + Gdx.input.getX()/32 + " y = " + (Gdx.graphics.getHeight()/32 - Gdx.input.getY()/32));
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)){
+            if(thongTinMode){
+                thongTinMode = false;
+                new FloatingNews(200,200,noMoveStage,"Tắt chế độ gợi ý",Color.BLACK);
+            }else {
+                thongTinMode = true;
+                new FloatingNews(200,200,noMoveStage,"Bật chế độ gợi ý",Color.BLACK);
+            }
         }
 
         tinhThangThua();
@@ -906,36 +918,42 @@ public class Master implements Screen {
             game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 50 - 300, Gdx.graphics.getHeight() - 50);
             game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
             game.font3.draw(batch, layout, 466 - layout.width / 2f, Gdx.graphics.getHeight() - 100);
-            if(thongTinNutCay){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutML){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutCam){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSign){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSoiCam){
-                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinFac){
-                chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
-                chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
-                chu1.text = "Nhà máy Nhiệt điện Hà Nội";
-                chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
-            }else if(thongTinHotel){
-                chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
-                chu1.text = "Khách sạn Hà Nội Daewoo";
-            }else if(thongTinSaiUn){
-                chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
-                chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
+            if(thongTinMode){
+                if(thongTinNutCay){
+                    game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
+                }
+                if(thongTinNutML){
+                    game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
+                }
+                if(thongTinNutCam){
+                    game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
+                }
+                if(thongTinNutSign){
+                    game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
+                }
+                if(thongTinNutSoiCam){
+                    game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
+                }
+                if(thongTinFac){
+                    chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
+                    chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
+                    chu1.text = "Nhà máy Nhiệt điện Hà Nội";
+                    chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
+                }else if(thongTinHotel){
+                    chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
+                    chu1.text = "Khách sạn Hà Nội Daewoo";
+                }else if(thongTinSaiUn){
+                    chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
+                    chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
+                }else {
+                    chu1.text = "";
+                    chu2.text = "";
+                }
             }else {
                 chu1.text = "";
                 chu2.text = "";
             }
+
             chu1.toFront();
             chu2.toFront();
             batch.end();

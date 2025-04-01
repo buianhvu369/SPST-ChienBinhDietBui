@@ -39,6 +39,6 @@ public class partofCastle extends MyActor {
             textureRegion = Utils.getRegion2(16,16*10,16,16);
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
         }
-        Master.noPlaced.add(this.getBound());
+
     }
 }

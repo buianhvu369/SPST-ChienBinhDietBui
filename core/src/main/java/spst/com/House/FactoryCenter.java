@@ -60,7 +60,6 @@ public class FactoryCenter extends MyActor {
         batch.draw(textureRegion5, x + 32, y + 4 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion5, x + 64, y + 4 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion6, x + 96, y + 4 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
-
         batch.draw(textureRegion7, x + 32, y + 3 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion7, x + 64, y + 3 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());
         batch.draw(textureRegion8, x + 96, y + 3 * 32, getOriginX(), getOriginY(), 32, 32, getScaleX(), getScaleY(), getRotation());

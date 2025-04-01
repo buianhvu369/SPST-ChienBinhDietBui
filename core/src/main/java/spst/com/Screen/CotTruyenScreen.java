@@ -64,6 +64,7 @@ public class CotTruyenScreen implements Screen  {
         Gdx.input.setInputProcessor(stage);
         skip.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
+                nen.stop();
                 game.setScreen(game.menuScreen);
             }
         });
@@ -85,7 +86,7 @@ public class CotTruyenScreen implements Screen  {
             Master.batch.begin();
             for(int i = 0; i < 7; i++){
                 layout.setText(game.font3,cottruyen[i]);
-                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getWidth()/2f - layout.height*7/2f-i* 40);
+                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*7/2f-i* 40);
             }
             Master.batch.end();
         }
@@ -93,7 +94,7 @@ public class CotTruyenScreen implements Screen  {
             Master.batch.begin();
             for(int i = 0; i < 4; i++){
                 layout.setText(game.font3,cottruyen[i+7]);
-                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getWidth()/2f - layout.height*4/2f-i* 40);
+                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*4/2f-i* 40);
             }
             Master.batch.end();
         }
@@ -101,17 +102,27 @@ public class CotTruyenScreen implements Screen  {
             Master.batch.begin();
             for(int i = 0; i < 6; i++){
                 layout.setText(game.font3,cottruyen[i+7+4]);
-                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getWidth()/2f - layout.height*6/2f-i* 40);
+                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*6/2f-i* 40);
             }
             Master.batch.end();
         }else {
-            nen.stop();
-            game.setScreen(game.menuScreen);
+            Master.batch.begin();
+            if(time%40 < 20){
+                layout.setText(game.font3,"Ấn vào màn hình để tiếp tục");
+            }else{
+                layout.setText(game.font3,"");
+            }
+            game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40/2f);
+            Master.batch.end();
+            if (Gdx.input.justTouched()) {
+                nen.stop();
+                game.setScreen(game.menuScreen);
+            }
         }
         stage.act(Gdx.graphics.getDeltaTime());
-        if (time%29==0){
+        if (time%40<20){
             skip.remove();
-        }else if(time%59==0){
+        }else{
             stage.addActor(skip);
         }
         stage.draw();

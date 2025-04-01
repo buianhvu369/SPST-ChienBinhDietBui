@@ -19,5 +19,7 @@ Công việc:
 		+Tắt/bật camera ở biểu tượng camera ở giữa 2 mũi tên phía trên màn hình.
 		+Chuyển đổi giữa các camera bằng cách bấm vào các mũi tên ở 2 bên nút 
 "đặt camera".
-Thông tin chi tiết tại link:
-https://github.com/buianhvu369/SPST-ChienBinhDietBui/tree/develop
+
+Ấn phím "h" để bật/tắt chế độ hướng dẫn.
+Chế độ hướng dẫn:khi bật chế độ này có xem thông tin của mọi vật bằng cách di 
+chuột vào đó.

@@ -3,11 +3,15 @@ package spst.com;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import spst.com.GameState;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
 import spst.com.Utils;
+
+
 
 public class Sign extends MyActor {
     public boolean isFire = false;
@@ -16,10 +20,14 @@ public class Sign extends MyActor {
         super(x, y, s);
         if(isCamDotRac){
             textureRegion = new TextureRegion(new Texture("signCAMDOTRAC.png"));
+            Rectangle rectangle = new Rectangle( x-32, y-32,32*3,32*3);
+            Master.noDotRac.add(rectangle);
         }else {
             textureRegion = new TextureRegion(new Texture("signCAMCHATCAY.png"));
+            Rectangle rectangle = new Rectangle(x-32 , y-32,32*3,32*3);
+            Master.noCutting.add(rectangle);
         }
-        setSize(45,45);
+        setSize(32,32);
         Master.signs.add(this);
     }
 

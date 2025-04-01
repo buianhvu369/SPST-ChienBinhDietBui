@@ -1257,7 +1257,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI>10000 && WLK == 'K'){
+        if(AQI> 300 && WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)

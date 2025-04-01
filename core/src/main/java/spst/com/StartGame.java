@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import spst.com.Screen.CotTruyenScreen;
 import spst.com.Screen.GuideScreen;
 import spst.com.Screen.Master;
 import spst.com.Screen.MenuScreen;
@@ -14,6 +15,7 @@ import spst.com.Screen.MenuScreen;
 public class StartGame extends Game {
     public GuideScreen guideScreen;
     public MenuScreen menuScreen;
+    public CotTruyenScreen cotTruyenScreen;
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
@@ -123,7 +125,7 @@ public class StartGame extends Game {
         FreeTypeFontGenerator fontGeneratorTextField = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameterTextField = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameterTextField.size = 25;
-        fontParameterTextField.color = Color.GOLD;
+        fontParameterTextField.color = Color.BLACK;
         fontParameterTextField.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
             + "0123456789"
             + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
@@ -206,10 +208,10 @@ public class StartGame extends Game {
         fontGenerator6.dispose();
 
         menuScreen = new MenuScreen(this);
-
+        cotTruyenScreen = new CotTruyenScreen(this);
         this.master = new Master(menuScreen.game);
         this.guideScreen = new GuideScreen(this);
-        setScreen(menuScreen);
+        setScreen(cotTruyenScreen);
 
     }
 

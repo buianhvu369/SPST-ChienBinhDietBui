@@ -73,9 +73,11 @@ public class Car extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        Turn();
-        setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
-        moveBy(speedX, speedY);
+        if(!(Master.isDenDo&&getX()>24*32 && 26*32 > getX())){
+            Turn();
+            setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
+            moveBy(speedX, speedY);
+        }
     }
     private void Turn(){
         if (getX() > 75*32) {

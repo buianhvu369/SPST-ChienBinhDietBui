@@ -133,15 +133,13 @@ public class People extends MyActor {
                         isFiringSign = false;
                         mouseX = MathUtils.random(100, 2200);
                         mouseY = MathUtils.random(20, 780);
-                        isMoving = true;
                     }else{
                         isDangerous = false;
                     }
                     if(getX()+getWidth()/2f-32*5<Master.player.getX()+Master.player.getWidth()/2f
                         &&Master.player.getX()+Master.player.getWidth()/2f<getX()+getWidth()/2f+32*5
                         &&getY()+getHeight()/2f-32*5<Master.player.getY()+Master.player.getHeight()/2f
-                        &&Master.player.getY()+Master.player.getHeight()/2f<getY()+getHeight()/2f+32*5)
-                    {
+                        &&Master.player.getY()+Master.player.getHeight()/2f<getY()+getHeight()/2f+32*5) {
                         isFiringWaste = false;
                         isCutting = false;
                         isJogging = true;
@@ -293,17 +291,18 @@ public class People extends MyActor {
         }
         for(Car c : Master.cars){
             if(getBound().overlaps(c.getBoundCar())){
-                isAlive = false;
-                isBep = true;
-                c.toFront();
-                addAction(Actions.sequence(
-                    Actions.fadeOut(6),
-                    Actions.run(()->{
-                        GameState.danso--;
-                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
-                        remove();
-                    })
-                ));
+//                isAlive = false;
+//                isBep = true;
+//                c.toFront();
+//                addAction(Actions.sequence(
+//                    Actions.fadeOut(6),
+//                    Actions.run(()->{
+//                        GameState.danso--;
+//                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+//                        remove();
+//                    })
+//                ));
+                isMoving = false;
             }
         }
         if(isBep){

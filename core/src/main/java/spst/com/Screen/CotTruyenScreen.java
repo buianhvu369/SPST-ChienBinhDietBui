@@ -107,9 +107,9 @@ public class CotTruyenScreen implements Screen  {
             Master.batch.end();
         }else {
             Master.batch.begin();
-            if(time%40 < 20){
+            if(time%60==30){
                 layout.setText(game.font3,"Ấn vào màn hình để tiếp tục");
-            }else{
+            }else if (time%60==0){
                 layout.setText(game.font3,"");
             }
             game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40/2f);
@@ -120,9 +120,9 @@ public class CotTruyenScreen implements Screen  {
             }
         }
         stage.act(Gdx.graphics.getDeltaTime());
-        if (time%40<20){
+        if (time%60==30){
             skip.remove();
-        }else{
+        }else if (time%60==0){
             stage.addActor(skip);
         }
         stage.draw();

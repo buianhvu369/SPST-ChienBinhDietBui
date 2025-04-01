@@ -15,10 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -69,6 +66,8 @@ public class Master implements Screen {
     public static River river;
     public static Blood blood;
     public static Replay replay;
+    Chu chu1;
+    Chu chu2;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
@@ -161,6 +160,14 @@ public class Master implements Screen {
     public static boolean hienChiSo = false;
     public static boolean hienThongTin = false;
     public static boolean hienNghienCuu = false;
+    public static boolean thongTinNutCay = false;
+    public static boolean thongTinNutML = false;
+    public static boolean thongTinNutCam = false;
+    public static boolean thongTinNutSign = false;
+    public static boolean thongTinNutSoiCam = false;
+    public static boolean thongTinSaiUn = false;
+    public static boolean thongTinFac = false;
+    public static boolean thongTinHotel = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static int day = 0;
     public static int gio1phan60 = 0;
@@ -329,6 +336,10 @@ public class Master implements Screen {
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
+
+        chu1 = new Chu(0, 0,stage,Color.BLACK);
+        chu2 = new Chu(0, 0,stage,Color.BLACK);
+
         generateMap();
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
@@ -365,6 +376,62 @@ public class Master implements Screen {
         noPlaced.add(rectangle3);
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
+
+        noMoveStage.addListener(new InputListener(){
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                MyActor actor = (MyActor) noMoveStage.hit(x,y,true);
+                if(actor instanceof TreeButon){
+                    thongTinNutCay = true;
+                }else {
+                    thongTinNutCay = false;
+                }
+                if(actor instanceof creatMayLoc){
+                    thongTinNutML = true;
+                }else {
+                    thongTinNutML = false;
+                }
+                if(actor instanceof creatSign){
+                    thongTinNutSign = true;
+                }else {
+                    thongTinNutSign = false;
+                }
+                if(actor instanceof creatCamera){
+                    thongTinNutCam = true;
+                }else {
+                    thongTinNutCam = false;
+                }
+                if(actor instanceof SelectCamera){
+                    thongTinNutSoiCam = true;
+                }else {
+                    thongTinNutSoiCam = false;
+                }
+                return super.mouseMoved(event, x, y);
+            }
+        });
+        stage.addListener(new InputListener(){
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                MyActor actor = (MyActor) stage.hit(x,y,true);
+                if(actor instanceof FactoryCenter){
+                    thongTinFac = true;
+                    System.out.println(567);
+                }else {
+                    thongTinFac = false;
+                }
+                if(actor instanceof HotelCenter){
+                    thongTinHotel = true;
+                }else {
+                    thongTinHotel = false;
+                }
+                if(actor instanceof ScienceCenter){
+                    thongTinSaiUn = true;
+                }else {
+                    thongTinSaiUn = false;
+                }
+                return super.mouseMoved(event, x, y);
+            }
+        });
     }
 
     @Override
@@ -614,10 +681,10 @@ public class Master implements Screen {
             bangScience.setPosition(-1002343,-1101);
         }
 
+        Vector2 mouse = new Vector2();
+        mouse.set(Gdx.input.getX(), Gdx.input.getY());
+        stage.getViewport().unproject(mouse);
         if (Gdx.input.justTouched()) {
-            Vector2 mouse = new Vector2();
-            mouse.set(Gdx.input.getX(), Gdx.input.getY());
-            stage.getViewport().unproject(mouse);
 
             cameraPosition.x = mouse.x;
             cameraPosition.y = mouse.y;
@@ -815,6 +882,7 @@ public class Master implements Screen {
                 }
             }
         }
+
         stage.act();
         truck.toFront();
         stage.draw();
@@ -838,6 +906,38 @@ public class Master implements Screen {
             game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 50 - 300, Gdx.graphics.getHeight() - 50);
             game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
             game.font3.draw(batch, layout, 466 - layout.width / 2f, Gdx.graphics.getHeight() - 100);
+            if(thongTinNutCay){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutML){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutCam){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutSign){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutSoiCam){
+                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinFac){
+                chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
+                chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
+                chu1.text = "Nhà máy Nhiệt điện Hà Nội";
+                chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
+            }else if(thongTinHotel){
+                chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
+                chu1.text = "Khách sạn Hà Nội Daewoo";
+            }else if(thongTinSaiUn){
+                chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
+                chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
+            }else {
+                chu1.text = "";
+                chu2.text = "";
+            }
+            chu1.toFront();
+            chu2.toFront();
             batch.end();
         }
     }

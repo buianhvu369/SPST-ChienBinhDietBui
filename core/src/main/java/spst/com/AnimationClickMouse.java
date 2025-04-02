@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class AnimationClickMouse extends MyActor{
     Animation<TextureRegion> animation;
@@ -26,6 +27,7 @@ public class AnimationClickMouse extends MyActor{
         animation.setPlayMode(Animation.PlayMode.NORMAL);
         time = 0;
         setSize(64,64);
+        setTouchable(Touchable.disabled);
     }
 
     @Override

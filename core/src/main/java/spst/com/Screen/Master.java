@@ -172,6 +172,7 @@ public class Master implements Screen {
     public static boolean thongTinFac = false;
     public static boolean thongTinHotel = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
+    public static boolean isDenDo = false;
     public static int day = 0;
     public static int gio1phan60 = 0;
     public static TextField textField;
@@ -382,59 +383,63 @@ public class Master implements Screen {
             noMoveStage.addListener(new InputListener(){
                 @Override
                 public boolean mouseMoved(InputEvent event, float x, float y) {
-                    MyActor actor = (MyActor) noMoveStage.hit(x,y,true);
-                    if(thongTinMode) {
-                        if(actor instanceof TreeButon){
-                            thongTinNutCay = true;
-                        }else {
-                            thongTinNutCay = false;
+                    try{
+                        MyActor actor = (MyActor) noMoveStage.hit(x,y,true);
+                        if(thongTinMode) {
+                            if(actor instanceof TreeButon){
+                                thongTinNutCay = true;
+                            }else {
+                                thongTinNutCay = false;
+                            }
+                            if(actor instanceof creatMayLoc){
+                                thongTinNutML = true;
+                            }else {
+                                thongTinNutML = false;
+                            }
+                            if(actor instanceof creatSign){
+                                thongTinNutSign = true;
+                            }else {
+                                thongTinNutSign = false;
+                            }
+                            if(actor instanceof creatCamera){
+                                thongTinNutCam = true;
+                            }else {
+                                thongTinNutCam = false;
+                            }
+                            if(actor instanceof SelectCamera){
+                                thongTinNutSoiCam = true;
+                            }else {
+                                thongTinNutSoiCam = false;
+                            }
                         }
-                        if(actor instanceof creatMayLoc){
-                            thongTinNutML = true;
-                        }else {
-                            thongTinNutML = false;
-                        }
-                        if(actor instanceof creatSign){
-                            thongTinNutSign = true;
-                        }else {
-                            thongTinNutSign = false;
-                        }
-                        if(actor instanceof creatCamera){
-                            thongTinNutCam = true;
-                        }else {
-                            thongTinNutCam = false;
-                        }
-                        if(actor instanceof SelectCamera){
-                            thongTinNutSoiCam = true;
-                        }else {
-                            thongTinNutSoiCam = false;
-                        }
-                    }
+                    }catch (Exception ignored){}
                     return super.mouseMoved(event, x, y);
                 }
             });
             stage.addListener(new InputListener(){
                 @Override
                 public boolean mouseMoved(InputEvent event, float x, float y) {
-                    MyActor actor = (MyActor) stage.hit(x,y,true);
-                    if(thongTinMode) {
-                        if(actor instanceof FactoryCenter){
-                            thongTinFac = true;
-                            System.out.println(567);
-                        }else {
-                            thongTinFac = false;
+                    try {
+                        MyActor actor = (MyActor) stage.hit(x, y, true);
+                        if (thongTinMode) {
+                            if (actor instanceof FactoryCenter) {
+                                thongTinFac = true;
+                                System.out.println(567);
+                            } else {
+                                thongTinFac = false;
+                            }
+                            if (actor instanceof HotelCenter) {
+                                thongTinHotel = true;
+                            } else {
+                                thongTinHotel = false;
+                            }
+                            if (actor instanceof ScienceCenter) {
+                                thongTinSaiUn = true;
+                            } else {
+                                thongTinSaiUn = false;
+                            }
                         }
-                        if(actor instanceof HotelCenter){
-                            thongTinHotel = true;
-                        }else {
-                            thongTinHotel = false;
-                        }
-                        if(actor instanceof ScienceCenter){
-                            thongTinSaiUn = true;
-                        }else {
-                            thongTinSaiUn = false;
-                        }
-                    }
+                    }catch (Exception e){}
                     return super.mouseMoved(event, x, y);
                 }
             });
@@ -630,6 +635,7 @@ public class Master implements Screen {
         calculAQI();
         createCar();
         xulyngaydem();
+        denXanhDenDo();
         OrthographicCamera c = (OrthographicCamera) stage.getViewport().getCamera();
         if(c.zoom == 1f) {
             if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
@@ -907,6 +913,15 @@ public class Master implements Screen {
         vietChuBangScience();
     }
 
+    private void denXanhDenDo(){
+        if(timeOfDay%(60*30)<60*5){
+            isDenDo = true;
+            System.out.println("DO");
+        } else {
+            isDenDo = false;
+            System.out.println("XANH");
+        }
+    }
     private void vietChuNen(){
         if(this.dark.getColor().a == 0) {
             batch.begin();

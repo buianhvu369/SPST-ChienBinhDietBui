@@ -11,14 +11,13 @@ public class ShowAQI extends MyActor {
         super(x,y,s);
         setColor(Color.RED);
         textureRegion = Utils.getRegion(16*9,16,16,16);
-        setSize(Gdx.graphics.getWidth(), textureRegion.getRegionHeight());
-        setScale(1f,0.5f);
+        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setScale(Master.AQI/300f,0.5f);
+        setSize(Master.AQI/300f*Gdx.graphics.getWidth(),16);
         if(Master.AQI<=50){
             setColor(Color.GREEN);
         }else if(Master.AQI<=100){

@@ -91,6 +91,7 @@ public class Master implements Screen {
     HotelCenter hotelCenter;
     ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
+    Calories calories;
     public static boolean hienCheTao = false;
 
     Dark dark;
@@ -137,6 +138,7 @@ public class Master implements Screen {
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
+    public static float amountOfFood = 100;
     public static Array<Rectangle> noCutting = new Array<>();
     public static Array<Rectangle> noDotRac = new Array<>();
 
@@ -370,6 +372,7 @@ public class Master implements Screen {
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
+        calories = new Calories(0,0,stage);
         Rectangle rectangle = new Rectangle(21*32,15*32,32*3,32*10);
         noPlaced.add(rectangle);
         Rectangle rectangle1 = new Rectangle(0, 11*32,80*32,32*3);
@@ -634,6 +637,7 @@ public class Master implements Screen {
         ktHetEven();
         calculAQI();
         createCar();
+        luongThucAn();
         xulyngaydem();
         denXanhDenDo();
         OrthographicCamera c = (OrthographicCamera) stage.getViewport().getCamera();
@@ -653,6 +657,8 @@ public class Master implements Screen {
                 stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
             }
         }
+
+        calories.setPosition(player.getX() , player.getY()+35);
 
         growth++;
         for(Rice rice : rices){
@@ -1389,7 +1395,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI> 300 && WLK == 'K'){
+        if(AQI> 10000 && WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)
@@ -1787,6 +1793,13 @@ public class Master implements Screen {
             }
         }
     }
+
+    void luongThucAn(){
+        if(timeOfDay%60 == 0){
+            amountOfFood--;
+        }
+    }
+
     private void taoChatCay(){
         if(timeOfDay%180==0){
             if(random.nextBoolean()){

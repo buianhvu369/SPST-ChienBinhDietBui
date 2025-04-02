@@ -137,6 +137,9 @@ public class Master implements Screen {
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
+    public static Array<Rectangle> noCutting = new Array<>();
+    public static Array<Rectangle> noDotRac = new Array<>();
+
 
     public static int growth = 0;
     public static Array<Rice>rices ;
@@ -1386,7 +1389,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI>300 && WLK == 'K'){
+        if(AQI> 300 && WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)

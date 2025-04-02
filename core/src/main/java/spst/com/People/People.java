@@ -93,11 +93,27 @@ public class People extends MyActor {
                 }
                 if (isCutting) {
                     if (!Master.trees.isEmpty()) {
-                        treeTarget = Master.trees.removeIndex(random(0, Master.trees.size - 1));
-                        System.out.println("Chat cay thoi anh em!" + Master.trees.size);
-                        mouseX = treeTarget.getX() + 32;
-                        mouseY = treeTarget.getY();
-                        isMoving = true;
+                        boolean findTarget = false;
+                        for(int i = 0; i <2; i++) {
+                            if (!findTarget) {
+                                boolean canPut = true;
+                                treeTarget = Master.trees.random();
+                                for (Rectangle rectangle1 : Master.noCutting) {
+                                    if (rectangle1.contains(treeTarget.getX(), treeTarget.getY())) {
+                                        canPut = false;
+                                        break;
+                                    }
+                                }
+                                if(canPut){
+                                    findTarget = true;
+                                    Master.trees.removeValue(treeTarget, true);
+                                    System.out.println("Chat cay thoi anh em!" + Master.trees.size);
+                                    mouseX = treeTarget.getX() + 32;
+                                    mouseY = treeTarget.getY();
+                                    isMoving = true;
+                                }
+                            }
+                        }
                     }
                 }
                 if (isJogging) {
@@ -106,11 +122,32 @@ public class People extends MyActor {
                     isMoving = true;
                 }
                 if (isFiringWaste) {
-                    mouseX = MathUtils.random(100, 2200);
-                    mouseY = MathUtils.random(20, 780);
-                    rectangle.setSize(30, 26);
-                    rectangle.setPosition(mouseX - 4, mouseY - 4);
-                    isMoving = true;
+                    boolean vitriDot = true;
+                    boolean canFind = false;
+                    for (int i = 0; i < 5; i++) {
+                        mouseX = MathUtils.random(100, 2200);
+                        mouseY = MathUtils.random(20, 780);
+                        for (Rectangle rectangle1 : Master.noDotRac) {
+                            if (rectangle1.contains(mouseX, mouseY)) {
+                                vitriDot = false;
+                                break;
+                            }
+                        }
+                        if (vitriDot) {
+                            rectangle.setSize(30, 26);
+                            rectangle.setPosition(mouseX - 4, mouseY - 4);
+                            isMoving = true;
+                            canFind = true;
+                            break;
+                        }
+                    }
+                    if(!canFind){
+                        isFiringWaste = false;
+                        isJogging = true;
+                        mouseX = MathUtils.random(100, 2200);
+                        mouseY = MathUtils.random(20, 780);
+                    }
+
                 }
                 if (isFiringSign) {
                     if (!Master.signs.isEmpty()) {

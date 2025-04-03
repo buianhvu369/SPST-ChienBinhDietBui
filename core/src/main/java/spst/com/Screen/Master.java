@@ -82,10 +82,13 @@ public class Master implements Screen {
     CaiDat caiDatButton;
     public static Player player;
     PoolRec poolRec;
-    BangScience bangScience;
+    Bang bangScience;
+    Bang bangFactory;
+    Cross bangFactoryCross;
     Cross bangScienceCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
+    MordernDoor factoryDoor;
 
     FactoryCenter factoryCenter;
     HotelCenter hotelCenter;
@@ -162,6 +165,7 @@ public class Master implements Screen {
     public  static boolean trafficAction = true;
     int speedX = -2 ;
     int  luotcat = 1;
+    public static boolean hienBangFactory = false;
     public static boolean hienChiSo = false;
     public static boolean hienThongTin = false;
     public static boolean hienNghienCuu = false;
@@ -363,8 +367,9 @@ public class Master implements Screen {
         new ThapRua(32*9+8,800/2+48+32*6+8,stage);
         player = new Player(1200 / 2, 800 / 2, stage);
 
-        bangScience = new BangScience(-10000,-100,noMoveStage);
+        bangScience = new Bang(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
+        bangFactoryCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
@@ -460,6 +465,12 @@ public class Master implements Screen {
                 closeScienceBoard();
             }
         });
+        bangFactoryCross.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                closeFactoryBoard();
+            }
+        });
+
 
         replay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -1165,6 +1176,12 @@ public class Master implements Screen {
             line.toFront();
         }
     }
+    private void showBangFactory(float x, float y){
+        if(!hienBangFactory&&Math.abs(player.getX()-factoryDoor.getX())<32*6 && Math.abs(player.getY()-factoryDoor.getY()) < 32*6){
+            bangFactory.setPosition(x,y);
+            bangScienceCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+        }
+    }
     private void dongThongtin(){
 
         dongCheTao();
@@ -1405,6 +1422,7 @@ public class Master implements Screen {
             WLK = 'L';
         }
         if(WLK == 'L'){
+            showAQI.canhbao.stop();
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -1434,6 +1452,7 @@ public class Master implements Screen {
             dark.setColor(0,0,0,1);
             WLK = 'W';}
         if(WLK == 'W'){
+            showAQI.canhbao.stop();
             dark = new Dark(0,0,noMoveStage);
             new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"WIN",Color.GREEN).toFront();
             player.toFront();
@@ -1915,6 +1934,7 @@ public class Master implements Screen {
         scienceCenter = new ScienceCenter(28*32,32*16,stage);
         scienceDoor = new MordernDoor(32*29,32*16,stage);
         factoryCenter = new FactoryCenter(13 * 32, 32, stage);
+        factoryDoor = new MordernDoor(32*14,32,stage);
         hotelCenter = new HotelCenter(32*32,32*5,stage) ;
         hotelDoor = new MordernDoor(32*33,32*5,stage);
     }
@@ -2115,6 +2135,8 @@ public class Master implements Screen {
         dongNghienCuu();
         hienChiSo = false;
         hienNghienCuu = false;
+    }
+    private void closeFactoryBoard(){
     }
 
 

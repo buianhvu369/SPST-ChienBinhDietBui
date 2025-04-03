@@ -1,10 +1,9 @@
 package spst.com;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import spst.com.Screen.Master;
 
-public class BangScience extends MyActor{
-    public BangScience(float x, float y, Stage s) {
+public class Bang extends MyActor{
+    public Bang(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = Utils.getRegion(16*9,16*1,16,16);
         setSize(896,476);

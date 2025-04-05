@@ -31,6 +31,9 @@ public class Tree extends MyActor {
             if (GameState.CO1 >= 0.15f / 60f) {
                 GameState.CO1 -= 0.15f / 60f;
             }
+            if (GameState.O3 >= 0.15f / 60f) {
+                GameState.O3 -= 0.15f / 60f;
+            }
         }
     }
 

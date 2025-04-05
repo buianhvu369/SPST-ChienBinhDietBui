@@ -15,7 +15,7 @@ public class creatMayLoc extends MyActor {
     public creatMayLoc(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
-        setSize(80,80);
+        setSize(40,40);
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

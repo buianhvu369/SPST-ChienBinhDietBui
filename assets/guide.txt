@@ -23,3 +23,6 @@ Công việc:
 Ấn phím "h" để bật/tắt chế độ hướng dẫn.
 Chế độ hướng dẫn:khi bật chế độ này có xem thông tin của mọi vật bằng cách di 
 chuột vào đó.
+Lưu ý: khi chơi lần đầu nên luôn luôn bật chế độ hướng dẫn vì sẽ có những lúc
+cần chế độ hướng dẫn để biết các tính năng mới mà nếu không bật chế độ thì 
+rất khó phát hiện ra.

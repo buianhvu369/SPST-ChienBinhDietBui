@@ -70,8 +70,8 @@ public class CotTruyenScreen implements Screen  {
         });
         layout.width = 300;
         layout.height = 40;
-        nen.isLooping();
-        nen.play();
+        //nen.isLooping();
+        //nen.play();
     }
 
     @Override

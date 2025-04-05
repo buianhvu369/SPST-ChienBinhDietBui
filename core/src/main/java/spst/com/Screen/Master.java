@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,7 +29,9 @@ import spst.com.*;
 import spst.com.Button.*;
 import spst.com.Button.ButtonLeft;
 import spst.com.Button.ButtonRight;
+import spst.com.InFactory.*;
 import spst.com.Cameras.NormalCamera;
+import spst.com.Enums.TypeRoadRe;
 import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
@@ -82,8 +85,20 @@ public class Master implements Screen {
     CaiDat caiDatButton;
     public static Player player;
     PoolRec poolRec;
-    Bang bangScience;
+    BuyDirt buyDirt;
+    BuyBlank buyBlank;
+    BuyRoad buyRoad;
+    BuyRoadRe buyRoadRe;
+    BuyRoadReNgoai buyRoadReNgoai;
+    BuyViaHe buyViaHe;
+    BuyDirt MDirt;
+    BuyBlank MBlank;
+    BuyRoad MRoad;
+    BuyRoadRe MRoadRe;
+    BuyRoadReNgoai MRoadReNgoai;
+    BuyViaHe MViaHe;
     Bang bangFactory;
+    Bang bangScience;
     Cross bangFactoryCross;
     Cross bangScienceCross;
     MordernDoor scienceDoor;
@@ -100,6 +115,7 @@ public class Master implements Screen {
     Rain rain;
     Line line;
     Line line2;
+    Line lineThongTin2;
     Line lineThongTin;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Texture button = new Texture("buttonblank.png");
@@ -126,6 +142,8 @@ public class Master implements Screen {
     public static Array<MayLoc> MLKKs = new Array<>();
     public static Array<Sign> signs = new Array<>();
     public static  Array<TruSo> truSos = new Array<>();
+    public static Array<MyActor> VLLDs = new Array<>();
+    public static Array<NormalCamera> normalCameras = new Array<>();
     public static  Array<Rectangle> noPlaced = new Array<>();
     public static float AQI = 180;
     public static char WLK = 'K';
@@ -143,13 +161,15 @@ public class Master implements Screen {
 
     public static int growth = 0;
     public static Array<Rice>rices ;
-    public static Array<NormalCamera> normalCameras = new Array<>();
     public static int soCuaCameraDangLooking = 0;
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
     creatCamera taoCamera;
     creatSign taoSign;
+    creatVatLieuMoRongMap creatVLLD;
+    ButtonLeft buttonLeftVLLD;
+    ButtonRight buttonRightVLLD;
     SaveNut saveNut;
     float ktHetEvent = 2;
     boolean ktDangChayEvent = false;
@@ -191,6 +211,7 @@ public class Master implements Screen {
         layout.width = 300;
         layout.height = 40;
         MLKKButton = new TextButton(" Mua một cái máy lọc không khí ", style);
+
         MLKKButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>=500&&GameState.ernegy>=20) {
@@ -335,9 +356,9 @@ public class Master implements Screen {
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
-        cameraLookingLeft = new ButtonLeft(400,Gdx.graphics.getHeight()-100,noMoveStage);
-        cameraLooking = new SelectCamera(400+26,Gdx.graphics.getHeight()-100,noMoveStage);
-        cameraLookingRight = new ButtonRight(400+26+80,Gdx.graphics.getHeight()-100,noMoveStage);
+        cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 450-100+10,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLooking = new SelectCamera(Gdx.graphics.getWidth() - 450+26-100,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLookingRight = new ButtonRight(Gdx.graphics.getWidth() - 450+26+42-100,Gdx.graphics.getHeight()-70,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -349,10 +370,13 @@ public class Master implements Screen {
         generateMap2();
         truck = new Truck(32*33+1184,800 - 32*3, stage);
         gieng = new Waterwell(1184+32*27,32*6,stage);
-        treeButon = new TreeButon(Gdx.graphics.getWidth()-100-32,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-200-32,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoCamera = new creatCamera(Gdx.graphics.getWidth()-300-32,Gdx.graphics.getHeight()-100,noMoveStage);
-        taoSign = new creatSign(Gdx.graphics.getWidth()-400-32,Gdx.graphics.getHeight()-100,noMoveStage);
+        treeButon = new TreeButon(Gdx.graphics.getWidth()-100,Gdx.graphics.getHeight()-70,noMoveStage);
+        taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-150,Gdx.graphics.getHeight()-70,noMoveStage);
+        taoCamera = new creatCamera(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-70,noMoveStage);
+        taoSign = new creatSign(Gdx.graphics.getWidth()-250,Gdx.graphics.getHeight()-70,noMoveStage);
+        creatVLLD = new creatVatLieuMoRongMap(Gdx.graphics.getWidth()-300-32,Gdx.graphics.getHeight()-70,noMoveStage);
+        buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-300-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
+        buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-300+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
 
         createTree();
@@ -362,13 +386,34 @@ public class Master implements Screen {
         new ThapRua(32*9+8,800/2+48+32*6+8,stage);
         player = new Player(1200 / 2, 800 / 2, stage);
 
+        buyDirt = new BuyDirt(-132456,-65432,noMoveStage);
+        buyBlank = new BuyBlank(-132456,-65432,noMoveStage);
+        buyRoad = new BuyRoad(-132456,-65432,noMoveStage);
+        buyRoadRe = new BuyRoadRe(-132456,-65432,noMoveStage);
+        buyRoadReNgoai = new BuyRoadReNgoai(-132456,-65432,noMoveStage);
+        buyViaHe = new BuyViaHe(-132456,-65432,noMoveStage);
+        MViaHe = new BuyViaHe(-132456,-65432,noMoveStage);
+        MDirt = new BuyDirt(-132456,-65432,noMoveStage);
+        MBlank = new BuyBlank(-132456,-65432,noMoveStage);
+        MRoad = new BuyRoad(-132456,-65432,noMoveStage);
+        MRoadRe = new BuyRoadRe(-132456,-65432,noMoveStage);
+        MRoadReNgoai = new BuyRoadReNgoai(-132456,-65432,noMoveStage);
+        MViaHe.setColor(MViaHe.getColor().r,MViaHe.getColor().g,MViaHe.getColor().b,0.6f);
+        MDirt.setColor(MDirt.getColor().r,MDirt.getColor().g,MDirt.getColor().b,0.6f);
+        MBlank.setColor(MBlank.getColor().r,MBlank.getColor().g,MBlank.getColor().b,0.6f);
+        MRoad.setColor(MRoad.getColor().r,MRoad.getColor().g,MRoad.getColor().b,0.6f);
+        MRoadRe.setColor(MRoadRe.getColor().r,MRoadRe.getColor().g,MRoadRe.getColor().b,0.6f);
+        MRoadReNgoai.setColor(MRoadReNgoai.getColor().r,MRoadReNgoai.getColor().g,MRoadReNgoai.getColor().b,0.6f);
+
         bangScience = new Bang(-10000,-100,noMoveStage);
+        bangFactory = new Bang(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
         dark = new Dark(0,0,noMoveStage);
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
         line2 = new Line(32,32*2+8,896,0,noMoveStage);
+        lineThongTin2 = new Line(32,Gdx.graphics.getHeight()-32*10-4,896,0,noMoveStage);
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
@@ -454,6 +499,11 @@ public class Master implements Screen {
                 showBangScience(32,32);
             }
         });
+        factoryDoor.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                showBangFactory(32,32);
+            }
+        });
         bangScienceCross.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 closeScienceBoard();
@@ -462,6 +512,82 @@ public class Master implements Screen {
         bangFactoryCross.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 closeFactoryBoard();
+            }
+        });
+
+        buttonLeftVLLD.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                creatVLLD.thayVLL();
+            }
+        });
+        buttonRightVLLD.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                creatVLLD.thayVLR();
+            }
+        });
+        buyRoad.direction = 'D';
+        buyRoadRe.type = TypeRoadRe.CaHai;
+        buyRoadRe.direc = 'u';
+        buyRoadReNgoai.setRotation(90);
+        buyViaHe.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=10) {
+                    GameState.soViaHe++;
+                    GameState.money-=10;
+                    new FloatingNews(0,0,noMoveStage,"2457i8756nrhybfcatvhgcdtsctgn",Color.RED);
+                    //them o nhiem vao day
+                }
+
+            }
+        });
+        buyRoad.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=12) {
+                    GameState.soRoad++;
+                    GameState.money-=12;
+                    //them o nhiem vao day
+                }
+
+            }
+        });
+        buyRoadRe.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=12) {
+                    GameState.soReRoad++;
+                    GameState.money-=12;
+                    //them o nhiem vao day
+                }
+
+            }
+        });
+        buyBlank.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=3) {
+                    GameState.soBlankRoad++;
+                    GameState.money-=3;
+                    //them o nhiem vao day
+                }
+
+            }
+        });
+        buyDirt.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=3) {
+                    GameState.soDat++;
+                    GameState.money-=3;
+                    //them o nhiem vao day
+                }
+
+            }
+        });
+        buyRoadReNgoai.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=3) {
+                    GameState.soVongCungNgoai++;
+                    GameState.money-=3;
+                    //them o nhiem vao day
+                }
+
             }
         });
 
@@ -588,7 +714,6 @@ public class Master implements Screen {
         caiDatButton.addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
-
                 dongCheTao();
                 moCaiDat();
             }
@@ -613,8 +738,8 @@ public class Master implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
 
         MenuScreen.nen.stop();
-        nen.isLooping();
-        nen.play();
+        //nen.isLooping();
+        //nen.play();
     }
 
     @Override
@@ -622,6 +747,7 @@ public class Master implements Screen {
         ScreenUtils.clear(Color.GRAY);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        Shovel shovel = new Shovel(0,0,noMoveStage);
         if(Gdx.input.isTouched()){
             System.out.println("x = " + Gdx.input.getX()/32 + " y = " + (Gdx.graphics.getHeight()/32 - Gdx.input.getY()/32));
         }
@@ -635,7 +761,7 @@ public class Master implements Screen {
             }
         }
 
-        tinhThangThua();
+        //tinhThangThua();
         tanggiamdanso();
         taoChatCay();
         xuLyCNXVaGTX();
@@ -644,6 +770,9 @@ public class Master implements Screen {
         createCar();
         xulyngaydem();
         denXanhDenDo();
+        if(whatActionIfClickMouse.equals("DatSan")){
+            taoMoDatKhoi();
+        }
         OrthographicCamera c = (OrthographicCamera) stage.getViewport().getCamera();
         if(c.zoom == 1f) {
             if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
@@ -713,6 +842,7 @@ public class Master implements Screen {
         Vector2 mouse = new Vector2();
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
         stage.getViewport().unproject(mouse);
+
         if (Gdx.input.justTouched()) {
 
             cameraPosition.x = mouse.x;
@@ -768,6 +898,53 @@ public class Master implements Screen {
                         new Sign(mouse.x-16,mouse.y,random.nextBoolean(),stage);
                     }
                 }
+            }else if(Master.whatActionIfClickMouse.equals("DatSan") && creatVLLD.soVL >0){
+                Vector2 mouse2 = new Vector2();
+                mouse2.set(Gdx.input.getX(), Gdx.input.getY());
+                stage.getViewport().unproject(mouse2);
+                switch (creatVLLD.type){
+                    case DuongTrong -> {
+                        VLLDs.add(new BuyBlank(Math.round(mouse.x/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage));
+                        GameState.soBlankRoad--;
+                    }
+                    case DuongThang -> {
+                        BuyRoad a = new BuyRoad(Math.round(mouse.x/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage);
+                        a.direction = MRoad.direction;
+                        VLLDs.add(a);
+                        MRoad.setPosition(-3425365,-56754);
+                        GameState.soRoad--;
+                    }
+                    case NgaRe -> {
+                        BuyRoadRe a = new BuyRoadRe(Math.round(mouse.x/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage);
+                        a.direc = MRoadRe.direc;
+                        a.type = MRoadRe.type;
+                        VLLDs.add(a);
+                        MRoadRe.setPosition(-3425365,-56754);
+                        GameState.soReRoad--;
+                    }
+                    case ViaHe -> {
+                        VLLDs.add(new BuyViaHe(Math.round(mouse.x/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage));
+                        GameState.soViaHe--;
+                    }
+                    case VongCung -> {
+                        BuyRoadReNgoai a = new BuyRoadReNgoai(Math.round((mouse.x-2)/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage);
+                        a.setRotation(MRoadReNgoai.getRotation());
+                        VLLDs.add(a);
+                        GameState.soVongCungNgoai--;
+                    }
+                    case Dat -> {
+                        VLLDs.add(new BuyDirt(Math.round((mouse.x-2)/32f)*32,
+                            Math.round(mouse.y/32f)*32,stage));
+                        GameState.soDat--;
+                    }
+                }
+                whatActionIfClickMouse = "move";
+                creatVLLD.textureRegion = new TextureRegion(creatVLLD.texture);
             }else {
                 new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
                 clickSound.play();
@@ -876,6 +1053,7 @@ public class Master implements Screen {
                 }
             }else {
                 factoryCenter.toFront();
+                factoryDoor.toFront();
                 if(player.getY() < factoryCenter.getY()+10){
                     player.setY(factoryCenter.getY()+10);
                 }
@@ -912,13 +1090,15 @@ public class Master implements Screen {
             }
         }
 
+        xuLyNenMuaVaCamXucNguoiDan();
+
         stage.act();
         truck.toFront();
         stage.draw();
-        vietChuNen();
+        vietChuDuoi();
         noMoveStage.draw();
         noMoveStage.act();
-        vietChuBangScience();
+        vietChuTren();
     }
 
     private void denXanhDenDo(){
@@ -930,20 +1110,34 @@ public class Master implements Screen {
             System.out.println("XANH");
         }
     }
-    private void vietChuNen(){
+    private void vietTypeVLLD(){
+        switch (creatVLLD.type){
+            case DuongTrong -> layout.setText(game.font3, "Đường trống");
+            case DuongThang -> layout.setText(game.font3, "Đường thẳng");
+            case NgaRe -> layout.setText(game.font3, "Khúc rẽ trong");
+            case ViaHe -> layout.setText(game.font3, "Vỉa hè");
+            case VongCung -> layout.setText(game.font3, "Khúc rẽ ngoài");
+            case Dat -> layout.setText(game.font3, "Đất");
+        }
+    }
+    private void vietChuDuoi(){
         if(this.dark.getColor().a == 0) {
             batch.begin();
+            game.font.draw(batch, "" + amountSeed, Gdx.graphics.getWidth() - 100+32, Gdx.graphics.getHeight() - 10);
+            game.font.draw(batch, "" + soMayLoc, Gdx.graphics.getWidth() - 150+32, Gdx.graphics.getHeight() - 10);
+            game.font.draw(batch, "" + soCamera, Gdx.graphics.getWidth() - 200+32, Gdx.graphics.getHeight() - 10);
+            game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 250+32, Gdx.graphics.getHeight() - 10);
+            game.font.draw(batch, "" + creatVLLD.soVL, Gdx.graphics.getWidth() - 300, Gdx.graphics.getHeight() - 10);
+            vietTypeVLLD();
+            game.font3.draw(batch, layout, Gdx.graphics.getWidth() - 300-32+20-layout.width/2f, Gdx.graphics.getHeight() - 70);
+            game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
             try {
                 layout.setText(game.font3, "Camera: " + normalCameras.get(soCuaCameraDangLooking).name);
             } catch (Exception e) {
                 layout.setText(game.font3, "Chưa có camera");
             }
-            game.font.draw(batch, "" + amountSeed, Gdx.graphics.getWidth() - 50, Gdx.graphics.getHeight() - 50);
-            game.font.draw(batch, "" + soMayLoc, Gdx.graphics.getWidth() - 50 - 100, Gdx.graphics.getHeight() - 50);
-            game.font.draw(batch, "" + soCamera, Gdx.graphics.getWidth() - 50 - 200, Gdx.graphics.getHeight() - 50);
-            game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 50 - 300, Gdx.graphics.getHeight() - 50);
-            game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
-            game.font3.draw(batch, layout, 466 - layout.width / 2f, Gdx.graphics.getHeight() - 100);
+            game.font3.draw(batch, layout, Gdx.graphics.getWidth() - 450+26-100+cameraLooking.getWidth()/2f
+                - layout.width / 2f, Gdx.graphics.getHeight() - 70);
             if(thongTinMode){
                 if(thongTinNutCay){
                     game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
@@ -985,12 +1179,20 @@ public class Master implements Screen {
             batch.end();
         }
     }
-    private void vietChuBangScience(){
+    private void vietChuTren(){
         batch.begin();
+
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*3-(25+8));
+            game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
+            game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
+        }
+        if(hienBangFactory){
+            game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*1-(25+8));
+            game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*1-(25+8));
+            game.font3.draw(batch, "Điểm xanh: " + GameState.greenscore,32*22, Gdx.graphics.getHeight()-32*1-(25+8));
             game.font3.draw(batch, "Dân số: " + GameState.danso,32*2, 32*2);
             game.font3.draw(batch, "Xu hướng người dân: " + GameState.xuhuongdantangorgiam,32*16, 32*2);
         }
@@ -1004,6 +1206,7 @@ public class Master implements Screen {
             game.font3.draw(batch, "Sự kiện: " + GameState.event,32*2, Gdx.graphics.getHeight()-32*6-(25+8*2));
             game.font3.draw(batch, "Cảm xúc của người dân: " + GameState.camxucnguoidan,32*2, Gdx.graphics.getHeight()-32*7-(25+8*2));
             game.font3.draw(batch, "Lý do: " + GameState.lydocamxucnguoidan,32*2, Gdx.graphics.getHeight()-32*8-(25+8*2));
+            game.font3.draw(batch, "Nên mua hoặc nâng cấp: " + GameState.nenMua,32*2, Gdx.graphics.getHeight()-32*9-(25+8*2));
         }
         if(hienNghienCuu){
             try {
@@ -1040,7 +1243,41 @@ public class Master implements Screen {
             game.font5.draw(batch, "1000 money, 50 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4);
             game.font5.draw(batch, "20 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4-20);
         }
+        if(hienBangFactory){
+            game.font3.draw(batch, ": Vỉa hè giá 10$",buyViaHe.getX()+buyViaHe.getWidth()/2f+32*2,buyViaHe.getY()+25);
+            game.font3.draw(batch, ": ngã rẽ giá 12$",buyRoadRe.getX()+buyRoadRe.getWidth()/2f+32*2,buyRoadRe.getY()+25);
+            game.font3.draw(batch, ": Vòng cung ngoài giá 4$",buyRoadReNgoai.getX()+buyRoadReNgoai.getWidth()/2f+32*2,buyRoadReNgoai.getY()+25);
+            game.font3.draw(batch, ": Đất giá 3$",buyDirt.getX()+buyDirt.getWidth()/2f+32*2,buyDirt.getY()+25);
+            game.font3.draw(batch, ": Đường thẳng giá 12$",buyRoad.getX()+buyRoad.getWidth()/2f+32*2,buyRoad.getY()+25);
+            game.font3.draw(batch, ": Đường trống giá 12$",buyBlank.getX()+buyBlank.getWidth()/2f+32*2,buyBlank.getY()+25);
+        }
         batch.end();
+    }
+    private void xuLyNenMuaVaCamXucNguoiDan(){
+        if(AQI == GameState.AQICO1){////
+            GameState.nenMua = "Công nghệ xanh và giao thông xanh";
+        }else if(AQI == GameState.AQINO2){
+            GameState.nenMua = "Máy lọc không khí";
+        }else if(AQI == GameState.AQISO2){
+            GameState.nenMua = "Công nghệ xanh và giao thông xanh";
+        }else if(AQI == GameState.AQIO3){
+            GameState.nenMua = "Cây xanh";
+        }else if(AQI == GameState.AQIPM10){
+            GameState.nenMua = "Cây xanh";
+        }else if(AQI == GameState.AQIPM2_5){
+            GameState.nenMua = "Máy lọc không khí";
+        }
+
+        if(Master.AQI<=150){
+            GameState.camxucnguoidan = "Vui vẻ";
+            GameState.lydocamxucnguoidan = "Không khí rất trong lành";
+        }else if(Master.AQI<=250){
+            GameState.camxucnguoidan = "Không Vui";
+            GameState.lydocamxucnguoidan = "Không khí hơi ô nhiễm";
+        }else{
+            GameState.camxucnguoidan = "Tức giận";
+            GameState.lydocamxucnguoidan = "Không khí rất bẩn ô nhiễm";
+        }
     }
     private void xuLyCNXVaGTX(){
         //xu ly CNX
@@ -1170,7 +1407,27 @@ public class Master implements Screen {
     private void showBangFactory(float x, float y){
         if(!hienBangFactory&&Math.abs(player.getX()-factoryDoor.getX())<32*6 && Math.abs(player.getY()-factoryDoor.getY()) < 32*6){
             bangFactory.setPosition(x,y);
-            bangScienceCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+            bangFactoryCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+
+            line.setHeight(4);
+            line.setY(line.getY()+32*2);
+            line2.setHeight(4);
+            line2.setY(line2.getY()-2);
+            buyViaHe.setPosition(32*3-buyViaHe.getWidth()/2f,Gdx.graphics.getHeight()-32*8-buyViaHe.getHeight()/2f);
+            buyRoadRe.setPosition(32*17-buyRoadRe.getWidth()/2f,Gdx.graphics.getHeight()-32*8-buyRoadRe.getHeight()/2f);
+            buyRoadReNgoai.setPosition(32*3-buyRoadReNgoai.getWidth()/2f,Gdx.graphics.getHeight()-32*10-buyRoadReNgoai.getHeight()/2f);
+            buyBlank.setPosition(32*17-buyBlank.getWidth()/2f,Gdx.graphics.getHeight()-32*10-buyBlank.getHeight()/2f);
+            buyDirt.setPosition(32*3-buyDirt.getWidth()/2f,Gdx.graphics.getHeight()-32*12-buyDirt.getHeight()/2f);
+            buyRoad.setPosition(32*17-buyRoad.getWidth()/2f,Gdx.graphics.getHeight()-32*12-buyRoad.getHeight()/2f);
+            hienBangFactory = true;
+
+            buyRoad.toFront();
+            buyRoadRe.toFront();
+            buyViaHe.toFront();
+            buyRoadReNgoai.toFront();
+            buyBlank.toFront();
+            buyDirt.toFront();
+            line.toFront();
         }
     }
     private void dongThongtin(){
@@ -1179,6 +1436,7 @@ public class Master implements Screen {
         isOpenSetting = false;
         dongCaiDat();
         lineThongTin.setHeight(0);
+        lineThongTin2.setHeight(0);
         hienThongTin = false;
     }
     private void dongNghienCuu(){
@@ -1194,6 +1452,7 @@ public class Master implements Screen {
         dongNghienCuu();
 
         lineThongTin.setHeight(4);
+        lineThongTin2.setHeight(4);
     }
 
     private void moNghienCuu(){
@@ -1687,8 +1946,8 @@ public class Master implements Screen {
                             GameState.SO2 += 30;
                             GameState.NO2 += 40;
                             GameState.PM2_5 += 50;
-                            int ran100 = random.nextInt(1,10);
-                            switch (ran){
+                            int ran2 = random.nextInt(1,10);
+                            switch (ran2){
                                 case 1 -> {
                                     GameState.danso-=2;
                                     new FloatingNews(0,500,noMoveStage,"Cháy 2 ngôi nhà chết 2 người",Color.RED).toFront();
@@ -1752,6 +2011,43 @@ public class Master implements Screen {
 
     }
 
+    private void taoMoDatKhoi(){
+        Vector2 mouse = new Vector2();
+        mouse.set(Gdx.input.getX(), Gdx.input.getY());
+        noMoveStage.getViewport().unproject(mouse);
+        switch (creatVLLD.type){
+            case Dat -> {
+                MDirt.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32-16-2));
+                MDirt.toFront();
+            }
+            case VongCung -> {
+                MRoadReNgoai.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MRoadReNgoai.toFront();
+            }
+            case ViaHe -> {
+                MViaHe.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MViaHe.toFront();
+            }
+            case NgaRe -> {
+                MRoadRe.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32)+16-2);
+                MRoadRe.toFront();
+            }
+            case DuongThang -> {
+                MRoad.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MRoad.toFront();
+            }
+            case DuongTrong -> {
+                MBlank.setPosition(Math.round(mouse.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
+                    Math.round(mouse.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MBlank.toFront();
+            }
+        }
+    }
     private void tanggiamdanso(){
         if(AQI<100){
             GameState.xuhuongdantangorgiam = "tăng dân số";
@@ -2121,6 +2417,19 @@ public class Master implements Screen {
         hienNghienCuu = false;
     }
     private void closeFactoryBoard(){
+        bangFactoryCross.setPosition(-456432,-458921);
+        hienBangFactory = false;
+        bangFactory.setPosition(-3456423,-564859);
+        buyDirt.setPosition(-3456423,-564859);
+        buyBlank.setPosition(-3456423,-564859);
+        buyRoadReNgoai.setPosition(-3456423,-564859);
+        buyRoad.setPosition(-3456423,-564859);
+        buyRoadRe.setPosition(-3456423,-564859);
+        buyViaHe.setPosition(-3456423,-564859);
+        line.setHeight(0);
+        line.setY(line.getY()-32*2);
+        line2.setHeight(0);
+        line2.setY(line2.getY()+2);
     }
 
 

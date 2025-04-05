@@ -2,7 +2,19 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Json;
+import spst.com.Cameras.NormalCamera;
+import spst.com.House.TruSo;
+import spst.com.InFactory.*;
+import spst.com.MoPhong.*;
+import spst.com.Roads.Car;
+import spst.com.Roads.CrossRoad.BlankRoad;
+import spst.com.Roads.CrossRoad.Corner;
+import spst.com.Roads.CrossWalk;
+import spst.com.Roads.RoadWay;
+import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
 
 public class GameState{
@@ -12,7 +24,7 @@ public class GameState{
     public static String xuhuongdantangorgiam = "tăng dân số";
     public static String event = "";
     public static String camxucnguoidan = "Vui vẻ.";
-    public static String lydocamxucnguoidan = "Thuế = 0; tiền phạt = 0; số biển cấm đốt rác = 0; LUẬT PHÁP = 0.";
+    public static String lydocamxucnguoidan = "Không khí rất trong lành ";
     public static int levelcongnghexanh = 0;
     public static int levelgiaothongxanh = 0;
     public static int greenscore = 50;
@@ -28,89 +40,117 @@ public class GameState{
     public static float AQIO3 = 0;
     public static float AQIPM2_5 = 0;
     public static float AQIPM10 = 0;
+    public static int soDat = 0;
+    public static int soViaHe = 0;
+    public static int soRoad = 0;
+    public static int soReRoad = 0;
+    public static int soVongCungNgoai = 0;
+    public static int soBlankRoad = 0;
+    public static String nenMua = "";
     public static void saveGame() {
-        Preferences preferences = Gdx.app.getPreferences("save");
-        preferences.putInteger("money", money);
-        preferences.putInteger("energy", ernegy);
-        preferences.putInteger("greenscore", greenscore);
-        preferences.putInteger("danso", danso);
-        preferences.putFloat("PM2_5",PM2_5);
-        preferences.putFloat("PM10",PM10);
-        preferences.putFloat("SO2",SO2);
-        preferences.putFloat("NO2",NO2);
-        preferences.putFloat("CO1",CO1);
-        preferences.putFloat("O3",O3);
+        SaveGame saveGame = new SaveGame(true);
+        Json json = new Json();
+        String jsonString = json.toJson(saveGame);
 
-        preferences.putInteger("socamera", Master.soCamera);
-        preferences.putInteger("sobiencam",Master.soBienCam);
-        preferences.putInteger("somayloc",Master.soMayLoc);
-        preferences.putInteger("socay",Master.amountSeed);
-        preferences.putInteger("sohieucuaMLKKdangchondenangcap",Master.sohieucuaMLKKdangchondenangcap);
-        preferences.putInteger("soCuaCameraDangLooking",Master.soCuaCameraDangLooking);
-
-        preferences.putBoolean("isCNX", Master.isCNX);
-        preferences.putBoolean("isGTX", Master.isGTX);
-        preferences.putBoolean("mLKKAction", Master.mLKKAction);
-        preferences.putBoolean("trafficAction", Master.trafficAction);
-        preferences.putBoolean("factoryAction", Master.factoryAction);
-        preferences.putInteger("day", Master.day);
-        preferences.putInteger("gio1phan60", Master.gio1phan60);
-        preferences.putInteger("timeofday", Master.timeOfDay);
-
-//        preferences.putString("WLK", String.valueOf(Master.WLK));
-        preferences.putString("WLK", "K");
-
-        preferences.putFloat("Color",Master.blood.getColor().r);
-
-//        Master.cars.clear();
-//        Master.roads.clear();
-//        Master.wastes.clear();
-//        Master.trees.clear();
-//        Master.MLKKs.clear();
-//        Master.rices.clear();
-//        Master.normalCameras.clear();
-        preferences.flush();
+        FileHandle fileHandle = Gdx.files.local("data.json") ;
+        fileHandle.writeString(jsonString,false);
     }
     public static void loadGame() {
-        Preferences preferences = Gdx.app.getPreferences("save");
-        money = preferences.getInteger("money",5000);
-        ernegy= preferences.getInteger("energy",200);
-        greenscore= preferences.getInteger("greenscore",50);
-        danso = preferences.getInteger("danso",100000);
-        PM2_5 = preferences.getFloat("PM2_5",100);
-        PM10 = preferences.getFloat("PM10",150);
-        NO2 = preferences.getFloat("NO2",90);
-        SO2 = preferences.getFloat("SO2",50);
-        CO1 = preferences.getFloat("CO1",10);
-        O3 = preferences.getFloat("O3",80);
+        FileHandle file = Gdx.files.local("data.json");
+        if (!file.exists()) {
+            // do nothing
+        } else {
+            Json json = new Json();
+            SaveGame saveGame =  json.fromJson(SaveGame.class, file.readString());
+            money = saveGame.money;
+            ernegy = saveGame.ernegy;
+            greenscore = saveGame.greenscore;
+            danso = saveGame.danso;
+            PM2_5 = saveGame.PM2_5;
+            PM10 = saveGame.PM10;
+            SO2 = saveGame.SO2;
+            NO2 = saveGame.NO2;
+            CO1 = saveGame.CO1;
+            O3 = saveGame.O3;
 
-        Master.soCamera = preferences.getInteger("socamera",0);
-        Master.soBienCam = preferences.getInteger("sobienCam",0);
-        Master.soMayLoc = preferences.getInteger("somayloc",0);
-        Master.amountSeed = preferences.getInteger("socay",0);
-        Master.sohieucuaMLKKdangchondenangcap = preferences.getInteger("sohieucuaMLKKdangchondenangcap",0);
-        Master.soCuaCameraDangLooking = preferences.getInteger("soCuaCameraDangLooking",0);
+            Master.soCamera = saveGame.soCamera;
+            Master.soBienCam = saveGame.soBienCam;
+            Master.soMayLoc = saveGame.soML;
+            Master.amountSeed = saveGame.soSeed;
+            Master.sohieucuaMLKKdangchondenangcap = saveGame.sohieucuaMLKKdangchondenangcap;
+            Master.soCuaCameraDangLooking = saveGame.soCuaCameraDangLooking;
 
-        Master.isCNX = preferences.getBoolean("isCNX",false);
-        Master.isGTX = preferences.getBoolean("isGTX",false);
-        Master.mLKKAction = preferences.getBoolean("mLKKAction",true );
-        Master.factoryAction = preferences.getBoolean("factoryAction",true);
-        Master.trafficAction = preferences.getBoolean("trafficAction",true);
-        Master.day = preferences.getInteger("day",0);
-        Master.gio1phan60 = preferences.getInteger("gio1phan60",0);
-        Master.timeOfDay = preferences.getInteger("timeofday",0);
+            Master.isCNX = saveGame.isCNX;
+            Master.isGTX = saveGame.isGTX;
+            Master.day = saveGame.day;
+            Master.gio1phan60 = saveGame.gio1Phan60;
+            Master.timeOfDay = saveGame.timeOfDay;
 
-        Master.WLK = preferences.getString("WLK", "K").charAt(0);
+            Master.WLK = 'K';
+            Master.blood.setColor(Master.blood.getColor().r,Master.blood.getColor().g,Master.blood.getColor().b,saveGame.colorREDRiver);
 
-        Master.blood.setColor(preferences.getFloat("Color",0),0,0,0);
-//        Master.cars.clear();
-//        Master.roads.clear();
-//        Master.wastes.clear();
-//        Master.trees.clear();
-//        Master.MLKKs.clear();
-//        Master.rices.clear();
-//        Master.normalCameras.clear();
-        System.out.println("Saved Data: " + preferences.get());
+            soVongCungNgoai = saveGame.soVongCungNgoai;
+            soDat = saveGame.soDat;
+            soBlankRoad = saveGame.soBlankRoad;
+            soRoad = saveGame.soRoad;
+            soReRoad = saveGame.soReRoad;
+            soViaHe = saveGame.soViaHe;
+
+            for(CarMP b : saveGame.carArray){
+                Car a = new Car(b.x,b.y,Master.stage);
+                Master.cars.add(a);
+            }
+            for(WasteMP b : saveGame.wasteArray){
+                Waste a = new Waste(b.x,b.y,Master.stage);
+                Master.wastes.add(a);
+            }
+            for(TreeMP b : saveGame.treeArray){
+                Tree a = new Tree(b.x,b.y,Master.stage);
+                Master.trees.add(a);
+            }
+            for(MLMP b : saveGame.mayLocArray){
+                MayLoc a = new MayLoc(b.x,b.y,Master.stage,27*2,47*2);
+                a.name = b.name;
+                Master.MLKKs.add(a);
+            }
+            for(SignMP b : saveGame.signArray){
+                Sign a = new Sign(b.x,b.y,b.myIsCamDotRac,Master.stage);
+                Master.signs.add(a);
+            }
+            for(NormalCameraMP b : saveGame.normalCameraArray){
+                NormalCamera a = new NormalCamera(b.x,b.y,Master.stage);
+                a.name = b.name;
+                Master.normalCameras.add(a);
+            }
+            for(TaiNguyenMP b : saveGame.VLLDArray){
+                switch (b.typeVL){
+                    case DuongTrong -> {
+                        new BuyBlank(b.x,b.y,Master.stage);
+                    }
+                    case DuongThang -> {
+                        BuyRoad a = new BuyRoad(b.x,b.y,Master.stage);
+                        a.direction = b.directionRoad;
+                    }
+                    case NgaRe -> {
+                        BuyRoadRe a = new BuyRoadRe(b.x,b.y,Master.stage);
+                        a.direc = b.directionRoadRe;
+                        a.type = b.typeRoadRe;
+                    }
+                    case ViaHe -> {
+                        new BuyViaHe(b.x,b.y,Master.stage);
+                    }
+                    case VongCung -> {
+                        BuyRoadReNgoai a = new BuyRoadReNgoai(b.x,b.y,Master.stage);
+                        a.setRotation(b.rotationRoadReNgoai);
+                    }
+                    case Dat -> {
+                        new BuyDirt(b.x,b.y,Master.stage);
+                    }
+                }
+                NormalCamera a = new NormalCamera(b.x,b.y,Master.stage);
+                Master.normalCameras.add(a);
+            }
+        }
     }
     public static void reset(){
         money = 5000;
@@ -145,11 +185,15 @@ public class GameState{
         Master.gio1phan60 = 0;
         Master.timeOfDay = 0;
 
+        soDat = 0;
+        soViaHe = 0;
+        soRoad = 0;
+        soReRoad = 0;
+        soVongCungNgoai = 0;
+        soBlankRoad = 0;
+
         Master.WLK = 'K';
         Master.replay.setPosition(-10930,-2389);
-        for(Actor a : Master.winsorloses){
-            a.setPosition(-1435435,-32958);
-        }
 
         Master.blood.setColor(1,0,0,0);
 

@@ -76,8 +76,8 @@ public class MenuScreen implements Screen  {
 
         Gdx.input.setInputProcessor(stage);
 
-        nen.isLooping();
-        nen.play();
+        //nen.isLooping();
+        //nen.play();
     }
 
     @Override

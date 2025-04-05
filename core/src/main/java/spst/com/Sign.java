@@ -12,6 +12,7 @@ import spst.com.Utils;
 public class Sign extends MyActor {
     public boolean isFire = false;
     int time = 0;
+    public boolean myIsCamDotRac;
     public Sign(float x, float y,boolean isCamDotRac, Stage s) {
         super(x, y, s);
         if(isCamDotRac){
@@ -19,6 +20,7 @@ public class Sign extends MyActor {
         }else {
             textureRegion = new TextureRegion(new Texture("signCAMCHATCAY.png"));
         }
+        myIsCamDotRac = isCamDotRac;
         setSize(45,45);
         Master.signs.add(this);
     }

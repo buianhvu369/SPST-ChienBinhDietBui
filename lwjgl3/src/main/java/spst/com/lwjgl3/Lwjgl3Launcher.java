@@ -7,7 +7,7 @@ import spst.com.StartGame;
 /** Launches the desktop (LWJGL3) applicatio3q3sae3qn. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
-        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.
+        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support aFFnd helps on Windows.
         createApplication();
     }
 

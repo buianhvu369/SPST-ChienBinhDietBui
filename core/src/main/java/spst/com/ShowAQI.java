@@ -2,16 +2,24 @@ package spst.com;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.Screen.Master;
 
 public class ShowAQI extends MyActor {
+    public Sound canhbao = Gdx.audio.newSound(Gdx.files.internal("canhbao.mp3"));
+    public Sound hetnangluong = Gdx.audio.newSound(Gdx.files.internal("hetnangluong.mp3"));
+    boolean isCanhBao = false;
+    boolean isHNL = false;
+    Bui bui;
     public ShowAQI(float x, float y, Stage s){
         super(x,y,s);
         setColor(Color.RED);
         textureRegion = Utils.getRegion(16*9,16,16,16);
         setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+
+        bui = new Bui(0,0,Master.noMoveStage);
     }
 
     @Override
@@ -28,6 +36,23 @@ public class ShowAQI extends MyActor {
             setColor(Color.RED);
         }else if(Master.AQI<=300){
                 setColor(Color.BROWN);
+        }
+        if(Master.AQI>=250&&!isCanhBao){
+            canhbao.play();
+            new FloatingNews(0,0,Master.noMoveStage,"Sắp thua rồi",Color.RED);
+            isCanhBao = true;
+        }
+        if(Master.AQI<250){
+            isCanhBao = false;
+        }
+        bui.setColor(bui.getColor().r,bui.getColor().g,bui.getColor().b,1/300f*0.5f*Master.AQI);
+        if(GameState.ernegy==0&&!isHNL){
+            hetnangluong.play();
+            new FloatingNews(0,0,Master.noMoveStage,"Hết năng lượng",Color.RED);
+            isHNL = true;
+        }
+        if(GameState.ernegy>0){
+            isHNL = false;
         }
     }
 }

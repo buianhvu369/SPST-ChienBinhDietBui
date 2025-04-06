@@ -8,19 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
 
-public class creatSign extends MyActor {
-    public boolean isSong = false;
-    Texture texture = new Texture("noSign.png");
-    Texture texture1 = new Texture("yesSign.png");
-    public creatSign(float x, float y, Stage s) {
+public class TreeButon extends MyActor {
+    Texture texture = new Texture("no.png");
+    Texture texture1 = new Texture("yes.png");
+    public TreeButon(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
         setSize(40,40);
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!Master.whatActionIfClickMouse.equals("createSign")) {
-                    Master.whatActionIfClickMouse = "createSign";
+                if(!Master.whatActionIfClickMouse.equals("planttree")){
+                    Master.whatActionIfClickMouse = "planttree";
                     textureRegion = new TextureRegion(texture1);
                 }else{
                     Master.whatActionIfClickMouse = "move";
@@ -28,14 +27,6 @@ public class creatSign extends MyActor {
                 }
             }
         });
-    }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if(isSong){
-            isSong = false;
-            textureRegion = new TextureRegion(texture);
-        }
     }
 }

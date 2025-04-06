@@ -16,6 +16,7 @@ import spst.com.Utils;
 public class Sign extends MyActor {
     public boolean isFire = false;
     int time = 0;
+    public boolean myIsCamDotRac;
     public Sign(float x, float y,boolean isCamDotRac, Stage s) {
         super(x, y, s);
         if(isCamDotRac){
@@ -27,6 +28,7 @@ public class Sign extends MyActor {
             Rectangle rectangle = new Rectangle(x-32 , y-32,32*3,32*3);
             Master.noCutting.add(rectangle);
         }
+        myIsCamDotRac = isCamDotRac;
         setSize(32,32);
         Master.signs.add(this);
     }

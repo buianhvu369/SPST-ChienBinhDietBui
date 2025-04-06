@@ -8,6 +8,7 @@ import spst.com.MyActor;
 import spst.com.Screen.Master;
 
 public class TruSo extends MyActor {
+    public int myType;
     public TruSo(float x, float y, Stage s, int type) {
         super(x, y, s);
         if(type == 1) {
@@ -22,6 +23,7 @@ public class TruSo extends MyActor {
             textureRegion = new TextureRegion(new Texture(Gdx.files.internal("3.png")));
             setSize(textureRegion.getRegionWidth()*0.8f, textureRegion.getRegionHeight()*0.8f);
         }
+        myType = type;
         Master.truSos.add(this);
         Master.noPlaced.add(this.getBound());
     }

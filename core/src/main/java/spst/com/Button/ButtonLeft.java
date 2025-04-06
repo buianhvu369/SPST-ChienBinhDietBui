@@ -9,6 +9,6 @@ public class ButtonLeft extends MyActor {
     public ButtonLeft(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("muitentrai.png"));
-        setSize(textureRegion.getRegionWidth(),textureRegion.getRegionHeight());
+        setSize(textureRegion.getRegionWidth()/2f,textureRegion.getRegionHeight()/2f);
     }
 }

@@ -5,6 +5,7 @@ import spst.com.MyActor;
 
 public class NormalCameraMP extends MyActorMP {
     public String name;
+    public NormalCameraMP(){}
     public NormalCameraMP(float x, float y,String name) {
         super(x, y);
         this.name = name;

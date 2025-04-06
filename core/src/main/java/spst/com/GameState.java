@@ -53,7 +53,7 @@ public class GameState{
         String jsonString = json.toJson(saveGame);
 
         FileHandle fileHandle = Gdx.files.local("data.json") ;
-        fileHandle.writeString(jsonString,false);
+        fileHandle.writeString(jsonString,false, "UTF-8");
     }
     public static void loadGame() {
         FileHandle file = Gdx.files.local("data.json");
@@ -61,7 +61,7 @@ public class GameState{
             // do nothing
         } else {
             Json json = new Json();
-            SaveGame saveGame =  json.fromJson(SaveGame.class, file.readString());
+            SaveGame saveGame =  json.fromJson(SaveGame.class, file.readString("UTF-8"));
             money = saveGame.money;
             ernegy = saveGame.ernegy;
             greenscore = saveGame.greenscore;
@@ -101,8 +101,8 @@ public class GameState{
                 Master.cars.add(a);
             }
             for(WasteMP b : saveGame.wasteArray){
-                Waste a = new Waste(b.x,b.y,Master.stage);
-                Master.wastes.add(a);
+//                Waste a = new Waste(b.x,b.y,Master.stage);
+//                Master.wastes.add(a);
             }
             for(TreeMP b : saveGame.treeArray){
                 Tree a = new Tree(b.x,b.y,Master.stage);
@@ -147,8 +147,6 @@ public class GameState{
                         new BuyDirt(b.x,b.y,Master.stage);
                     }
                 }
-                NormalCamera a = new NormalCamera(b.x,b.y,Master.stage);
-                Master.normalCameras.add(a);
             }
         }
     }
@@ -193,7 +191,7 @@ public class GameState{
         soBlankRoad = 0;
 
         Master.WLK = 'K';
-        Master.replay.setPosition(-10930,-2389);
+        Master.replay.remove();
 
         Master.blood.setColor(1,0,0,0);
 

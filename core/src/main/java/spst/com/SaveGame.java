@@ -80,7 +80,7 @@ public class SaveGame{
         gio1Phan60 = Master.gio1phan60;
         timeOfDay = Master.timeOfDay;
 
-        colorREDRiver = Master.blood.getColor().r;
+        colorREDRiver = Master.blood.getColor().a;
 
         soVongCungNgoai = GameState.soVongCungNgoai;
         soDat = GameState.soDat;

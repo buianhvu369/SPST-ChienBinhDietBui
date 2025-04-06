@@ -97,6 +97,7 @@ public class Master implements Screen {
     BuyRoadRe MRoadRe;
     BuyRoadReNgoai MRoadReNgoai;
     BuyViaHe MViaHe;
+    Shovel buyShovel;
     Bang bangFactory;
     Bang bangScience;
     Cross bangFactoryCross;
@@ -168,6 +169,7 @@ public class Master implements Screen {
     creatCamera taoCamera;
     creatSign taoSign;
     creatVatLieuMoRongMap creatVLLD;
+    OpenItems openItems;
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
     SaveNut saveNut;
@@ -201,6 +203,8 @@ public class Master implements Screen {
     public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.mp3"));
     StartGame game;
     public static int timeOfDay = 0;
+    public static boolean isCoXeng = false;
+    public static boolean isMoItems = false;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -356,9 +360,9 @@ public class Master implements Screen {
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
-        cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 450-100+10,Gdx.graphics.getHeight()-70,noMoveStage);
-        cameraLooking = new SelectCamera(Gdx.graphics.getWidth() - 450+26-100,Gdx.graphics.getHeight()-70,noMoveStage);
-        cameraLookingRight = new ButtonRight(Gdx.graphics.getWidth() - 450+26+42-100,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 500-100+10,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLooking = new SelectCamera(Gdx.graphics.getWidth() - 500+26-100,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLookingRight = new ButtonRight(Gdx.graphics.getWidth() - 500+26+42-100,Gdx.graphics.getHeight()-70,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -374,9 +378,12 @@ public class Master implements Screen {
         taoMayLockk = new creatMayLoc(Gdx.graphics.getWidth()-150,Gdx.graphics.getHeight()-70,noMoveStage);
         taoCamera = new creatCamera(Gdx.graphics.getWidth()-200,Gdx.graphics.getHeight()-70,noMoveStage);
         taoSign = new creatSign(Gdx.graphics.getWidth()-250,Gdx.graphics.getHeight()-70,noMoveStage);
-        creatVLLD = new creatVatLieuMoRongMap(Gdx.graphics.getWidth()-300-32,Gdx.graphics.getHeight()-70,noMoveStage);
-        buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-300-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
-        buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-300+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
+        openItems = new OpenItems(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-70,noMoveStage);
+        creatVLLD = new creatVatLieuMoRongMap(Gdx.graphics.getWidth()-350-32,Gdx.graphics.getHeight()-70,noMoveStage);
+        buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-350-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
+        buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-350+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
+        buyShovel = new Shovel(32*5,Gdx.graphics.getHeight()-32*6,noMoveStage);
+        buyShovel.remove();
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
 
         createTree();
@@ -529,6 +536,13 @@ public class Master implements Screen {
         buyRoadRe.type = TypeRoadRe.CaHai;
         buyRoadRe.direc = 'u';
         buyRoadReNgoai.setRotation(90);
+        buyShovel.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money>=300) {
+                    isCoXeng = true;
+                }
+            }
+        });
         buyViaHe.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>=10) {
@@ -738,8 +752,8 @@ public class Master implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
 
         MenuScreen.nen.stop();
-        //nen.isLooping();
-        //nen.play();
+        nen.isLooping();
+        nen.play();
     }
 
     @Override
@@ -747,7 +761,6 @@ public class Master implements Screen {
         ScreenUtils.clear(Color.GRAY);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        Shovel shovel = new Shovel(0,0,noMoveStage);
         if(Gdx.input.isTouched()){
             System.out.println("x = " + Gdx.input.getX()/32 + " y = " + (Gdx.graphics.getHeight()/32 - Gdx.input.getY()/32));
         }
@@ -761,7 +774,6 @@ public class Master implements Screen {
             }
         }
 
-        //tinhThangThua();
         tanggiamdanso();
         taoChatCay();
         xuLyCNXVaGTX();
@@ -770,6 +782,7 @@ public class Master implements Screen {
         createCar();
         xulyngaydem();
         denXanhDenDo();
+        tinhThangThua();
         if(whatActionIfClickMouse.equals("DatSan")){
             taoMoDatKhoi();
         }
@@ -1127,7 +1140,7 @@ public class Master implements Screen {
             game.font.draw(batch, "" + soMayLoc, Gdx.graphics.getWidth() - 150+32, Gdx.graphics.getHeight() - 10);
             game.font.draw(batch, "" + soCamera, Gdx.graphics.getWidth() - 200+32, Gdx.graphics.getHeight() - 10);
             game.font.draw(batch, "" + soBienCam, Gdx.graphics.getWidth() - 250+32, Gdx.graphics.getHeight() - 10);
-            game.font.draw(batch, "" + creatVLLD.soVL, Gdx.graphics.getWidth() - 300, Gdx.graphics.getHeight() - 10);
+            game.font.draw(batch, "" + creatVLLD.soVL, Gdx.graphics.getWidth() - 350, Gdx.graphics.getHeight() - 10);
             vietTypeVLLD();
             game.font3.draw(batch, layout, Gdx.graphics.getWidth() - 300-32+20-layout.width/2f, Gdx.graphics.getHeight() - 70);
             game.font.draw(batch, String.valueOf(Math.round(AQI)), 0, Gdx.graphics.getHeight() - 20);
@@ -1244,6 +1257,7 @@ public class Master implements Screen {
             game.font5.draw(batch, "20 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*4-20);
         }
         if(hienBangFactory){
+            game.font3.draw(batch, ": Xẻng giá 300$",buyShovel.getX()+buyShovel.getWidth()/2f+32*2,Gdx.graphics.getHeight()-32*6+25);
             game.font3.draw(batch, ": Vỉa hè giá 10$",buyViaHe.getX()+buyViaHe.getWidth()/2f+32*2,buyViaHe.getY()+25);
             game.font3.draw(batch, ": ngã rẽ giá 12$",buyRoadRe.getX()+buyRoadRe.getWidth()/2f+32*2,buyRoadRe.getY()+25);
             game.font3.draw(batch, ": Vòng cung ngoài giá 4$",buyRoadReNgoai.getX()+buyRoadReNgoai.getWidth()/2f+32*2,buyRoadReNgoai.getY()+25);
@@ -1419,6 +1433,7 @@ public class Master implements Screen {
             buyBlank.setPosition(32*17-buyBlank.getWidth()/2f,Gdx.graphics.getHeight()-32*10-buyBlank.getHeight()/2f);
             buyDirt.setPosition(32*3-buyDirt.getWidth()/2f,Gdx.graphics.getHeight()-32*12-buyDirt.getHeight()/2f);
             buyRoad.setPosition(32*17-buyRoad.getWidth()/2f,Gdx.graphics.getHeight()-32*12-buyRoad.getHeight()/2f);
+            noMoveStage.addActor(buyShovel);
             hienBangFactory = true;
 
             buyRoad.toFront();
@@ -1428,6 +1443,7 @@ public class Master implements Screen {
             buyBlank.toFront();
             buyDirt.toFront();
             line.toFront();
+            buyShovel.toFront();
         }
     }
     private void dongThongtin(){
@@ -1662,7 +1678,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI>300 && WLK == 'K'){
+        if(AQI>200 && WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)
@@ -1673,29 +1689,20 @@ public class Master implements Screen {
         }
         if(WLK == 'L'){
             showAQI.canhbao.stop();
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    dark.toFront();
-                    dark.setColor(0,0,0,0f);
-                    if(WLK == 'L'){
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                dark.toFront();
-                                dark.setColor(0,0,0,0f);
-                                winsorloses.add(new Piece(0,0,noMoveStage));
-                                winsorloses.add(new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED));
-                                replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
-                                winsorloses.add(replay);
-                                for(Actor a : winsorloses){
-                                    a.toFront();
-                                }
-                            }
-                        },2);
-                    }
-                }
-            },2);
+            dark.toFront();
+            dark.setColor(0,0,0,0f);
+
+            dark.toFront();
+            dark.setColor(0,0,0,0f);
+            winsorloses.add(new Piece(0,0,noMoveStage));
+            winsorloses.add(new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED));
+            replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
+            noMoveStage.addActor(replay);
+            winsorloses.add(replay);
+            for(Actor a : winsorloses){
+                a.toFront();
+            }
+            WLK = 'K';
         }
         if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){
             dark.toFront();
@@ -1713,7 +1720,6 @@ public class Master implements Screen {
         }
     }
     private void calculAQI(){
-        timeOfDay++;
         int hour = 0;
         if(timeOfDay%60 == 0){
             hour = timeOfDay / 60;
@@ -2008,7 +2014,7 @@ public class Master implements Screen {
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
             new FloatingNews(0,500,noMoveStage, GameState.event,Color.YELLOW);
         }
-
+        timeOfDay++;
     }
 
     private void taoMoDatKhoi(){

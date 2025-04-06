@@ -11,6 +11,7 @@ public class TaiNguyenMP extends MyActorMP {
     public TypeRoadRe typeRoadRe;
     public char directionRoadRe;
     public int rotationRoadReNgoai;
+    public TaiNguyenMP(){}
     public TaiNguyenMP(float x, float y, TypeVL typeVL) {
         super(x, y);
         this.typeVL = typeVL;

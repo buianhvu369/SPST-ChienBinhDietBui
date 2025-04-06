@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import spst.com.MyActor;
 
 public class CarMP extends MyActorMP{
+    CarMP(){}
     public CarMP(float x, float y) {
         super(x, y);
     }

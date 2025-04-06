@@ -7,4 +7,7 @@ public class MyActorMP {
         this.x = x;
         this.y = y;
     }
+
+    public MyActorMP() {
+    }
 }

@@ -32,7 +32,7 @@ public class MayLoc extends MyActor{
                 GameState.NO2 = 0;
             }
         }
-        if(time%60 == 0 && GameState.ernegy >= 5){
+        if(time%60 == 0 && GameState.ernegy >= 5 && Master.mLKKAction){
             GameState.ernegy -= 5;
         }
     }

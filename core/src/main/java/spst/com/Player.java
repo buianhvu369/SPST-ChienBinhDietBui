@@ -12,7 +12,7 @@ import spst.com.Screen.Master;
 
 public class Player extends MyActor {
     Animation<TextureRegion> animationLeft;
-    Animation<TextureRegion> animationRight;
+    public Animation<TextureRegion> animationRight;
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
     public  static int speedX = 2;

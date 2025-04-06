@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -15,6 +17,7 @@ import spst.com.Button.Exit;
 import spst.com.Button.Guide;
 import spst.com.Button.Start;
 import spst.com.GameState;
+import spst.com.MyActor;
 import spst.com.Piece;
 import spst.com.StartGame;
 
@@ -27,7 +30,7 @@ public class MenuScreen implements Screen  {
     Exit exitButton;
     Guide guideButton;
     Start startButton;
-    public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("gioithieu.mp3"));
+   // public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("gioithieu.mp3"));
     public MenuScreen(StartGame game){
         this.game = game;
         stage = new Stage();
@@ -74,10 +77,41 @@ public class MenuScreen implements Screen  {
             }
         });
 
+        stage.addListener(new InputListener() {
+            private Actor lastActor = null;
+
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                Actor actor = stage.hit(x, y, true);
+
+                if (lastActor != null && lastActor instanceof MyActor && lastActor != actor) {
+                    lastActor.setColor(1, 1, 1, 1); // Trả về màu gốc
+                }
+
+                if (actor instanceof MyActor) {
+                    actor.setColor(0, 1, 1, 1); // Làm đậm hơn khi chạm vào
+                }
+
+                lastActor = actor;
+                return super.mouseMoved(event, x, y);
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Actor actor = stage.hit(x, y, true);
+                if (actor instanceof MyActor) {
+                    actor.setColor(1, 0, 0, 1); // Đổi thành màu đỏ khi nhấn vào
+                }
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+
+
+
         Gdx.input.setInputProcessor(stage);
 
-        nen.isLooping();
-        nen.play();
+//        nen.isLooping();
+//        nen.play();
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -54,7 +53,6 @@ import spst.com.town.*;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 /**
- * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Master implements Screen {
     public static SpriteBatch batch;
@@ -62,7 +60,7 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     public static Stage stage;
     public static Stage noMoveStage;
-    private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
+  //  private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
     boolean thongTinMode = false;
 
@@ -101,15 +99,20 @@ public class Master implements Screen {
     Bang bangFactory;
     Bang bangScience;
     Cross bangFactoryCross;
+    Bang menuFood;
     Cross bangScienceCross;
+    Cross menuFoodCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     MordernDoor factoryDoor;
 
+    Bia bia;
+    Pho pho;
     FactoryCenter factoryCenter;
     HotelCenter hotelCenter;
     ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
+    Calories calories;
     public static boolean hienCheTao = false;
 
     Dark dark;
@@ -134,7 +137,6 @@ public class Master implements Screen {
     TextButton  turnOffTraffic;
     TextButton  turnOnTraffic;
 
-
     public static Array<Actor> winsorloses = new Array<>();
     public static Array<Car> cars = new Array<>();
     public static Array<MyActor> roads = new Array<>();
@@ -155,10 +157,16 @@ public class Master implements Screen {
     public static boolean isCNX = false;
     public static boolean isGTX = false;
     public static int soCamera = 0;
+    public static boolean isEating = false;
+    int soMayLocBought = 0;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
     final float WINDOW_HEIGHT = 800;
+    public static float amountOfFood = 100;
+    public static Array<Rectangle> noCutting = new Array<>();
+    public static Array<Rectangle> noDotRac = new Array<>();
+
 
     public static int growth = 0;
     public static Array<Rice>rices ;
@@ -173,6 +181,10 @@ public class Master implements Screen {
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
     SaveNut saveNut;
+    Restaurant restaurant;
+    Kem iceCream;
+    Com com;
+    XienBan xienBan;
     float ktHetEvent = 2;
     boolean ktDangChayEvent = false;
     public static Waterwell gieng;
@@ -214,14 +226,17 @@ public class Master implements Screen {
 
         layout.width = 300;
         layout.height = 40;
+
+
         MLKKButton = new TextButton(" Mua một cái máy lọc không khí ", style);
 
         MLKKButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=500&&GameState.ernegy>=20) {
+                if(GameState.money>= 2000&&GameState.ernegy>=20&& soMayLocBought <= 1) {
                     Master.soMayLoc++;
                     GameState.money-=500;
                     GameState.ernegy-=20;
+                    soMayLocBought++;
                 }
 
             }
@@ -416,6 +431,14 @@ public class Master implements Screen {
         bangFactory = new Bang(-10000,-100,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
+        menuFoodCross = new Cross(-10000,-100,noMoveStage);
+        bia = new Bia(10000,10000,noMoveStage,this);
+        iceCream = new Kem(10000,10000,noMoveStage,this);
+        pho = new Pho(10000,10000,noMoveStage,this);
+        com = new Com(10000,10000,noMoveStage,this);
+        xienBan = new XienBan(10000,10000,noMoveStage,this);
+        menuFood = new Bang(-10000,1000, noMoveStage);
+        pho = new Pho(10000,10000,noMoveStage,this);
         dark = new Dark(0,0,noMoveStage);
         dark.setTouchable(Touchable.disabled);
         line = new Line(32,Gdx.graphics.getHeight()-32*5-4,896,0,noMoveStage);
@@ -424,6 +447,7 @@ public class Master implements Screen {
         lineThongTin = new Line(32,Gdx.graphics.getHeight()-32*7-4,896,0,noMoveStage);
         showAQI = new ShowAQI(0,0,noMoveStage);
         showAQI.setPosition(0,Gdx.graphics.getHeight()-showAQI.getHeight());
+        calories = new Calories(0,0,stage);
         Rectangle rectangle = new Rectangle(21*32,15*32,32*3,32*10);
         noPlaced.add(rectangle);
         Rectangle rectangle1 = new Rectangle(0, 11*32,80*32,32*3);
@@ -435,6 +459,7 @@ public class Master implements Screen {
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
             noMoveStage.addListener(new InputListener(){
+                private Actor lastActor = null;
                 @Override
                 public boolean mouseMoved(InputEvent event, float x, float y) {
                     try{
@@ -467,6 +492,21 @@ public class Master implements Screen {
                             }
                         }
                     }catch (Exception ignored){}
+                    Actor actor = noMoveStage.hit(x,y,false);
+
+                    if (lastActor != null && lastActor instanceof TextButton && lastActor != actor) {
+                        lastActor.setColor(1, 1, 1, 1);
+                    }
+
+                    if (actor instanceof TextButton) {
+                        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+                        style.font = StartGame.font3;
+                        style.fontColor = Color.GREEN;
+                        style.up = new TextureRegionDrawable(button);
+                        ((TextButton) actor).setStyle(style);
+                    }
+
+                    lastActor = actor;
                     return super.mouseMoved(event, x, y);
                 }
             });
@@ -605,6 +645,12 @@ public class Master implements Screen {
             }
         });
 
+
+        menuFoodCross.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                closeMenuFood();
+            }
+        });
 
         replay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -751,9 +797,9 @@ public class Master implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
 
-        MenuScreen.nen.stop();
-        nen.isLooping();
-        nen.play();
+     //   MenuScreen.nen.stop();
+      //  nen.isLooping();
+      //  nen.play();
     }
 
     @Override
@@ -780,6 +826,7 @@ public class Master implements Screen {
         ktHetEven();
         calculAQI();
         createCar();
+        luongThucAn();
         xulyngaydem();
         denXanhDenDo();
         tinhThangThua();
@@ -803,6 +850,8 @@ public class Master implements Screen {
                 stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
             }
         }
+
+        calories.setPosition(player.getX() , player.getY()+35);
 
         growth++;
         for(Rice rice : rices){
@@ -846,6 +895,14 @@ public class Master implements Screen {
                 }
 
             }
+        }
+
+        if(isEating){
+            player.setPosition(restaurant.getX()+restaurant.getWidth()/2, restaurant.getY() + restaurant.getHeight()/2);
+            player.remove();
+        }else {
+            stage.addActor(player);
+
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
@@ -1374,7 +1431,6 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24){
             day++;
             GameState.money += GameState.danso/20/30;
-            GameState.ernegy += 80;
 
             Timer.schedule(new Timer.Task() {
                 @Override
@@ -1446,6 +1502,29 @@ public class Master implements Screen {
             buyShovel.toFront();
         }
     }
+
+    void showMenuFood(){
+        menuFood.setPosition(32,32);
+        bia.setPosition(32,32);
+        iceCream.setPosition(200,32);
+        com.setPosition(200,250);
+        xienBan.setPosition(550,250);
+        menuFoodCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+        pho.setPosition(400,32);
+        menuFood.toBack();
+    }
+
+    public void closeMenuFood(){
+        menuFood.setPosition(32000,32000);
+        bia.setPosition(32000,3200);
+        iceCream.setPosition(20000,32000);
+        menuFoodCross.setPosition(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        pho.setPosition(40000,3200);
+        xienBan.setPosition(32000,32000);
+        com.setPosition(32000,3200);
+
+    }
+
     private void dongThongtin(){
 
         dongCheTao();
@@ -1678,7 +1757,7 @@ public class Master implements Screen {
     }
 
     private void tinhThangThua(){
-        if(AQI>200 && WLK == 'K'){
+        if((AQI> 300 || amountOfFood < 3)&& WLK == 'K'){
             GameState.event = "YOU LOSE";
             new FloatingNews(random.nextInt(0,32*75)
                 ,random.nextInt(0,800)
@@ -2105,6 +2184,13 @@ public class Master implements Screen {
             }
         }
     }
+
+    void luongThucAn(){
+        if(timeOfDay%60 == 0){
+            amountOfFood--;
+        }
+    }
+
     private void taoChatCay(){
         if(timeOfDay%180==0){
             if(random.nextBoolean()){
@@ -2331,7 +2417,16 @@ public class Master implements Screen {
         BlankRoad blankRoad2 = new BlankRoad(1184 + 16 * 32, 800 / 2f + 48 + 4*32-7*32, stage);
         Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UL");
 
-        TruSo truSo1 = new TruSo(18*32,6*32,stage,2);
+        restaurant = new Restaurant(18*32,6*32,stage);
+        restaurant.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(amountOfFood <= 70) {
+                    showMenuFood();
+                }
+            }
+        });
         TruSo truSo2 = new TruSo(20*32,0,stage,3);
         TruSo truSo3 = new TruSo(33*32,32*22,stage,1);
         TruSo truSo4 = new TruSo(17*32,32*19,stage,1);
@@ -2461,7 +2556,7 @@ public class Master implements Screen {
 
     @Override
     public void dispose() {
-        nen.stop();
+        //nen.stop();
         batch.dispose();
     }
 }

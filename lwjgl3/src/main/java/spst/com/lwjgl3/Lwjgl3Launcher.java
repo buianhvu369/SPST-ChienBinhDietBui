@@ -7,7 +7,7 @@ import spst.com.StartGame;
 /** Launches the desktop (LWJGL3) applicatio3q3sae3qn. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
-        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.
+        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support aFFnd helps on Windows.
         createApplication();
     }
 
@@ -23,7 +23,7 @@ public class Lwjgl3Launcher {
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
-        configuration.setWindowedMode(960, 540);
+        configuration.setWindowedMode(2400, 540);
         configuration.setWindowIcon("logogame.png");
         return configuration;
     }

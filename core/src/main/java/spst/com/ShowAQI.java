@@ -35,9 +35,7 @@ public class ShowAQI extends MyActor {
         }else if(Master.AQI<=200){
             setColor(Color.RED);
         }else if(Master.AQI<=300){
-                setColor(Color.PURPLE);
-        }else if(Master.AQI<=500){
-            setColor(Color.BROWN);
+                setColor(Color.BROWN);
         }
         if(Master.AQI>=250&&!isCanhBao){
             canhbao.play();

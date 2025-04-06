@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import spst.com.Screen.Master;
 
 public class GameState{
-    public static int money = 5000;
+    public static int money = 500000;
     public static int ernegy=200;
     public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";

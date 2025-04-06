@@ -50,7 +50,6 @@ import spst.com.town.*;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 /**
- * {@link Com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class Master implements Screen {
     public static SpriteBatch batch;
@@ -140,6 +139,7 @@ public class Master implements Screen {
     public static boolean isGTX = false;
     public static int soCamera = 0;
     public static boolean isEating = false;
+    int soMayLocBought = 0;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
@@ -207,10 +207,11 @@ public class Master implements Screen {
         MLKKButton = new TextButton(" Mua một cái máy lọc không khí ", style);
         MLKKButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=500&&GameState.ernegy>=20) {
+                if(GameState.money>= 2000&&GameState.ernegy>=20&& soMayLocBought <= 1) {
                     Master.soMayLoc++;
                     GameState.money-=500;
                     GameState.ernegy-=20;
+                    soMayLocBought++;
                 }
 
             }
@@ -406,6 +407,7 @@ public class Master implements Screen {
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
             noMoveStage.addListener(new InputListener(){
+                private Actor lastActor = null;
                 @Override
                 public boolean mouseMoved(InputEvent event, float x, float y) {
                     try{
@@ -438,6 +440,21 @@ public class Master implements Screen {
                             }
                         }
                     }catch (Exception ignored){}
+                    Actor actor = noMoveStage.hit(x,y,false);
+
+                    if (lastActor != null && lastActor instanceof TextButton && lastActor != actor) {
+                        lastActor.setColor(1, 1, 1, 1);
+                    }
+
+                    if (actor instanceof TextButton) {
+                        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+                        style.font = StartGame.font3;
+                        style.fontColor = Color.GREEN;
+                        style.up = new TextureRegionDrawable(button);
+                        ((TextButton) actor).setStyle(style);
+                    }
+
+                    lastActor = actor;
                     return super.mouseMoved(event, x, y);
                 }
             });

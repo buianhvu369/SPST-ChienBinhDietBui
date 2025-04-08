@@ -79,11 +79,14 @@ public class GuideScreen implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.BLUE);
+        ScreenUtils.clear(0.5f, 0.09f, 0.2f, 1.0f);
         camera.update();
         Master.batch.setProjectionMatrix(camera.combined);
 
         Master.batch.begin();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
         for (int i = 0; i < guide.length; i++) {
             switch (i){
                 case 6,7,8,9,12,13,15,17 -> game.font3.draw(Master.batch,"      " + guide[i],0,y-i*30);
@@ -91,9 +94,6 @@ public class GuideScreen implements Screen {
                 default -> game.font3.draw(Master.batch,guide[i],0,y-i*30);
             }
         }
-
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
 
         Master.batch.end();
     }

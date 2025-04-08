@@ -1,4 +1,4 @@
-package spst.com.Button;
+package spst.com.Button.InItemsButton;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

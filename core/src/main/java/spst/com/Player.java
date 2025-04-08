@@ -121,6 +121,9 @@ public class Player extends MyActor {
                     }
                 }
             }
+        }else {
+            mouseY = getY();
+            mouseX = getX();
         }
         if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);

@@ -69,6 +69,7 @@ public class Master implements Screen {
     Vector2 mouseNoMoveStage = new Vector2();
     Vector2 mouseStage = new Vector2();
     Vector2 buildPosition = new Vector2();
+    Vector2 deltaXYVector = new Vector2();
     public static River river;
     public static Blood blood;
     public static Replay replay;
@@ -558,7 +559,7 @@ public class Master implements Screen {
                     }
                     if(actor instanceof BuyDirt || actor instanceof Ground2) {
                         isCanDatThingsOnDirt=true;
-                        buildPosition.set(actor.getX(),actor.getY());
+                        buildPosition.set(actor.getX(), actor.getY());
                     }else {
                         isCanDatThingsOnDirt=false;
                     }
@@ -870,7 +871,7 @@ public class Master implements Screen {
         luongThucAn();
         xulyngaydem();
         denXanhDenDo();
-        tinhThangThua();
+       // tinhThangThua();
         batTatNutItemVaXuLyTrongNutItems();
         if(whatActionIfClickMouse.equals("DatSan")){
             taoMoDatKhoi();
@@ -1051,10 +1052,11 @@ public class Master implements Screen {
                     }
                 }
                 if(isCanDatDirt){
+                    float x = stage.getViewport().getCamera().position.x - deltaXYVector.x;
+                    float y = stage.getViewport().getCamera().position.y - deltaXYVector.y;
                     switch (creatVLLD.type){
                         case Dat -> {////////////////////////////
-                            VLLDs.add(new BuyDirt(Math.round(mouseStage.x/32f)*32,
-                                Math.round(mouseStage.y/32f)*32,stage));
+                            VLLDs.add(new BuyDirt(x, y,stage));
                             GameState.soDat--;
                         }
                     }
@@ -2159,35 +2161,32 @@ public class Master implements Screen {
     }
 
     private void taoMoDatKhoi(){
+        float x = Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32) - 32;
+        float y = Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32) - 48;
+        deltaXYVector.set((float) Gdx.graphics.getWidth() /2 - x, (float) Gdx.graphics.getHeight() /2 - y);
         switch (creatVLLD.type){
             case Dat -> {
-                MDirt.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32-16-2));
+                MDirt.setPosition(x, y);
                 MDirt.toFront();
             }
             case VongCung -> {
-                MRoadReNgoai.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MRoadReNgoai.setPosition(x, y);
                 MRoadReNgoai.toFront();
             }
             case ViaHe -> {
-                MViaHe.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MViaHe.setPosition(x, y);
                 MViaHe.toFront();
             }
             case NgaRe -> {
-                MRoadRe.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32)+16-2);
+                MRoadRe.setPosition(x, y);
                 MRoadRe.toFront();
             }
             case DuongThang -> {
-                MRoad.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MRoad.setPosition(x, y);
                 MRoad.toFront();
             }
             case DuongTrong -> {
-                MBlank.setPosition(Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32)-32,
-                    Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32)-16-2);
+                MBlank.setPosition(x, y);
                 MBlank.toFront();
             }
         }

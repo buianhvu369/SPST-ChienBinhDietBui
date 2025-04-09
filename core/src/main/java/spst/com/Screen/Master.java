@@ -68,7 +68,6 @@ public class Master implements Screen {
 
     Vector2 mouseNoMoveStage = new Vector2();
     Vector2 mouseStage = new Vector2();
-    Vector2 buildPosition = new Vector2();
     Vector2 deltaXYVector = new Vector2();
     public static River river;
     public static Blood blood;
@@ -557,16 +556,37 @@ public class Master implements Screen {
                             thongTinThanhDoi = false;
                         }
                     }
-                    if(actor instanceof BuyDirt || actor instanceof Ground2) {
+                    MyActor actorForThingsOnDirt;
+                    switch (creatVLLD.type){
+                        case DuongTrong -> {
+                            actorForThingsOnDirt = (MyActor) stage.hit(MBlank.getX(), MBlank.getY(), true);
+                        }
+                        case DuongThang -> {
+                            actorForThingsOnDirt = (MyActor) stage.hit(MRoad.getX(), MRoad.getY(), true);
+                        }
+                        case NgaRe -> {
+                            actorForThingsOnDirt = (MyActor) stage.hit(MRoadRe.getX(), MRoadRe.getY(), true);
+                        }
+                        case ViaHe -> {
+                            actorForThingsOnDirt = (MyActor) stage.hit(MViaHe.getX(), MViaHe.getY(), true);
+                        }
+                        case VongCung -> {
+                            actorForThingsOnDirt = (MyActor) stage.hit(MRoadReNgoai.getX(), MRoadReNgoai.getY(), true);
+                        }
+                        default -> {actorForThingsOnDirt = (MyActor) stage.hit(MRoadReNgoai.getX(), MRoadReNgoai.getY(), true);
+                        }
+                    }
+                    MyActor actorForDirt = (MyActor) stage.hit(MDirt.getX(), MDirt.getY(), true);
+                    if(actorForThingsOnDirt instanceof BuyDirt || actorForThingsOnDirt instanceof Ground2) {
                         isCanDatThingsOnDirt=true;
-                        buildPosition.set(actor.getX(), actor.getY());
                     }else {
                         isCanDatThingsOnDirt=false;
                     }
-                    if(actor == null) {
+                    System.out.println(actorForDirt);
+                    if(actorForDirt == null) {
                         isCanDatDirt=true;
                     }else {
-                        isCanDatDirt=false;//////////////////////
+                        isCanDatDirt=false;
                     }
                     }catch (Exception e){}
                 return super.mouseMoved(event, x, y);
@@ -669,7 +689,6 @@ public class Master implements Screen {
                     GameState.money-=3;
                     //them o nhiem vao day
                 }
-
             }
         });
         buyRoadReNgoai.addListener(new ClickListener() {
@@ -1014,23 +1033,22 @@ public class Master implements Screen {
                 }
             }else if(Master.whatActionIfClickMouse.equals("DatSan") && creatVLLD.soVL >0){
                 if(isCanDatThingsOnDirt) {
+                    float x = stage.getViewport().getCamera().position.x - deltaXYVector.x;
+                    float y = stage.getViewport().getCamera().position.y - deltaXYVector.y;
                     switch (creatVLLD.type){
                         case DuongTrong -> {
-                            VLLDs.add(new BuyBlank(buildPosition.x,
-                                buildPosition.y,stage));
+                            VLLDs.add(new BuyBlank(x, y,stage));
                             GameState.soBlankRoad--;
                         }
                         case DuongThang -> {
-                            BuyRoad a = new BuyRoad(buildPosition.x,
-                                buildPosition.y,stage);
+                            BuyRoad a = new BuyRoad(x, y,stage);
                             a.direction = MRoad.direction;
                             VLLDs.add(a);
                             MRoad.setPosition(-3425365,-56754);
                             GameState.soRoad--;
                         }
                         case NgaRe -> {
-                            BuyRoadRe a = new BuyRoadRe(buildPosition.x,
-                                buildPosition.y,stage);
+                            BuyRoadRe a = new BuyRoadRe(x, y,stage);
                             a.direc = MRoadRe.direc;
                             a.type = MRoadRe.type;
                             VLLDs.add(a);
@@ -1038,13 +1056,11 @@ public class Master implements Screen {
                             GameState.soReRoad--;
                         }
                         case ViaHe -> {
-                            VLLDs.add(new BuyViaHe(buildPosition.x,
-                                buildPosition.y,stage));
+                            VLLDs.add(new BuyViaHe(x+16, y+16,stage));
                             GameState.soViaHe--;
                         }
                         case VongCung -> {
-                            BuyRoadReNgoai a = new BuyRoadReNgoai(buildPosition.x,
-                                buildPosition.y,stage);
+                            BuyRoadReNgoai a = new BuyRoadReNgoai(x+16, y+16,stage);
                             a.setRotation(MRoadReNgoai.getRotation());
                             VLLDs.add(a);
                             GameState.soVongCungNgoai--;
@@ -1055,7 +1071,7 @@ public class Master implements Screen {
                     float x = stage.getViewport().getCamera().position.x - deltaXYVector.x;
                     float y = stage.getViewport().getCamera().position.y - deltaXYVector.y;
                     switch (creatVLLD.type){
-                        case Dat -> {////////////////////////////
+                        case Dat -> {
                             VLLDs.add(new BuyDirt(x, y,stage));
                             GameState.soDat--;
                         }
@@ -1065,7 +1081,7 @@ public class Master implements Screen {
                 creatVLLD.textureRegion = new TextureRegion(creatVLLD.texture);
             }else {
                 new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
-                clickSound.play();
+                clickSound.play(0.5f);
             }
         }
 
@@ -1222,10 +1238,8 @@ public class Master implements Screen {
     private void denXanhDenDo(){
         if(timeOfDay%(60*30)<60*5){
             isDenDo = true;
-            System.out.println("DO");
         } else {
             isDenDo = false;
-            System.out.println("XANH");
         }
     }
     private void vietTypeVLLD(){

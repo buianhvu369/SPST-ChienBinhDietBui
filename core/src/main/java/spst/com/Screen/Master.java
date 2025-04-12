@@ -132,6 +132,9 @@ public class Master implements Screen {
     Button5C button5C;
     Button6C button6C;
     Button7C button7C;
+    Button1S button1S;
+    Button2S button2S;
+    Button3S button3S;
     TextButton factoryButton;
     TextButton energyButton;
     TextButton trafficButton;
@@ -232,6 +235,7 @@ public class Master implements Screen {
 
         layout.width = 300;
         layout.height = 40;
+        noMoveStage = new Stage();
 
 
         button1C = new Button1C(100000,100000,noMoveStage);
@@ -258,32 +262,32 @@ public class Master implements Screen {
                 }
             }
         });
-        button3C = new Button3C(100000 , 100000, noMoveStage);
-        button3C.addListener(new ClickListener() {
+        button6C = new Button6C(100000 , 100000, noMoveStage);
+        button6C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money >= 1500 && GameState.ernegy >= 30 && GameState.greenscore >= 30){
                     isCNX = true;
-                    factoryButton.setColor(Color.GRAY);
+                    button6C.setColor(Color.GRAY);
                     GameState.money -=1500;
                     GameState.ernegy -=30;
                     GameState.greenscore -=30;
                 }
             }
         });
-        button4C = new Button4C(100000 , 100000, noMoveStage);
-        button4C.addListener(new ClickListener() {
+        button7C = new Button7C(100000 , 100000, noMoveStage);
+        button7C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money >= 1000 && GameState.ernegy >= 50 && GameState.greenscore >= 20){
                     isGTX = true;
-                    trafficButton.setColor(Color.GRAY);
+                    button7C.setColor(Color.GRAY);
                     GameState.money -=1000;
                     GameState.ernegy -=50;
                     GameState.greenscore -=20;
                 }
             }
         });
-        button5C = new Button5C(100000 , 100000, noMoveStage);
-        button5C.addListener(new ClickListener() {
+        button4C = new Button4C(100000 , 100000, noMoveStage);
+        button4C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>=100&&GameState.greenscore  >=5) {
                     Master.amountSeed++;
@@ -293,8 +297,8 @@ public class Master implements Screen {
             }
         });
 
-        button6C = new Button6C(100000 , 100000, noMoveStage);
-        button6C.addListener(new ClickListener() {
+        button3C = new Button3C(100000 , 100000, noMoveStage);
+        button3C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money >=300&&GameState.ernegy >=5){
                     soCamera++;
@@ -304,8 +308,8 @@ public class Master implements Screen {
             }
         });
 
-        button7C = new Button7C(100000 , 100000, noMoveStage);
-        button7C.addListener(new ClickListener() {
+        button5C = new Button5C(100000 , 100000, noMoveStage);
+        button5C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>=75) {
                     GameState.ernegy+= 100;
@@ -314,55 +318,14 @@ public class Master implements Screen {
             }
         });
 
-        turnOffMLKK = new TextButton(" Tắt máy lọc không khí  ", style);
-        turnOffMLKK.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                mLKKAction = true;
-            }
-        });
-
-        turnOnMLKK = new TextButton(" Bật máy lọc không khí  ", style);
-        turnOnMLKK.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                mLKKAction = false;
-            }
-        });
-
-        turnOffFactory = new TextButton(" Tắt công nghệ sản xuất xanh  ", style);
-        turnOffFactory.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                factoryAction = true;
-            }
-        });
-
-        turnOnFactory = new TextButton(" Bật công nghệ sản xuất xanh ", style);
-        turnOnFactory.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                factoryAction = false;
-            }
-        });
-
-        turnOffTraffic = new TextButton(" Tắt hệ thống giao thông xanh", style);
-        turnOffTraffic.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                trafficAction = true;
-            }
-        });
-
-        turnOnTraffic = new TextButton(" Bật hệ thống giao thông xanh ", style);
-        turnOnTraffic.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                trafficAction = false;
-            }
-        });
-
-
+        button1S = new Button1S(10000,10000,noMoveStage);
+        button2S = new Button2S(10000,10000,noMoveStage);
+        button3S = new Button3S(10000,10000,noMoveStage);
         this.game = game;
 
         batch = new SpriteBatch();
         multiplexer = new InputMultiplexer();
         stage = new Stage();
-        noMoveStage = new Stage();
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(noMoveStage);
         camera = new OrthographicCamera();
@@ -497,22 +460,20 @@ public class Master implements Screen {
                                 thongTinNutSoiCam = false;
                             }
                         }
-                    }catch (Exception ignored){}
-                    Actor actor = noMoveStage.hit(x,y,false);
 
-                    if (lastActor != null && lastActor instanceof TextButton && lastActor != actor) {
+                    }catch (Exception ignored){}
+                    Actor actor = noMoveStage.hit(x, y, true);
+
+                    if (lastActor != null && lastActor instanceof  ButtonActor && lastActor != actor) {
                         lastActor.setColor(1, 1, 1, 1);
                     }
 
-                    if (actor instanceof TextButton) {
-                        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-                        style.font = StartGame.font3;
-                        style.fontColor = Color.GREEN;
-                        style.up = new TextureRegionDrawable(button);
-                        ((TextButton) actor).setStyle(style);
+                    if (actor instanceof ButtonActor) {
+                        actor.setColor(0, 1, 1, 1);
                     }
 
                     lastActor = actor;
+
                     return super.mouseMoved(event, x, y);
                 }
             });
@@ -1053,45 +1014,12 @@ public class Master implements Screen {
         }
 
         if(isOpenSetting){
-            if(mLKKAction){
-                turnOffMLKK.remove();
-                turnOnMLKK.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40);
-                turnOnMLKK.setSize(600, 80);
-                noMoveStage.addActor(turnOnMLKK);
-                turnOnMLKK.toFront();
-            }else if (!mLKKAction){
-                turnOnMLKK.remove();
-                turnOffMLKK.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40);
-                turnOffMLKK.setSize(600, 80);
-                noMoveStage.addActor(turnOffMLKK);
-                turnOffMLKK.toFront();
-            }
-            if(factoryAction){
-                turnOffFactory.remove();
-                turnOnFactory.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
-                turnOnFactory.setSize(600, 80);
-                noMoveStage.addActor(turnOnFactory);
-                turnOnFactory.toFront();
-            }else if (!factoryAction){
-                turnOnFactory.remove();
-                turnOffFactory.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
-                turnOffFactory.setSize(600, 80);
-                noMoveStage.addActor(turnOffFactory);
-                turnOffFactory.toFront();
-            }
-            if(trafficAction){
-                turnOffTraffic.remove();
-                turnOnTraffic.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
-                turnOnTraffic.setSize(600, 80);
-                noMoveStage.addActor(turnOnTraffic);
-                turnOnTraffic.toFront();
-            }else if (!trafficAction){
-                turnOnTraffic.remove();
-                turnOffTraffic.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
-                turnOffTraffic.setSize(600, 80);
-                noMoveStage.addActor(turnOffTraffic);
-                turnOffTraffic.toFront();
-            }
+            noMoveStage.addActor(button1S);
+            noMoveStage.addActor(button2S);
+            noMoveStage.addActor(button3S);
+            button1S.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40);
+            button2S.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
+            button3S.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
         }
         if(player.getBound().overlaps(scienceCenter.getBound())){
             if(player.getY()<scienceCenter.getY()){
@@ -1627,12 +1555,9 @@ public class Master implements Screen {
         hienCheTao = false;
     }
     public void dongCaiDat(){
-       turnOffMLKK.remove();
-       turnOffFactory.remove();
-       turnOffTraffic.remove();
-       turnOnFactory.remove();
-       turnOnMLKK.remove();
-       turnOnTraffic.remove();
+        button1S.remove();
+        button2S.remove();
+        button3S.remove();
     }
     private void moCaiDat(){
         dongThongtin();

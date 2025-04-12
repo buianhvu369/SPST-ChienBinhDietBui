@@ -796,7 +796,7 @@ public class Master implements Screen {
         luongThucAn();
         xulyngaydem();
         denXanhDenDo();
-        tinhThangThua();
+       // tinhThangThua();
         if(whatActionIfClickMouse.equals("DatSan")){
             taoMoDatKhoi();
         }

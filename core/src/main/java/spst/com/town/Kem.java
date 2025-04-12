@@ -16,7 +16,6 @@ public class Kem extends MyActor {
         textureRegion = new TextureRegion(new Texture("kemtrangtien.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    Master.amountOfFood += 30;
                     GameState.money -= 100;
                     GameState.PM10 += 10;
                     GameState.PM2_5 += 10;
@@ -30,5 +29,13 @@ public class Kem extends MyActor {
             }
         });
         setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);
+    }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(Master.isEating){
+            float v = 30f/600 ;
+            Master.amountOfFood += v;
+        }
     }
 }

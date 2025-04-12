@@ -16,7 +16,6 @@ public class Com extends MyActor {
         textureRegion = new TextureRegion(new Texture("comlangvong.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    Master.amountOfFood += 50;
                     GameState.money -= 275;
                     GameState.PM10 += 5;
                     GameState.PM2_5 += 5;
@@ -29,5 +28,13 @@ public class Com extends MyActor {
             }
         });
         setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);
+    }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(Master.isEating){
+            float v = 50f/600 ;
+            Master.amountOfFood += v;
+        }
     }
 }

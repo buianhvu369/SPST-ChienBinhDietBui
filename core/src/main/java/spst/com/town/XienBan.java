@@ -16,7 +16,6 @@ public class XienBan extends MyActor {
         textureRegion = new TextureRegion(new Texture("xienban.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    Master.amountOfFood += 60;
                     GameState.money -= 150;
                     GameState.PM10 += 25;
                     GameState.PM2_5 += 25;
@@ -29,5 +28,13 @@ public class XienBan extends MyActor {
             }
         });
         setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);
+    }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(Master.isEating){
+            float v = 60f/600 ;
+            Master.amountOfFood += v;
+        }
     }
 }

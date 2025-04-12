@@ -16,7 +16,6 @@ public class Bia extends MyActor {
         textureRegion = new TextureRegion(new Texture("biahoihanoi.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    Master.amountOfFood += 40;
                     GameState.money -= 150;
                     GameState.PM10 += 10;
                     GameState.PM2_5 += 10;
@@ -30,5 +29,14 @@ public class Bia extends MyActor {
             }
         });
         setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+    }
+
+    @Override
+   public void act(float delta) {
+        super.act(delta);
+        if(Master.isEating){
+            float v = 40f/600 ;
+            Master.amountOfFood += v;
+        }
     }
 }

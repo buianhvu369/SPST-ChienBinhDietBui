@@ -15,12 +15,8 @@ public class TruSo extends MyActor {
             textureRegion = new TextureRegion(new Texture(Gdx.files.internal("1.png")));
             setSize(textureRegion.getRegionWidth()*0.3f, textureRegion.getRegionHeight()*0.3f);
         }
-        if(type == 2) {
-            textureRegion = new TextureRegion(new Texture(Gdx.files.internal("2.png")));
-            setSize(textureRegion.getRegionWidth()*0.8f, textureRegion.getRegionHeight()*0.8f);
-        }
         if(type == 3) {
-            textureRegion = new TextureRegion(new Texture(Gdx.files.internal("3.png")));
+            textureRegion = new TextureRegion(new Texture(Gdx.files.internal("2.png")));
             setSize(textureRegion.getRegionWidth()*0.8f, textureRegion.getRegionHeight()*0.8f);
         }
         myType = type;

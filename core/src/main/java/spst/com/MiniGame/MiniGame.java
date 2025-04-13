@@ -44,15 +44,9 @@ public class MiniGame implements Screen {
     Texture winTexture;
     Music st;
     Texture background;
-    Shark shark;
     Texture explosion1;
     int lastTime;
     Texture resestImage;
-
-
-
-
-
 
     public MiniGame(StartGame game){
         this.game = game;
@@ -66,12 +60,10 @@ public class MiniGame implements Screen {
         resestImage = new Texture("undo.png");
         batch = new SpriteBatch();
 
-
         backGround = new BackGround(0,0,stage1);
         rock = new Rock(0,0,stage1);
         wood = new Wood(0,0,stage1);
         starFish = new StarFish(100,100,stage1);
-        shark = new Shark(200,300,stage1);
         player = new Player(0,0,stage1);
 
         st = Gdx.audio.newMusic(Gdx.files.internal("Water_Drop.ogg"));

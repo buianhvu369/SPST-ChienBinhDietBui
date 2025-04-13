@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -39,6 +40,7 @@ import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.House.*;
+import spst.com.MiniGame.Imaged;
 import spst.com.MiniGame.MiniGame;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
@@ -178,6 +180,11 @@ public class Master implements Screen {
     public static int soCamera = 0;
     public static boolean isEating = false;
     int soMayLocBought = 0;
+    Imaged image;
+    Imaged image2;
+    Imaged image3;
+    Imaged image4;
+    Imaged image5;
     public static int sohieucuaMLKKdangchondenangcap = 0;
     public static boolean isOpenSetting = false;
     final float WINDOW_WIDTH = 2400;
@@ -267,9 +274,7 @@ public class Master implements Screen {
         layout.height = 40;
         noMoveStage = new Stage();
 
-
         button1C = new Button1C(100000,100000,noMoveStage);
-
         button1C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>= 2000&&GameState.ernegy>=20&& soMayLocBought <= 1) {
@@ -373,6 +378,12 @@ public class Master implements Screen {
         nangCapGTX = new WhiteButton(-1000,-1000,noMoveStage);
         cheTaoButton = new CheTao(-1000,-1000,noMoveStage);
         caiDatButton = new CaiDat(-1000,-1000,noMoveStage);
+        image = new Imaged(32*20,Gdx.graphics.getHeight()-32*3-25,noMoveStage,2);
+        image2 = new Imaged(32*20,Gdx.graphics.getHeight()-32*6-100,noMoveStage,3);
+        image3 = new Imaged(32*20, Gdx.graphics.getHeight() - 32*7-125,noMoveStage,1);
+        image4 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*4-50,noMoveStage,4);
+        image5 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*5-75,noMoveStage,5);
+
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
         cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 500-100+10,Gdx.graphics.getHeight()-70,noMoveStage);
@@ -448,12 +459,28 @@ public class Master implements Screen {
                 isInTurtleMap = false;
                 int random = MathUtils.random(1,5);
                 switch (random) {
-                    case 1 -> soBienCam+=2;
-                    case 2 -> amountSeed+=3;
-                    case 3 -> GameState.ernegy+= 50;
-                    case 4 -> GameState.greenscore += 20;
-                    case 5 -> soCamera++;
+                    case 1 -> {
+                        soBienCam+=2;
+                        new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 2 biển cấm từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                    }
+                    case 2 -> {
+                        amountSeed+=3;
+                        new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 3 cây xanh từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                    }
+                    case 3 -> {
+                        GameState.ernegy+= 50;
+                        new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 50 năng lượng từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                    }
+                    case 4 -> {
+                        GameState.greenscore += 20;
+                        new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 20 điểm xanh từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                    }
+                    case 5 -> {
+                        soCamera++;
+                        new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 cái camera từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                    }
                 }
+                playTurtleMap.setPosition(10000,100000);
                 game.setScreen(new MiniGame(game));
             }
         });
@@ -501,6 +528,7 @@ public class Master implements Screen {
         bangScience = new Bang(-10000,-100,noMoveStage);
         bangFactory = new Bang(-10000,-100,noMoveStage);
         turtleBang = new Bang(-10000,100,noMoveStage);
+        turtleBang.setColor(0,0,0,0.8f);
         turtleCross = new Cross(-10000,1000,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
@@ -1024,14 +1052,30 @@ public class Master implements Screen {
             }
         }
         if(isInTurtleMap){
+            image.setPosition(32*20,Gdx.graphics.getHeight()-32*3-25-20);
+            image2.setPosition(32*20,Gdx.graphics.getHeight()-32*6-100-20);
+            image3 .setPosition(32*20, Gdx.graphics.getHeight() - 32*7-125-20);
             playTurtleMap.setPosition(350,32);
             turtleBang.setPosition(32,32);
             turtleCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
             playTurtleMap.toFront();
+            image3.toFront();
+            image.toFront();
+            image2.toFront();
+            image4.setPosition(32*22 , Gdx.graphics.getHeight()-32*4-50-20);
+            image5.setPosition(32*22 , Gdx.graphics.getHeight()-32*5-75-20);
+            image4.toFront();
+            image5 .toFront();
         }else {
             turtleBang.setPosition(10000,10000);
             playTurtleMap.setPosition(400000,320000);
             turtleCross.setPosition(400000,320000);
+            image.setPosition(32*2000,Gdx.graphics.getHeight()-32*3-25);
+            image2.setPosition(32*2000,Gdx.graphics.getHeight()-32*6-100);
+            image3 .setPosition(32*2000, Gdx.graphics.getHeight() - 32*7-125);
+            image4.setPosition(32*2200 , Gdx.graphics.getHeight()-32*4-50-20);
+            image5.setPosition(32*2200 , Gdx.graphics.getHeight()-32*5-75-20);
+
         }
         tanggiamdanso();
         taoChatCay();
@@ -1626,7 +1670,7 @@ public class Master implements Screen {
             game.font3.draw(batch, ": Đường trống giá 12$",buyBlank.getX()+buyBlank.getWidth()/2f+32*2,buyBlank.getY()+25);
         }
         if(isInTurtleMap){
-            game.font3.draw(batch, "Những mục nhận được khi chơi :",32*10,Gdx.graphics.getHeight() -32*2);
+            game.font3.draw(batch, "Những phần có thể nhận đuợc sau khi thắng :",32*8,Gdx.graphics.getHeight() -32*2);
             game.font3.draw(batch , "Được tặng một cái camera", 32*10,Gdx.graphics.getHeight() -32*3-25);
             game.font3.draw(batch , "Được tặng hai mươi điểm xanh", 32*10,Gdx.graphics.getHeight() -32*4-50);
             game.font3.draw(batch , "Được tặng năm mươi năng lượng", 32*10,Gdx.graphics.getHeight() -32*5-75);

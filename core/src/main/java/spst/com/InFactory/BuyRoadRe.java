@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.Enums.TypeRoadRe;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class BuyRoadRe extends MyActor {
@@ -33,6 +34,8 @@ public class BuyRoadRe extends MyActor {
         textureRegionGachPhai = Utils.getRegion(16*4,16*17,16,16);
         textureRegionGachLen = Utils.getRegion(16*1,16*15,16,16);
         textureRegionGachDuoi = Utils.getRegion(16*1,16*17,16,16);
+        Master.roadArray.add(getBound());
+        Master.reArray.add(this);
     }
 
     @Override

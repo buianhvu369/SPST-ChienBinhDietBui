@@ -11,6 +11,6 @@ public class LetterP extends MyActor {
         textureRegion = Utils.getRegion(16*10,16*16,16,16);
         setSize(textureRegion.getRegionWidth()*2,textureRegion.getRegionHeight()*2);
         Master.noPlaced.add(this.getBound());
-
+        Master.roadArray.add(getBound());
     }
 }

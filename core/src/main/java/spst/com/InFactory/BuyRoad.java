@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class BuyRoad extends MyActor {
@@ -17,6 +18,7 @@ public class BuyRoad extends MyActor {
         textureRegion = Utils.getRegion(16,16*17,16,16);
         textureRegion2 = Utils.getRegion(16,16*16,16,16);
         textureRegion3 = Utils.getRegion(16,16*15,16,16);
+        Master.roadArray.add(getBound());
     }
 
     @Override

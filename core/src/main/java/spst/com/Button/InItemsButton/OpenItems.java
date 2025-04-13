@@ -10,24 +10,12 @@ import spst.com.Screen.Master;
 
 public class OpenItems extends MyActor {
     public boolean isSong = false;
-    Texture texture = new Texture("noItems.png");
-    Texture texture1 = new Texture("yesItems.png");
+    public Texture texture = new Texture("noItems.png");
+    public Texture texture1 = new Texture("yesItems.png");
     public OpenItems(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
         setSize(40,40);
-        addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(!Master.isMoItems) {
-                    Master.isMoItems = true;
-                    textureRegion = new TextureRegion(texture1);
-                }else{
-                    Master.isMoItems = false;
-                    textureRegion = new TextureRegion(texture);
-                }
-            }
-        });
     }
 
     @Override

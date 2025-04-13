@@ -42,6 +42,7 @@ public class SaveGame{
     public int soReRoad;
     public int soVongCungNgoai;
     public int soBlankRoad;
+    public int soCanhRoad;
     public int soCamera;
     public int soML;
     public int soBienCam;
@@ -85,6 +86,7 @@ public class SaveGame{
         soVongCungNgoai = GameState.soVongCungNgoai;
         soDat = GameState.soDat;
         soBlankRoad = GameState.soBlankRoad;
+        soCanhRoad = GameState.soCanhRoad;
         soRoad = GameState.soRoad;
         soReRoad = GameState.soReRoad;
         soViaHe = GameState.soViaHe;

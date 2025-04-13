@@ -100,36 +100,36 @@ public class CotTruyenScreen implements Screen  {
 
         if (time < 60 * 7) {
             alpha = 1.0f - (float) time / (60 * 7);
-            game.font3.setColor(1, 1, 1, alpha);
+            game.fontEvent.setColor(1, 1, 1, alpha);
             for (int i = 0; i < 7; i++) {
-                layout.setText(game.font3, cottruyen[i]);
-                game.font3.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 7 / 2f - i * 40);
+                layout.setText(game.fontEvent, cottruyen[i]);
+                game.fontEvent.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 7 / 2f - i * 40);
             }
             Master.batch.end();
         } else if (time < 60 * (7 + 4)) {
             alpha = 1.0f - (float) (time - 60 * 7) / (60 * 4);
-            game.font3.setColor(1, 1, 1, alpha);
+            game.fontEvent.setColor(1, 1, 1, alpha);
             for (int i = 0; i < 4; i++) {
-                layout.setText(game.font3, cottruyen[i + 7]);
-                game.font3.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 4 / 2f - i * 40);
+                layout.setText(game.fontEvent, cottruyen[i + 7]);
+                game.fontEvent.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 4 / 2f - i * 40);
             }
             Master.batch.end();
         } else if (time < 60 * (7 + 4 + 6)) {
             alpha = 1.0f - (float) (time - 60 * (7 + 4)) / (60 * 6);
-            game.font3.setColor(1, 1, 1, alpha);
+            game.fontEvent.setColor(1, 1, 1, alpha);
             for (int i = 0; i < 6; i++) {
-                layout.setText(game.font3, cottruyen[i + 7 + 4]);
-                game.font3.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 6 / 2f - i * 40);
+                layout.setText(game.fontEvent, cottruyen[i + 7 + 4]);
+                game.fontEvent.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 * 6 / 2f - i * 40);
             }
             Master.batch.end();
         } else {
             if (time % 60 == 30) {
-                layout.setText(game.font3, "Nhấn vào đây để bắt đầu");
+                layout.setText(game.fontEvent, "Nhấn vào đây để bắt đầu");
             } else if (time % 60 == 0) {
-                layout.setText(game.font3, "");
+                layout.setText(game.fontEvent, "");
             }
-            game.font3.setColor(1, 1, 1, 1.0f);
-            game.font3.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 / 2f);
+            game.fontEvent.setColor(1, 1, 1, 1.0f);
+            game.fontEvent.draw(Master.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2f, Gdx.graphics.getHeight() / 2f + 40 / 2f);
 
             Master.batch.end();
 
@@ -154,68 +154,6 @@ public class CotTruyenScreen implements Screen  {
         shapeRenderer.circle(870, 460, 50);
         shapeRenderer.end();
     }
-
-
-
-//    @Override
-//    public void render(float v) {
-//        ScreenUtils.clear(0,0,0,0);
-//        camera.update();
-//        Master.batch.setProjectionMatrix(camera.combined);
-//        man.setPosition(Gdx.graphics.getWidth()/2 - man.getWidth()/2, 64);
-//
-//        time++;
-//      //  new Piece(0, 0, stage).toBack();
-//        if(time<60*7){
-//            Master.batch.begin();
-//            for(int i = 0; i < 7; i++){
-//                layout.setText(game.font3,cottruyen[i]);
-//                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*7/2f-i* 40);
-//            }
-//            Master.batch.end();
-//        }
-//        else if(time<60*(7+4)){
-//            Master.batch.begin();
-//            for(int i = 0; i < 4; i++){
-//                layout.setText(game.font3,cottruyen[i+7]);
-//                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*4/2f-i* 40);
-//            }
-//            Master.batch.end();
-//        }
-//        else if(time<60*(7+4+6)){
-//            Master.batch.begin();
-//            for(int i = 0; i < 6; i++){
-//                layout.setText(game.font3,cottruyen[i+7+4]);
-//                game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40*6/2f-i* 40);
-//            }
-//            Master.batch.end();
-//        }else {
-//            Master.batch.begin();
-//            if(time%60==30){
-//                layout.setText(game.font3,"Ấn vào màn hình để tiếp tục");
-//            }else if (time%60==0){
-//                layout.setText(game.font3,"");
-//            }
-//            game.font3.draw(Master.batch,layout,Gdx.graphics.getWidth()/2f - layout.width/2f,Gdx.graphics.getHeight()/2f + 40/2f);
-//            Master.batch.end();
-//            if (Gdx.input.justTouched()) {
-//                nen.stop();
-//                game.setScreen(game.menuScreen);
-//            }
-//        }
-//        stage.act(Gdx.graphics.getDeltaTime());
-//        if (time%60==30){
-//            skip.remove();
-//        }else if (time%60==0){
-//            stage.addActor(skip);
-//        }
-//        stage.draw();
-//
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(Color.YELLOW);
-//        shapeRenderer.circle(870, 460, 50);
-//        shapeRenderer.end();
-//    }
 
     @Override
     public void resize(int i, int i1) {

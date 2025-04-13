@@ -2,6 +2,7 @@ package spst.com.Roads.CrossRoad;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class BlankRoad extends MyActor {
@@ -9,5 +10,6 @@ public class BlankRoad extends MyActor {
         super(x, y, s);
         textureRegion = Utils.getRegion(9*16, 17*16, 16, 16);
         setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
+        Master.roadArray.add(getBound());
     }
 }

@@ -1,6 +1,7 @@
 package spst.com;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -125,49 +126,49 @@ public class Player extends MyActor {
             mouseY = getY();
             mouseX = getX();
         }
-        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
-            textureRegion = Utils.getRegion(23*16, 0, 16, 6);
-            setSize(32, 12);
-            if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
-                isAlive = false;
-                if(getY()<=32*11){
-                    addAction(Actions.moveBy(0,-200,6));
-                }else {
-                    addAction(Actions.moveBy(0,-200,6));
-                }
-                addAction(Actions.sequence(
-                    Actions.fadeOut(6),
-                    Actions.run(()->{
-                        Dark dark = new Dark(0,0,Master.noMoveStage);
-                        dark.addAction(Actions.fadeIn(2));
-                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
-                        Master.WLK = 'L';
-                    })
-                ));
-            }
-        } else {
-            setSize(32,32);
-        }
+//        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
+//            textureRegion = Utils.getRegion(23*16, 0, 16, 6);
+//            setSize(32, 12);
+//            if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
+//                isAlive = false;
+//                if(getY()<=32*11){
+//                    addAction(Actions.moveBy(0,-200,6));
+//                }else {
+//                    addAction(Actions.moveBy(0,-200,6));
+//                }
+//                addAction(Actions.sequence(
+//                    Actions.fadeOut(6),
+//                    Actions.run(()->{
+//                        Dark dark = new Dark(0,0,Master.noMoveStage);
+//                        dark.addAction(Actions.fadeIn(2));
+//                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
+//                        Master.WLK = 'L';
+//                    })
+//                ));
+//            }
+//        } else {
+//            setSize(32,32);
+//        }
 
-        for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBoundCar())){
-                c.setPosition(-247387907,-782457328);
-                c.remove();
-                isAlive = false;
-                isBep = true;
-                addAction(Actions.sequence(
-                    Actions.fadeOut(6),
-                    Actions.run(()->{
-                        Dark dark = new Dark(0,0,Master.noMoveStage);
-                        dark.addAction(Actions.fadeIn(2));
-                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
-                        Master.WLK = 'L';
-                    })
-                ));
-            }
-        }
-        if(isBep){
-            setSize(32, 8);
-        }
+//        for(Car c : Master.cars){
+//            if(getBound().overlaps(c.getBoundCar())){
+//                c.setPosition(-247387907,-782457328);
+//                c.remove();
+//                //isAlive = false;
+//                isBep = true;
+//                addAction(Actions.sequence(
+//                    Actions.fadeOut(6),
+//                    Actions.run(()->{
+//                        Dark dark = new Dark(0,0,Master.noMoveStage);
+//                        dark.addAction(Actions.fadeIn(2));
+//                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
+//                        Master.WLK = 'L';
+//                    })
+//                ));
+//            }
+//        }
+//        if(isBep){
+//            setSize(32, 8);
+//        }
     }
 }

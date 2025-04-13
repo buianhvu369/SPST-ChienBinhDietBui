@@ -10,24 +10,12 @@ import spst.com.Screen.Master;
 
 public class CamXeng extends MyActor {
     public boolean isSong = false;
-    Texture texture = new Texture("noXeng.png");
-    Texture texture1 = new Texture("yesXeng.png");
+    public Texture texture = new Texture("noXeng.png");
+    public Texture texture1 = new Texture("yesXeng.png");
     public CamXeng(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
         setSize(40,40);
-        addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(!Master.isCoXeng) {
-                    Master.isCoXeng = true;
-                    textureRegion = new TextureRegion(texture1);
-                }else{
-                    Master.isCoXeng = false;
-                    textureRegion = new TextureRegion(texture);
-                }
-            }
-        });
     }
 
     @Override

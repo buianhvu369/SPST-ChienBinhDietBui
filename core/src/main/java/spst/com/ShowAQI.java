@@ -38,7 +38,7 @@ public class ShowAQI extends MyActor {
                 setColor(Color.BROWN);
         }
         if(Master.AQI>=250&&!isCanhBao){
-            //canhbao.play();
+            canhbao.play();
             new FloatingNews(0,0,Master.noMoveStage,"Sắp thua rồi",Color.RED);
             isCanhBao = true;
         }
@@ -47,7 +47,7 @@ public class ShowAQI extends MyActor {
         }
        bui.setColor(bui.getColor().r,bui.getColor().g,bui.getColor().b,1/300f*0.5f*Master.AQI);
         if(GameState.ernegy==0&&!isHNL){
-            //hetnangluong.play();
+            hetnangluong.play();
             new FloatingNews(0,0,Master.noMoveStage,"Hết năng lượng",Color.RED);
             isHNL = true;
         }

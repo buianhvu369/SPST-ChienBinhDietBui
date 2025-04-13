@@ -30,7 +30,7 @@ public class MenuScreen implements Screen  {
     Exit exitButton;
     Guide guideButton;
     Start startButton;
-   // public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("gioithieu.mp3"));
+    public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("gioithieu.mp3"));
     public MenuScreen(StartGame game){
         this.game = game;
         stage = new Stage();
@@ -110,8 +110,8 @@ public class MenuScreen implements Screen  {
 
         Gdx.input.setInputProcessor(stage);
 
-//        nen.isLooping();
-//        nen.play();
+        nen.isLooping();
+        nen.play();
     }
 
     @Override

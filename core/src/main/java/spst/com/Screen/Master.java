@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -63,7 +64,7 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     public static Stage stage;
     public static Stage noMoveStage;
-  //  private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
+    private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
     boolean thongTinMode = false;
 
@@ -994,9 +995,9 @@ public class Master implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
 
-     //   MenuScreen.nen.stop();
-      //  nen.isLooping();
-      //  nen.play();
+        MenuScreen.nen.stop();
+        nen.isLooping();
+        nen.play();
     }
 
     @Override
@@ -2944,7 +2945,7 @@ public class Master implements Screen {
 
     @Override
     public void dispose() {
-        //nen.stop();
+        nen.stop();
         batch.dispose();
     }
 }

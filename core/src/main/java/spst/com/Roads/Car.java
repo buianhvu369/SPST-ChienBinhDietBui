@@ -5,8 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import spst.com.Enums.TypeRoadRe;
 import spst.com.GameState;
+import spst.com.InFactory.BuyRoadRe;
+import spst.com.InFactory.BuyRoadReNgoai;
 import spst.com.MyActor;
+import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Screen.Master;
 import spst.com.Utils;
 
@@ -16,57 +20,21 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class Car extends MyActor {
     int speedX;
     int speedY;
-    char ran;
+    char ran = (char) MathUtils.random.nextInt(1,3);;
     public boolean isRightthis;
     int ran2 = MathUtils.random.nextInt(1,3);
-    Random random = new Random();
+    int khaNangRe = -1;
+    boolean isRe = false;
     public Car(float x, float y, Stage s) {
         super(x, y, s);
-        int ran3 = random.nextInt(1,5);//random huong cua xe. 1:trai 2:phai 3:tren 4:duoi
-        if(ran3 == 1){
-            speedX = -2;
-            speedY = 0;
-            switch (ran) {
-                case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
-                case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
-                case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
-            }
-            setPosition(32*75-32, 800/2f+48-32-8);
-        }else if(ran3 == 2){
-            speedX = 2;
-            speedY = 0;
-            switch (ran) {
-                case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
-                case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
-                case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
-            }
-            setPosition(0, 800/2f-48+8);
-        }else if(ran3 == 3){
-            speedY = 2;
-            speedX = 0;
-            switch (ran) {
-                case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
-                case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
-                case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
-            }
-            ran3 = random.nextInt(1,4);
-            if(ran3 == 1){
-                setPosition(32*9+8, 0);
-            }else if(ran3 == 2){
-                setPosition(32*25+8, 0);
-            }else if(ran3 == 3){
-                setPosition(32*52+8, 0);
-            }
-        }else if(ran3 == 4){
-            speedY = -2;
-            speedX = 0;
-            switch (ran){
-                case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
-                case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
-                case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
-            }
-            setPosition(32*23-8,800);
+        speedX = 2;
+        speedY = 0;
+        switch (ran) {
+            case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+            case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+            case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
         }
+        setPosition(0, 800/2f-48+8);
         setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
     }
 
@@ -74,107 +42,373 @@ public class Car extends MyActor {
     public void act(float delta) {
         super.act(delta);
         if(!(Master.isDenDo&&getX()>24*32 && 26*32 > getX())){
-            Turn();
+            Move();
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
             moveBy(speedX, speedY);
         }
     }
-    private void Turn(){
-        if (getX() > 75*32) {
-            setX(0);
+    private void Move(){
+        boolean isOnRoad = false;
+        for(Rectangle rec : Master.roadArray){
+            if(getBoundCar().overlaps(rec)){
+                isOnRoad = true;
+            }
         }
-        if (getX() < 0-getWidth()) {
-            setX(75*32);
-        }
-        if(getX()==32*9+8 && random.nextInt(1,4) == 1){
-            switch (ran){
-                case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
-                case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
-                case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
-            }
-            speedX = 0;
-            speedY = -2;
-        }else if(getX()==32*23-8 && random.nextInt(1,4) == 2) {
-            switch (ran) {
-                case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
-                case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
-                case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
-            }
-            speedX = 0;
-            speedY = 2;
-        }else if(getX()==32*25+8 && random.nextInt(1,4) == 3) {
-            switch (ran) {
-                case 0 -> textureRegion = Utils.getRegion(17 * 16, 16 * 16, 16, 32);
-                case 1 -> textureRegion = Utils.getRegion(17 * 16, 14 * 16, 16, 32);
-                case 2 -> textureRegion = Utils.getRegion(21 * 16, 14 * 16, 16, 32);
-            }
-            speedX = 0;
-            speedY = -2;
-        }else if(getX()==1184+32*15+8 && random.nextInt(1,4) == 3){
-            switch (ran){
-                case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
-                case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
-                case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
-            }
-            speedX = 0;
-            speedY = -2;
-        }
-        if(getY() == 0 && getX() == 32*9+8){
+        if(!isOnRoad){
             remove();
         }
-        if(getY() == 0 && getX() == 32*25+8){
-            remove();
-        }
-        if(getY() == 0 && getX() == 1184+32*15+8){
-            remove();
-        }
-        if(getY() == 800 && getX()==32*23-8){
-            remove();
-        }
-
-        if(speedY == 2){
-            if(getY() == 800/2f - 48 && ran2 == 1){
-                setY(getY()+16-8);
-                switch (ran) {
-                    case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
-                    case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
-                    case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
-                }
-                speedX = 2;
-                speedY = 0;
-                ran2 = MathUtils.random.nextInt(1,3);
-            } else if((getY() == 800/2f - 48 + 32) && ran2 != 1){
-                setY(getY()+16+8);
-                switch (ran) {
-                    case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
-                    case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
-                    case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
-                }
-                speedX = -2;
-                speedY = 0;
-                ran2 = MathUtils.random.nextInt(1,3);
+        boolean isChamNgaRe = false;
+        for(MyActor actor : Master.reArray){
+            if(getBoundCar().overlaps(actor.getBound())){
+                isChamNgaRe = true;
             }
-        }else if (speedY == -2){
-            if(getY() == 800/2f + 48 && ran2 == 1){
-                setY(getY()-32-8);
-                switch (ran) {
-                    case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
-                    case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
-                    case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+        }
+        if(!isChamNgaRe){
+            isRe = false;
+        }
+        khaNangRe = MathUtils.random.nextInt(0,4);
+        if(!isRe){
+            for(MyActor actor : Master.reArray){
+                if(getBoundCar().overlaps(actor.getBound())){
+                    if(actor instanceof Corner){
+                        if(khaNangRe==0){
+                            isRe = true;
+                            if(((Corner) actor).myyx.equals("DL")){
+                                if(speedX == -2 && speedY == 0){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                    }
+                                    speedX = 0;
+                                    speedY = 2;
+                                    setPosition(actor.getX()-8-this.getWidth(),actor.getY());
+                                }
+                            }
+                            if(((Corner) actor).myyx.equals("DR")){
+                                if(speedX == 0 && speedY == -2){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                    }
+                                    speedX = -2;
+                                    speedY = 0;
+                                    setPosition(actor.getX()-this.getWidth(),actor.getY()-8-this.getHeight());
+                                }
+                            }
+                            if(((Corner) actor).myyx.equals("UL")){
+                                if(speedX == 0 && speedY == 2){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                    }
+                                    speedX = 2;
+                                    speedY = 0;
+                                    setPosition(actor.getX(),actor.getY()+8);
+                                }
+                            }
+                            if(((Corner) actor).myyx.equals("UR")){
+                                if(speedX == 2 && speedY == 0){
+                                    switch (ran){
+                                        case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                        case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                    }
+                                    speedX = 0;
+                                    speedY = -2;
+                                    setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                }
+                            }
+                        }
+                    }
+                    if(actor instanceof BuyRoadReNgoai){
+                        if(khaNangRe==1){}
+                        if(true){
+                            isRe = true;
+                            if(actor.getRotation()==90){
+                                if(speedX == -2 && speedY == 0){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                    }
+                                    speedX = 0;
+                                    speedY = 2;
+                                    setPosition(actor.getX()-8-this.getWidth(),actor.getY());
+                                    isRe = false;
+                                }
+                            }
+                            if(actor.getRotation()==180){
+                                if(speedX == 0 && speedY == -2){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                    }
+                                    speedX = -2;
+                                    speedY = 0;
+                                    setPosition(actor.getX()-this.getWidth(),actor.getY()+8);
+                                    isRe = false;
+                                }
+                            }
+                            if(actor.getRotation()==0){
+                                if(speedX == 0 && speedY == 2){
+                                    switch (ran) {
+                                        case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                        case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                    }
+                                    speedX = 2;
+                                    speedY = 0;
+                                    setPosition(actor.getX(),actor.getY()+8);
+                                    isRe = false;
+                                }
+                            }
+                            if(actor.getRotation()==270){
+                                if(speedX == 2 && speedY == 0){
+                                    switch (ran){
+                                        case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                        case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                        case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                    }
+                                    speedX = 0;
+                                    speedY = -2;
+                                    setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                    isRe = false;
+                                }
+                            }
+                        }
+                    }
+                    if(actor instanceof BuyRoadRe){
+                        //if (khaNangRe == 2){
+                        if (true){
+                            switch (((BuyRoadRe) actor).type){
+                                case Trai -> {
+                                    switch (((BuyRoadRe) actor).direc){
+                                        case 'u' -> {
+                                            if(speedX == 2 && speedY == 0){
+                                                switch (ran){
+                                                    case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                                    case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                                }
+                                                speedX = 0;
+                                                speedY = -2;
+                                                setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                            }
+                                        }
+                                        case 'r' -> {
+                                            if(speedX == 0 && speedY == -2){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                                }
+                                                speedX = -2;
+                                                speedY = 0;
+                                                setPosition(actor.getX()-this.getWidth(),actor.getY()+32*2+8);
+                                                isRe = false;
+                                            }
+                                        }
+                                        case 'l' -> {
+                                            if(speedX == 0 && speedY == 2){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                                }
+                                                speedX = 2;
+                                                speedY = 0;
+                                                setPosition(actor.getX(),actor.getY()+8);
+                                                isRe = false;
+                                            }
+                                        }
+                                        case 'd' -> {
+                                            if(speedX == -2 && speedY == 0){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                                }
+                                                speedX = 0;
+                                                speedY = 2;
+                                                setPosition(actor.getX()-8-this.getWidth(),actor.getY());
+                                                isRe = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                case Phai -> {
+                                    switch (((BuyRoadRe) actor).direc){
+                                        case 'u' -> {
+                                            if(speedX == 0 && speedY == 2){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                                }
+                                                speedX = 2;
+                                                speedY = 0;
+                                                setPosition(actor.getX(),actor.getY()+8);
+                                                isRe = false;
+                                            }
+                                        }
+                                        case 'r' -> {
+                                            if(speedX == 2 && speedY == 0){
+                                                switch (ran){
+                                                    case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                                    case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                                }
+                                                speedX = 0;
+                                                speedY = -2;
+                                                setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                            }
+                                        }
+                                        case 'l' -> {
+                                            if(speedX == -2 && speedY == 0){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                                }
+                                                speedX = 0;
+                                                speedY = 2;
+                                                setPosition(actor.getX()-8,actor.getY());
+                                                isRe = false;
+                                            }
+                                        }
+                                        case 'd' -> {
+                                            if(speedX == 0 && speedY == -2){
+                                                switch (ran) {
+                                                    case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                                    case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                                    case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                                }
+                                                speedX = -2;
+                                                speedY = 0;
+                                                setPosition(actor.getX()-this.getWidth(),actor.getY()+32*2+8);
+                                                isRe = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                case CaHai -> {
+                                    switch (((BuyRoadRe) actor).direc){
+                                        case 'u' -> {
+                                            if(MathUtils.randomBoolean()){
+                                                if(speedX == 0 && speedY == 2){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                                    }
+                                                    speedX = 2;
+                                                    speedY = 0;
+                                                    setPosition(actor.getX(),actor.getY()+8);
+                                                    isRe = false;
+                                                }
+                                            }else {
+                                                if(speedX == 2 && speedY == 0){
+                                                    switch (ran){
+                                                        case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                                        case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                                    }
+                                                    speedX = 0;
+                                                    speedY = -2;
+                                                    setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                                }
+                                            }
+                                        }
+                                        case 'r' -> {
+                                            if(MathUtils.randomBoolean()){
+                                                if(speedX == 2 && speedY == 0){
+                                                    switch (ran){
+                                                        case 0 -> textureRegion = Utils.getRegion(17*16,16*16,16,32);
+                                                        case 1 -> textureRegion = Utils.getRegion(17*16,14*16,16,32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16,14*16,16,32);
+                                                    }
+                                                    speedX = 0;
+                                                    speedY = -2;
+                                                    setPosition(actor.getX()+8,actor.getY()-this.getHeight());
+                                                }
+                                            }else {
+                                                if(speedX == 0 && speedY == -2){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                                    }
+                                                    speedX = -2;
+                                                    speedY = 0;
+                                                    setPosition(actor.getX()-this.getWidth(),actor.getY()+32*2+8);
+                                                    isRe = false;
+                                                }
+                                            }
+                                        }
+                                        case 'l' -> {
+                                            if(MathUtils.randomBoolean()){
+                                                if(speedX == -2 && speedY == 0){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                                    }
+                                                    speedX = 0;
+                                                    speedY = 2;
+                                                    setPosition(actor.getX()-8,actor.getY());
+                                                    isRe = false;
+                                                }
+                                            }else {
+                                                if(speedX == 0 && speedY == 2){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
+                                                    }
+                                                    speedX = 2;
+                                                    speedY = 0;
+                                                    setPosition(actor.getX(),actor.getY()+8);
+                                                    isRe = false;
+                                                }
+                                            }
+                                        }
+                                        case 'd' -> {
+                                            if(MathUtils.randomBoolean()){
+                                                if(speedX == -2 && speedY == 0){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(20 * 16, 16 * 16, 16, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(20 * 16, 14 * 16, 16, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(22 * 16, 14 * 16, 16, 32);
+                                                    }
+                                                    speedX = 0;
+                                                    speedY = 2;
+                                                    setPosition(actor.getX()-8,actor.getY());
+                                                    isRe = false;
+                                                }
+                                            }else {
+                                                if(speedX == 0 && speedY == -2){
+                                                    switch (ran) {
+                                                        case 0 -> textureRegion = Utils.getRegion(18*16, 16*16, 32, 32);
+                                                        case 1 -> textureRegion = Utils.getRegion(18*16, 16*14, 32, 32);
+                                                        case 2 -> textureRegion = Utils.getRegion(21*16, 16*16, 32, 16);
+                                                    }
+                                                    speedX = -2;
+                                                    speedY = 0;
+                                                    setPosition(actor.getX()-this.getWidth(),actor.getY()+32*2+8);
+                                                    isRe = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                speedX = -2;
-                speedY = 0;
-                ran2 = MathUtils.random.nextInt(1,3);
-            } else if((getY() == 800/2f + 48 - 32) && ran2 != 1){
-                setY(getY()-32*2+8);
-                switch (ran) {
-                    case 0 -> textureRegion = Utils.getRegion(15*16, 16*16, 32, 32);
-                    case 1 -> textureRegion = Utils.getRegion(15*16, 16*14, 32, 32);
-                    case 2 -> textureRegion = Utils.getRegion(21*16, 17*16, 32, 16);
-                }
-                speedX = 2;
-                speedY = 0;
-                ran2 = MathUtils.random.nextInt(1,3);
             }
         }
     }

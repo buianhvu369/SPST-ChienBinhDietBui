@@ -17,5 +17,6 @@ public class CrossWalk extends MyActor {
             setSize(textureRegion.getRegionWidth()*2, textureRegion.getRegionHeight()*2);
         }
         myIsHorizontal = isHorizontal;
+        Master.roadArray.add(getBound());
     }
 }

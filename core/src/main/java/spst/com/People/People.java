@@ -498,18 +498,17 @@ public class People extends MyActor {
         }
         for(Car c : Master.cars){
             if(getBound().overlaps(c.getBoundCar())){
-//                isAlive = false;
-//                isBep = true;
-//                c.toFront();
-//                addAction(Actions.sequence(
-//                    Actions.fadeOut(6),
-//                    Actions.run(()->{
-//                        GameState.danso--;
-//                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
-//                        remove();
-//                    })
-//                ));
-                isMoving = false;
+                isAlive = false;
+                isBep = true;
+                c.toFront();
+                addAction(Actions.sequence(
+                    Actions.fadeOut(6),
+                    Actions.run(()->{
+                        GameState.danso--;
+                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                        remove();
+                    })
+                ));
             }
         }
         if(isBep){

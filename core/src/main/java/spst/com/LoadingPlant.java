@@ -37,8 +37,11 @@ public class LoadingPlant extends MyActor{
         super.act(delta);
         time += delta;
         textureRegion = animation.getKeyFrame(time);
+        toFront();
         if(time > 2){
-            Master.trees.add(new Tree(getX() , getY(), getStage()));
+            Tree a = new Tree(getX() , getY(), getStage());
+            a.toFront();
+            Master.trees.add(a);
             remove();
         }
     }

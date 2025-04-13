@@ -52,16 +52,18 @@ public class creatVatLieuMoRongMap extends MyActor {
             case VongCung -> soVL = GameState.soVongCungNgoai;
             case DuongThang -> soVL = GameState.soRoad;
             case DuongTrong -> soVL = GameState.soBlankRoad;
+            case CanhRoad -> soVL = GameState.soCanhRoad;
         }
     }
     public void thayVLL(){
         switch (type){
-            case VongCung -> type = TypeVL.DuongTrong;
+            case VongCung -> type = TypeVL.CanhRoad;
             case ViaHe -> type = TypeVL.VongCung;
             case NgaRe -> type = TypeVL.ViaHe;
             case Dat -> type = TypeVL.NgaRe;
             case DuongThang -> type = TypeVL.Dat;
             case DuongTrong -> type = TypeVL.DuongThang;
+            case CanhRoad -> type = TypeVL.DuongTrong;
         }
     }
     public void thayVLR(){
@@ -71,7 +73,8 @@ public class creatVatLieuMoRongMap extends MyActor {
             case NgaRe -> type = TypeVL.Dat;
             case Dat -> type = TypeVL.DuongThang;
             case DuongThang -> type = TypeVL.DuongTrong;
-            case DuongTrong -> type = TypeVL.VongCung;
+            case DuongTrong -> type = TypeVL.CanhRoad;
+            case CanhRoad -> type = TypeVL.VongCung;
         }
     }
 }

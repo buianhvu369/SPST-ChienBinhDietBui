@@ -6,5 +6,6 @@ public enum TypeVL {
     VongCung,
     DuongTrong,
     Dat,
-    DuongThang
+    DuongThang,
+    CanhRoad
 }

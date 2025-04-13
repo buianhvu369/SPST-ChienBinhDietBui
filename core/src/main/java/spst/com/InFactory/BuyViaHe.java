@@ -6,7 +6,7 @@ import spst.com.MyActor;
 import spst.com.Utils;
 
 public class BuyViaHe extends MyActor {
-    TypeViaHe type = TypeViaHe.Tam;
+    public TypeViaHe type = TypeViaHe.Tam;
     public BuyViaHe(float x, float y, Stage s) {
         super(x, y, s);
         setPosition(x-16,y-16);

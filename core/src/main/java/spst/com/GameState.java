@@ -46,6 +46,7 @@ public class GameState{
     public static int soReRoad = 0;
     public static int soVongCungNgoai = 0;
     public static int soBlankRoad = 0;
+    public static int soCanhRoad = 0;
     public static String nenMua = "";
     public static void saveGame() {
         SaveGame saveGame = new SaveGame(true);
@@ -92,6 +93,7 @@ public class GameState{
             soVongCungNgoai = saveGame.soVongCungNgoai;
             soDat = saveGame.soDat;
             soBlankRoad = saveGame.soBlankRoad;
+            soCanhRoad = saveGame.soCanhRoad;
             soRoad = saveGame.soRoad;
             soReRoad = saveGame.soReRoad;
             soViaHe = saveGame.soViaHe;
@@ -189,6 +191,7 @@ public class GameState{
         soReRoad = 0;
         soVongCungNgoai = 0;
         soBlankRoad = 0;
+        soCanhRoad = 0;
 
         Master.WLK = 'K';
         Master.replay.remove();

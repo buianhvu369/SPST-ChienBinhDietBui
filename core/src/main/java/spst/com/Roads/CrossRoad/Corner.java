@@ -2,6 +2,7 @@ package spst.com.Roads.CrossRoad;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class Corner extends MyActor {
@@ -22,5 +23,7 @@ public class Corner extends MyActor {
             setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
         }
         myyx = yx;
+        Master.roadArray.add(getBound());
+        Master.reArray.add(this);
     }
 }

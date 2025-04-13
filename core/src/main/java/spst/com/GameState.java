@@ -28,12 +28,12 @@ public class GameState{
     public static int levelcongnghexanh = 0;
     public static int levelgiaothongxanh = 0;
     public static int greenscore = 50;
-    public static float SO2 = 50;
-    public static float NO2 = 90;
-    public static float CO1 = 10;
-    public static float O3 = 80;
-    public static float PM2_5 = 100;
-    public static float PM10 = 100;
+    public static float SO2 = 200;
+    public static float NO2 = 200;
+    public static float CO1 = 200;
+    public static float O3 = 200;
+    public static float PM2_5 = 200;
+    public static float PM10 = 200;
     public static float AQISO2 = 0;
     public static float AQINO2 = 0;
     public static float AQICO1 = 0;
@@ -157,12 +157,12 @@ public class GameState{
         ernegy=200;
         greenscore=200;
         danso = 100000;
-        PM2_5 = 100;
-        PM10 = 150;
-        NO2 = 90;
-        SO2 = 50;
-        CO1 = 10;
-        O3 = 80;
+        PM2_5 = 200;
+        PM10 = 200;
+        NO2 = 200;
+        SO2 = 200;
+        CO1 = 200;
+        O3 = 200;
 
         Master.soCamera = 0;
         Master.soBienCam = 0;

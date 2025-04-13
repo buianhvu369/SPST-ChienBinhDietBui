@@ -114,7 +114,7 @@ public class Master implements Screen {
     Bang turtleBang;
     Cross turtleCross;
     Cross bangFactoryCross;
-    Bang menuFood;
+    public static Bang menuFood;
     Cross bangScienceCross;
     Cross menuFoodCross;
     MordernDoor scienceDoor;
@@ -693,8 +693,7 @@ public class Master implements Screen {
                     }else {
                         isCanDatThingsOnDirt=false;
                     }
-                    if(actorBlock==null
-                        || actorBlock instanceof MordernDoor
+                    if(actorBlock instanceof MordernDoor
                         || actorBlock instanceof Restaurant
                         || actorBlock instanceof ScienceCenter
                         || actorBlock instanceof FactoryCenter
@@ -702,7 +701,7 @@ public class Master implements Screen {
                         || actorBlock instanceof Water
                         || actorBlock instanceof CornerPool
                         || actorBlock instanceof WallPool
-                        || actorBlock instanceof Tree
+                        //|| actorBlock instanceof Tree
                         || actorBlock instanceof TrafficLight
                         || actorBlock instanceof Player
                         || actorBlock instanceof People
@@ -718,8 +717,8 @@ public class Master implements Screen {
                         || actorBlock instanceof Rice
                         || actorBlock instanceof Truck
                         || actorBlock instanceof ThapRua
-                        || actorBlock instanceof Waste
-                        || actorBlock instanceof WasteFire
+                        //|| actorBlock instanceof Waste
+                        //|| actorBlock instanceof WasteFire
                         || actorBlock instanceof Blood
                         || actorBlock instanceof Boat
                         || actorBlock instanceof River
@@ -1036,6 +1035,9 @@ public class Master implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             createRandomPeopleFake();
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            whatActionIfClickMouse = "CamXeng";
+        }
         mouseNoMoveStage.set(Gdx.input.getX(), Gdx.input.getY());
         mouseStage.set(Gdx.input.getX(),Gdx.input.getY());
         noMoveStage.getViewport().unproject(mouseNoMoveStage);
@@ -1084,7 +1086,7 @@ public class Master implements Screen {
         luongThucAn();
         xulyngaydem();
         denXanhDenDo();
-        tinhThangThua();
+        //tinhThangThua();
         batTatNutItemVaXuLyTrongNutItems();
         Timer.schedule(new Timer.Task() {
             @Override
@@ -1257,7 +1259,7 @@ public class Master implements Screen {
                         case CanhRoad -> {
                             BuyCanhRoad a = new BuyCanhRoad(x+16, y+16,stage);
                             a.setZIndex(2000);
-                            a.setRotation(a.getRotation());
+                            a.setRotation(MCanhRoad.getRotation());
                             VLLDs.add(a);
                             GameState.soCanhRoad--;
                         }
@@ -1272,6 +1274,7 @@ public class Master implements Screen {
                         case VongCung -> {
                             BuyRoadReNgoai a = new BuyRoadReNgoai(x+16, y+16,stage);
                             a.setZIndex(2000);
+                            a.setRotation(MRoadReNgoai.getRotation());
                             VLLDs.add(a);
                             GameState.soVongCungNgoai--;
                         }
@@ -1303,8 +1306,8 @@ public class Master implements Screen {
                 if(isCanDao){
                     //BuyDirt a = new BuyDirt(x, y,stage);
                     //a.setZIndex(stage.hit(x, y, true).getZIndex()+1);
-                    MyActor myActor = (MyActor) stage.hit(x,y,true);
                     try {
+                        MyActor myActor = (MyActor) stage.hit(x,y,true);
                         roadArray.removeValue(myActor.getBound(),true);
                         reArray.removeValue(myActor,true);
                         myActor.remove();
@@ -1894,6 +1897,7 @@ public class Master implements Screen {
         menuFoodCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
         pho.setPosition(400,32);
         menuFood.toBack();
+
     }
 
     public void closeMenuFood(){

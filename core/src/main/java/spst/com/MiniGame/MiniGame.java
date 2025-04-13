@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import spst.com.FloatingNews;
 import spst.com.Screen.Master;
 import spst.com.StartGame;
 
@@ -36,6 +37,7 @@ public class MiniGame implements Screen {
     Array<StarFish> starFishArray;
     Array<Rock>rockArray;
     Array<Wood>woodArray;
+    Array<Trash>trashArray;
     Texture explosion;
     int countStarFish;
     public StartGame game;
@@ -46,6 +48,7 @@ public class MiniGame implements Screen {
     Texture explosion1;
     int lastTime;
     Texture resestImage;
+
 
 
 
@@ -70,11 +73,13 @@ public class MiniGame implements Screen {
         starFish = new StarFish(100,100,stage1);
         shark = new Shark(200,300,stage1);
         player = new Player(0,0,stage1);
+
         st = Gdx.audio.newMusic(Gdx.files.internal("Water_Drop.ogg"));
 
         rockArray = new Array<>();
         starFishArray = new Array<>();
         woodArray = new Array<>();
+        trashArray = new Array<>();
         woodArray.add(wood);
         starFishArray.add(starFish);
         rockArray.add(rock);
@@ -82,11 +87,14 @@ public class MiniGame implements Screen {
             spawnRock();
         }
         spawnWood();
-        for(int j= 0; j<14;j++){
+        for(int j= 0; j<4;j++){
             spawnStarFish();
         }
+        for(int j= 0; j<4;j++){
+            spawnTrash();
+        }
 
-        countStarFish = 15;
+        countStarFish = 5;
         lastTime = 0;
 
     }
@@ -109,9 +117,11 @@ public class MiniGame implements Screen {
         if((player.getY()>270- (player.speed*MathUtils.sinDeg(player.getRotation()))-player.getHeight()/2)&&(player.getY()<540-(player.speed*MathUtils.sinDeg(player.getRotation()))-player.getHeight()/2)) {
             stage1.getCamera().position.y = player.getY()+player.getHeight()/2;
         }
-
-
-
+        for(Trash trash : trashArray){
+            if(player.getBound().overlaps(trash.getBound())) {
+                game.setScreen(new MiniGame(game));
+            }
+        }
 
         for(Wood wood1:woodArray) {
             if (Intersector.overlapConvexPolygons(player.polygon, wood1.polygon)) {
@@ -205,6 +215,10 @@ public class MiniGame implements Screen {
     public void spawnWood(){
         Wood go = new Wood(0,0,stage1);
         woodArray.add(go);
+    }
+    public void spawnTrash(){
+        Trash trash = new Trash(MathUtils.random(100, 1200),MathUtils.random(40,700),stage1);
+        trashArray.add(trash);
     }
     @Override
     public void resize(int i, int i1) {

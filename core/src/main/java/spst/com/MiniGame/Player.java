@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Player extends Actor {
@@ -101,6 +102,9 @@ public class Player extends Actor {
     }
     public Polygon getPolygon(){
         return polygon;
+    }
+    public Rectangle getBound(){
+        return new Rectangle(getX(), getY()+getHeight()/4, getWidth()*3/5, getHeight()*2/3);
     }
 
 }

@@ -35,6 +35,7 @@ import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.House.*;
+import spst.com.MiniGame.MiniGame;
 import spst.com.Parking.LetterP;
 import spst.com.Parking.RoadPiece;
 import spst.com.Parking.RoundCorner;
@@ -98,6 +99,8 @@ public class Master implements Screen {
     Shovel buyShovel;
     Bang bangFactory;
     Bang bangScience;
+    Bang turtleBang;
+    Cross turtleCross;
     Cross bangFactoryCross;
     Bang menuFood;
     Cross bangScienceCross;
@@ -105,6 +108,7 @@ public class Master implements Screen {
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     MordernDoor factoryDoor;
+    PlayTurtleMap playTurtleMap;
 
     Bia bia;
     Pho pho;
@@ -135,16 +139,7 @@ public class Master implements Screen {
     Button1S button1S;
     Button2S button2S;
     Button3S button3S;
-    TextButton factoryButton;
-    TextButton energyButton;
-    TextButton trafficButton;
-    TextButton cameraButton;
-    TextButton  turnOffMLKK;
-    TextButton  turnOnMLKK;
-    TextButton  turnOffFactory;
-    TextButton  turnOnFactory;
-    TextButton  turnOffTraffic;
-    TextButton  turnOnTraffic;
+    Rectangle rectangleRestaurant;
 
     public static Array<Actor> winsorloses = new Array<>();
     public static Array<Car> cars = new Array<>();
@@ -175,7 +170,7 @@ public class Master implements Screen {
     public static float amountOfFood = 100;
     public static Array<Rectangle> noCutting = new Array<>();
     public static Array<Rectangle> noDotRac = new Array<>();
-
+    boolean isInTurtleMap = false;
 
     public static int growth = 0;
     public static Array<Rice>rices ;
@@ -183,6 +178,7 @@ public class Master implements Screen {
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
+
     creatCamera taoCamera;
     creatSign taoSign;
     creatVatLieuMoRongMap creatVLLD;
@@ -194,13 +190,17 @@ public class Master implements Screen {
     Kem iceCream;
     Com com;
     XienBan xienBan;
+    ThapRua thapRua;
     float ktHetEvent = 2;
+    public  static boolean buyCNX = false;
+    public static boolean buyGTX = false;
     boolean ktDangChayEvent = false;
     public static Waterwell gieng;
     public static boolean cutting = false;
     public static boolean mLKKAction = true;
     public static boolean factoryAction = true;
     public  static boolean trafficAction = true;
+
     int speedX = -2 ;
     int  luotcat = 1;
     public static boolean hienBangFactory = false;
@@ -331,6 +331,7 @@ public class Master implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
+
         replay = new Replay(-10080,-32760,noMoveStage);
         thongTinButton = new ThongTin(-1000,-1000,noMoveStage);
         nghienCuuButton = new NghienCuu(-1000,-1000,noMoveStage);
@@ -373,8 +374,30 @@ public class Master implements Screen {
         createTree();
         createWaste();
         createHouses();
+        playTurtleMap = new PlayTurtleMap(350,32,noMoveStage);
+        playTurtleMap.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                isInTurtleMap = false;
+                int random = MathUtils.random(1,5);
+                switch (random) {
+                    case 1 -> soBienCam+=2;
+                    case 2 -> amountSeed+=3;
+                    case 3 -> GameState.ernegy+= 50;
+                    case 4 -> GameState.greenscore += 20;
+                    case 5 -> soCamera++;
+                }
+                game.setScreen(new MiniGame(game));
+            }
+        });
 
-        new ThapRua(32*9+8,800/2+48+32*6+8,stage);
+
+        thapRua = new ThapRua(32*9+8,800/2+48+32*6+8,stage);
+        thapRua.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                isInTurtleMap = true;
+            }
+        });
+
         player = new Player(1200 / 2, 800 / 2, stage);
 
         buyDirt = new BuyDirt(-132456,-65432,noMoveStage);
@@ -398,6 +421,8 @@ public class Master implements Screen {
 
         bangScience = new Bang(-10000,-100,noMoveStage);
         bangFactory = new Bang(-10000,-100,noMoveStage);
+        turtleBang = new Bang(-10000,100,noMoveStage);
+        turtleCross = new Cross(-10000,1000,noMoveStage);
         bangScienceCross = new Cross(-10000,-100,noMoveStage);
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
         menuFoodCross = new Cross(-10000,-100,noMoveStage);
@@ -427,6 +452,7 @@ public class Master implements Screen {
         noPlaced.add(rectangle3);
         Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
+
             noMoveStage.addListener(new InputListener(){
                 private Actor lastActor = null;
                 @Override
@@ -526,6 +552,11 @@ public class Master implements Screen {
         bangFactoryCross.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 closeFactoryBoard();
+            }
+        });
+        turtleCross.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                isInTurtleMap = false;
             }
         });
 
@@ -786,7 +817,16 @@ public class Master implements Screen {
                 new FloatingNews(200,200,noMoveStage,"Bật chế độ gợi ý",Color.BLACK);
             }
         }
-
+        if(isInTurtleMap){
+            playTurtleMap.setPosition(350,32);
+            turtleBang.setPosition(32,32);
+            turtleCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
+            playTurtleMap.toFront();
+        }else {
+            turtleBang.setPosition(10000,10000);
+            playTurtleMap.setPosition(400000,320000);
+            turtleCross.setPosition(400000,320000);
+        }
         tanggiamdanso();
         taoChatCay();
         xuLyCNXVaGTX();
@@ -1035,6 +1075,20 @@ public class Master implements Screen {
                 }
             }
         }
+        if(player.getBound().overlaps(restaurant.getBound())){
+            if(player.getY()<restaurant.getY()){
+                player.toFront();
+                if(player.getY() > restaurant.getY()-5){
+                    player.setY(restaurant.getY()-5);
+                }
+            }else {
+                restaurant.toFront();
+                restaurant.toFront();
+                if(player.getY() < restaurant.getY()+10){
+                    player.setY(restaurant.getY()+10);
+                }
+            }
+        }
         if(player.getBound().overlaps(hotelCenter.getBound())){
             if(player.getY()<hotelCenter.getY()){
                 player.toFront();
@@ -1186,6 +1240,14 @@ public class Master implements Screen {
     private void vietChuTren(){
         batch.begin();
 
+        if(isInTurtleMap){
+            game.font3.draw(batch, "Những mục nhận được khi chơi :",32*10,Gdx.graphics.getHeight() -32*2);
+            game.font3.draw(batch , "Được tặng một cái camera", 32*10,Gdx.graphics.getHeight() -32*3-25);
+            game.font3.draw(batch , "Được tặng hai mươi điểm xanh", 32*10,Gdx.graphics.getHeight() -32*4-50);
+            game.font3.draw(batch , "Được tặng năm mươi năng lượng", 32*10,Gdx.graphics.getHeight() -32*5-75);
+            game.font3.draw(batch , "Được tặng hai cái biển cấm", 32*10,Gdx.graphics.getHeight() -32*6-100);
+            game.font3.draw(batch , "Được tặng ba hạt giống cây", 32*10,Gdx.graphics.getHeight() -32*7-125);
+        }
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -1284,9 +1346,9 @@ public class Master implements Screen {
             GameState.lydocamxucnguoidan = "Không khí rất bẩn ô nhiễm";
         }
     }
-    private void xuLyCNXVaGTX(){
+    private void xuLyCNXVaGTX() {
         //xu ly CNX
-        if(GameState.ernegy >= 10 && factoryAction) {
+        if (GameState.ernegy >= 10 && factoryAction) {
             if (GameState.SO2 >= 10 * GameState.levelcongnghexanh / 60f) {
                 GameState.SO2 -= 10 * GameState.levelcongnghexanh / 60f;
             } else {
@@ -1298,14 +1360,18 @@ public class Master implements Screen {
                 GameState.CO1 = 0;
             }
         }
-        if (timeOfDay %120 == 0 && GameState.ernegy >= 10 && factoryAction && isCNX){
+        if (timeOfDay % 120 == 0 && GameState.ernegy >= 10 && factoryAction && isCNX) {
             GameState.ernegy -= 10;
         }
-        if(!isCNX){
-            nangCapCNX.setColor(Color.GRAY);
-        }else {
-            nangCapCNX.setColor(1,1,1,1);
+        if (!buyCNX){
+            if (!isCNX) {
+                nangCapCNX.setColor(Color.GRAY);
+            } else {
+                nangCapCNX.setColor(1, 1, 1, 1);
+                buyCNX = true;
+            }
         }
+
         //xu ly GTX
         if(GameState.ernegy >= 15 && trafficAction) {
             if (GameState.SO2 >= 8 * GameState.levelgiaothongxanh / 60f) {
@@ -1322,10 +1388,13 @@ public class Master implements Screen {
         if(GameState.ernegy >= 15 && trafficAction&& timeOfDay%120 == 0 && isGTX){
             GameState.ernegy -= 15;
         }
-        if(!isGTX){
-            nangCapGTX.setColor(Color.GRAY);
-        }else {
-            nangCapGTX.setColor(1,1,1,1);
+        if(!buyGTX) {
+            if (!isGTX) {
+                nangCapGTX.setColor(Color.GRAY);
+            } else {
+                nangCapGTX.setColor(1, 1, 1, 1);
+                buyGTX = true;
+            }
         }
     }
     private void ktHetEven(){
@@ -2342,12 +2411,15 @@ public class Master implements Screen {
         Corner corner12 = new Corner(1184 + 17 * 32, 800 / 2f + 48 + 4*32-7*32, stage, "UL");
 
         restaurant = new Restaurant(18*32,6*32,stage);
+        rectangleRestaurant = new Rectangle(restaurant.getX()-32*3, restaurant.getY()-32*2, restaurant.getWidth()+ 32*4, restaurant.getHeight() + 32*3);
         restaurant.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(amountOfFood <= 70) {
-                    showMenuFood();
+                if(rectangleRestaurant.contains(player.getX(), player.getY())) {
+                    if (amountOfFood <= 70) {
+                        showMenuFood();
+                    }
                 }
             }
         });

@@ -47,11 +47,12 @@ public class Player extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        isAlive = true;
         if(isAlive){
             mouseX = Master.cameraPosition.x;
             mouseY = Master.cameraPosition.y;
 
-            if (Master.whatActionIfClickMouse.equals("move")&& !Master.hienChiSo){
+            if (Master.whatActionIfClickMouse.equals("move")&& !Master.hienChiSo&& !Master.hienBangFactory && Master.menuFood.getX()!=32){
                 if (Math.abs(getX()-mouseX) < Math.abs(getY()-mouseY)) {
                     if (!(getX() - 2 < mouseX && mouseX < getX() + 2)) {
                         if (mouseX < getX() + 2) {

@@ -30,4 +30,12 @@ public class Pho extends MyActor {
         });
         setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);
     }
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(Master.isEating){
+            float v = 70f/600;
+            Master.amountOfFood += v;
+        }
+    }
 }

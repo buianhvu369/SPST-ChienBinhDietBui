@@ -209,7 +209,7 @@ public class StartGame extends Game {
 
         menuScreen = new MenuScreen(this);
         cotTruyenScreen = new CotTruyenScreen(this);
-        this.master = new Master(menuScreen.game);
+        this.master = new Master(this);
         this.guideScreen = new GuideScreen(this);
         setScreen(cotTruyenScreen);
 

@@ -16,6 +16,7 @@ public class Waste extends MyActor {
 
     @Override
     public void act(float delta) {
+
         super.act(delta);
         if(isFire){
             textureRegion = new TextureRegion(new Texture("wastefire.png"));

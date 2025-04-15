@@ -9,9 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 public class AnimationClickMouse extends MyActor{
     Animation<TextureRegion> animation;
     float time;
+    Texture texture;
     public AnimationClickMouse(float x, float y, Stage s) {
         super(x, y, s);
-        Texture texture = new Texture("cursor.png");
+        texture = new Texture("cursor.png");
         int cot = 10;
         int hang = 8;
         float speed = 0.02f;
@@ -35,6 +36,7 @@ public class AnimationClickMouse extends MyActor{
         super.act(delta);
         time += delta;
         if(animation.isAnimationFinished(time)){
+            texture.dispose();
             remove();
         }
         textureRegion = animation.getKeyFrame(time);

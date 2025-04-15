@@ -987,13 +987,10 @@ public class Master implements Screen {
                         }
 
                     }catch (Exception ignored){}
-                    System.out.println("654321");
 
                 }
             });
         }catch (Exception ignored) {
-            System.out.println(soCuaCameraDangLooking);
-            System.out.println("123456");
         }
 
         caiDatButton.addListener(new ClickListener() {
@@ -1336,7 +1333,6 @@ public class Master implements Screen {
                 MLKKs.add(mayLoc);
                 mayLoc.name = inputText;
                 whatActionIfClickMouse = "move";
-                System.out.println("243287");
                 taoMayLockk.isSong = true;
             }else if(Master.whatActionIfClickMouse.equals("camera") && soCamera >0){
                 String inputText = textField.getText();
@@ -2192,7 +2188,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10,11,23,99,45 -> {
-                        System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
@@ -2200,7 +2195,6 @@ public class Master implements Screen {
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26 -> {
-                        System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
                         if(GameState.PM2_5 >= 20){
                             GameState.PM2_5 -= 20;
@@ -2214,14 +2208,12 @@ public class Master implements Screen {
                         }
                     }
                     case 8,25 -> {
-                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
                         GameState.SO2 += 25;
                         GameState.NO2 += 20;
                         GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93 -> {
-                        System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
                         GameState.PM2_5 += 30;
                         GameState.PM10 += 20;
@@ -2234,7 +2226,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10 -> {
-                        System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
@@ -2242,7 +2233,6 @@ public class Master implements Screen {
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
-                        System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
                         if(GameState.PM2_5 >= 20){
                             GameState.PM2_5 -= 20;
@@ -2256,14 +2246,12 @@ public class Master implements Screen {
                         }
                     }
                     case 8,25,54,33 -> {
-                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
                         GameState.SO2 += 25;
                         GameState.NO2 += 20;
                         GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93,58,57,35 -> {
-                        System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
                         GameState.PM2_5 += 30;
                         GameState.PM10 += 20;
@@ -2277,7 +2265,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5 -> {
-                        System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
@@ -2285,7 +2272,6 @@ public class Master implements Screen {
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
-                        System.out.println("co 1 con mua rua sach khong khi");
                         GameState.event = "Có 1 cơn mưa nhỏ";
                         if(GameState.PM2_5 >= 20){
                             GameState.PM2_5 -= 20;
@@ -2299,14 +2285,12 @@ public class Master implements Screen {
                         }
                     }
                     case 8,25,54,33 -> {
-                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
                         GameState.SO2 += 25;
                         GameState.NO2 += 20;
                         GameState.PM2_5 += 15;
                     }
                     case 9,52,56,78,93,58,57 -> {
-                        System.out.println("co 1 con gio mua mang theo bui");
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
                         GameState.PM2_5 += 30;
                         GameState.PM10 += 20;
@@ -2318,7 +2302,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20 -> {
-                        System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
@@ -2333,7 +2316,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20,19 -> {
-                        System.out.println("tai nan giao thong !!!");
                         GameState.event = "Tai nạn giao thông";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
@@ -2349,14 +2331,12 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 1, 20,19,45,67,23,55 -> {
-                        System.out.println("su kien the thao lon");
                         GameState.event = "Sự kiện thể thao lớn";
                         GameState.NO2 += 30;
                         GameState.CO1 += 20;
                         int ran2 = random.nextInt(1,101);
                         if(25<ran2 && ran2<=50 ){
-                            System.out.println("tai nan giao thong !!!");
-                            GameState.event = "Tai nạn giao thông";
+                           GameState.event = "Tai nạn giao thông";
                             GameState.NO2 += 30;
                             GameState.CO1 += 20;
                             GameState.danso-= 5;
@@ -2365,7 +2345,6 @@ public class Master implements Screen {
                         }
                     }
                     case 49,11,68,56,87 -> {
-                        System.out.println("co 1 con mua bao co sam set sam danh chat rac va chay bien bao va chay cay");
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
                         GameState.SO2 += 25;
                         GameState.NO2 += 20;
@@ -2378,7 +2357,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,101);
                 switch (ran) {
                     case 1, 20, 19, 45, 67, 23, 55,5,3 -> {
-                        System.out.println("Chay nha chay nha");
                         GameState.event = "Cháy 1 ngôi nhà";
                         GameState.SO2 += 15;
                         GameState.NO2 += 20;
@@ -2402,7 +2380,6 @@ public class Master implements Screen {
                             }
                         }
                         if (ran == 20) {
-                            System.out.println("Chay 2 ngoi nha");
                             GameState.event = "Cháy 2 ngôi nhà";
                             GameState.SO2 += 30;
                             GameState.NO2 += 40;
@@ -2437,7 +2414,6 @@ public class Master implements Screen {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 34,43,56,65,78,87,12,21,10,91 -> {
-                        System.out.println("Mưa lon");
                         GameState.event = "Có 1 cơn mưa lớn";
                         if(GameState.PM2_5 >= 30){
                             GameState.PM2_5 -= 30;
@@ -2516,8 +2492,6 @@ public class Master implements Screen {
                 MRoadRe.setPosition(x, y-2);
                 MRoadRe.toFront();
                 thongTinDatNgaRe=thongTinMode;
-                System.out.println(MRoadRe.direc);
-                System.out.println(MRoadRe.type);
                 if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
                     switch (MRoadRe.direc){
                         case 'u'->{MRoadRe.direc = 'l';}

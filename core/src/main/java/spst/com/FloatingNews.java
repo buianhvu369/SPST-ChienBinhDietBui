@@ -26,7 +26,6 @@ public class FloatingNews extends Actor {
             Actions.fadeOut(1f),        // Làm mờ trong 1 giây
             Actions.removeActor()       // Xóa khỏi stage
         ));
-        System.out.println(news);
         toFront();
         s.addActor(this);
         myColor = color;

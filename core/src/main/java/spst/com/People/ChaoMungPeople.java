@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
 import spst.com.Utils;
 
-public class BieuTinhPeople extends MyActor {
+public class ChaoMungPeople extends MyActor {
     TextureRegion[] textureRegionLeft;
     TextureRegion[] textureRegionDown;
     TextureRegion[] textureRegionUp;
@@ -16,10 +16,9 @@ public class BieuTinhPeople extends MyActor {
     Animation<TextureRegion> animationRight;
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
-    int time;
-    public BieuTinhPeople(float x, float y, Stage s) {
+    float time;
+    public ChaoMungPeople(float x, float y, Stage s) {
         super(x, y, s);
-        setPosition(0,800/2f-48);
         int i = MathUtils.random.nextInt(1,6);
         switch (i){
             case 1 ->{
@@ -63,11 +62,14 @@ public class BieuTinhPeople extends MyActor {
         animationDown.setPlayMode(Animation.PlayMode.LOOP);
         time = 0;
         textureRegion = animationRight.getKeyFrame(time);
+        setSize(32,32);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        
+        moveBy(1,0);
+        time+=delta;
+        textureRegion = animationRight.getKeyFrame(time);
     }
 }

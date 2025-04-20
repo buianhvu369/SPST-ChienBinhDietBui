@@ -69,8 +69,11 @@ public class Master implements Screen {
     public static Stage noMoveStage;
     private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
+    boolean isDaThang = false;
     boolean thongTinMode = false;
 
+    RedFlag redFlag;
+    ChaoMungPeople one;
     Vector2 mouseNoMoveStage = new Vector2();
     Vector2 mouseStage = new Vector2();
     Vector2 deltaXYVector = new Vector2();
@@ -451,6 +454,10 @@ public class Master implements Screen {
         shovel.setTouchable(Touchable.disabled);
         shovel.remove();
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
+        redFlag = new RedFlag(0,0,stage);
+        redFlag.remove();
+        one = new ChaoMungPeople(0,800/2f-48,stage);
+        one.remove();
 
         createTree();
         createWaste();
@@ -2179,14 +2186,21 @@ public class Master implements Screen {
             WLK = 'L';
         }
         if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){
-            dark.toFront();
-            dark.setColor(0,0,0,1);
             WLK = 'W';}
         if(WLK == 'W'){
-            createRandomPeople();
+            if(!isDaThang){
+                stage.addActor(one);
+                stage.addActor(redFlag);
+                for(int i = 0;i<9*32*60;i++){
+                    if(i%32*60==0){
+                        new ChaoMungPeople(-i-32,800/2f-48,stage);
+                    }
+                }
+                isDaThang = true;
+            }
+            redFlag.setPosition(one.getX()-redFlag.getWidth()+one.getWidth(),one.getY()+one.getHeight());
             showAQI.canhbao.stop();
 //            dark = new Dark(0,0,noMoveStage);
-            new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"WIN",Color.GREEN).toFront();
 //            player.toFront();
 //            camera.position.x = 480;
 //            camera.position.y = 270;
@@ -2721,7 +2735,7 @@ public class Master implements Screen {
         GameState.danso++;
     }
     private void createCar() {
-        if(gio1phan60%180 == 0){
+        if(gio1phan60%180 == 0 && WLK == 'K'){
             Car car = new Car(0,0,stage);//dat x,y cho hop ly vi Car extends MyActor chu vao trong car no dat lai
             cars.add(car);
         }

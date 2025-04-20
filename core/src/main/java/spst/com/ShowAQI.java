@@ -45,7 +45,7 @@ public class ShowAQI extends MyActor {
         if(Master.AQI<250){
             isCanhBao = false;
         }
-       bui.setColor(bui.getColor().r,bui.getColor().g,bui.getColor().b,1/300f*0.5f*Master.AQI);
+        bui.setColor(bui.getColor().r,bui.getColor().g,bui.getColor().b,1/300f*0.5f*Master.AQI);
         if(GameState.ernegy==0&&!isHNL){
             hetnangluong.play();
             new FloatingNews(0,0,Master.noMoveStage,"Hết năng lượng",Color.RED);

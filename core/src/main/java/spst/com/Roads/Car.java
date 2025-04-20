@@ -124,8 +124,7 @@ public class Car extends MyActor {
                         }
                     }
                     if(actor instanceof BuyRoadReNgoai){
-                        if(khaNangRe==1){}
-                        if(true){
+                        if(khaNangRe==1){
                             isRe = true;
                             if(actor.getRotation()==90){
                                 if(speedX == -2 && speedY == 0){
@@ -182,8 +181,7 @@ public class Car extends MyActor {
                         }
                     }
                     if(actor instanceof BuyRoadRe){
-                        //if (khaNangRe == 2){
-                        if (true){
+                        if (khaNangRe == 2){
                             switch (((BuyRoadRe) actor).type){
                                 case Trai -> {
                                     switch (((BuyRoadRe) actor).direc){

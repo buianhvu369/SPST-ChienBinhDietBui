@@ -123,7 +123,6 @@ public class People extends MyActor {
                                 if(canPut){
                                     findTarget = true;
                                     Master.trees.removeValue(treeTarget, true);
-                                    System.out.println("Chat cay thoi anh em!" + Master.trees.size);
                                     mouseX = treeTarget.getX() + 32;
                                     mouseY = treeTarget.getY();
                                     isMoving = true;
@@ -213,7 +212,6 @@ public class People extends MyActor {
                 if (isFiringSign) {
                     if (!Master.signs.isEmpty()) {
                         signTarget = Master.signs .removeIndex(random(0, Master.signs.size - 1));
-                        System.out.println("Chong pha chinh quyen thoi anh em!" + Master.signs.size);
                         mouseX = signTarget.getX() + 32;
                         mouseY = signTarget.getY();
                         isMoving = true;

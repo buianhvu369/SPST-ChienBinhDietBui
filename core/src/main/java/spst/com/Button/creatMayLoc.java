@@ -10,7 +10,7 @@ import spst.com.Screen.Master;
 
 public class creatMayLoc extends MyActor {
     public boolean isSong = false;
-    Texture texture = new Texture("noMLKK.png");
+    public Texture texture = new Texture("noMLKK.png");
     Texture texture1 = new Texture("yesMLKK.png");
     public creatMayLoc(float x, float y, Stage s) {
         super(x, y, s);

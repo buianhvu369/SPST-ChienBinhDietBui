@@ -1215,6 +1215,9 @@ public class Master implements Screen {
                     }
                     if(isFree){
                         Master.nhapTenMLKK();
+                    }else{
+                        whatActionIfClickMouse = "move";
+                        taoMayLockk.textureRegion = new TextureRegion(taoMayLockk.texture);
                     }
                 }else{
                     Master.whatActionIfClickMouse = "move";

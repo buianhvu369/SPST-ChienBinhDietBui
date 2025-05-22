@@ -75,7 +75,6 @@ public class Utils {
         );
         List<Double> aqiList = calculateAQIList(observedData, breakpointsData, indexValues);
        // if(aqiList != null && Collections.max(aqiList) != null) {
-        System.out.println("gio thu  " + Master.timeOfDay);
         Master.AQI = Collections.max(aqiList).floatValue();
         GameState.AQIPM2_5 = aqiList.get(0).floatValue();
         GameState.AQIPM10 = aqiList.get(1).floatValue();
@@ -84,8 +83,6 @@ public class Utils {
         GameState.AQICO1 = aqiList.get(4).floatValue();
         GameState.AQIO3 = aqiList.get(5).floatValue();
 
-        System.out.println("Danh sách AQI: " + aqiList);
-        System.out.printf("Chỉ số AQI tổng: %.2f%n", Master.AQI);
         }catch (Exception ignored){}
 
     }

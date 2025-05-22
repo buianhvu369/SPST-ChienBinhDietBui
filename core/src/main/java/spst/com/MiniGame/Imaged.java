@@ -10,7 +10,7 @@ public class Imaged extends MyActor {
     Texture texture = new Texture("camera1.png");
     Texture texture1 = new Texture("sign.png");
     Texture texture2 = new Texture("green.png");
-    Texture texture3 = new Texture("energy.jpg");
+    Texture texture3 = new Texture("energy.png");
     public Imaged(float x, float y, Stage s, int image) {
         super(x, y, s);
         if (image == 1) {

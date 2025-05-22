@@ -36,20 +36,6 @@ public class People5 extends People {
         animationDown.setPlayMode(Animation.PlayMode.LOOP);
         time = 0;
         textureRegion = animationRight.getKeyFrame(time);
-
-        addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
-                if(isCutting||isFiringWaste||isFiringSign){
-                    GameState.money += 150 ;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
-                    Master.collect.play();
-                }else {
-                    GameState.money -= 50;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
-                }
-            }
-        });
-
     }
 
     @Override

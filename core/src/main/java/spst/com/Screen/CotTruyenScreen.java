@@ -81,6 +81,7 @@ public class CotTruyenScreen implements Screen  {
         layout.width = 300;
         layout.height = 40;
         nen.isLooping();
+        nen.setVolume(0.1f);
         nen.play();
         man = new Player(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, stage);
         man.animationRight.setFrameDuration(0.2f);

@@ -76,37 +76,42 @@ public class People extends MyActor {
             timeDirection++;
             if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous) {
                 randomAction = MathUtils.random(0,20 );
-                if (randomAction < 13) {
+                if (randomAction < 40) {
                     isJogging = true;
                     isDoTrash = false;
                     isCutting = false;
                     isFiringWaste = false;
                     isFiringSign = false;
-                }else if (randomAction == 13 || randomAction == 14) {
+                }else if (randomAction < 70) {
                     isDoTrash = true;
                     isCutting = false;
                     isFiringWaste = false;
                     isFiringSign = false;
                     isJogging = false;
-                } else if (randomAction == 15 || randomAction == 16) {
+                } else if (randomAction < 80) {
                     isCutting = true;
                     isFiringWaste = false;
                     isJogging = false;
                     isFiringSign = false;
                     isDoTrash = false;
-                } else if (randomAction == 17 || randomAction == 18) {
+                } else if (randomAction < 95) {
                     isFiringWaste = true;
                     isCutting = false;
                     isJogging = false;
                     isFiringSign = false;
                     isDoTrash = false;
-                } else if (randomAction == 19 || randomAction == 20) {
+                } else if (randomAction < 100) {
                     isFiringSign = true;
                     isFiringWaste = false;
                     isCutting = false;
                     isJogging = false;
                     isDoTrash = false;
                 }
+                isFiringWaste = true;
+                isCutting = false;
+                isJogging = false;
+                isFiringSign = false;
+                isDoTrash = false;
                 if (isCutting) {
                     if (!Master.trees.isEmpty()) {
                         boolean findTarget = false;
@@ -147,8 +152,8 @@ public class People extends MyActor {
                     }
                 }
                 if (isJogging) {
-                    mouseX = MathUtils.random(100, 2200);
-                    mouseY = MathUtils.random(20, 780);
+                    mouseX = MathUtils.random(1, 75)*32;
+                    mouseY = MathUtils.random(1, 25)*32;
                     isMoving = true;
                     if(getX() >= 40*32 && getX()>mouseX){
                         isCrossBridge = true;
@@ -170,8 +175,8 @@ public class People extends MyActor {
                     boolean vitriDot = true;
                     boolean canFind = false;
                     for (int i = 0; i < 5; i++) {
-                        mouseX = MathUtils.random(100, 2200);
-                        mouseY = MathUtils.random(20, 780);
+                        mouseX = MathUtils.random(1, 75)*32;
+                        mouseY = MathUtils.random(1, 25)*32;
                         for (Rectangle rectangle1 : Master.noDotRac) {
                             if (rectangle1.contains(mouseX, mouseY)) {
                                 vitriDot = false;
@@ -205,7 +210,7 @@ public class People extends MyActor {
                         isFiringWaste = false;
                         isJogging = true;
                         mouseX = MathUtils.random(100, 2200);
-                        mouseY = MathUtils.random(20, 780);
+                        mouseY = MathUtils.random(20, 760);
                     }
 
                 }
@@ -233,10 +238,10 @@ public class People extends MyActor {
                     }
                 }
                 if(isDoTrash){
-                    mouseX = MathUtils.random(0, 8*32);
-                    mouseY = MathUtils.random(0, 11*32);
-                    rectangle2.setSize(30, 26);
-                    rectangle2.setPosition(mouseX - 4, mouseY - 4);
+                    mouseX = MathUtils.random(1, 75)*32;
+                    mouseY = MathUtils.random(1, 25)*32;
+                    rectangle2.setSize(32, 32);
+                    rectangle2.setPosition(mouseX, mouseY);
                     isMoving = true;
                     if(getX() >= 40*32 && getX()>mouseX){
                         isCrossBridge = true;
@@ -334,7 +339,7 @@ public class People extends MyActor {
             }
 
             if (rectangle2.contains(getX(), getY())) {
-                Waste waste = new Waste(getX() - 32, getY(), getStage());
+                Waste waste = new Waste(getX() - 32, getY(), getStage(),'0');
                 rectangle2.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
             }
 
@@ -508,6 +513,18 @@ public class People extends MyActor {
                     })
                 ));
             }
+        }
+        if(getBound().overlaps(Master.trashTruck.getBound())){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    remove();
+                })
+            ));
         }
         if(isBep){
             setSize(32, 8);

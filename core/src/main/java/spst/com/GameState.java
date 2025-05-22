@@ -18,7 +18,7 @@ import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
 
 public class GameState{
-    public static int money = 500000;
+    public static int money = 50000000;
     public static int ernegy=200;
     public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";
@@ -47,6 +47,10 @@ public class GameState{
     public static int soVongCungNgoai = 0;
     public static int soBlankRoad = 0;
     public static int soCanhRoad = 0;
+    public static int soRacHuuCo = 0;
+    public static int soRacVoCo = 0;
+    public static int soRacTaiChe = 0;
+    public static int soRacNguyHai = 0;
     public static String nenMua = "";
     public static void saveGame() {
         SaveGame saveGame = new SaveGame(true);
@@ -97,6 +101,11 @@ public class GameState{
             soRoad = saveGame.soRoad;
             soReRoad = saveGame.soReRoad;
             soViaHe = saveGame.soViaHe;
+
+            soRacHuuCo = saveGame.soRacHuuCo;
+            soRacVoCo = saveGame.soRacVoCo;
+            soRacTaiChe = saveGame.soRacTaiChe;
+            soRacNguyHai = saveGame.soRacNguyHai;
 
             for(CarMP b : saveGame.carArray){
                 Car a = new Car(b.x,b.y,Master.stage);
@@ -155,7 +164,7 @@ public class GameState{
     public static void reset(){
         money = 5000;
         ernegy=200;
-        greenscore=200;
+        greenscore=50;
         danso = 100000;
         PM2_5 = 200;
         PM10 = 200;
@@ -192,6 +201,11 @@ public class GameState{
         soVongCungNgoai = 0;
         soBlankRoad = 0;
         soCanhRoad = 0;
+
+        soRacHuuCo=0;
+        soRacVoCo=0;
+        soRacTaiChe=0;
+        soRacNguyHai=0;
 
         Master.WLK = 'K';
         Master.replay.remove();

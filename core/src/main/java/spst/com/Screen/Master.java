@@ -132,6 +132,7 @@ public class Master implements Screen {
     PlayTurtleMap playTurtleMap;
     ArrowNoMoveStage arrowNoMove;
     DailyQuest dailyQuest;
+    public static boolean isSoiCam ;
 
     Bia bia;
     Pho pho;
@@ -494,6 +495,7 @@ public class Master implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if(nhiemvu2 == 2){
                     nhiemvu2 = 77;
+                    GameState.money += 200;
                 }
                 isInTurtleMap = false;
                 int random = MathUtils.random(1,5);
@@ -969,6 +971,7 @@ public class Master implements Screen {
                         MLKKs.get(sohieucuaMLKKdangchondenangcap).level++;
                         if(nhiemvu2 == 3){
                             nhiemvu2 = 77;
+                            GameState.money += 200;
                         }
                         GameState.money -= 1000;
                         GameState.ernegy -= 5;
@@ -998,6 +1001,10 @@ public class Master implements Screen {
                     GameState.money -= 1000;
                     GameState.ernegy -= 50;
                     GameState.greenscore -= 20;
+                    if(nhiemvu2 == 4){
+                        nhiemvu2 = 77;
+                        GameState.money += 200;
+                    }
                 }
             }
         });
@@ -1043,6 +1050,7 @@ public class Master implements Screen {
                         NormalCamera currentCamera = normalCameras.get(soCuaCameraDangLooking);
                         OrthographicCamera camera = (OrthographicCamera) stage.getViewport().getCamera();
                         if(camera.zoom == 1f) {
+                            isSoiCam = true;
                             camera.zoom = 0.3f;
                             if (currentCamera.getX() <= Gdx.graphics.getWidth() / 2f) {
                                 stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;
@@ -1056,6 +1064,7 @@ public class Master implements Screen {
                             }
                         } else {
                             camera.zoom = 1f;
+                            isSoiCam = false;
                         }
 
                     }catch (Exception ignored){}
@@ -1301,6 +1310,7 @@ public class Master implements Screen {
                        if(soCayConLai ==0){
                            if(nhiemvu2 == 1){
                                nhiemvu2 = 77;
+                               GameState.money += 200;
                            }
                        }
                    }
@@ -1340,6 +1350,10 @@ public class Master implements Screen {
                     if(isFree){
                         Master.soBienCam--;
                         new Sign(mouseStage.x-16,mouseStage.y,random.nextBoolean(),stage);
+                        if(nhiemvu2 == 5){
+                            nhiemvu2 = 77;
+                            GameState.money += 200;
+                        }
                     }
                 }
             }else if(Master.whatActionIfClickMouse.equals("DatSan") && creatVLLD.soVL >0){
@@ -1423,6 +1437,10 @@ public class Master implements Screen {
                         roadArray.removeValue(myActor.getBound(),true);
                         reArray.removeValue(myActor,true);
                         myActor.remove();
+                        if(nhiemvu3== 2){
+                            nhiemvu3= 77;
+                            GameState.money += 200;
+                        }
                     }catch (Exception ignored){
                     }
                     MDirt.setPosition(-32456,-3456889);
@@ -1459,6 +1477,12 @@ public class Master implements Screen {
                 normalCamera.name = inputText;
                 whatActionIfClickMouse = "move";
                 taoCamera.isSong = true;
+                if(nhiemvu3 == 1){
+                    if(normalCamera.name.length() >= 20){
+                        nhiemvu3 = 77;
+                        GameState.money += 200;
+                    }
+                }
             }
         }
 
@@ -3165,7 +3189,10 @@ public class Master implements Screen {
         }
         int ran1 = MathUtils.random(1,6);
         switch (ran1){
-            case 1-> nhiemvu2 = 1;
+            case 1-> {
+                nhiemvu2 = 1;
+                soCayConLai = 5;
+            }
             case 2-> nhiemvu2 = 2;
             case 3-> nhiemvu2 = 3;
             case 4-> nhiemvu2 = 4;
@@ -3174,10 +3201,7 @@ public class Master implements Screen {
         }
         int ran2 = MathUtils.random(1,6);
         switch (ran2){
-            case 1-> {
-                nhiemvu3 = 1;
-                soCayConLai = 5;
-            }
+            case 1-> nhiemvu3 = 1;
             case 2-> nhiemvu3 = 2;
             case 3-> nhiemvu3 = 3;
             case 4-> nhiemvu3 = 4;

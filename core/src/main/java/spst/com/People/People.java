@@ -80,6 +80,14 @@ public class People extends MyActor {
                     }else{
                         if(Master.nhiemvu1 == 1 || Master.nhiemvu1 == 4){
                             Master.nhiemvu1 = 77;
+                            GameState.money += 200;
+
+                        }
+                    }
+                    if(Master.isSoiCam){
+                        if(Master.nhiemvu2 == 6){
+                            Master.nhiemvu2 = 77;
+                            GameState.money += 200;
                         }
                     }
                 }  if(isFiringWaste){
@@ -91,6 +99,13 @@ public class People extends MyActor {
                     }else{
                         if(Master.nhiemvu1 == 2 || Master.nhiemvu1 == 5){
                             Master.nhiemvu1 = 77;
+                            GameState.money += 200;
+                        }
+                    }
+                    if(Master.isSoiCam){
+                        if(Master.nhiemvu2 == 6){
+                            Master.nhiemvu2 = 77;
+                            GameState.money += 200;
                         }
                     }
                 }
@@ -103,6 +118,13 @@ public class People extends MyActor {
                     }else{
                         if(Master.nhiemvu1 == 3 || Master.nhiemvu1 == 6){
                             Master.nhiemvu1 = 77;
+                            GameState.money += 200;
+                        }
+                    }
+                    if(Master.isSoiCam){
+                        if(Master.nhiemvu2 == 6){
+                            Master.nhiemvu2 = 77;
+                            GameState.money += 200;
                         }
                     }
                 }

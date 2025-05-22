@@ -25,6 +25,10 @@ public class Kem extends MyActor {
                     GameState.NO2 += 10;
                     Restaurant.isCreateFood = true;
                     m.closeMenuFood();
+                    if(Master.nhiemvu3 == 6){
+                        Master.nhiemvu3 = 77;
+                        GameState.money += 200;
+                    }
 
             }
         });

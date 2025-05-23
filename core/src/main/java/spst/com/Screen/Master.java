@@ -74,7 +74,6 @@ public class Master implements Screen {
     public static Stage noMoveStage;
     private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
-    boolean isDaThang = false;
     boolean thongTinMode = false;
 
     RedFlag redFlag;
@@ -209,8 +208,6 @@ public class Master implements Screen {
     public static boolean isGTX = false;
     public static int soCamera = 0;
     public static boolean isEating = false;
-    int soMayLocBought = 0;
-    int soMLtoidacothemua = 2;
     Imaged image;
     Imaged image2;
     Imaged image3;
@@ -289,6 +286,7 @@ public class Master implements Screen {
     public static boolean thongTinFac = false;
     public static boolean thongTinHotel = false;
     public static boolean thongTinRestaurant = false;
+    public static boolean thongTinTrashCenter = false;
     public static boolean thongTinThapRua = false;
     public static boolean thongTinThanhDoi = false;
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
@@ -319,11 +317,11 @@ public class Master implements Screen {
         button1C = new Button1C(100000,100000,noMoveStage);
         button1C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>= 2000&&GameState.ernegy>=20&& soMayLocBought <= (soMLtoidacothemua-1)) {
+                if(GameState.money>= 2000&&GameState.ernegy>=20&& GameState.soMayLocBought <= (GameState.soMLtoidacothemua-1)) {
                     Master.soMayLoc++;
                     GameState.money-=500;
                     GameState.ernegy-=20;
-                    soMayLocBought++;
+                    GameState.soMayLocBought++;
                 }
 
             }
@@ -652,10 +650,15 @@ public class Master implements Screen {
         giaiThichNguyHai.setSize(64,64);
         wastes.removeValue(giaiThichNguyHai,true);
         luaChon1NhaRac = new WhiteButton(-345634,-66652,noMoveStage);
+        luaChon1NhaRac.setWidth(32*15);
         luaChon2NhaRac = new WhiteButton(-345634,-66652,noMoveStage);
+        luaChon2NhaRac.setWidth(32*16);
         luaChon3NhaRac = new WhiteButton(-345634,-66652,noMoveStage);
+        luaChon3NhaRac.setWidth(32*22);
         luaChon4NhaRac = new WhiteButton(-345634,-66652,noMoveStage);
+        luaChon4NhaRac.setWidth(32*12);
         luaChon5NhaRac = new WhiteButton(-345634,-66652,noMoveStage);
+        luaChon5NhaRac.setWidth(32*28);
         bangFactory = new Bang(-10000,-100,noMoveStage);
         turtleBang = new Bang(-10000,100,noMoveStage);
         turtleBang.setColor(0,0,0,0.8f);
@@ -796,6 +799,11 @@ public class Master implements Screen {
                             thongTinSaiUn = true;
                         } else {
                             thongTinSaiUn = false;
+                        }
+                        if (actor instanceof TrashCenter) {
+                            thongTinTrashCenter = true;
+                        } else {
+                            thongTinTrashCenter = false;
                         }
                         if (actor instanceof Restaurant) {
                             thongTinRestaurant = true;
@@ -1005,7 +1013,7 @@ public class Master implements Screen {
                 if(GameState.soRacTaiChe>=12 && GameState.soRacVoCo>=20){
                     GameState.soRacTaiChe-=12;
                     GameState.soRacVoCo-=20;
-                    soMLtoidacothemua++;
+                    GameState.soMLtoidacothemua++;
                 }else {
                     new FloatingNews(luaChon5NhaRac.getX(),luaChon5NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
                 }
@@ -1854,7 +1862,7 @@ public class Master implements Screen {
             if(thongTinFac){
                 chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
                 chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
-                chu1.text = "Nhà máy Nhiệt điện Hà Nội";
+                chu1.text = "Nhà máy đa ngành nhất Hà Nội";
                 chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
             }else if(thongTinHotel){
                 chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
@@ -1862,6 +1870,9 @@ public class Master implements Screen {
             }else if(thongTinSaiUn){
                 chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
                 chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
+            }else if(thongTinTrashCenter){
+                chu1.setPosition(trashCenter.getX()+trashCenter.getWidth(), trashCenter.getY()+trashCenter.getHeight()/2f+12.5f);
+                chu1.text = "Trung tâm xử lý rác thải";
             }else if(thongTinRestaurant){
                 chu1.setPosition(restaurant.getX()+restaurant.getWidth(), restaurant.getY()+restaurant.getHeight()/2f+12.5f);
                 chu1.text = "Nhà hàng view hồ Gươm San Dining";
@@ -1911,6 +1922,11 @@ public class Master implements Screen {
             game.font3.draw(batch, "Rác vô cơ: " + GameState.soRacVoCo,32*22, Gdx.graphics.getHeight()-32*1-(25+8));
             game.font3.draw(batch, "Rác tái chế: " + GameState.soRacTaiChe,32*4, 32*2);
             game.font3.draw(batch, "Rác nguy hại: " + GameState.soRacNguyHai,32*22, 32*2);
+            game.font3.draw(batch, "Đổi 10 túi rác hữu cơ lấy 10 điểm xanh",luaChon1NhaRac.getX()+32,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Đổi 2 túi rác nguy hại lấy 5000 năng lượng",luaChon2NhaRac.getX()+32,Gdx.graphics.getHeight()-32*7-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Đổi 2 túi rác nguy hại và 1 túi rác tái chế lấy 3 level CNX",luaChon3NhaRac.getX()+32,Gdx.graphics.getHeight()-32*9-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Đổi 10 túi rác tái chế lấy 2500$",luaChon4NhaRac.getX()+16,Gdx.graphics.getHeight()-32*11-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Đổi 12 túi rác tái chế và 20 túi rác vô cơ để mở khóa thêm 1 chiếc máy lọc",luaChon5NhaRac.getX()+32,Gdx.graphics.getHeight()-32*13-8+25+(64-25)/2f);
         }
         if(hienThongTin){
             game.font3.draw(batch, "AQI của SO2: " + Math.round(GameState.AQISO2),32*2, Gdx.graphics.getHeight()-32*4-(25+8*2));
@@ -2204,11 +2220,11 @@ public class Master implements Screen {
             giaiThichVoCo.setPosition(32*20,Gdx.graphics.getHeight()-32*3);//////////////////
             giaiThichTaiChe.setPosition(32*2,32*1);
             giaiThichNguyHai.setPosition(32*20,32*1);
-            luaChon1NhaRac.setPosition(32*3,Gdx.graphics.getHeight()-32*5-8);
-            luaChon2NhaRac.setPosition(32*3,Gdx.graphics.getHeight()-32*7-8);
-            luaChon3NhaRac.setPosition(32*3,Gdx.graphics.getHeight()-32*9-8);
-            luaChon4NhaRac.setPosition(32*3,Gdx.graphics.getHeight()-32*11-8);
-            luaChon5NhaRac.setPosition(32*3,Gdx.graphics.getHeight()-32*13-8);
+            luaChon1NhaRac.setPosition((32+32*28/2f)-luaChon1NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*5-8);
+            luaChon2NhaRac.setPosition((32+32*28/2f)-luaChon2NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*7-8);
+            luaChon3NhaRac.setPosition((32+32*28/2f)-luaChon3NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*9-8);
+            luaChon4NhaRac.setPosition((32+32*28/2f)-luaChon4NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*11-8);
+            luaChon5NhaRac.setPosition((32+32*28/2f)-luaChon5NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*13-8);
             hienBangTrash = true;
             line.setHeight(4);
             line.setY(line.getY()+32*2);
@@ -2235,9 +2251,9 @@ public class Master implements Screen {
 
             line.setHeight(4);
             line2.setHeight(4);
-            xayDungButton.setPosition(32*2+192*0-16,Gdx.graphics.getHeight()-32*2-64);
-            congCuButton.setPosition(32*3+192*1-16,Gdx.graphics.getHeight()-32*2-64);
-            xeCoButton.setPosition(32*4+192*2-16,Gdx.graphics.getHeight()-32*2-64);
+            xayDungButton.setPosition(32*5+192*0-16,Gdx.graphics.getHeight()-32*2-64);
+            congCuButton.setPosition(32*6+192*1-16,Gdx.graphics.getHeight()-32*2-64);
+            xeCoButton.setPosition(32*7+192*2-16,Gdx.graphics.getHeight()-32*2-64);
             hienBangFactory = true;
             hienChiSo = true;
 
@@ -2589,7 +2605,7 @@ public class Master implements Screen {
         if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){
             WLK = 'W';}
         if(WLK == 'W'){
-            if(!isDaThang){
+            if(!GameState.isDaThang){
                 stage.addActor(one);
                 stage.addActor(redFlag);
                 for(int i = 0;i<9*32*60;i++){
@@ -2597,7 +2613,7 @@ public class Master implements Screen {
                         new ChaoMungPeople(-i-32,800/2f-48,stage);
                     }
                 }
-                isDaThang = true;
+                GameState.isDaThang = true;
             }
             redFlag.setPosition(one.getX()-redFlag.getWidth()+one.getWidth(),one.getY()+one.getHeight());
             showAQI.canhbao.stop();

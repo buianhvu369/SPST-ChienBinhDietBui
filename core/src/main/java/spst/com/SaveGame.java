@@ -40,6 +40,8 @@ public class SaveGame{
     public int soRacVoCo = 0;
     public int soRacTaiChe = 0;
     public int soRacNguyHai = 0;
+    public int soMLtoidacothemua = 2;
+    public int soMayLocBought = 0;
     public int soDat;
     public int soViaHe;
     public int soRoad;

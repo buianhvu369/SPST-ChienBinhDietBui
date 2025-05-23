@@ -51,6 +51,9 @@ public class GameState{
     public static int soRacVoCo = 0;
     public static int soRacTaiChe = 0;
     public static int soRacNguyHai = 0;
+    public static int soMLtoidacothemua = 2;
+    public static int soMayLocBought = 0;
+    public static boolean isDaThang = false;
     public static String nenMua = "";
     public static void saveGame() {
         SaveGame saveGame = new SaveGame(true);

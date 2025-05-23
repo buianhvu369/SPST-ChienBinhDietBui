@@ -1,10 +1,15 @@
 package spst.com.People;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import spst.com.FloatingNews;
+import spst.com.GameState;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class ChaoMungPeople extends MyActor {
@@ -17,6 +22,7 @@ public class ChaoMungPeople extends MyActor {
     Animation<TextureRegion> animationUp;
     Animation<TextureRegion> animationDown;
     float time;
+    boolean isBep=false;
     public ChaoMungPeople(float x, float y, Stage s) {
         super(x, y, s);
         int i = MathUtils.random.nextInt(1,6);
@@ -71,5 +77,19 @@ public class ChaoMungPeople extends MyActor {
         moveBy(1,0);
         time+=delta;
         textureRegion = animationRight.getKeyFrame(time);
+        if(getBound().overlaps(Master.trashTruck.getBound())){
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm", Color.RED).toFront();
+                    remove();
+                })
+            ));
+        }
+        if(isBep){
+            setSize(32, 8);
+        }
     }
 }

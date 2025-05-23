@@ -138,6 +138,7 @@ public class Master implements Screen {
     WhiteButton luaChon5NhaRac;
     Bang turtleBang;
     Bang bangDaily;
+    Bang bangSoTay;
     Cross turtleCross;
     Cross bangFactoryCross;
     public static Bang menuFood;
@@ -145,6 +146,7 @@ public class Master implements Screen {
     Cross bangTrashCross;
     Cross menuFoodCross;
     Cross dailyCross;
+    Cross soTayCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     MordernDoor factoryDoor;
@@ -156,6 +158,8 @@ public class Master implements Screen {
     ArrowNoMoveStage arrowNoMove;
     DailyQuest dailyQuest;
     public static boolean isSoiCam ;
+    boolean openSoTay = false;
+    SoTay soTay;
 
     Bia bia;
     Pho pho;
@@ -247,6 +251,12 @@ public class Master implements Screen {
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
+    DoVui doVui;
+    Green green;
+    Shock shock;
+    public int soCauDoVui = 10;
+    public int soCauDoGreen = 5;
+    public int soCauDoShock = 8;
 
     creatCamera taoCamera;
     creatSign taoSign;
@@ -453,6 +463,7 @@ public class Master implements Screen {
         image3 = new Imaged(32*20, Gdx.graphics.getHeight() - 32*7-125,noMoveStage,1);
         image4 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*4-50,noMoveStage,4);
         image5 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*5-75,noMoveStage,5);
+        soTay = new SoTay( 300,Gdx.graphics.getHeight()-70,noMoveStage );
 
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
@@ -571,6 +582,9 @@ public class Master implements Screen {
         buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-400-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-400+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
         buyShovel = new Shovel(32*5,Gdx.graphics.getHeight()-32*8,noMoveStage);
+        doVui = new DoVui(32*12,32*2,noMoveStage);
+        green = new Green(32*5, 32*2, noMoveStage);
+        shock = new Shock(32*19 , 32*2,noMoveStage);
         buyShovel.remove();
         shovel = new Shovel(0,0,noMoveStage);
         shovel.setTouchable(Touchable.disabled);
@@ -667,9 +681,9 @@ public class Master implements Screen {
         MCanhRoad.setColor(MCanhRoad.getColor().r,MCanhRoad.getColor().g,MCanhRoad.getColor().b,0.6f);
         MRoadRe.setColor(MRoadRe.getColor().r,MRoadRe.getColor().g,MRoadRe.getColor().b,0.6f);
         MRoadReNgoai.setColor(MRoadReNgoai.getColor().r,MRoadReNgoai.getColor().g,MRoadReNgoai.getColor().b,0.6f);
-
         bangScience = new Bang(-10000,-100,noMoveStage);
         bangTrash = new Bang(-10000,-100,noMoveStage);
+
         giaiThichHuuCo = new Waste(-10000,-100,noMoveStage,'o');
         giaiThichHuuCo.setSize(64,64);
         wastes.removeValue(giaiThichHuuCo,true);
@@ -695,6 +709,7 @@ public class Master implements Screen {
         bangFactory = new Bang(-10000,-100,noMoveStage);
         turtleBang = new Bang(-10000,100,noMoveStage);
         bangDaily = new Bang(10000,10000, noMoveStage);
+        bangSoTay = new Bang(10000,10000,noMoveStage);
         bangFactory = new Bang(-10000,-10000,noMoveStage);
         turtleBang = new Bang(-10000,10000,noMoveStage);
         turtleBang.setColor(0,0,0,0.8f);
@@ -704,6 +719,7 @@ public class Master implements Screen {
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
         menuFoodCross = new Cross(-10000,-100,noMoveStage);
         dailyCross = new Cross(-10000,-100,noMoveStage);
+        soTayCross = new Cross(-100000,100,noMoveStage);
         dailyQuest = new DailyQuest(475,Gdx.graphics.getHeight()-70,noMoveStage);
         bia = new Bia(10000,10000,noMoveStage,this);
         iceCream = new Kem(10000,10000,noMoveStage,this);
@@ -959,6 +975,16 @@ public class Master implements Screen {
                 openDailyQuest = false;
             }
         });
+        soTayCross.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                openSoTay = false;
+                bangSoTay.setPosition(32000,32000);
+                soTayCross.setPosition(20000, 10000);
+            }
+        });
+
         xayDungButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 moXayDung();
@@ -1015,6 +1041,16 @@ public class Master implements Screen {
         buyRoadRe.direc = 'u';
         buyRoadReNgoai.setRotation(90);
         buyCanhRoad.setRotation(90);
+        soTay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                openSoTay = true;
+                bangSoTay.setPosition(32,32);
+                soTayCross.setPosition(Gdx.graphics.getWidth()-32*2, Gdx.graphics.getHeight()-32*2);
+                soTayCross.toFront();
+            }
+        });
         luaChon1NhaRac.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.soRacHuuCo>=10){
@@ -1178,6 +1214,7 @@ public class Master implements Screen {
 
             }
         });
+
 
 
         menuFoodCross.addListener(new ClickListener() {
@@ -1398,6 +1435,18 @@ public class Master implements Screen {
             image4.setPosition(32*2200 , Gdx.graphics.getHeight()-32*4-50-20);
             image5.setPosition(32*2200 , Gdx.graphics.getHeight()-32*5-75-20);
 
+        }
+        if(openSoTay){
+            doVui .setPosition(32*12,32*2);
+            green.setPosition(32*5, 32*2);
+            shock.setPosition(32*19 , 32*2);
+            doVui.toFront();
+            green.toFront();
+            shock.toFront();
+        }else{
+            doVui.setPosition(10000,10000);
+            green.setPosition(10000,10000);
+            shock.setPosition(10000,10000);
         }
 
         tanggiamdanso();
@@ -2164,6 +2213,12 @@ public class Master implements Screen {
             }if(nhiemvu3 == 77){
                 game.font3.draw(batch, "Nhiệm vụ đã được hoàn thành", 32*5 , Gdx.graphics.getHeight()-32 *10);
             }
+
+        }
+        if(openSoTay){
+            game.font3.draw(batch, soCauDoGreen + " thẻ xanh cơ bản", 32*3 , 32+20);
+            game.font3.draw(batch, soCauDoVui + " thẻ mini quiz", 32*12 , 32+20);
+            game.font3.draw(batch, soCauDoShock + " thẻ sự thật sốc", 32*20 , 32+20);
         }
         batch.end();
     }

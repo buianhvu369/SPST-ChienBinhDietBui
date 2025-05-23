@@ -32,6 +32,7 @@ import spst.com.Button.ButtonRight;
 import spst.com.Button.InItemsButton.CamChoi;
 import spst.com.Button.InItemsButton.CamXeng;
 import spst.com.Button.InItemsButton.OpenItems;
+import spst.com.Button.InVehicleButton.LayTaxi;
 import spst.com.Button.InVehicleButton.LayTrashTruck;
 import spst.com.Button.InVehicleButton.OpenVehicles;
 import spst.com.Enums.TypeViaHe;
@@ -44,6 +45,7 @@ import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.House.*;
 import spst.com.InFactory.Items.Broom;
 import spst.com.InFactory.Items.Shovel;
+import spst.com.InFactory.Vehicles.Taxi;
 import spst.com.InFactory.Vehicles.TrashTruck;
 import spst.com.MiniGame.Imaged;
 import spst.com.MiniGame.MiniGame;
@@ -124,6 +126,8 @@ public class Master implements Screen {
     Broom broom;
     TruckButton buyTrashTruck;
     public static TrashTruck trashTruck;
+    TaxiButton buyTaxi;
+    public static Taxi taxi;
     Bang bangFactory;
     Bang bangScience;
     Bang bangTrash;
@@ -256,6 +260,7 @@ public class Master implements Screen {
     CamChoi choiButton;
     OpenVehicles openVehicles;
     LayTrashTruck trashTruckButton;
+    LayTaxi taxiButton;
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
     SaveNut saveNut;
@@ -323,6 +328,7 @@ public class Master implements Screen {
     public boolean openDailyQuest = false;
     public static boolean isMoVehicles = false;
     public static boolean isCoXeRac = false;
+    public static boolean isCoTaxi = false;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -473,6 +479,7 @@ public class Master implements Screen {
         }
         openVehicles = new OpenVehicles(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70,noMoveStage);
         trashTruckButton = new LayTrashTruck(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45,noMoveStage);
+        taxiButton = new LayTaxi(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*2,noMoveStage);
         {// TỪ DẤU MỞ NGOẶC NHỌN ĐẾN HẾT CHỈ XỬ LÝ ẤN VÀO NÚT VEHICLE VÀ CÁC NÚT BÊN TRONG VEHICLE
             openVehicles.addListener(new ClickListener() {
                 @Override
@@ -494,7 +501,6 @@ public class Master implements Screen {
                             trashTruckButton.setIsSelect(true);
                             trashTruck.setIsUsing(true);
                             trashTruckButton.textureRegion = new TextureRegion(trashTruckButton.texture1);
-                            stage.addActor(trashTruck);
                             trashTruck.toFront();
                             trashTruck.setPosition(player.getX()-32, player.getY());
                             player.speed=5;
@@ -502,7 +508,26 @@ public class Master implements Screen {
                             trashTruckButton.setIsSelect(false);
                             trashTruck.setIsUsing(false);
                             trashTruckButton.textureRegion = new TextureRegion(trashTruckButton.texture);
-                            trashTruck.remove();
+                            player.speed=2;
+                        }
+                    }
+                }
+            });
+            taxiButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(Master.isCoTaxi){
+                        if(!taxiButton.getIsSelect()) {
+                            taxiButton.setIsSelect(true);
+                            taxi.setIsUsing(true);
+                            taxiButton.textureRegion = new TextureRegion(taxiButton.texture1);
+                            taxi.toFront();
+                            taxi.setPosition(player.getX()-32, player.getY());
+                            player.speed=8;
+                        }else{
+                            taxiButton.setIsSelect(false);
+                            taxi.setIsUsing(false);
+                            taxiButton.textureRegion = new TextureRegion(taxiButton.texture);
                             player.speed=2;
                         }
                     }
@@ -581,8 +606,9 @@ public class Master implements Screen {
         broom.setTouchable(Touchable.disabled);
         broom.remove();
         buyTrashTruck = new TruckButton(-345436,-24234,noMoveStage);
-        trashTruck = new TrashTruck(31*28, 32*21, stage);
-        trashTruck.remove();
+        trashTruck = new TrashTruck(-254242, -56732, stage);
+        buyTaxi = new TaxiButton(-345436,-24234,noMoveStage);
+        taxi = new Taxi(-254242, -56732, stage);
 
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
         redFlag = new RedFlag(0,0,stage);
@@ -946,7 +972,7 @@ public class Master implements Screen {
         });
         trashDoor.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                showBangTrash(32,32);
+                game.setScreen(game.trashScreen);
             }
         });
         factoryDoor.addListener(new ClickListener() {
@@ -1015,59 +1041,6 @@ public class Master implements Screen {
         buyRoadRe.direc = 'u';
         buyRoadReNgoai.setRotation(90);
         buyCanhRoad.setRotation(90);
-        luaChon1NhaRac.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.soRacHuuCo>=10){
-                    GameState.greenscore+=10;
-                    GameState.soRacHuuCo-=10;
-                }else {
-                    new FloatingNews(luaChon1NhaRac.getX(),luaChon1NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
-                }
-            }
-        });
-        luaChon2NhaRac.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.soRacNguyHai>=2){
-                    GameState.ernegy+=5000;
-                    GameState.soRacNguyHai-=2;
-
-                }else {
-                    new FloatingNews(luaChon2NhaRac.getX(),luaChon2NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
-                }
-            }
-        });
-        luaChon3NhaRac.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.soRacNguyHai>=2 && GameState.soRacTaiChe>=1){
-                    GameState.soRacNguyHai-=2;
-                    GameState.soRacTaiChe-=1;
-                    GameState.levelcongnghexanh+=3;
-                }else {
-                    new FloatingNews(luaChon3NhaRac.getX(),luaChon3NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
-                }
-            }
-        });
-        luaChon4NhaRac.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.soRacTaiChe>=10){
-                    GameState.soRacTaiChe-=10;
-                    GameState.money+=2500;
-                }else {
-                    new FloatingNews(luaChon4NhaRac.getX(),luaChon4NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
-                }
-            }
-        });
-        luaChon5NhaRac.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if(GameState.soRacTaiChe>=12 && GameState.soRacVoCo>=20){
-                    GameState.soRacTaiChe-=12;
-                    GameState.soRacVoCo-=20;
-                    GameState.soMLtoidacothemua++;
-                }else {
-                    new FloatingNews(luaChon5NhaRac.getX(),luaChon5NhaRac.getY(),noMoveStage,"Bạn không đủ đồ",Color.YELLOW);
-                }
-            }
-        });
         buyBroom.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(!isCoChoi){
@@ -1105,6 +1078,17 @@ public class Master implements Screen {
                         isCoXeRac = true;
                         GameState.money-=800;
                         buyTrashTruck.setColor(Color.GRAY);
+                    }
+                }
+            }
+        });
+        buyTaxi.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(!isCoTaxi){
+                    if(GameState.money>=400) {
+                        isCoTaxi = true;
+                        GameState.money-=400;
+                        buyTaxi.setColor(Color.GRAY);
                     }
                 }
             }
@@ -2112,6 +2096,7 @@ public class Master implements Screen {
         }
         if(hienXeCo){
             game.font3.draw(batch, ": Xe chở rác giá 800$",buyTrashTruck.getX()+buyTrashTruck.getWidth()/2f+32*2,buyTrashTruck.getY()+25);
+            game.font3.draw(batch, ": Xe tắc xi giá 400$",buyTaxi.getX()+buyTaxi.getWidth()/2f+32*2,buyTaxi.getY()+25);
         }
         if(isInTurtleMap){
             game.font3.draw(batch, "Những phần có thể nhận đuợc sau khi thắng :",32*8,Gdx.graphics.getHeight() -32*2);
@@ -2298,12 +2283,18 @@ public class Master implements Screen {
         //XỬ LÝ VEHICLES
         if(isMoVehicles){
             noMoveStage.addActor(trashTruckButton);
+            noMoveStage.addActor(taxiButton);
         }else {
             trashTruckButton.remove();
+            taxiButton.remove();
         }
         if(trashTruck.getIsUsing()){
             trashTruck.toFront();
             trashTruck.setPosition(player.getX()+16-trashTruck.getWidth()/2f,player.getY()+16-trashTruck.getHeight()/2f);
+        }
+        if(taxi.getIsUsing()){
+            taxi.toFront();
+            taxi.setPosition(player.getX()+16-taxi.getWidth()/2f,player.getY()+16-taxi.getHeight()/2f);
         }
     }
     public static void nhapTenNormalCamera(){
@@ -2501,8 +2492,10 @@ public class Master implements Screen {
         hienXeCo = true;
 
         buyTrashTruck.setPosition(32*5,Gdx.graphics.getHeight()-32*7);
+        buyTaxi.setPosition(32*5,Gdx.graphics.getHeight()-32*8);
 
         buyTrashTruck.toFront();
+        buyTaxi.toFront();
     }
     private void dongXayDung(){
         hienXayDung = false;
@@ -2526,6 +2519,7 @@ public class Master implements Screen {
         hienXeCo = false;
 
         buyTrashTruck.setPosition(-4356,-46232);
+        buyTaxi.setPosition(-4356,-46232);
     }
 
     private void dongThongtin(){

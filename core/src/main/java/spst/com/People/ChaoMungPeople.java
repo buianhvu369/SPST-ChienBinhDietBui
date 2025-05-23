@@ -77,19 +77,5 @@ public class ChaoMungPeople extends MyActor {
         moveBy(1,0);
         time+=delta;
         textureRegion = animationRight.getKeyFrame(time);
-        if(getBound().overlaps(Master.trashTruck.getBound())){
-            isBep = true;
-            addAction(Actions.sequence(
-                Actions.fadeOut(6),
-                Actions.run(()->{
-                    GameState.danso--;
-                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm", Color.RED).toFront();
-                    remove();
-                })
-            ));
-        }
-        if(isBep){
-            setSize(32, 8);
-        }
     }
 }

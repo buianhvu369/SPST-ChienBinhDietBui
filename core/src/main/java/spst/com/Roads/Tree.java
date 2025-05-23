@@ -25,8 +25,8 @@ public class Tree extends MyActor {
             GameState.money--;
         }
         if(GameState.money >= 1) {
-            if (GameState.PM10 >= 0.2f / 60f) {
-                GameState.PM10 -= 0.2f / 60f;
+            if (GameState.PM10 >= 0.5f / 60f) {
+                GameState.PM10 -= 0.5f / 60f;
             }
             if (GameState.CO1 >= 0.15f / 60f) {
                 GameState.CO1 -= 0.15f / 60f;

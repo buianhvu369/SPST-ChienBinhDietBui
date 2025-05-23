@@ -627,6 +627,18 @@ public class People extends MyActor {
                 })
             ));
         }
+        if(getBound().overlaps(Master.taxi.getBound())){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    remove();
+                })
+            ));
+        }
         if(isBep){
             setSize(32, 8);
         }

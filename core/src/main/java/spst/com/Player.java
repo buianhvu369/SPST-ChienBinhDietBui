@@ -135,7 +135,7 @@ public class Player extends MyActor {
             mouseY = getY();
             mouseX = getX();
         }
-        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
+        if(getBound().overlaps(Master.blood.getBound())&&(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32))){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);
             setSize(32, 12);
             if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){

@@ -7,15 +7,13 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import spst.com.Screen.CotTruyenScreen;
-import spst.com.Screen.GuideScreen;
-import spst.com.Screen.Master;
-import spst.com.Screen.MenuScreen;
+import spst.com.Screen.*;
 
 public class StartGame extends Game {
     public GuideScreen guideScreen;
     public MenuScreen menuScreen;
     public CotTruyenScreen cotTruyenScreen;
+    public TrashScreen trashScreen;
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
@@ -25,6 +23,7 @@ public class StartGame extends Game {
     public static BitmapFont font4;
     public static BitmapFont font5;
     public static BitmapFont font6;
+    public static BitmapFont font7;
     public Master master;
     @Override
     public void create() {
@@ -207,9 +206,37 @@ public class StartGame extends Game {
         font6 = fontGenerator6.generateFont(fontParameter6);
         fontGenerator6.dispose();
 
+        FreeTypeFontGenerator fontGenerator7 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter7 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameter7.size = 15;
+        fontParameter7.color = Color.GOLD;
+        fontParameter7.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+            + "0123456789"
+            + "ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨƠƯỲÝ"
+            + "àáâãèéêìíòóôõùúăđĩơưỳý"
+            + "ĂÂÊÔƠƯăâêôơư"
+            + "ẠẢẤẦẨẪẬẮẰẲẴẶ"
+            + "ẸẺẾỀỂỄỆ"
+            + "ỊỈÍÌ"
+            + "ỌỎỐỒỔỖỘỚỜỞỠỢ"
+            + "ỤỦỨỪỬỮỰ"
+            + "ỲỶỸỴ"
+            + "áàảãạăắằẳẵặâấầẩẫậ"
+            + "éèẻẽẹêếềểễệ"
+            + "íìỉĩị"
+            + "óòỏõọôốồổỗộơớờởỡợ"
+            + "úùủũụưứừửữự"
+            + "ýỳỷỹỵ"
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+
+        font7 = fontGenerator7.generateFont(fontParameter7);
+        fontGenerator7.dispose();
+
+
         menuScreen = new MenuScreen(this);
         cotTruyenScreen = new CotTruyenScreen(this);
         this.master = new Master(this);
+        trashScreen = new TrashScreen(this);
         this.guideScreen = new GuideScreen(this);
         setScreen(cotTruyenScreen);
 

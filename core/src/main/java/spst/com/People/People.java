@@ -144,32 +144,32 @@ public class People extends MyActor {
                 time += delta;
                 timeDirection++;
                 if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous) {
-                    randomAction = MathUtils.random(0, 20);
-                    if (randomAction < 13) {
+                    randomAction = MathUtils.random(0, 101);
+                    if (randomAction < 40) {
                         isJogging = true;
                         isDoTrash = false;
                         isCutting = false;
                         isFiringWaste = false;
                         isFiringSign = false;
-                    } else if (randomAction == 13 || randomAction == 14) {
+                    }else if (randomAction < 70) {
                         isDoTrash = true;
                         isCutting = false;
                         isFiringWaste = false;
                         isFiringSign = false;
                         isJogging = false;
-                    } else if (randomAction == 15 || randomAction == 16) {
+                    } else if (randomAction < 80) {
                         isCutting = true;
                         isFiringWaste = false;
                         isJogging = false;
                         isFiringSign = false;
                         isDoTrash = false;
-                    } else if (randomAction == 17 || randomAction == 18) {
+                    } else if (randomAction < 95) {
                         isFiringWaste = true;
                         isCutting = false;
                         isJogging = false;
                         isFiringSign = false;
                         isDoTrash = false;
-                    } else if (randomAction == 19 || randomAction == 20) {
+                    } else if (randomAction < 100) {
                         isFiringSign = true;
                         isFiringWaste = false;
                         isCutting = false;

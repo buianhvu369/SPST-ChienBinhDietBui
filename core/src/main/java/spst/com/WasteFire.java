@@ -9,6 +9,6 @@ public class WasteFire extends MyActor{
     public WasteFire(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
-        setSize(26,39);
+        setSize(32,32);
     }
 }

@@ -36,6 +36,12 @@ public class SaveGame{
     public float O3;
     public float PM2_5;
     public float PM10;
+    public int soRacHuuCo = 0;
+    public int soRacVoCo = 0;
+    public int soRacTaiChe = 0;
+    public int soRacNguyHai = 0;
+    public int soMLtoidacothemua = 2;
+    public int soMayLocBought = 0;
     public int soDat;
     public int soViaHe;
     public int soRoad;
@@ -90,6 +96,11 @@ public class SaveGame{
         soRoad = GameState.soRoad;
         soReRoad = GameState.soReRoad;
         soViaHe = GameState.soViaHe;
+
+        soRacHuuCo = GameState.soRacHuuCo;
+        soRacVoCo = GameState.soRacVoCo;
+        soRacTaiChe = GameState.soRacTaiChe;
+        soRacNguyHai = GameState.soRacNguyHai;
 
         for(Car b : Master.cars){
             CarMP a = new CarMP(b.getX(),b.getY());

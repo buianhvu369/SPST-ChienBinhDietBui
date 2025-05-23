@@ -405,7 +405,7 @@ public class People extends MyActor {
                 }
 
                 if (rectangle2.contains(getX(), getY())) {
-                    Waste waste = new Waste(getX() - 32, getY(), getStage());
+                    Waste waste = new Waste(getX() - 32, getY(), getStage(), '0');
                     rectangle2.setPosition(100000000.9999999999999999999999999999999999999999999999999999f, 1000000000.9999999999999999999999999999999999999999999999999999999999f);
                 }
             }else {
@@ -614,6 +614,18 @@ public class People extends MyActor {
                     })
                 ));
             }
+        }
+        if(getBound().overlaps(Master.trashTruck.getBound())){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    remove();
+                })
+            ));
         }
         if(isBep){
             setSize(32, 8);

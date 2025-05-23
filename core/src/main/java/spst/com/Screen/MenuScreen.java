@@ -61,19 +61,19 @@ public class MenuScreen implements Screen  {
             }
         });
 
-        exitButton = new Exit(0,0,stage);
-        exitButton.setPosition(Gdx.graphics.getWidth()/2f-exitButton.getWidth()/2f, 200); ;
-        exitButton.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
-                Gdx.app.exit();
-            }
-        });
-
         guideButton = new Guide(0,0,stage);
-        guideButton.setPosition(Gdx.graphics.getWidth()/2f-guideButton.getWidth()/2f, 100); ;
+        guideButton.setPosition(Gdx.graphics.getWidth()/2f-guideButton.getWidth()/2f, 200);
         guideButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(game.guideScreen);
+            }
+        });
+
+        exitButton = new Exit(0,0,stage);
+        exitButton.setPosition(Gdx.graphics.getWidth()/2f-exitButton.getWidth()/2f, 100); ;
+        exitButton.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
             }
         });
 
@@ -111,6 +111,7 @@ public class MenuScreen implements Screen  {
         Gdx.input.setInputProcessor(stage);
 
         nen.isLooping();
+        nen.setVolume(0.1f);
         nen.play();
     }
 

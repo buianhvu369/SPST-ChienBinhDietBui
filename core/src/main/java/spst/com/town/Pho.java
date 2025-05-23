@@ -26,6 +26,10 @@ public class Pho extends MyActor {
                     GameState.NO2 += 20;
                     Restaurant.isCreateFood = true;
                     m.closeMenuFood();
+                    if(Master.nhiemvu3== 5){
+                        Master.nhiemvu3=77;
+                        GameState.money += 200;
+                    }
             }
         });
         setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);

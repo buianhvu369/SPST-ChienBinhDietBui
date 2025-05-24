@@ -2629,6 +2629,14 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24){
             day++;
             resetDailyQuest();
+            if(day%5== 0){
+                int ran = MathUtils.random(1,3);
+                switch (ran){
+                    case 1 -> soCauDoShock ++;
+                    case 2 -> soCauDoGreen++;
+                    case 3 -> soCauDoVui++;
+                }
+            }
             soNgayDienRaLeHoi--;
             if(soNgayDienRaLeHoi == 0){
                 isNgayTrongCay = true;

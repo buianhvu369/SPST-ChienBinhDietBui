@@ -12,6 +12,7 @@ public class Waste extends MyActor {
     private boolean isFire;
     private char costume;
     private char sophan;
+    private boolean isTrongDS=false;
     public Waste(float x, float y, Stage s, char cos) {
         super(x, y, s);
         int random = MathUtils.random.nextInt(1,101);
@@ -61,8 +62,16 @@ public class Waste extends MyActor {
         if(sophan=='1'){
             moveBy(0,-1);
             if(14*32>=getY()&&getY()>=11*32){
+                if(isTrongDS){
+                    Master.wastes.removeValue(this,true);
+                    isTrongDS=false;
+                }
                 toBack();
             }else {
+                if(!isTrongDS){
+                    Master.wastes.add(this);
+                    isTrongDS=true;
+                }
                 toFront();
             }
             if(getY()<-32){

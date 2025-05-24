@@ -232,7 +232,6 @@ public class GameState{
             a.remove();
         }
         Master.winsorloses.clear();
-        Master.player = new Player(1400/2f,800/2f,Master.stage);
         Master.blood.setColor(1,0,0,0);
 
         TrashScreen.time=0;

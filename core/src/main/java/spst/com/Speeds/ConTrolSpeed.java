@@ -1,4 +1,4 @@
-package spst.com.Volume;
+package spst.com.Speeds;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,9 +10,9 @@ import spst.com.MyActor;
 import spst.com.Screen.Master;
 import spst.com.Screen.TrashScreen;
 
-public class ConTrol extends MyActor {
+public class ConTrolSpeed extends MyActor {
 
-    public ConTrol(float x, float y, Stage s) {
+    public ConTrolSpeed(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("volume.png"));
         setSize(textureRegion.getRegionWidth()/2.5f, textureRegion.getRegionHeight()/2.5f);
@@ -31,15 +31,19 @@ public class ConTrol extends MyActor {
             }
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                float stageX = event.getStageX();
-                setPosition(stageX - offsetX, Gdx.graphics.getHeight()- 110);
-                if(getX() > 250){
-                    setX(250);
-                }if(getX() < 50){
-                    setX(50);
+                if(TrashScreen.time%(20/TrashScreen.speed)==0){
+                    float stageX = event.getStageX();
+                    setPosition(stageX-offsetX, Gdx.graphics.getHeight()- 64);
+                    if(getX() > 225){
+                        setX(225);
+                    }if(getX() < 25){
+                        setX(25);
+                    }
+                    TrashScreen.speed = (char) (Math.round((getX() - 25)/200*20));
+                    if(TrashScreen.speed<=0){
+                        TrashScreen.speed++;
+                    }
                 }
-                Master.nen.setVolume((getX()- 50)/200);
-                Master.amluong = (getX() - 50)/200;
             }
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {

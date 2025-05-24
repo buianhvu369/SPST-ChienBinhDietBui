@@ -629,7 +629,7 @@ public class People extends MyActor {
                 ));
             }
         }
-        if(getBound().overlaps(Master.trashTruck.getBound())){
+        if(getBound().overlaps(Master.trashTruck.getBound())&&Master.trashTruck.getIsUsing()){
             isAlive = false;
             isBep = true;
             addAction(Actions.sequence(
@@ -641,7 +641,7 @@ public class People extends MyActor {
                 })
             ));
         }
-        if(getBound().overlaps(Master.taxi.getBound())){
+        if(getBound().overlaps(Master.taxi.getBound())&&Master.taxi.getIsUsing()){
             isAlive = false;
             isBep = true;
             addAction(Actions.sequence(

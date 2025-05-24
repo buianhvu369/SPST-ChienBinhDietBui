@@ -95,6 +95,7 @@ public class GameState{
             Master.timeOfDay = saveGame.timeOfDay;
 
             Master.WLK = 'K';
+            Master.amountOfFood = 100;
             Master.blood.setColor(Master.blood.getColor().r,Master.blood.getColor().g,Master.blood.getColor().b,saveGame.colorREDRiver);
 
             soVongCungNgoai = saveGame.soVongCungNgoai;
@@ -105,10 +106,17 @@ public class GameState{
             soReRoad = saveGame.soReRoad;
             soViaHe = saveGame.soViaHe;
 
+            levelcongnghexanh = saveGame.levelcongnghexanh;
+            levelgiaothongxanh = saveGame.levelgiaothongxanh;
+
             soRacHuuCo = saveGame.soRacHuuCo;
             soRacVoCo = saveGame.soRacVoCo;
             soRacTaiChe = saveGame.soRacTaiChe;
             soRacNguyHai = saveGame.soRacNguyHai;
+
+            soMLtoidacothemua = saveGame.soMLtoidacothemua;
+            soMayLocBought = saveGame.soMayLocBought;
+            isDaThang = saveGame.isDaThang;
 
             for(CarMP b : saveGame.carArray){
                 Car a = new Car(b.x,b.y,Master.stage);
@@ -125,6 +133,7 @@ public class GameState{
             for(MLMP b : saveGame.mayLocArray){
                 MayLoc a = new MayLoc(b.x,b.y,Master.stage,27*2,47*2);
                 a.name = b.name;
+                a.level = b.level;
                 Master.MLKKs.add(a);
             }
             for(SignMP b : saveGame.signArray){
@@ -182,6 +191,7 @@ public class GameState{
         Master.amountSeed = 0;
         Master.sohieucuaMLKKdangchondenangcap = 0;
         Master.soCuaCameraDangLooking = 0;
+        Master.amountOfFood = 100;
 
         Master.hienChiSo = false;
         Master.hienThongTin = false;
@@ -210,8 +220,13 @@ public class GameState{
         soRacTaiChe=0;
         soRacNguyHai=0;
 
+        soMLtoidacothemua = 2;
+        soMayLocBought = 0;
+        isDaThang = false;
+
         Master.WLK = 'K';
-        Master.replay.remove();
+        Master.AQI = 250;
+        Master.amountOfFood = 100;
 
         Master.blood.setColor(1,0,0,0);
 

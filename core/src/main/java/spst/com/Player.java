@@ -135,16 +135,19 @@ public class Player extends MyActor {
             mouseY = getY();
             mouseX = getX();
         }
-        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
+        if(!isAlive&&getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32){
+            if(14*32>=getY()&&getY()>=11*32){
+                toBack();
+            }else {
+                toFront();
+            }
+        }
+        if(getBound().overlaps(Master.blood.getBound())&&(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32))){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);
             setSize(32, 12);
             if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
                 isAlive = false;
-                if(getY()<=32*11){
-                    addAction(Actions.moveBy(0,-200,6));
-                }else {
-                    addAction(Actions.moveBy(0,200,6));
-                }
+                addAction(Actions.moveBy(0,-200,6));
                 addAction(Actions.sequence(
                     Actions.fadeOut(6),
                     Actions.run(()->{
@@ -158,7 +161,7 @@ public class Player extends MyActor {
         } else {
             setSize(32,32);
         }
-        if(!Master.trashTruck.getIsUsing()){
+        if(!Master.trashTruck.getIsUsing()&&!Master.taxi.getIsUsing()&&!Master.police.getIsUsing()){
             for(Car c : Master.cars){
                 if(getBound().overlaps(c.getBoundCar())){
                     isAlive = false;

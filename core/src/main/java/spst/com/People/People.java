@@ -73,7 +73,12 @@ public class People extends MyActor {
             public void clicked(InputEvent event, float x, float y){
                 if(isCutting){
                     GameState.money += 150 ;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    if(Master.police.getIsUsing()){
+                        GameState.money += 150 ;
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                    }else {
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiChatCay >0){
                         Master.soNguoiChatCay--;
@@ -90,9 +95,14 @@ public class People extends MyActor {
                             GameState.money += 200;
                         }
                     }
-                }  if(isFiringWaste){
+                }else if(isFiringWaste){
                     GameState.money += 150 ;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    if(Master.police.getIsUsing()){
+                        GameState.money += 150 ;
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                    }else {
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotRac >0){
                         Master.soNguoiChatCay--;
@@ -108,10 +118,14 @@ public class People extends MyActor {
                             GameState.money += 200;
                         }
                     }
-                }
-                if(isFiringSign){
+                }else if(isFiringSign){
                     GameState.money += 150 ;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    if(Master.police.getIsUsing()){
+                        GameState.money += 150 ;
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                    }else {
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                    }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotBien >0){
                         Master.soNguoiDotBien--;
@@ -127,8 +141,7 @@ public class People extends MyActor {
                             GameState.money += 200;
                         }
                     }
-                }
-                else {
+                } else {
                     GameState.money -= 50;
                     new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
                 }
@@ -576,26 +589,27 @@ public class People extends MyActor {
                 }
             }
         }
-        if(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32)){
+        if(!isAlive&&getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32){
+            if(14*32>=getY()&&getY()>=11*32){
+                toBack();
+            }else {
+                toFront();
+            }
+        }
+        if(getBound().overlaps(Master.blood.getBound())&&(1180<getX() && getX() < 1180 + 4*32 - 10 &&!(11*32<getY() && getY()<14*32))){
             textureRegion = Utils.getRegion(23*16, 0, 16, 6);
             setSize(32, 12);
             if(getX() > 1180+32 && getX() < 1180 + 4*32 - 10-32 && isAlive){
                 isAlive = false;
-                if(getY()<=32*11){
-                    addAction(Actions.moveBy(0,-200,6));
-                }else {
-                    addAction(Actions.moveBy(0,-200,6));
-                }
+                addAction(Actions.moveBy(0,-200,6));
                 addAction(Actions.sequence(
-                        Actions.fadeOut(6),
-                        Actions.run(()->{
-                            GameState.danso--;
-                            Master.blood.getColor().a+=Master.blood.numberBlood;
-                            new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị rơi xuống sông",Color.RED).toFront();
-                            remove();
-                        })
-                    )
-                );
+                    Actions.fadeOut(6),
+                    Actions.run(()->{
+                        GameState.danso--;
+                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị trôi sông",Color.RED).toFront();
+                        remove();
+                    })
+                ));
             }
         } else {
             setSize(32,32);
@@ -616,6 +630,18 @@ public class People extends MyActor {
             }
         }
         if(getBound().overlaps(Master.trashTruck.getBound())){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    remove();
+                })
+            ));
+        }
+        if(getBound().overlaps(Master.taxi.getBound())){
             isAlive = false;
             isBep = true;
             addAction(Actions.sequence(

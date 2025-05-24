@@ -42,6 +42,7 @@ public class SaveGame{
     public int soRacNguyHai = 0;
     public int soMLtoidacothemua = 2;
     public int soMayLocBought = 0;
+    public boolean isDaThang = false;
     public int soDat;
     public int soViaHe;
     public int soRoad;
@@ -102,6 +103,13 @@ public class SaveGame{
         soRacTaiChe = GameState.soRacTaiChe;
         soRacNguyHai = GameState.soRacNguyHai;
 
+        levelcongnghexanh = GameState.levelcongnghexanh;
+        levelgiaothongxanh = GameState.levelgiaothongxanh;
+
+        soMLtoidacothemua = GameState.soMLtoidacothemua;
+        soMayLocBought = GameState.soMayLocBought;
+        isDaThang = GameState.isDaThang;
+
         for(Car b : Master.cars){
             CarMP a = new CarMP(b.getX(),b.getY());
             carArray.add(a);
@@ -116,6 +124,7 @@ public class SaveGame{
         }
         for(MayLoc b : Master.MLKKs){
             MLMP a = new MLMP(b.getX(),b.getY(),b.name);
+            a.level = b.level;
             mayLocArray.add(a);
         }
         for(Sign b : Master.signs){

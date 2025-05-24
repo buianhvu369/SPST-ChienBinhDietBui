@@ -151,8 +151,6 @@ public class Player extends MyActor {
                 addAction(Actions.sequence(
                     Actions.fadeOut(6),
                     Actions.run(()->{
-                        Dark dark = new Dark(0,0,Master.noMoveStage);
-                        dark.addAction(Actions.fadeIn(2));
                         new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
                         Master.WLK = 'L';
                     })
@@ -169,8 +167,6 @@ public class Player extends MyActor {
                     addAction(Actions.sequence(
                         Actions.fadeOut(6),
                         Actions.run(()->{
-                            Dark dark = new Dark(0,0,Master.noMoveStage);
-                            dark.addAction(Actions.fadeIn(2));
                             new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
                             Master.WLK = 'L';
                         })

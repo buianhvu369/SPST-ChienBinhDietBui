@@ -26,8 +26,8 @@ public class TrashScreen implements Screen {
     Array<Sprite> sprites = new Array<>();
     Array<Sprite> sprites2 = new Array<>();
     Array<Sprite> sprites3 = new Array<>();
-    int time=0;
-    char speed = 1;
+    public static int time=0;
+    public static char speed = 1;
     Waste giaiThichHuuCo;
     Waste giaiThichVoCo;
     Waste giaiThichTaiChe;
@@ -37,15 +37,20 @@ public class TrashScreen implements Screen {
     WhiteButton luaChon3NhaRac;
     WhiteButton luaChon4NhaRac;
     WhiteButton luaChon5NhaRac;
-    int sohuucodaphanloai=0;
-    int sovocodaphanloai=0;
-    int sotaichedaphanloai=0;
-    int songuyhaidaphanloai=0;
-    int sohuucodara=0;
-    int sovocodara=0;
-    int sotaichedara=0;
-    int songuyhaidara=0;
+    public static int sohuucodaphanloai=0;
+    public static int sovocodaphanloai=0;
+    public static int sotaichedaphanloai=0;
+    public static int songuyhaidaphanloai=0;
+    public static int sohuucodara=0;
+    public static int sovocodara=0;
+    public static int sotaichedara=0;
+    public static int songuyhaidara=0;
     boolean isXong=false;
+    Texture chieccamera = new Texture("cameraintrashhouse.png");
+    Sprite cam1 = new Sprite(chieccamera);
+    Sprite cam2 = new Sprite(chieccamera);
+    Sprite cam3 = new Sprite(chieccamera);
+    Sprite cam4 = new Sprite(chieccamera);
     Array<Waste> wastes = new Array<>();
     public TrashScreen(StartGame game){
         this.game = game;
@@ -162,6 +167,18 @@ public class TrashScreen implements Screen {
                 }
             }
         });
+        cam1.setSize(32,32);
+        cam1.setRotation(0);
+        cam1.setPosition(Gdx.graphics.getWidth()/2f-cam1.getWidth()/2f+200-10,Gdx.graphics.getHeight()-32*4+40+10);
+        cam2.setSize(32,32);
+        cam2.setRotation(0);
+        cam2.setPosition(Gdx.graphics.getWidth()/2f-cam2.getWidth()/2f+200+32+40+10,Gdx.graphics.getHeight()-32*8+40+10);
+        cam3.setSize(32,32);
+        cam3.setRotation(0);
+        cam3.setPosition(Gdx.graphics.getWidth()/2f-cam1.getWidth()/2f+200-10,Gdx.graphics.getHeight()-32*12+40+10);
+        cam4.setSize(32,32);
+        cam4.setRotation(0);
+        cam4.setPosition(Gdx.graphics.getWidth()/2f-cam2.getWidth()/2f+200+32+40+10,Gdx.graphics.getHeight()-32*16+40+10);
     }
     @Override
     public void show() {
@@ -224,7 +241,7 @@ public class TrashScreen implements Screen {
                 int ran = MathUtils.random.nextInt(1,5);
                 if(ran == 1){
                     if(GameState.soRacHuuCo-sohuucodara>0){
-                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'o');
+                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+215,Gdx.graphics.getHeight(),stage,'o');
                         Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sohuucodara++;
@@ -233,7 +250,7 @@ public class TrashScreen implements Screen {
                 }
                 if(ran == 2){
                     if(GameState.soRacVoCo-sovocodara>0){
-                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'i');
+                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+215,Gdx.graphics.getHeight(),stage,'i');
                         Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sovocodara++;
@@ -242,7 +259,7 @@ public class TrashScreen implements Screen {
                 }
                 if(ran == 3){
                     if(GameState.soRacTaiChe-sotaichedara>0){
-                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'r');
+                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+215,Gdx.graphics.getHeight(),stage,'r');
                         Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sotaichedara++;
@@ -251,7 +268,7 @@ public class TrashScreen implements Screen {
                 }
                 if(ran == 4){
                     if(GameState.soRacNguyHai-songuyhaidara>0){
-                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'h');
+                        Waste a = new Waste(Gdx.graphics.getWidth()/2f+215,Gdx.graphics.getHeight(),stage,'h');
                         Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         songuyhaidara++;
@@ -343,6 +360,18 @@ public class TrashScreen implements Screen {
         }
         for(Sprite a : sprites){
             a.draw(Master.batch);
+        }
+        if(time>(20/speed)*10){
+            cam1.draw(Master.batch);
+        }
+        if(time>(20/speed)*16){
+            cam2.draw(Master.batch);
+        }
+        if(time>(20/speed)*23){
+            cam3.draw(Master.batch);
+        }
+        if(time>(20/speed)*29){
+            cam4.draw(Master.batch);
         }
         Master.batch.end();
 

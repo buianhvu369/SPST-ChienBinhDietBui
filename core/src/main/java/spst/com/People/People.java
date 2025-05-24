@@ -79,7 +79,7 @@ public class People extends MyActor {
                     }else {
                         new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
                     }
-                    Master.collect.play();
+                    Master.collect.play(Master.amluong);
                     if(Master.soNguoiChatCay >0){
                         Master.soNguoiChatCay--;
                     }else{
@@ -103,7 +103,7 @@ public class People extends MyActor {
                     }else {
                         new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
                     }
-                    Master.collect.play();
+                    Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotRac >0){
                         Master.soNguoiChatCay--;
                     }else{
@@ -126,7 +126,7 @@ public class People extends MyActor {
                     }else {
                         new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
                     }
-                    Master.collect.play();
+                    Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotBien >0){
                         Master.soNguoiDotBien--;
                     }else{

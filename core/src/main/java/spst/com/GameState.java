@@ -16,6 +16,7 @@ import spst.com.Roads.CrossWalk;
 import spst.com.Roads.RoadWay;
 import spst.com.Roads.Tree;
 import spst.com.Screen.Master;
+import spst.com.Screen.TrashScreen;
 
 public class GameState{
     public static int money = 50000000;
@@ -227,8 +228,23 @@ public class GameState{
         Master.WLK = 'K';
         Master.AQI = 250;
         Master.amountOfFood = 100;
-
+        for(Actor a : Master.winsorloses){
+            a.remove();
+        }
+        Master.winsorloses.clear();
+        Master.player = new Player(1400/2f,800/2f,Master.stage);
         Master.blood.setColor(1,0,0,0);
+
+        TrashScreen.time=0;
+        TrashScreen.speed = 1;
+        TrashScreen.sohuucodaphanloai=0;
+        TrashScreen.sovocodaphanloai=0;
+        TrashScreen.sotaichedaphanloai=0;
+        TrashScreen.songuyhaidaphanloai=0;
+        TrashScreen.sohuucodara=0;
+        TrashScreen.sovocodara=0;
+        TrashScreen.sotaichedara=0;
+        TrashScreen.songuyhaidara=0;
 
         Master.cars.clear();
         Master.roads.clear();

@@ -10,10 +10,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import spst.com.Screen.*;
 
 public class StartGame extends Game {
-    public GuideScreen guideScreen;
-    public MenuScreen menuScreen;
-    public CotTruyenScreen cotTruyenScreen;
-    public TrashScreen trashScreen;
+    public static GuideScreen guideScreen;
+    public static MenuScreen menuScreen;
+    public static CotTruyenScreen cotTruyenScreen;
+    public static TrashScreen trashScreen;
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
@@ -24,7 +24,7 @@ public class StartGame extends Game {
     public static BitmapFont font5;
     public static BitmapFont font6;
     public static BitmapFont font7;
-    public Master master;
+    public static Master master;
     @Override
     public void create() {
 

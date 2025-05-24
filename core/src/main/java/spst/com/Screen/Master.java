@@ -2802,10 +2802,7 @@ public class Master implements Screen {
             winsorloses.add(new FloatingNews(random.nextInt(0,Gdx.graphics.getWidth()),random.nextInt(0,Gdx.graphics.getHeight()),noMoveStage ,"LOSE",Color.RED));
             replay.setPosition(Gdx.graphics.getWidth()/2f-replay.getWidth()/2f,Gdx.graphics.getHeight()/2f-replay.getHeight()/2f);
             noMoveStage.addActor(replay);
-            winsorloses.add(replay);
-            for(Actor a : winsorloses){
-                a.toFront();
-            }
+            replay.toFront();
             WLK = 'L';
         }
         if(AQI<100 && GameState.danso<=100000 && WLK == 'K'){

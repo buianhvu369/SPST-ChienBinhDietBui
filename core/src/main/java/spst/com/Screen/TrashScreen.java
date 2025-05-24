@@ -178,9 +178,9 @@ public class TrashScreen implements Screen {
         time++;
         if(time%(20/speed)==0){
             Sprite khuc = new Sprite(new Texture("bangchuyen.png"));
-            khuc.setRotation(0);
-            khuc.setSize(40,20);
-            khuc.setPosition(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight());
+            khuc.setRotation(90);
+            khuc.setSize(20,40);
+            khuc.setPosition(Gdx.graphics.getWidth()/2f+220,Gdx.graphics.getHeight());
             sprites.add(khuc);
             if(time>(20/speed)*7){
                 Sprite khuc2 = new Sprite(new Texture("bangchuyen.png"));
@@ -225,6 +225,7 @@ public class TrashScreen implements Screen {
                 if(ran == 1){
                     if(GameState.soRacHuuCo-sohuucodara>0){
                         Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'o');
+                        Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sohuucodara++;
                         dacorac=true;
@@ -233,6 +234,7 @@ public class TrashScreen implements Screen {
                 if(ran == 2){
                     if(GameState.soRacVoCo-sovocodara>0){
                         Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'i');
+                        Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sovocodara++;
                         dacorac=true;
@@ -241,6 +243,7 @@ public class TrashScreen implements Screen {
                 if(ran == 3){
                     if(GameState.soRacTaiChe-sotaichedara>0){
                         Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'r');
+                        Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         sotaichedara++;
                         dacorac=true;
@@ -249,6 +252,7 @@ public class TrashScreen implements Screen {
                 if(ran == 4){
                     if(GameState.soRacNguyHai-songuyhaidara>0){
                         Waste a = new Waste(Gdx.graphics.getWidth()/2f+200,Gdx.graphics.getHeight(),stage,'h');
+                        Master.wastes.removeValue(a,true);
                         wastes.add(a);
                         songuyhaidara++;
                         dacorac=true;
@@ -276,7 +280,7 @@ public class TrashScreen implements Screen {
         }
         for(Sprite a : sprites){
             a.translateY(-speed);
-            if(a.getY()<-20){
+            if(a.getY()<-40){
                 sprites.removeValue(a,true);
             }
         }
@@ -360,9 +364,9 @@ public class TrashScreen implements Screen {
         game.font7.draw(Master.batch, "Đổi 2 túi rác nguy hại và 1 túi rác tái chế"
             ,luaChon3NhaRac.getX()+16,luaChon3NhaRac.getY()+15+35);
         game.font7.draw(Master.batch, "lấy 3 level CNX"
-            ,luaChon3NhaRac.getX()+16,luaChon3NhaRac.getY()+15+35);
+            ,luaChon3NhaRac.getX()+16,luaChon3NhaRac.getY()+35-4);
         game.font7.draw(Master.batch, "Đổi 10 túi rác tái chế lấy 2500$"
-            ,luaChon4NhaRac.getX()+16,luaChon4NhaRac.getY()+15+35);
+            ,luaChon4NhaRac.getX()+16,luaChon4NhaRac.getY()+35);
         game.font7.draw(Master.batch, "Đổi 12 túi rác tái chế và 20 túi rác vô cơ"
             ,luaChon5NhaRac.getX()+16,luaChon5NhaRac.getY()+15+35);
         game.font7.draw(Master.batch, "để mở khóa thêm 1 chiếc máy lọc"

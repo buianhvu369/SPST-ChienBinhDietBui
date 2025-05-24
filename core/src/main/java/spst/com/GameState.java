@@ -95,6 +95,7 @@ public class GameState{
             Master.timeOfDay = saveGame.timeOfDay;
 
             Master.WLK = 'K';
+            Master.amountOfFood = 100;
             Master.blood.setColor(Master.blood.getColor().r,Master.blood.getColor().g,Master.blood.getColor().b,saveGame.colorREDRiver);
 
             soVongCungNgoai = saveGame.soVongCungNgoai;
@@ -190,6 +191,7 @@ public class GameState{
         Master.amountSeed = 0;
         Master.sohieucuaMLKKdangchondenangcap = 0;
         Master.soCuaCameraDangLooking = 0;
+        Master.amountOfFood = 100;
 
         Master.hienChiSo = false;
         Master.hienThongTin = false;
@@ -223,7 +225,8 @@ public class GameState{
         isDaThang = false;
 
         Master.WLK = 'K';
-        Master.replay.remove();
+        Master.AQI = 250;
+        Master.amountOfFood = 100;
 
         Master.blood.setColor(1,0,0,0);
 

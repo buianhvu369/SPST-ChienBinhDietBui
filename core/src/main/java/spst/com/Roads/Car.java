@@ -1,11 +1,14 @@
 package spst.com.Roads;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import spst.com.Enums.TypeRoadRe;
+import spst.com.FloatingNews;
 import spst.com.GameState;
 import spst.com.InFactory.BuyRoadRe;
 import spst.com.InFactory.BuyRoadReNgoai;
@@ -25,6 +28,8 @@ public class Car extends MyActor {
     int ran2 = MathUtils.random.nextInt(1,3);
     int khaNangRe = -1;
     boolean isRe = false;
+    boolean isAlive = true;
+    boolean isBep = false;
     public Car(float x, float y, Stage s) {
         super(x, y, s);
         speedX = 2;
@@ -41,10 +46,28 @@ public class Car extends MyActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(!(Master.isDenDo&&getX()>24*32 && 26*32 > getX())){
-            Move();
-            setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
-            moveBy(speedX, speedY);
+        if(isAlive){
+            if(!(Master.isDenDo&&getX()>24*32 && 26*32 > getX())){
+                Move();
+                setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
+                moveBy(speedX, speedY);
+            }
+        }
+
+        if(getBound().overlaps(Master.taxi.getBound())){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    new FloatingNews(0,500,Master.noMoveStage,"1 xe nát do bị xe đâm", Color.RED).toFront();
+                    remove();
+                })
+            ));
+        }
+        if(isBep){
+            setSize(32, 8);
         }
     }
     private void Move(){

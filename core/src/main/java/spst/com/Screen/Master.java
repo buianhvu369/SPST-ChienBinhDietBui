@@ -32,6 +32,7 @@ import spst.com.Button.ButtonRight;
 import spst.com.Button.InItemsButton.CamChoi;
 import spst.com.Button.InItemsButton.CamXeng;
 import spst.com.Button.InItemsButton.OpenItems;
+import spst.com.Button.InVehicleButton.LayPolice;
 import spst.com.Button.InVehicleButton.LayTaxi;
 import spst.com.Button.InVehicleButton.LayTrashTruck;
 import spst.com.Button.InVehicleButton.OpenVehicles;
@@ -45,6 +46,7 @@ import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.House.*;
 import spst.com.InFactory.Items.Broom;
 import spst.com.InFactory.Items.Shovel;
+import spst.com.InFactory.Vehicles.Police;
 import spst.com.InFactory.Vehicles.Taxi;
 import spst.com.InFactory.Vehicles.TrashTruck;
 import spst.com.MiniGame.Imaged;
@@ -81,7 +83,7 @@ public class Master implements Screen {
     RedFlag redFlag;
     ChaoMungPeople one;
     Vector2 mouseNoMoveStage = new Vector2();
-    Vector2 mouseStage = new Vector2();
+    public static Vector2 mouseStage = new Vector2();
     Vector2 deltaXYVector = new Vector2();
     public static River river;
     public static Blood blood;
@@ -128,6 +130,8 @@ public class Master implements Screen {
     public static TrashTruck trashTruck;
     TaxiButton buyTaxi;
     public static Taxi taxi;
+    PoliceButton buyPolice;
+    public static Police police;
     Bang bangFactory;
     Bang bangScience;
     Bang bangTrash;
@@ -261,6 +265,7 @@ public class Master implements Screen {
     OpenVehicles openVehicles;
     LayTrashTruck trashTruckButton;
     LayTaxi taxiButton;
+    LayPolice policeButton;
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
     SaveNut saveNut;
@@ -329,6 +334,7 @@ public class Master implements Screen {
     public static boolean isMoVehicles = false;
     public static boolean isCoXeRac = false;
     public static boolean isCoTaxi = false;
+    public static boolean isCoPolice = false;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -480,6 +486,7 @@ public class Master implements Screen {
         openVehicles = new OpenVehicles(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70,noMoveStage);
         trashTruckButton = new LayTrashTruck(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45,noMoveStage);
         taxiButton = new LayTaxi(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*2,noMoveStage);
+        policeButton = new LayPolice(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*3,noMoveStage);
         {// TỪ DẤU MỞ NGOẶC NHỌN ĐẾN HẾT CHỈ XỬ LÝ ẤN VÀO NÚT VEHICLE VÀ CÁC NÚT BÊN TRONG VEHICLE
             openVehicles.addListener(new ClickListener() {
                 @Override
@@ -498,12 +505,14 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     if(Master.isCoXeRac){
                         if(!trashTruckButton.getIsSelect()) {
-                            trashTruckButton.setIsSelect(true);
-                            trashTruck.setIsUsing(true);
-                            trashTruckButton.textureRegion = new TextureRegion(trashTruckButton.texture1);
-                            trashTruck.toFront();
-                            trashTruck.setPosition(player.getX()-32, player.getY());
-                            player.speed=5;
+                            if(!taxiButton.getIsSelect()&&!policeButton.getIsSelect()){
+                                trashTruckButton.setIsSelect(true);
+                                trashTruck.setIsUsing(true);
+                                trashTruckButton.textureRegion = new TextureRegion(trashTruckButton.texture1);
+                                trashTruck.toFront();
+                                trashTruck.setPosition(player.getX()-32, player.getY());
+                                player.speed=5;
+                            }
                         }else{
                             trashTruckButton.setIsSelect(false);
                             trashTruck.setIsUsing(false);
@@ -518,16 +527,40 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     if(Master.isCoTaxi){
                         if(!taxiButton.getIsSelect()) {
-                            taxiButton.setIsSelect(true);
-                            taxi.setIsUsing(true);
-                            taxiButton.textureRegion = new TextureRegion(taxiButton.texture1);
-                            taxi.toFront();
-                            taxi.setPosition(player.getX()-32, player.getY());
-                            player.speed=8;
+                            if(!trashTruckButton.getIsSelect()&&!policeButton.getIsSelect()){
+                                taxiButton.setIsSelect(true);
+                                taxi.setIsUsing(true);
+                                taxiButton.textureRegion = new TextureRegion(taxiButton.texture1);
+                                taxi.toFront();
+                                taxi.setPosition(player.getX()-32, player.getY());
+                                player.speed=8;
+                            }
                         }else{
                             taxiButton.setIsSelect(false);
                             taxi.setIsUsing(false);
                             taxiButton.textureRegion = new TextureRegion(taxiButton.texture);
+                            player.speed=2;
+                        }
+                    }
+                }
+            });
+            policeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(Master.isCoPolice){
+                        if(!policeButton.getIsSelect()) {
+                            if(!trashTruckButton.getIsSelect()&& !taxiButton.getIsSelect()){
+                                policeButton.setIsSelect(true);
+                                police.setIsUsing(true);
+                                policeButton.textureRegion = new TextureRegion(policeButton.texture1);
+                                police.toFront();
+                                police.setPosition(player.getX()-32, player.getY());
+                                player.speed=10;
+                            }
+                        }else{
+                            policeButton.setIsSelect(false);
+                            police.setIsUsing(false);
+                            policeButton.textureRegion = new TextureRegion(policeButton.texture);
                             player.speed=2;
                         }
                     }
@@ -609,6 +642,8 @@ public class Master implements Screen {
         trashTruck = new TrashTruck(-254242, -56732, stage);
         buyTaxi = new TaxiButton(-345436,-24234,noMoveStage);
         taxi = new Taxi(-254242, -56732, stage);
+        buyPolice = new PoliceButton(-345436,-24234,noMoveStage);
+        police = new Police(-254242, -56732, stage);
 
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
         redFlag = new RedFlag(0,0,stage);
@@ -1093,6 +1128,17 @@ public class Master implements Screen {
                 }
             }
         });
+        buyPolice.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(!isCoPolice){
+                    if(GameState.money>=700) {
+                        isCoPolice = true;
+                        GameState.money-=700;
+                        buyPolice.setColor(Color.GRAY);
+                    }
+                }
+            }
+        });
         buyViaHe.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.money>=10) {
@@ -1172,6 +1218,8 @@ public class Master implements Screen {
 
         replay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                replay.setPosition(-435642,-6434256);
+                dark.setColor(dark.getColor().r,dark.getColor().g,dark.getColor().b,0);
                 GameState.reset();
                 game.setScreen(game.menuScreen);
             }
@@ -1392,6 +1440,7 @@ public class Master implements Screen {
         luongThucAn();
         xulyngaydem();
         denXanhDenDo();
+        racTroiSong();
         tinhThangThua();
         batTatNutMoVaXuLyTrongNutMo();
         Timer.schedule(new Timer.Task() {
@@ -1407,20 +1456,20 @@ public class Master implements Screen {
             if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
                 stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
             } else if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()) {
-                //stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;//day la tinh binh thuong
-                stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
+                stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;//day la tinh binh thuong
+                //stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
             } else if (player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
-                //stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
-                stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
+                stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
+                //stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
             }
             if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()) {
-                //stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
-                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
+                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if (player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
-                //stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
-                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
+                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             }
         }
 
@@ -1857,6 +1906,12 @@ public class Master implements Screen {
         stage.act();
         truck.toFront();
         stage.draw();
+        for(Waste a : wastes){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
+            shapeRenderer.end();
+        }
         vietChuDuoi();
         if(WLK == 'L'){
             batch.begin();
@@ -2097,6 +2152,7 @@ public class Master implements Screen {
         if(hienXeCo){
             game.font3.draw(batch, ": Xe chở rác giá 800$",buyTrashTruck.getX()+buyTrashTruck.getWidth()/2f+32*2,buyTrashTruck.getY()+25);
             game.font3.draw(batch, ": Xe tắc xi giá 400$",buyTaxi.getX()+buyTaxi.getWidth()/2f+32*2,buyTaxi.getY()+25);
+            game.font3.draw(batch, ": Xe cảnh sát giá 700$",buyPolice.getX()+buyPolice.getWidth()/2f+32*2,buyPolice.getY()+25);
         }
         if(isInTurtleMap){
             game.font3.draw(batch, "Những phần có thể nhận đuợc sau khi thắng :",32*8,Gdx.graphics.getHeight() -32*2);
@@ -2284,9 +2340,11 @@ public class Master implements Screen {
         if(isMoVehicles){
             noMoveStage.addActor(trashTruckButton);
             noMoveStage.addActor(taxiButton);
+            noMoveStage.addActor(policeButton);
         }else {
             trashTruckButton.remove();
             taxiButton.remove();
+            policeButton.remove();
         }
         if(trashTruck.getIsUsing()){
             trashTruck.toFront();
@@ -2295,6 +2353,10 @@ public class Master implements Screen {
         if(taxi.getIsUsing()){
             taxi.toFront();
             taxi.setPosition(player.getX()+16-taxi.getWidth()/2f,player.getY()+16-taxi.getHeight()/2f);
+        }
+        if(police.getIsUsing()){
+            police.toFront();
+            police.setPosition(player.getX()+16-taxi.getWidth()/2f,player.getY()+16-taxi.getHeight()/2f);
         }
     }
     public static void nhapTenNormalCamera(){
@@ -2375,38 +2437,6 @@ public class Master implements Screen {
                 thuTuNhiemVuTanBinh++;
                 nhiemVuTanBinh = true;
             }
-        }
-    }
-    private void showBangTrash(float x, float y){
-        if(!hienBangTrash&&Math.abs(player.getX()-trashDoor.getX())<32*6 && Math.abs(player.getY()-trashDoor.getY()) < 32*6){
-            bangTrash.setPosition(x,y);
-            bangTrashCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
-            giaiThichHuuCo.setPosition(32*2,Gdx.graphics.getHeight()-32*3);
-            giaiThichVoCo.setPosition(32*20,Gdx.graphics.getHeight()-32*3);//////////////////
-            giaiThichTaiChe.setPosition(32*2,32*1);
-            giaiThichNguyHai.setPosition(32*20,32*1);
-            luaChon1NhaRac.setPosition((32+32*28/2f)-luaChon1NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*5-8);
-            luaChon2NhaRac.setPosition((32+32*28/2f)-luaChon2NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*7-8);
-            luaChon3NhaRac.setPosition((32+32*28/2f)-luaChon3NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*9-8);
-            luaChon4NhaRac.setPosition((32+32*28/2f)-luaChon4NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*11-8);
-            luaChon5NhaRac.setPosition((32+32*28/2f)-luaChon5NhaRac.getWidth()/2f,Gdx.graphics.getHeight()-32*13-8);
-            hienBangTrash = true;
-            line.setHeight(4);
-            line.setY(line.getY()+32*2);
-            line2.setHeight(4);
-            line2.setY(line2.getY()+32);
-
-            bangTrash.toFront();
-            bangTrashCross.toFront();
-            giaiThichHuuCo.toFront();
-            giaiThichVoCo.toFront();
-            giaiThichTaiChe.toFront();
-            giaiThichNguyHai.toFront();
-            luaChon1NhaRac.toFront();
-            luaChon2NhaRac.toFront();
-            luaChon3NhaRac.toFront();
-            luaChon4NhaRac.toFront();
-            luaChon5NhaRac.toFront();
         }
     }
     private void showBangFactory(float x, float y){
@@ -2493,9 +2523,11 @@ public class Master implements Screen {
 
         buyTrashTruck.setPosition(32*5,Gdx.graphics.getHeight()-32*7);
         buyTaxi.setPosition(32*5,Gdx.graphics.getHeight()-32*8);
+        buyPolice.setPosition(32*5,Gdx.graphics.getHeight()-32*9);
 
         buyTrashTruck.toFront();
         buyTaxi.toFront();
+        buyPolice.toFront();
     }
     private void dongXayDung(){
         hienXayDung = false;
@@ -2520,6 +2552,7 @@ public class Master implements Screen {
 
         buyTrashTruck.setPosition(-4356,-46232);
         buyTaxi.setPosition(-4356,-46232);
+        buyPolice.setPosition(-4356,-46232);
     }
 
     private void dongThongtin(){
@@ -3357,6 +3390,11 @@ public class Master implements Screen {
     private void createWaste() {
         for (int i = 0; i < 100; i++) {
             Waste waste = new Waste(random.nextInt(1, 9) * 32, random.nextInt(1, 11) * 32, stage,'0');
+        }
+    }
+    private void racTroiSong(){
+        if(random.nextInt(600)==300){
+            Waste waste = new Waste(random.nextInt(1180+32, 1180+3*32-10), 800-32, stage,'1');
         }
     }
 

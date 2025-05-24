@@ -1,7 +1,9 @@
 package spst.com;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.Screen.Master;
@@ -9,6 +11,7 @@ import spst.com.Screen.Master;
 public class Waste extends MyActor {
     private boolean isFire;
     private char costume;
+    private char sophan;
     public Waste(float x, float y, Stage s, char cos) {
         super(x, y, s);
         int random = MathUtils.random.nextInt(1,101);
@@ -43,6 +46,7 @@ public class Waste extends MyActor {
                 costume = 'h';
             }
         }
+        sophan=cos;
         Master.wastes.add(this);
         setSize(32, 32);
     }
@@ -52,6 +56,19 @@ public class Waste extends MyActor {
         super.act(delta);
         if(isFire){
             textureRegion = new TextureRegion(new Texture("wastefire.png"));
+        }
+
+        if(sophan=='1'){
+            moveBy(0,-1);
+            if(14*32>=getY()&&getY()>=11*32){
+                toBack();
+            }else {
+                toFront();
+            }
+            if(getY()<-32){
+                Master.wastes.removeValue(this,true);
+                remove();
+            }
         }
     }
 

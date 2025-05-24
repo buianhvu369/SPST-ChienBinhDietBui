@@ -11,7 +11,7 @@ public class DailyQuest extends MyActor {
     public DailyQuest(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("DailyQuest.png"));
-        setSize(50, 50);
+        setSize(40, 40);
 
     }
 }

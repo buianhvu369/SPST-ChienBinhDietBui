@@ -60,6 +60,9 @@ import spst.com.Roads.*;
 import spst.com.Roads.CrossRoad.BlankRoad;
 import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Roads.CrossWalk;
+import spst.com.Volume.ConTrol;
+import spst.com.Volume.HinhAnhLoa;
+import spst.com.Volume.ThanhControl;
 import spst.com.town.*;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -72,7 +75,7 @@ public class Master implements Screen {
     InputMultiplexer multiplexer;
     public static Stage stage;
     public static Stage noMoveStage;
-    private Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
+    public static Music nen = Gdx.audio.newMusic(Gdx.files.internal("nhacnen.mp3"));
     GlyphLayout layout = new GlyphLayout();
     boolean thongTinMode = false;
 
@@ -138,6 +141,7 @@ public class Master implements Screen {
     WhiteButton luaChon5NhaRac;
     Bang turtleBang;
     Bang bangDaily;
+    Bang bangSoTay;
     Cross turtleCross;
     Cross bangFactoryCross;
     public static Bang menuFood;
@@ -145,6 +149,7 @@ public class Master implements Screen {
     Cross bangTrashCross;
     Cross menuFoodCross;
     Cross dailyCross;
+    Cross soTayCross;
     MordernDoor scienceDoor;
     MordernDoor hotelDoor;
     MordernDoor factoryDoor;
@@ -156,6 +161,14 @@ public class Master implements Screen {
     ArrowNoMoveStage arrowNoMove;
     DailyQuest dailyQuest;
     public static boolean isSoiCam ;
+    boolean openSoTay = false;
+    public static boolean inDoVui = false;
+    public static boolean inGreenCoBan = false;
+    public static boolean inShock = false;
+    public static char trongHopDoVui = 1;
+    public static char trongHopShock = 1;
+    public static char trongHopGreen = 1;
+    SoTay soTay;
 
     Bia bia;
     Pho pho;
@@ -167,6 +180,7 @@ public class Master implements Screen {
     public static ShowAQI showAQI;
     Calories calories;
     public static boolean hienCheTao = false;
+    public static float amluong;
     public static int soNgayDienRaLeHoi ;
     public static int soCayTieuChuan ;
     public static boolean isNgayTrongCay = false;
@@ -193,6 +207,9 @@ public class Master implements Screen {
     Button2S button2S;
     Button3S button3S;
     Rectangle rectangleRestaurant;
+    ConTrol conTrol;
+    ThanhControl thanhControl;
+    HinhAnhLoa hinhAnhLoa;
 
     public static Array<Rectangle> roadArray = new Array<>();
     public static Array<MyActor> reArray = new Array<>();
@@ -247,6 +264,15 @@ public class Master implements Screen {
     Truck truck;
     TreeButon treeButon;
     creatMayLoc taoMayLockk;
+    public static DoVui doVui;
+    public  static Green green;
+    public static Shock shock;
+    Sai sai;
+    Dung dung;
+    Hieu hieu;
+    public static int soCauDoVui = 10;
+    public static int soCauDoGreen = 5;
+    public static int soCauDoShock = 8;
 
     creatCamera taoCamera;
     creatSign taoSign;
@@ -453,6 +479,7 @@ public class Master implements Screen {
         image3 = new Imaged(32*20, Gdx.graphics.getHeight() - 32*7-125,noMoveStage,1);
         image4 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*4-50,noMoveStage,4);
         image5 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*5-75,noMoveStage,5);
+        soTay = new SoTay( 300,Gdx.graphics.getHeight()-70,noMoveStage );
 
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
@@ -571,6 +598,16 @@ public class Master implements Screen {
         buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-400-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-400+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
         buyShovel = new Shovel(32*5,Gdx.graphics.getHeight()-32*8,noMoveStage);
+        doVui = new DoVui(32*12,32*2,noMoveStage);
+        green = new Green(32*5, 32*2, noMoveStage);
+        shock = new Shock(32*19 , 32*2,noMoveStage);
+        thanhControl = new ThanhControl(50,Gdx.graphics.getHeight() - 100 , noMoveStage);
+        conTrol = new ConTrol(75,Gdx.graphics.getHeight() - 110 , noMoveStage);
+        hinhAnhLoa = new HinhAnhLoa(0, Gdx.graphics.getHeight() - 120 , noMoveStage);
+
+        sai = new Sai(32*18 , Gdx.graphics.getHeight() - 32*8,noMoveStage);
+        dung = new Dung(32 *9 ,Gdx.graphics.getHeight() - 32*8,noMoveStage);
+        hieu = new Hieu(32* 13 ,Gdx.graphics.getHeight() - 32*6,noMoveStage);
         buyShovel.remove();
         shovel = new Shovel(0,0,noMoveStage);
         shovel.setTouchable(Touchable.disabled);
@@ -667,9 +704,9 @@ public class Master implements Screen {
         MCanhRoad.setColor(MCanhRoad.getColor().r,MCanhRoad.getColor().g,MCanhRoad.getColor().b,0.6f);
         MRoadRe.setColor(MRoadRe.getColor().r,MRoadRe.getColor().g,MRoadRe.getColor().b,0.6f);
         MRoadReNgoai.setColor(MRoadReNgoai.getColor().r,MRoadReNgoai.getColor().g,MRoadReNgoai.getColor().b,0.6f);
-
         bangScience = new Bang(-10000,-100,noMoveStage);
         bangTrash = new Bang(-10000,-100,noMoveStage);
+
         giaiThichHuuCo = new Waste(-10000,-100,noMoveStage,'o');
         giaiThichHuuCo.setSize(64,64);
         wastes.removeValue(giaiThichHuuCo,true);
@@ -695,6 +732,7 @@ public class Master implements Screen {
         bangFactory = new Bang(-10000,-100,noMoveStage);
         turtleBang = new Bang(-10000,100,noMoveStage);
         bangDaily = new Bang(10000,10000, noMoveStage);
+        bangSoTay = new Bang(10000,10000,noMoveStage);
         bangFactory = new Bang(-10000,-10000,noMoveStage);
         turtleBang = new Bang(-10000,10000,noMoveStage);
         turtleBang.setColor(0,0,0,0.8f);
@@ -704,6 +742,7 @@ public class Master implements Screen {
         bangFactoryCross = new Cross(-10000,-100,noMoveStage);
         menuFoodCross = new Cross(-10000,-100,noMoveStage);
         dailyCross = new Cross(-10000,-100,noMoveStage);
+        soTayCross = new Cross(-100000,100,noMoveStage);
         dailyQuest = new DailyQuest(475,Gdx.graphics.getHeight()-70,noMoveStage);
         bia = new Bia(10000,10000,noMoveStage,this);
         iceCream = new Kem(10000,10000,noMoveStage,this);
@@ -959,6 +998,16 @@ public class Master implements Screen {
                 openDailyQuest = false;
             }
         });
+        soTayCross.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                openSoTay = false;
+                bangSoTay.setPosition(32000,32000);
+                soTayCross.setPosition(20000, 10000);
+            }
+        });
+
         xayDungButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 moXayDung();
@@ -1015,6 +1064,16 @@ public class Master implements Screen {
         buyRoadRe.direc = 'u';
         buyRoadReNgoai.setRotation(90);
         buyCanhRoad.setRotation(90);
+        soTay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                openSoTay = true;
+                bangSoTay.setPosition(32,32);
+                soTayCross.setPosition(Gdx.graphics.getWidth()-32*2, Gdx.graphics.getHeight()-32*2);
+                soTayCross.toFront();
+            }
+        });
         luaChon1NhaRac.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.soRacHuuCo>=10){
@@ -1178,6 +1237,7 @@ public class Master implements Screen {
 
             }
         });
+
 
 
         menuFoodCross.addListener(new ClickListener() {
@@ -1398,6 +1458,32 @@ public class Master implements Screen {
             image4.setPosition(32*2200 , Gdx.graphics.getHeight()-32*4-50-20);
             image5.setPosition(32*2200 , Gdx.graphics.getHeight()-32*5-75-20);
 
+        }
+        if(openSoTay){
+            doVui .setPosition(32*12,32*2);
+            green.setPosition(32*5, 32*2);
+            shock.setPosition(32*19 , 32*2);
+            doVui.toFront();
+            green.toFront();
+            shock.toFront();
+        }else{
+            doVui.setPosition(10000,10000);
+            green.setPosition(10000,10000);
+            shock.setPosition(10000,10000);
+        }
+        if(inDoVui){
+            sai.setPosition(32*17 , Gdx.graphics.getHeight() - 32*8+16);
+            dung.setPosition(32 *10 ,Gdx.graphics.getHeight() - 32*8+16);
+            sai.toFront();
+            dung.toFront();
+        }else{
+            dung.setPosition(10000,10000);
+            sai.setPosition(10000,10000);
+        }if(inGreenCoBan || inShock){
+            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*5);
+            hieu.toFront();
+        }else{
+            hieu.setPosition(10000,10000);
         }
 
         tanggiamdanso();
@@ -1725,7 +1811,7 @@ public class Master implements Screen {
                 }
             }else {
                 new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
-                clickSound.play(0.5f);
+                clickSound.play(amluong);
             }
         }
 
@@ -2164,6 +2250,87 @@ public class Master implements Screen {
             }if(nhiemvu3 == 77){
                 game.font3.draw(batch, "Nhiệm vụ đã được hoàn thành", 32*5 , Gdx.graphics.getHeight()-32 *10);
             }
+
+        }
+        if(openSoTay){
+            game.font3.draw(batch, soCauDoGreen + " thẻ xanh cơ bản", 32*3 , 32+20);
+            game.font3.draw(batch, soCauDoVui + " thẻ mini quiz", 32*12 , 32+20);
+            game.font3.draw(batch, soCauDoShock + " thẻ sự thật sốc", 32*20 , 32+20);
+            if(inDoVui){
+                if(trongHopDoVui == 1){
+                    game.font3.draw(batch , "Xe điện thải ra khí CO? ", 32*11 , Gdx.graphics.getHeight()-32*3);
+                }
+                if(trongHopDoVui == 2){
+                    game.font3.draw(batch , "PM10 nhỏ hơn PM2.5? ", 32*11 , Gdx.graphics.getHeight()-32*3);
+                }if(trongHopDoVui == 3) {
+                     game.font3.draw(batch, "Cây xanh giúp giảm bụi mịn?", 32 * 9, Gdx.graphics.getHeight() - 32 * 3);
+                 } if(trongHopDoVui == 4){
+                    game.font3.draw(batch , "AQI dưới 100 được xem là an toàn? ", 32*9, Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 5){
+                    game.font3.draw(batch , "SO2 là khí có mùi trứng thối?", 32*9 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 6){
+                    game.font3.draw(batch , "Trời mưa giúp tăng bụi mịn?", 32*9 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 7){
+                    game.font3.draw(batch , "Tái chế rác giúp giảm ô nhiễm?", 32*9 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 8){
+                    game.font3.draw(batch , "Khí CO có thể nhìn thấy bằng mắt? ", 32*9 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 9){
+                    game.font3.draw(batch , "Đi bộ giúp giảm ô nhiễm giao thông? ", 32*9 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopDoVui == 10){
+                    game.font3.draw(batch , "AQI cao thường xuất hiện sau mưa?", 32*9 , Gdx.graphics.getHeight()-32*3);
+                }
+            }
+
+            if(inGreenCoBan){
+                if(trongHopGreen == 1){
+                    game.font3.draw(batch , "PM2.5 là hạt bụi siêu nhỏ có thể xâm nhập vào phổi và gây hại tim mạch", 32*2 , Gdx.graphics.getHeight()-32*3);
+                }
+                if(trongHopGreen == 2){
+                    game.font3.draw(batch , "Xe máy cũ có thể thải ra gấp 10 lần khí độc so với xe mới ", 32*3 , Gdx.graphics.getHeight()-32*3);
+                }if(trongHopGreen == 3) {
+                    game.font3.draw(batch, "Mỗi cây xanh có thể hấp thụ 20–30kg CO₂ mỗi năm.", 32 * 5, Gdx.graphics.getHeight() - 32 * 3);
+                } if(trongHopGreen == 4){
+                    game.font3.draw(batch , "Khí CO không màu, không mùi nhưng có thể gây tử vong nếu hít nhiều.", 32*3, Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 5){
+                    game.font3.draw(batch , "Ozone tầng thấp (O₃) gây cay mắt, khó thở, nhất là vào trưa hè", 32*3 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 6){
+                    game.font3.draw(batch , "Trồng cây ven đường giúp giảm bụi mịn và làm mát thành phố.", 32*3 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 7){
+                    game.font3.draw(batch , "AQI > 150 ảnh hưởng xấu đến cả người khỏe mạnh.", 32*5 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 8){
+                    game.font3.draw(batch , "Nhà máy điện than là nguồn phát thải lớn nhất khí CO₂ tại Việt Nam.", 32*3 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 9){
+                    game.font3.draw(batch , "Lượng bụi mịn tăng cao vào giờ cao điểm giao thông sáng – chiều. ", 32*3 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopGreen == 10){
+                    game.font3.draw(batch , "Thở bằng mũi giúp lọc không khí tốt hơn so với thở miệng.", 32*3 , Gdx.graphics.getHeight()-32*3);
+                }
+            }
+
+            if(inShock){
+                if(trongHopShock== 1){
+                    game.font3.draw(batch , "AQI > 300 tương đương hút 25 điếu thuốc/ngày.", 32*3 , Gdx.graphics.getHeight()-32*3);
+                }
+                if(trongHopShock == 2){
+                    game.font3.draw(batch , "Ô nhiễm không khí giết chết hơn 7 triệu người mỗi năm. ", 32*4 , Gdx.graphics.getHeight()-32*3);
+                }if(trongHopShock == 3) {
+                    game.font3.draw(batch, "93% trẻ em thành thị hít phải không khí độc mỗi ngày.", 32 * 4, Gdx.graphics.getHeight() - 32 * 3);
+                } if(trongHopShock == 4){
+                    game.font3.draw(batch , "Chất độc từ khí thải xe có thể ảnh hưởng đến trí nhớ.", 32*4, Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 5){
+                    game.font3.draw(batch , "Trẻ sinh gần nhà máy dễ bị nhẹ cân, chậm phát triển.", 32*4 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 6){
+                    game.font3.draw(batch , "Bụi mịn được xếp vào nhóm chất gây ung thư chắc chắn.", 32*4 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 7){
+                    game.font3.draw(batch , "Việt Nam nằm trong top 10 quốc gia ô nhiễm nhất châu Á.", 32*4 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 8){
+                    game.font3.draw(batch , "1 tấn giấy tái chế giúp giữ lại 17 cây xanh.", 32*7 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 9){
+                    game.font3.draw(batch , "Người đi xe máy không khẩu trang có nguy cơ viêm phổi gấp đôi. ", 32*4 , Gdx.graphics.getHeight()-32*3);
+                } if(trongHopShock == 10){
+                    game.font3.draw(batch , "Không khí ô nhiễm có thể ảnh hưởng hệ sinh sản.", 32*4 , Gdx.graphics.getHeight()-32*3);
+                }
+            }
+
         }
         batch.end();
     }

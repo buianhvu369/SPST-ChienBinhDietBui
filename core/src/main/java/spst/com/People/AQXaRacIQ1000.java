@@ -36,7 +36,7 @@ public class AQXaRacIQ1000 extends People {
                 if(isCutting||isFiringWaste||isFiringSign){
                     GameState.money += 150 ;
                     new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100, Master.noMoveStage,"+150 $", Color.GREEN);
-                    Master.collect.play();
+                    Master.collect.play(Master.amluong);
                 }else {
                     GameState.money -= 50;
                     new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);

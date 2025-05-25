@@ -324,7 +324,17 @@ public class Master implements Screen {
     public static boolean thongTinNutML = false;
     public static boolean thongTinNutCam = false;
     public static boolean thongTinNutSign = false;
+    public static boolean thongTinNutItem = false;
+    public static boolean thongTinNutXeng = false;
+    public static boolean thongTinNutChoi = false;
+    public static boolean thongTinNutXeCo = false;
+    public static boolean thongTinNutXeTaiRac = false;
+    public static boolean thongTinNutXeTaxi = false;
+    public static boolean thongTinNutXePolice = false;
+    public static boolean thongTinNutNVHN = false;
+    public static boolean thongTinNutSoTay = false;
     public static boolean thongTinNutSoiCam = false;
+    public static boolean thongTinNutVLLD = false;
     public static boolean thongTinNgaRe = false;
     public static boolean thongTinCanhRoad = false;
     public static boolean thongTinDat = false;
@@ -849,15 +859,65 @@ public class Master implements Screen {
                             }else {
                                 thongTinNutML = false;
                             }
+                            if(actor instanceof creatCamera){
+                                thongTinNutCam = true;
+                            }else {
+                                thongTinNutCam = false;
+                            }
                             if(actor instanceof creatSign){
                                 thongTinNutSign = true;
                             }else {
                                 thongTinNutSign = false;
                             }
-                            if(actor instanceof creatCamera){
-                                thongTinNutCam = true;
+                            if(actor instanceof OpenItems){
+                                thongTinNutItem = true;
                             }else {
-                                thongTinNutCam = false;
+                                thongTinNutItem = false;
+                            }
+                            if(actor instanceof CamXeng){
+                                thongTinNutXeng = true;
+                            }else {
+                                thongTinNutXeng = false;
+                            }
+                            if(actor instanceof CamChoi){
+                                thongTinNutChoi = true;
+                            }else {
+                                thongTinNutChoi = false;
+                            }
+                            if(actor instanceof OpenVehicles){
+                                thongTinNutXeCo = true;
+                            }else {
+                                thongTinNutXeCo = false;
+                            }
+                            if(actor instanceof LayTrashTruck){
+                                thongTinNutXeTaiRac = true;
+                            }else {
+                                thongTinNutXeTaiRac = false;
+                            }
+                            if(actor instanceof LayTaxi){
+                                thongTinNutXeTaxi = true;
+                            }else {
+                                thongTinNutXeTaxi = false;
+                            }
+                            if(actor instanceof LayPolice){
+                                thongTinNutXePolice = true;
+                            }else {
+                                thongTinNutXePolice = false;
+                            }
+                            if(actor instanceof SoTay){
+                                thongTinNutSoTay = true;
+                            }else {
+                                thongTinNutSoTay = false;
+                            }
+                            if(actor instanceof DailyQuest){
+                                thongTinNutNVHN = true;
+                            }else {
+                                thongTinNutNVHN = false;
+                            }
+                            if(actor instanceof creatVatLieuMoRongMap){
+                                thongTinNutVLLD = true;
+                            }else {
+                                thongTinNutVLLD = false;
                             }
                             if(actor instanceof SelectCamera){
                                 thongTinNutSoiCam = true;
@@ -1518,6 +1578,9 @@ public class Master implements Screen {
                 new FloatingNews(200,200,noMoveStage,"Bật chế độ gợi ý",Color.BLACK);
             }
         }
+        if(40<amountOfFood && amountOfFood<50 && timeOfDay%120==0){
+            new FloatingNews(400,700,noMoveStage,"Bạn đang đói",Color.RED);
+        }
         if(isInTurtleMap){
             image.setPosition(32*20,Gdx.graphics.getHeight()-32*3-25-20);
             image2.setPosition(32*20,Gdx.graphics.getHeight()-32*6-100-20);
@@ -1605,10 +1668,10 @@ public class Master implements Screen {
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()) {
                 stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
-                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if (player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
                 stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
-                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             }
         }
 
@@ -2108,16 +2171,46 @@ public class Master implements Screen {
                 game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutML){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-50-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutCam){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-50*2-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutSign){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-50*3-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutItem){
+                game.fontTextField.draw(batch, "Đóng/mở danh sách công cụ", 700-50*4-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutXeng){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cầm xẻng", 700-50*4-20, Gdx.graphics.getHeight() - 120-45);
+            }
+            if(thongTinNutChoi){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cầm chổi", 700-50*4-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
+            if(thongTinNutXeCo){
+                game.fontTextField.draw(batch, "Đóng/mở danh sách xe cộ", 700-50*5-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutXeTaiRac){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tải chở rác", 700-50*5-20, Gdx.graphics.getHeight() - 120-45);
+            }
+            if(thongTinNutXeTaxi){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tắc xi", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
+            if(thongTinNutXePolice){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe cảnh sát", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*3);
+            }
+            if(thongTinNutNVHN){
+                game.fontTextField.draw(batch, "Tắt/bật bảng nhiệm vụ hằng ngày", 700-50*6-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutSoTay){
+                game.fontTextField.draw(batch, "Tắt/bật sổ tay", 700-50*10-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutVLLD){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt khối xây dựng", 700-50*6, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutSoiCam){
-                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Soi camera", 700-50*7, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinDat){
                 game.font3.draw(batch, "Chỉ đặt được ở khoảng trống (nơi không có gì)",  buyDirt.getX(),buyDirt.getY());
@@ -2191,23 +2284,6 @@ public class Master implements Screen {
 
         chu1.toFront();
         chu2.toFront();
-        if(thongTinMode){
-            if(thongTinNutCay){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutML){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutCam){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSign){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSoiCam){
-                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
-            }
-        }
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));

@@ -17,6 +17,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import spst.com.*;
 import spst.com.Button.Cross;
 import spst.com.Button.WhiteButton;
+import spst.com.Speeds.ConTrolSpeed;
+import spst.com.Volume.ConTrol;
+import spst.com.Volume.ThanhControl;
 
 public class TrashScreen implements Screen {
     StartGame game;
@@ -46,11 +49,14 @@ public class TrashScreen implements Screen {
     public static int sotaichedara=0;
     public static int songuyhaidara=0;
     boolean isXong=false;
+    Texture background = new Texture("nha may phan loai rac.png");
     Texture chieccamera = new Texture("cameraintrashhouse.png");
     Sprite cam1 = new Sprite(chieccamera);
     Sprite cam2 = new Sprite(chieccamera);
     Sprite cam3 = new Sprite(chieccamera);
     Sprite cam4 = new Sprite(chieccamera);
+    ConTrolSpeed conTrolSpeed;
+    ThanhControl thanhControl;
     Array<Waste> wastes = new Array<>();
     public TrashScreen(StartGame game){
         this.game = game;
@@ -66,6 +72,9 @@ public class TrashScreen implements Screen {
                 game.setScreen(game.master);
             }
         });
+        thanhControl = new ThanhControl(25,Gdx.graphics.getHeight()-64+10,stage);
+        conTrolSpeed = new ConTrolSpeed(52,Gdx.graphics.getHeight()-64,stage);
+
         giaiThichHuuCo = new Waste(32*14,Gdx.graphics.getHeight()/2f+32*4+10,stage,'o');
         giaiThichHuuCo.setSize(64,64);
         Master.wastes.removeValue(giaiThichHuuCo,true);
@@ -89,6 +98,11 @@ public class TrashScreen implements Screen {
         luaChon4NhaRac.setSize(32*9,32*2);
         luaChon5NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*12,stage);
         luaChon5NhaRac.setSize(32*10,32*2);
+        luaChon1NhaRac.setPosition(32+(32*10/2f)-luaChon1NhaRac.getWidth()/2f,luaChon1NhaRac.getY());
+        luaChon2NhaRac.setPosition(32+(32*10/2f)-luaChon2NhaRac.getWidth()/2f,luaChon2NhaRac.getY());
+        luaChon3NhaRac.setPosition(32+(32*10/2f)-luaChon3NhaRac.getWidth()/2f,luaChon3NhaRac.getY());
+        luaChon4NhaRac.setPosition(32+(32*10/2f)-luaChon4NhaRac.getWidth()/2f,luaChon4NhaRac.getY());
+        luaChon5NhaRac.setPosition(32+(32*10/2f)-luaChon5NhaRac.getWidth()/2f,luaChon5NhaRac.getY());
 
         giaiThichHuuCo.toFront();
         giaiThichVoCo.toFront();
@@ -193,6 +207,7 @@ public class TrashScreen implements Screen {
         camera.update();
 
         time++;
+        stage.act();
         if(time%(20/speed)==0){
             Sprite khuc = new Sprite(new Texture("bangchuyen.png"));
             khuc.setRotation(90);
@@ -352,6 +367,7 @@ public class TrashScreen implements Screen {
             }
         }
         Master.batch.begin();
+        Master.batch.draw(background, 0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         for(Sprite a : sprites2){
             a.draw(Master.batch);
         }
@@ -375,7 +391,6 @@ public class TrashScreen implements Screen {
         }
         Master.batch.end();
 
-        stage.act();
         stage.draw();
         Master.batch.begin();
         game.font3.draw(Master.batch, "" + sohuucodaphanloai,giaiThichHuuCo.getX()+giaiThichHuuCo.getWidth()

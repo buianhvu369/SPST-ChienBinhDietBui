@@ -176,6 +176,10 @@ public class Master implements Screen {
     public static char trongHopDoVui = 1;
     public static char trongHopShock = 1;
     public static char trongHopGreen = 1;
+    public  static boolean answerRight = false;
+    public static boolean answered = false;
+
+    boolean inCreate = false;
     SoTay soTay;
 
     Bia bia;
@@ -281,6 +285,7 @@ public class Master implements Screen {
     public static int soCauDoVui = 10;
     public static int soCauDoGreen = 5;
     public static int soCauDoShock = 8;
+    public static int thoiGianHien = 0;
 
     creatCamera taoCamera;
     creatSign taoSign;
@@ -393,6 +398,10 @@ public class Master implements Screen {
                     GameState.money-=500;
                     GameState.ernegy-=20;
                     GameState.soMayLocBought++;
+                    if(thuTuNhiemVuTanBinh==3){
+                        nhiemVuTanBinh= true;
+                        thuTuNhiemVuTanBinh++;
+                    }
                 }
 
             }
@@ -439,10 +448,6 @@ public class Master implements Screen {
                     Master.amountSeed++;
                     GameState.greenscore -= 5;
                     GameState.money-=100;
-                    if(thuTuNhiemVuTanBinh==3){
-                        nhiemVuTanBinh= true;
-                        thuTuNhiemVuTanBinh++;
-                    }
                 }
             }
         });
@@ -1402,6 +1407,7 @@ public class Master implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 dongCheTao();
                 isOpenSetting = false;
+                inCreate = false;
                 dongCaiDat();
                 moThongTin();
             }
@@ -1412,6 +1418,7 @@ public class Master implements Screen {
 
                 dongCheTao();
                 isOpenSetting = false;
+                inCreate = false;
                 dongCaiDat();
                 moNghienCuu();
 
@@ -1493,6 +1500,7 @@ public class Master implements Screen {
         cheTaoButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 isOpenSetting = false;
+                inCreate = true;
                 dongCaiDat();
                 moCheTao();
             }
@@ -1533,6 +1541,7 @@ public class Master implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 dongCheTao();
                 moCaiDat();
+                inCreate = false;
             }
         });
 
@@ -1628,7 +1637,7 @@ public class Master implements Screen {
             dung.setPosition(10000,10000);
             sai.setPosition(10000,10000);
         }if(inGreenCoBan || inShock){
-            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*5);
+            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*8);
             hieu.toFront();
         }else{
             hieu.setPosition(10000,10000);
@@ -1721,31 +1730,33 @@ public class Master implements Screen {
             }
         }
         if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 1){
-            arrow.setPosition(32*27+16, 19*32-16);
+            arrowNoMove.setRotation(0);
+            arrowNoMove.setPosition( 100000,1000000);
+            arrow.setPosition(32*27-16, 19*32-16);
             arrow.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 2){
             arrow.setPosition(1000034,199999);
-            arrowNoMove.setPosition(32*18, Gdx.graphics.getHeight()-40);
+            arrowNoMove.setPosition(32*18, Gdx.graphics.getHeight()-50);
             arrowNoMove.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh ==3){
             arrowNoMove.setRotation(-90);
             arrowNoMove.toFront();
-            arrowNoMove.setPosition(32*22, 32*8-10);
+            arrowNoMove.setPosition(32*22, 32*12);
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 4){
             arrowNoMove.setRotation(180);
-            arrowNoMove.setPosition(Gdx.graphics.getWidth()-30,Gdx.graphics.getHeight()-80);
+            arrowNoMove.setPosition(Gdx.graphics.getWidth()-10,Gdx.graphics.getHeight()-80);
             arrowNoMove.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh == 5){
             arrowNoMove.setRotation(180);
-            arrowNoMove.setPosition(Gdx.graphics.getWidth()-55,Gdx.graphics.getHeight()-85);
+            arrowNoMove.setPosition(Gdx.graphics.getWidth()-95,Gdx.graphics.getHeight()-85);
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh == 6){
             arrow.setRotation(0);
-            arrow.setPosition(1330,32*16);
+            arrow.setPosition(1080,32*20);
             arrow.toFront();
             arrowNoMove.setPosition(100000,100000);
             nhiemVuTanBinh = false;
@@ -1783,7 +1794,6 @@ public class Master implements Screen {
                        Master.amountSeed--;
                        GameState.greenscore += 10;
                        new LoadingPlant(mouseStage.x-16,mouseStage.y-16,stage);
-                       thuTuNhiemVuTanBinh =1000;
                        arrow.setPosition(10000,100000);
                        soCayConLai--;
                        if(soCayConLai ==0){
@@ -1800,6 +1810,9 @@ public class Master implements Screen {
                     if(stage.hit(mouseStage.x-16,mouseStage.y-16,true) instanceof ScienceCenter
                         ||stage.hit(mouseStage.x-16,mouseStage.y-16,true) instanceof FactoryCenter
                         ||stage.hit(mouseStage.x-16,mouseStage.y-16,true) instanceof HotelCenter){
+                        thuTuNhiemVuTanBinh =1000;
+                        arrow.setPosition(10000,10000);
+                        arrowNoMove.setPosition(10000,10000);
                         isFree = true;
                     }
                     if(isFree){
@@ -2016,6 +2029,12 @@ public class Master implements Screen {
                 }
             }
         }
+        if(inCreate){
+            if(thuTuNhiemVuTanBinh == 1){
+                nhiemVuTanBinh = true;
+                thuTuNhiemVuTanBinh = 3;
+            }
+        }
         if(player.getBound().overlaps(restaurant.getBound())){
             if(player.getY()<restaurant.getY()){
                 player.toFront();
@@ -2120,6 +2139,7 @@ public class Master implements Screen {
             batch.draw(sadIcon,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
             batch.end();
         }
+        arrow.toFront();
         noMoveStage.draw();
         noMoveStage.act();
         vietChuTren();
@@ -2449,6 +2469,15 @@ public class Master implements Screen {
                 } if(trongHopDoVui == 10){
                     game.font3.draw(batch , "AQI cao thường xuất hiện sau mưa?", 32*9 , Gdx.graphics.getHeight()-32*3);
                 }
+                if(answered){
+                    if(answerRight){
+                        game.font3.draw(batch , "Chúc mừng , bạn đã trả lời đúng", 32*9 , Gdx.graphics.getHeight()-32*5+16);
+
+                    }else{
+                        game.font3.draw(batch , "Bạn đã trả lời sai", 32*11 , Gdx.graphics.getHeight()-32*5+16);
+                    }
+                    thoiGianHien++;
+                }
             }
 
             if(inGreenCoBan){
@@ -2679,6 +2708,14 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24){
             day++;
             resetDailyQuest();
+            if(day%3== 0){
+                int ran = MathUtils.random(1,3);
+                switch (ran){
+                    case 1 -> soCauDoShock ++;
+                    case 2 -> soCauDoGreen++;
+                    case 3 -> soCauDoVui++;
+                }
+            }
             soNgayDienRaLeHoi--;
             if(soNgayDienRaLeHoi == 0){
                 isNgayTrongCay = true;
@@ -2903,6 +2940,7 @@ public class Master implements Screen {
             thuTuNhiemVuTanBinh++;
 
         }
+
         dongThongtin();
         dongNghienCuu();
         hienCheTao = true;
@@ -3857,7 +3895,11 @@ public class Master implements Screen {
         if(thuTuNhiemVuTanBinh== 4){
             nhiemVuTanBinh= true;
             thuTuNhiemVuTanBinh ++;
+        }if(thuTuNhiemVuTanBinh < 4){
+            nhiemVuTanBinh = true;
+            thuTuNhiemVuTanBinh = 1;
         }
+        inCreate = false;
         bangScience.setPosition(-1002343,-1101);
         bangScienceCross.setPosition(-1002343,-1101);
         thongTinButton.setPosition(-1002343,-1101);

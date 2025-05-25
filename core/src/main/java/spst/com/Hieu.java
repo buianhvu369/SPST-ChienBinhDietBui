@@ -11,8 +11,7 @@ public class Hieu extends MyActor{
     public Hieu(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("dahieu.png"));
-        setRotation(-90);
-        setSize(75,150);
+        setSize(200,100);
         addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

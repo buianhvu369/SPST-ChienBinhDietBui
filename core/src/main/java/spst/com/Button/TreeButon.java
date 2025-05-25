@@ -21,10 +21,7 @@ public class TreeButon extends MyActor {
                 if(!Master.whatActionIfClickMouse.equals("planttree")){
                     Master.whatActionIfClickMouse = "planttree";
                     textureRegion = new TextureRegion(texture1);
-                    if(Master.thuTuNhiemVuTanBinh == 5){
-                        Master.thuTuNhiemVuTanBinh ++;
-                        Master.nhiemVuTanBinh = true;
-                    }
+
                 }else{
                     Master.whatActionIfClickMouse = "move";
                     textureRegion = new TextureRegion(texture);

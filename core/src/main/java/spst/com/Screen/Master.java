@@ -1574,7 +1574,7 @@ public class Master implements Screen {
             dung.setPosition(10000,10000);
             sai.setPosition(10000,10000);
         }if(inGreenCoBan || inShock){
-            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*5);
+            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*7);
             hieu.toFront();
         }else{
             hieu.setPosition(10000,10000);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -57,6 +58,7 @@ public class TrashScreen implements Screen {
     Sprite cam4 = new Sprite(chieccamera);
     ConTrolSpeed conTrolSpeed;
     ThanhControl thanhControl;
+    GlyphLayout layout = new GlyphLayout();
     Array<Waste> wastes = new Array<>();
     public TrashScreen(StartGame game){
         this.game = game;
@@ -72,6 +74,8 @@ public class TrashScreen implements Screen {
                 game.setScreen(game.master);
             }
         });
+        layout.width = 20;
+        layout.height = 20;
         thanhControl = new ThanhControl(25,Gdx.graphics.getHeight()-64+10,stage);
         conTrolSpeed = new ConTrolSpeed(52,Gdx.graphics.getHeight()-64,stage);
 
@@ -89,20 +93,15 @@ public class TrashScreen implements Screen {
         Master.wastes.removeValue(giaiThichNguyHai,true);
 
         luaChon1NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*4,stage);
-        luaChon1NhaRac.setSize(32*10,32*2);
+        luaChon1NhaRac.setSize(32*11,32*2);
         luaChon2NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*6,stage);
         luaChon2NhaRac.setSize(32*11,32*2);
         luaChon3NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*8,stage);
         luaChon3NhaRac.setSize(32*11,32*2);
         luaChon4NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*10,stage);
-        luaChon4NhaRac.setSize(32*9,32*2);
+        luaChon4NhaRac.setSize(32*11,32*2);
         luaChon5NhaRac = new WhiteButton(32,Gdx.graphics.getHeight()-32*12,stage);
-        luaChon5NhaRac.setSize(32*10,32*2);
-        luaChon1NhaRac.setPosition(32+(32*10/2f)-luaChon1NhaRac.getWidth()/2f,luaChon1NhaRac.getY());
-        luaChon2NhaRac.setPosition(32+(32*10/2f)-luaChon2NhaRac.getWidth()/2f,luaChon2NhaRac.getY());
-        luaChon3NhaRac.setPosition(32+(32*10/2f)-luaChon3NhaRac.getWidth()/2f,luaChon3NhaRac.getY());
-        luaChon4NhaRac.setPosition(32+(32*10/2f)-luaChon4NhaRac.getWidth()/2f,luaChon4NhaRac.getY());
-        luaChon5NhaRac.setPosition(32+(32*10/2f)-luaChon5NhaRac.getWidth()/2f,luaChon5NhaRac.getY());
+        luaChon5NhaRac.setSize(32*11,32*2);
 
         giaiThichHuuCo.toFront();
         giaiThichVoCo.toFront();
@@ -401,20 +400,27 @@ public class TrashScreen implements Screen {
             , giaiThichTaiChe.getY()+giaiThichTaiChe.getHeight());
         game.font3.draw(Master.batch, "" + songuyhaidaphanloai,giaiThichNguyHai.getX()+giaiThichNguyHai.getWidth()
             , giaiThichNguyHai.getY()+giaiThichNguyHai.getHeight());
-        game.font7.draw(Master.batch, "Đổi 10 túi rác hữu cơ lấy 10 điểm xanh"
-            ,luaChon1NhaRac.getX()+16,luaChon1NhaRac.getY()+15+32-7.5f);
-        game.font7.draw(Master.batch, "Đổi 2 túi rác nguy hại lấy 5000 năng lượng"
-            ,luaChon2NhaRac.getX()+16,luaChon2NhaRac.getY()+15+32-7.5f);
-        game.font7.draw(Master.batch, "Đổi 2 túi rác nguy hại và 1 túi rác tái chế"
-            ,luaChon3NhaRac.getX()+16,luaChon3NhaRac.getY()+15+35);
-        game.font7.draw(Master.batch, "lấy 3 level CNX"
-            ,luaChon3NhaRac.getX()+16,luaChon3NhaRac.getY()+35-4);
-        game.font7.draw(Master.batch, "Đổi 10 túi rác tái chế lấy 2500$"
-            ,luaChon4NhaRac.getX()+16,luaChon4NhaRac.getY()+35);
-        game.font7.draw(Master.batch, "Đổi 12 túi rác tái chế và 20 túi rác vô cơ"
-            ,luaChon5NhaRac.getX()+16,luaChon5NhaRac.getY()+15+35);
-        game.font7.draw(Master.batch, "để mở khóa thêm 1 chiếc máy lọc"
-            ,luaChon5NhaRac.getX()+16,luaChon5NhaRac.getY()+35-4);
+        layout.setText(game.font7,"Đổi 10 túi rác hữu cơ lấy 10 điểm xanh");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon1NhaRac.getY()+15+32-7.5f);
+        layout.setText(game.font7,"Đổi 2 túi rác nguy hại lấy 5000 năng lượng");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon2NhaRac.getY()+15+32-7.5f);
+        layout.setText(game.font7,"Đổi 2 túi rác nguy hại và 1 túi rác tái chế");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon3NhaRac.getY()+15+35);
+        layout.setText(game.font7,"lấy 3 level CNX");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon3NhaRac.getY()+35-4);
+        layout.setText(game.font7,"Đổi 10 túi rác tái chế lấy 2500$");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon4NhaRac.getY()+35);
+        layout.setText(game.font7,"Đổi 12 túi rác tái chế và 20 túi rác vô cơ");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon5NhaRac.getY()+15+35);
+        layout.setText(game.font7,"để mở khóa thêm 1 chiếc máy lọc");
+        game.font7.draw(Master.batch, layout
+            ,32+(32*10/2f)- layout.width/2f+16,luaChon5NhaRac.getY()+35-4);
         Master.batch.end();
     }
 

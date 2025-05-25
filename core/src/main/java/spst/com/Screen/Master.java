@@ -1637,7 +1637,7 @@ public class Master implements Screen {
             dung.setPosition(10000,10000);
             sai.setPosition(10000,10000);
         }if(inGreenCoBan || inShock){
-            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*7);
+            hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*8);
             hieu.toFront();
         }else{
             hieu.setPosition(10000,10000);
@@ -1732,27 +1732,27 @@ public class Master implements Screen {
         if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 1){
             arrowNoMove.setRotation(0);
             arrowNoMove.setPosition( 100000,1000000);
-            arrow.setPosition(32*27+16, 19*32-16);
+            arrow.setPosition(32*27-16, 19*32-16);
             arrow.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 2){
             arrow.setPosition(1000034,199999);
-            arrowNoMove.setPosition(32*18, Gdx.graphics.getHeight()-40);
+            arrowNoMove.setPosition(32*18, Gdx.graphics.getHeight()-50);
             arrowNoMove.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh ==3){
             arrowNoMove.setRotation(-90);
             arrowNoMove.toFront();
-            arrowNoMove.setPosition(32*22, 32*12-20);
+            arrowNoMove.setPosition(32*22, 32*12);
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 4){
             arrowNoMove.setRotation(180);
-            arrowNoMove.setPosition(Gdx.graphics.getWidth()-30,Gdx.graphics.getHeight()-80);
+            arrowNoMove.setPosition(Gdx.graphics.getWidth()-10,Gdx.graphics.getHeight()-80);
             arrowNoMove.toFront();
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh == 5){
             arrowNoMove.setRotation(180);
-            arrowNoMove.setPosition(Gdx.graphics.getWidth()-105,Gdx.graphics.getHeight()-85);
+            arrowNoMove.setPosition(Gdx.graphics.getWidth()-95,Gdx.graphics.getHeight()-85);
             nhiemVuTanBinh = false;
         }if(nhiemVuTanBinh&& thuTuNhiemVuTanBinh == 6){
             arrow.setRotation(0);
@@ -1811,6 +1811,8 @@ public class Master implements Screen {
                         ||stage.hit(mouseStage.x-16,mouseStage.y-16,true) instanceof FactoryCenter
                         ||stage.hit(mouseStage.x-16,mouseStage.y-16,true) instanceof HotelCenter){
                         thuTuNhiemVuTanBinh =1000;
+                        arrow.setPosition(10000,10000);
+                        arrowNoMove.setPosition(10000,10000);
                         isFree = true;
                     }
                     if(isFree){
@@ -2137,6 +2139,7 @@ public class Master implements Screen {
             batch.draw(sadIcon,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
             batch.end();
         }
+        arrow.toFront();
         noMoveStage.draw();
         noMoveStage.act();
         vietChuTren();
@@ -2705,7 +2708,7 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24){
             day++;
             resetDailyQuest();
-            if(day%5== 0){
+            if(day%3== 0){
                 int ran = MathUtils.random(1,3);
                 switch (ran){
                     case 1 -> soCauDoShock ++;

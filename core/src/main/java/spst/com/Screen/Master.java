@@ -329,7 +329,17 @@ public class Master implements Screen {
     public static boolean thongTinNutML = false;
     public static boolean thongTinNutCam = false;
     public static boolean thongTinNutSign = false;
+    public static boolean thongTinNutItem = false;
+    public static boolean thongTinNutXeng = false;
+    public static boolean thongTinNutChoi = false;
+    public static boolean thongTinNutXeCo = false;
+    public static boolean thongTinNutXeTaiRac = false;
+    public static boolean thongTinNutXeTaxi = false;
+    public static boolean thongTinNutXePolice = false;
+    public static boolean thongTinNutNVHN = false;
+    public static boolean thongTinNutSoTay = false;
     public static boolean thongTinNutSoiCam = false;
+    public static boolean thongTinNutVLLD = false;
     public static boolean thongTinNgaRe = false;
     public static boolean thongTinCanhRoad = false;
     public static boolean thongTinDat = false;
@@ -342,6 +352,11 @@ public class Master implements Screen {
     public static boolean thongTinDatVongCung = false;
     public static boolean thongTinDatViaHe = false;
     public static boolean thongTinDatDuongThang = false;
+    public static boolean thongTinXeng = false;
+    public static boolean thongTinChoi = false;
+    public static boolean thongTinXeRac = false;
+    public static boolean thongTinTaxi = false;
+    public static boolean thongTinPolice = false;
     public static boolean thongTinSaiUn = false;
     public static boolean thongTinFac = false;
     public static boolean thongTinHotel = false;
@@ -358,14 +373,9 @@ public class Master implements Screen {
     public static Sound collect = Gdx.audio.newSound(Gdx.files.internal("collect.mp3"));
     StartGame game;
     public static int timeOfDay = 0;
-    public static boolean isCoXeng = false;
-    public static boolean isCoChoi = false;
-    public static boolean isMoItems = false;
     public boolean openDailyQuest = false;
+    public static boolean isMoItems = false;
     public static boolean isMoVehicles = false;
-    public static boolean isCoXeRac = false;
-    public static boolean isCoTaxi = false;
-    public static boolean isCoPolice = false;
 
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
@@ -535,7 +545,7 @@ public class Master implements Screen {
             trashTruckButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(Master.isCoXeRac){
+                    if(GameState.isCoXeRac){
                         if(!trashTruckButton.getIsSelect()) {
                             if(!taxiButton.getIsSelect()&&!policeButton.getIsSelect()){
                                 trashTruckButton.setIsSelect(true);
@@ -557,7 +567,7 @@ public class Master implements Screen {
             taxiButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(Master.isCoTaxi){
+                    if(GameState.isCoTaxi){
                         if(!taxiButton.getIsSelect()) {
                             if(!trashTruckButton.getIsSelect()&&!policeButton.getIsSelect()){
                                 taxiButton.setIsSelect(true);
@@ -579,7 +589,7 @@ public class Master implements Screen {
             policeButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(Master.isCoPolice){
+                    if(GameState.isCoPolice){
                         if(!policeButton.getIsSelect()) {
                             if(!trashTruckButton.getIsSelect()&& !taxiButton.getIsSelect()){
                                 policeButton.setIsSelect(true);
@@ -620,7 +630,7 @@ public class Master implements Screen {
             xengButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(Master.isCoXeng){
+                    if(GameState.isCoXeng){
                         if(!Master.whatActionIfClickMouse.equals("CamXeng")) {
                             Master.whatActionIfClickMouse = "CamXeng";
                             xengButton.textureRegion = new TextureRegion(xengButton.texture1);
@@ -635,7 +645,7 @@ public class Master implements Screen {
             choiButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(Master.isCoChoi){
+                    if(GameState.isCoChoi){
                         if(!Master.whatActionIfClickMouse.equals("CamChoi")) {
                             Master.whatActionIfClickMouse = "CamChoi";
                             choiButton.textureRegion = new TextureRegion(choiButton.texture1);
@@ -854,20 +864,95 @@ public class Master implements Screen {
                             }else {
                                 thongTinNutML = false;
                             }
-                            if(actor instanceof creatSign){
-                                thongTinNutSign = true;
-                            }else {
-                                thongTinNutSign = false;
-                            }
                             if(actor instanceof creatCamera){
                                 thongTinNutCam = true;
                             }else {
                                 thongTinNutCam = false;
                             }
+                            if(actor instanceof creatSign){
+                                thongTinNutSign = true;
+                            }else {
+                                thongTinNutSign = false;
+                            }
+                            if(actor instanceof OpenItems){
+                                thongTinNutItem = true;
+                            }else {
+                                thongTinNutItem = false;
+                            }
+                            if(actor instanceof CamXeng){
+                                thongTinNutXeng = true;
+                            }else {
+                                thongTinNutXeng = false;
+                            }
+                            if(actor instanceof CamChoi){
+                                thongTinNutChoi = true;
+                            }else {
+                                thongTinNutChoi = false;
+                            }
+                            if(actor instanceof OpenVehicles){
+                                thongTinNutXeCo = true;
+                            }else {
+                                thongTinNutXeCo = false;
+                            }
+                            if(actor instanceof LayTrashTruck){
+                                thongTinNutXeTaiRac = true;
+                            }else {
+                                thongTinNutXeTaiRac = false;
+                            }
+                            if(actor instanceof LayTaxi){
+                                thongTinNutXeTaxi = true;
+                            }else {
+                                thongTinNutXeTaxi = false;
+                            }
+                            if(actor instanceof LayPolice){
+                                thongTinNutXePolice = true;
+                            }else {
+                                thongTinNutXePolice = false;
+                            }
+                            if(actor instanceof SoTay){
+                                thongTinNutSoTay = true;
+                            }else {
+                                thongTinNutSoTay = false;
+                            }
+                            if(actor instanceof DailyQuest){
+                                thongTinNutNVHN = true;
+                            }else {
+                                thongTinNutNVHN = false;
+                            }
+                            if(actor instanceof creatVatLieuMoRongMap){
+                                thongTinNutVLLD = true;
+                            }else {
+                                thongTinNutVLLD = false;
+                            }
                             if(actor instanceof SelectCamera){
                                 thongTinNutSoiCam = true;
                             }else {
                                 thongTinNutSoiCam = false;
+                            }
+                            if(actor instanceof Shovel){
+                                thongTinXeng = true;
+                            }else {
+                                thongTinXeng = false;
+                            }
+                            if(actor instanceof Broom){
+                                thongTinChoi = true;
+                            }else {
+                                thongTinChoi = false;
+                            }
+                            if(actor instanceof TrashTruck){
+                                thongTinXeRac = true;
+                            }else {
+                                thongTinXeRac = false;
+                            }
+                            if(actor instanceof Taxi){
+                                thongTinTaxi = true;
+                            }else {
+                                thongTinTaxi = false;
+                            }
+                            if(actor instanceof Police){
+                                thongTinPolice = true;
+                            }else {
+                                thongTinPolice = false;
                             }
                             if(actor instanceof BuyDirt){
                                 thongTinDat = true;
@@ -1000,6 +1085,9 @@ public class Master implements Screen {
                         || actorBlock instanceof Player
                         || actorBlock instanceof People
                         || actorBlock instanceof Car
+                        || actorBlock instanceof Taxi
+                        || actorBlock instanceof TrashTruck
+                        || actorBlock instanceof Police
                         || actorBlock instanceof NormalCamera
                         || actorBlock instanceof MayLoc
                         || actorBlock instanceof Sign
@@ -1195,9 +1283,9 @@ public class Master implements Screen {
         });
         buyBroom.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(!isCoChoi){
+                if(!GameState.isCoChoi){
                     if(GameState.money>=300) {
-                        isCoChoi = true;
+                        GameState.isCoChoi = true;
                         noMoveStage.addActor(broom);
                         broom.toFront();
                         GameState.money-=300;
@@ -1210,9 +1298,9 @@ public class Master implements Screen {
         });
         buyShovel.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(!isCoXeng){
+                if(!GameState.isCoXeng){
                     if(GameState.money>=300) {
-                        isCoXeng = true;
+                        GameState.isCoXeng = true;
                         noMoveStage.addActor(shovel);
                         shovel.toFront();
                         GameState.money-=300;
@@ -1225,9 +1313,9 @@ public class Master implements Screen {
         });
         buyTrashTruck.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(!isCoXeRac){
+                if(!GameState.isCoXeRac){
                     if(GameState.money>=800) {
-                        isCoXeRac = true;
+                        GameState.isCoXeRac = true;
                         GameState.money-=800;
                         buyTrashTruck.setColor(Color.GRAY);
                     }
@@ -1236,9 +1324,9 @@ public class Master implements Screen {
         });
         buyTaxi.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(!isCoTaxi){
+                if(!GameState.isCoTaxi){
                     if(GameState.money>=400) {
-                        isCoTaxi = true;
+                        GameState.isCoTaxi = true;
                         GameState.money-=400;
                         buyTaxi.setColor(Color.GRAY);
                     }
@@ -1247,9 +1335,9 @@ public class Master implements Screen {
         });
         buyPolice.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(!isCoPolice){
+                if(!GameState.isCoPolice){
                     if(GameState.money>=700) {
-                        isCoPolice = true;
+                        GameState.isCoPolice = true;
                         GameState.money-=700;
                         buyPolice.setColor(Color.GRAY);
                     }
@@ -1527,6 +1615,9 @@ public class Master implements Screen {
                 new FloatingNews(200,200,noMoveStage,"Bật chế độ gợi ý",Color.BLACK);
             }
         }
+        if(40<amountOfFood && amountOfFood<50 && timeOfDay%120==0){
+            new FloatingNews(400,700,noMoveStage,"Bạn đang đói",Color.RED);
+        }
         if(isInTurtleMap){
             image.setPosition(32*20,Gdx.graphics.getHeight()-32*3-25-20);
             image2.setPosition(32*20,Gdx.graphics.getHeight()-32*6-100-20);
@@ -1614,10 +1705,10 @@ public class Master implements Screen {
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()) {
                 stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
-                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if (player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
                 stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
-                //stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
+                stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             }
         }
 
@@ -1888,7 +1979,7 @@ public class Master implements Screen {
                     try {
                         MyActor myActor = (MyActor) stage.hit(x,y,true);
                         if(myActor instanceof WasteFire){
-                            isCoChoi=false;
+                            GameState.isCoChoi=false;
                             buyBroom.setColor(1,1,1,1);
                             new FloatingNews(Gdx.graphics.getWidth()/2f-200,Gdx.graphics.getHeight()/2f
                                 ,noMoveStage,"Chổi đã bị hỏng do cháy.",Color.RED);
@@ -1899,6 +1990,7 @@ public class Master implements Screen {
                                 case 'r' -> GameState.soRacTaiChe++;
                                 case 'h' -> GameState.soRacNguyHai++;
                             }
+                            wastes.removeValue((Waste) myActor,true);
                         }
                         myActor.remove();
                     }catch (Exception ignored){}
@@ -2128,16 +2220,62 @@ public class Master implements Screen {
                 game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutML){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-50-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutCam){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-50*2-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutSign){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-50*3-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutItem){
+                game.fontTextField.draw(batch, "Đóng/mở danh sách công cụ", 700-50*4-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutXeng){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cầm xẻng", 700-50*4-20, Gdx.graphics.getHeight() - 120-45);
+            }
+            if(thongTinNutChoi){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cầm chổi", 700-50*4-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
+            if(thongTinNutXeCo){
+                game.fontTextField.draw(batch, "Đóng/mở danh sách xe cộ", 700-50*5-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutXeTaiRac){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tải chở rác", 700-50*5-20, Gdx.graphics.getHeight() - 120-45);
+            }
+            if(thongTinNutXeTaxi){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tắc xi", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
+            if(thongTinNutXePolice){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe cảnh sát", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*3);
+            }
+            if(thongTinNutNVHN){
+                game.fontTextField.draw(batch, "Tắt/bật bảng nhiệm vụ hằng ngày", 700-50*6-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutSoTay){
+                game.fontTextField.draw(batch, "Tắt/bật sổ tay", 700-50*10-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutVLLD){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt khối xây dựng", 700-50*6, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutSoiCam){
-                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
+                game.fontTextField.draw(batch, "Soi camera", 700-50*7, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinXeng){
+                game.font3.draw(batch, "Dùng để đào",  shovel.getX(),shovel.getY());
+            }
+            if(thongTinChoi){
+                game.font3.draw(batch, "Dùng để quét rác",  broom.getX(),broom.getY());
+            }
+            if(thongTinXeRac){
+                game.font3.draw(batch, "Khi lái xe này có thể dọn rác",  trashTruck.getX(),trashTruck.getY());
+            }
+            if(thongTinTaxi){
+                game.font3.draw(batch, "Xe tắc xi vừa rẻ vừa nhanh",  broom.getX(),broom.getY());
+            }
+            if(thongTinPolice){
+                game.font3.draw(batch, "Khi lái xe này có thể thu tiền phạt với danh nghĩa là cảnh sát, từ đó tiền " +
+                    "phạt gấp đôi",  police.getX(),police.getY());
             }
             if(thongTinDat){
                 game.font3.draw(batch, "Chỉ đặt được ở khoảng trống (nơi không có gì)",  buyDirt.getX(),buyDirt.getY());
@@ -2211,23 +2349,6 @@ public class Master implements Screen {
 
         chu1.toFront();
         chu2.toFront();
-        if(thongTinMode){
-            if(thongTinNutCay){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ trồng cây", 700-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutML){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt máy lọc", 700-80-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutCam){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ đặt camera", 700-80*2-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSign){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ cắm biển cấm", 700-80*3-20, Gdx.graphics.getHeight() - 120);
-            }
-            if(thongTinNutSoiCam){
-                game.fontTextField.draw(batch, "Soi camera", 700-80*4, Gdx.graphics.getHeight() - 120);
-            }
-        }
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -2494,13 +2615,13 @@ public class Master implements Screen {
     private void xuLyCNXVaGTX() {
         //xu ly CNX
         if (GameState.ernegy >= 10 && factoryAction) {
-            if (GameState.SO2 >= 10 * GameState.levelcongnghexanh / 60f) {
-                GameState.SO2 -= 10 * GameState.levelcongnghexanh / 60f;
+            if (GameState.SO2 >= 0.04f * GameState.levelcongnghexanh / 60f) {
+                GameState.SO2 -= 0.04f * GameState.levelcongnghexanh / 60f;
             } else {
                 GameState.SO2 = 0;
             }
-            if (GameState.CO1 >= 8 * GameState.levelcongnghexanh / 60f) {
-                GameState.CO1 -= 8 * GameState.levelcongnghexanh / 60f;
+            if (GameState.CO1 >= 0.025f*GameState.levelcongnghexanh / 60f) {
+                GameState.CO1 -= 0.025f*GameState.levelcongnghexanh / 60f;
             } else {
                 GameState.CO1 = 0;
             }
@@ -2518,14 +2639,14 @@ public class Master implements Screen {
         }
 
         //xu ly GTX
-        if(GameState.ernegy >= 15 && trafficAction) {
-            if (GameState.SO2 >= 8 * GameState.levelgiaothongxanh / 60f) {
-                GameState.SO2 -= 8 * GameState.levelgiaothongxanh / 60f;
+        if(GameState.ernegy >= 13 && trafficAction) {
+            if (GameState.SO2 >= 0.017f * GameState.levelgiaothongxanh / 60f) {
+                GameState.SO2 -= 0.017f * GameState.levelgiaothongxanh / 60f;
             } else {
                 GameState.SO2 = 0;
             }
-            if (GameState.CO1 >= 6 * GameState.levelgiaothongxanh / 60f) {
-                GameState.CO1 -= 6 * GameState.levelgiaothongxanh / 60f;
+            if (GameState.CO1 >= 0.043f * GameState.levelgiaothongxanh / 60f) {
+                GameState.CO1 -= 0.043f * GameState.levelgiaothongxanh / 60f;
             } else {
                 GameState.CO1 = 0;
             }
@@ -3102,169 +3223,169 @@ public class Master implements Screen {
             hour = timeOfDay / 60;
             hour = hour%24;
             if(hour == 6) {
-                GameState.CO1 += 15;
-                GameState.NO2 += 20;
+                GameState.CO1 += 3;
+                GameState.NO2 += 4;
             } else if(hour == 7) {
-                GameState.CO1 += 15;
-                GameState.NO2 += 20;
+                GameState.CO1 += 3;
+                GameState.NO2 += 4;
             } else if(hour == 8) {
-                GameState.CO1 += 35;
-                GameState.NO2 += 25;
+                GameState.CO1 += 7;
+                GameState.NO2 += 5;
             } else if(hour == 9) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10,11,23,99,45 -> {
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         GameState.danso--;
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26 -> {
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20){
-                            GameState.PM2_5 -= 20;
+                        if(GameState.PM2_5 >= 4){
+                            GameState.PM2_5 -= 4;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15 ){
-                            GameState.PM10 -= 15 ;
+                        if(GameState.PM10 >= 3 ){
+                            GameState.PM10 -= 3 ;
                         }else {
                             GameState.PM10 = 0;
                         }
                     }
                     case 8,25 -> {
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25;
-                        GameState.NO2 += 20;
-                        GameState.PM2_5 += 15;
+                        GameState.SO2 += 5;
+                        GameState.NO2 += 4;
+                        GameState.PM2_5 += 3;
                     }
                     case 9,52,56,78,93 -> {
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30;
-                        GameState.PM10 += 20;
+                        GameState.PM2_5 += 6;
+                        GameState.PM10 += 4;
                     }
                 }
             } else if(hour == 10) {
-                GameState.SO2 += 30;
-                GameState.PM2_5 += 20;
+                GameState.SO2 += 6;
+                GameState.PM2_5 += 4;
             } else if(hour == 11) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5,7,10 -> {
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         GameState.danso--;
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20){
-                            GameState.PM2_5 -= 20;
+                        if(GameState.PM2_5 >= 4){
+                            GameState.PM2_5 -= 4;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15){
-                            GameState.PM10 -= 15;
+                        if(GameState.PM10 >= 3){
+                            GameState.PM10 -= 3;
                         }else {
                             GameState.PM10 = 0;
                         }
                     }
                     case 8,25,54,33 -> {
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25;
-                        GameState.NO2 += 20;
-                        GameState.PM2_5 += 15;
+                        GameState.SO2 += 5;
+                        GameState.NO2 += 4;
+                        GameState.PM2_5 += 3;
                     }
                     case 9,52,56,78,93,58,57,35 -> {
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30;
-                        GameState.PM10 += 20;
+                        GameState.PM2_5 += 6;
+                        GameState.PM10 += 4;
                     }
                 }
             } else if(hour == 12) {
-                GameState.O3 += 35;
+                GameState.O3 += 7;
             } else if(hour == 13) {
-                GameState.O3 += 20;
+                GameState.O3 += 4;
             } else if(hour == 14) {
                 int ran = random.nextInt(1,100);
                 switch (ran){
                     case 1, 3,5 -> {
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         GameState.danso--;
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
                     }
                     case 2,24,26,67,68,69,79,89 -> {
                         GameState.event = "Có 1 cơn mưa nhỏ";
-                        if(GameState.PM2_5 >= 20){
-                            GameState.PM2_5 -= 20;
+                        if(GameState.PM2_5 >= 4){
+                            GameState.PM2_5 -= 4;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 15){
-                            GameState.PM10 -= 15;
+                        if(GameState.PM10 >= 3){
+                            GameState.PM10 -= 3;
                         }else {
                             GameState.PM10 = 0;
                         }
                     }
                     case 8,25,54,33 -> {
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25;
-                        GameState.NO2 += 20;
-                        GameState.PM2_5 += 15;
+                        GameState.SO2 += 5;
+                        GameState.NO2 += 4;
+                        GameState.PM2_5 += 3;
                     }
                     case 9,52,56,78,93,58,57 -> {
                         GameState.event = "Có 1 cơn gió mang bụi làm ô nhiễm thành phố nghiêm trọng";
-                        GameState.PM2_5 += 30;
-                        GameState.PM10 += 20;
+                        GameState.PM2_5 += 6;
+                        GameState.PM10 += 4;
                     }
                 }
             } else if(hour == 15) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 4;
+                GameState.CO1 += 3;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20 -> {
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         GameState.danso--;
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
 
                     }
                 }
             } else if(hour == 16) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 4;
+                GameState.CO1 += 3;
                 int ran = random.nextInt(1,21);
                 switch (ran){
                     case 1, 20,19 -> {
                         GameState.event = "Tai nạn giao thông";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         GameState.danso--;
                         new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
 
                     }
                 }
             } else if(hour == 17) {
-                GameState.NO2 += 20;
-                GameState.CO1 += 15;
+                GameState.NO2 += 4;
+                GameState.CO1 += 3;
             } else if(hour == 18) {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 1, 20,19,45,67,23,55 -> {
                         GameState.event = "Sự kiện thể thao lớn";
-                        GameState.NO2 += 30;
-                        GameState.CO1 += 20;
+                        GameState.NO2 += 6;
+                        GameState.CO1 += 4;
                         int ran2 = random.nextInt(1,101);
                         if(25<ran2 && ran2<=50 ){
                             GameState.event = "Tai nạn giao thông";
-                            GameState.NO2 += 30;
-                            GameState.CO1 += 20;
+                            GameState.NO2 += 6;
+                            GameState.CO1 += 4;
                             GameState.danso-= 5;
                             new FloatingNews(0,500,noMoveStage,"Tai nạn giao thông chết 1 người",Color.RED).toFront();
 
@@ -3272,21 +3393,21 @@ public class Master implements Screen {
                     }
                     case 49,11,68,56,87 -> {
                         GameState.event = "Có 1 cơn mưa bão, vài tia sét đã đánh trúng đường phố gây ra vài vụ cháy nhỏ";
-                        GameState.SO2 += 25;
-                        GameState.NO2 += 20;
-                        GameState.PM2_5 += 15;
+                        GameState.SO2 += 5;
+                        GameState.NO2 += 4;
+                        GameState.PM2_5 += 3;
                     }
                 }
             } else if(hour == 19) {
-                GameState.PM2_5 += 25;
-                GameState.SO2 += 20;
+                GameState.PM2_5 += 5;
+                GameState.SO2 += 4;
                 int ran = random.nextInt(1,101);
                 switch (ran) {
                     case 1, 20, 19, 45, 67, 23, 55,5,3 -> {
                         GameState.event = "Cháy 1 ngôi nhà";
-                        GameState.SO2 += 15;
-                        GameState.NO2 += 20;
-                        GameState.PM2_5 += 25;
+                        GameState.SO2 += 3;
+                        GameState.NO2 += 4;
+                        GameState.PM2_5 += 5;
                         switch (ran){
                             case 1 -> {
                                 GameState.danso-=1;
@@ -3307,9 +3428,9 @@ public class Master implements Screen {
                         }
                         if (ran == 20) {
                             GameState.event = "Cháy 2 ngôi nhà";
-                            GameState.SO2 += 30;
-                            GameState.NO2 += 40;
-                            GameState.PM2_5 += 50;
+                            GameState.SO2 += 6;
+                            GameState.NO2 += 8;
+                            GameState.PM2_5 += 10;
                             int ran2 = random.nextInt(1,10);
                             switch (ran2){
                                 case 1 -> {
@@ -3333,40 +3454,40 @@ public class Master implements Screen {
                     }
                 }
             } else if(hour == 20) {
-                GameState.PM2_5 += 25;
-                GameState.NO2 += 20;
-                GameState.SO2 += 15;
+                GameState.PM2_5 += 5;
+                GameState.NO2 += 4;
+                GameState.SO2 += 3;
             } else if(hour == 21) {
                 int ran = random.nextInt(1,101);
                 switch (ran){
                     case 34,43,56,65,78,87,12,21,10,91 -> {
                         GameState.event = "Có 1 cơn mưa lớn";
-                        if(GameState.PM2_5 >= 30){
-                            GameState.PM2_5 -= 30;
+                        if(GameState.PM2_5 >= 6){
+                            GameState.PM2_5 -= 6;
                         }else {
                             GameState.PM2_5 = 0;
                         }
-                        if(GameState.PM10 >= 20){
-                            GameState.PM10 -= 20;
+                        if(GameState.PM10 >= 4){
+                            GameState.PM10 -= 4;
                         }else {
                             GameState.PM10 = 0;
                         }
                     }
                 }
             } else if(hour == 22) {
-                GameState.PM10 += 20;
-                GameState.CO1 += 15;
+                GameState.PM10 += 4;
+                GameState.CO1 += 3;
             } else if(hour == 23) {
-                GameState.PM10 += 20;
-                GameState.CO1 += 15;
+                GameState.PM10 += 4;
+                GameState.CO1 += 3;
             }
             else if(hour == 0) {
-                GameState.PM10 += 20;
-                GameState.CO1 += 15;
+                GameState.PM10 += 4;
+                GameState.CO1 += 3;
             }
             else if(hour == 5) {
-                GameState.NO2 += 10;
-                GameState.CO1 += 8;
+                GameState.NO2 += 2;
+                GameState.CO1 += 1.6f;
             }
             Utils.updateAQI(GameState.CO1, GameState.NO2, GameState.O3, GameState.PM2_5, GameState.PM10, GameState.SO2);
             new FloatingNews(0,500,noMoveStage, GameState.event,Color.YELLOW);

@@ -19,7 +19,7 @@ import spst.com.Screen.Master;
 import spst.com.Screen.TrashScreen;
 
 public class GameState{
-    public static int money = 50000000;
+    public static int money = 5000;
     public static int ernegy=200;
     public static int danso = 100000;
     public static String xuhuongdantangorgiam = "tăng dân số";
@@ -55,6 +55,11 @@ public class GameState{
     public static int soMLtoidacothemua = 2;
     public static int soMayLocBought = 0;
     public static boolean isDaThang = false;
+    public static boolean isCoXeng = false;
+    public static boolean isCoChoi = false;
+    public static boolean isCoXeRac = false;
+    public static boolean isCoTaxi = false;
+    public static boolean isCoPolice = false;
     public static String nenMua = "";
     public static void saveGame() {
         SaveGame saveGame = new SaveGame(true);
@@ -118,6 +123,12 @@ public class GameState{
             soMLtoidacothemua = saveGame.soMLtoidacothemua;
             soMayLocBought = saveGame.soMayLocBought;
             isDaThang = saveGame.isDaThang;
+
+            isCoXeng = saveGame.isCoXeng;
+            isCoChoi = saveGame.isCoChoi;
+            isCoXeRac = saveGame.isCoXeRac;
+            isCoTaxi = saveGame.isCoTaxi;
+            isCoPolice = saveGame.isCoPolice;
 
             for(CarMP b : saveGame.carArray){
                 Car a = new Car(b.x,b.y,Master.stage);
@@ -225,6 +236,12 @@ public class GameState{
         soMayLocBought = 0;
         isDaThang = false;
 
+        isCoXeng = false;
+        isCoChoi = false;
+        isCoXeRac = false;
+        isCoTaxi = false;
+        isCoPolice = false;
+
         Master.WLK = 'K';
         Master.AQI = 250;
         Master.amountOfFood = 100;
@@ -232,7 +249,6 @@ public class GameState{
             a.remove();
         }
         Master.winsorloses.clear();
-        Master.player = new Player(1400/2f,800/2f,Master.stage);
         Master.blood.setColor(1,0,0,0);
 
         TrashScreen.time=0;

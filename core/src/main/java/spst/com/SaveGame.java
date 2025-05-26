@@ -62,6 +62,11 @@ public class SaveGame{
     public int gio1Phan60;
     public int timeOfDay;
     public float colorREDRiver;
+    public boolean isCoXeng = false;
+    public boolean isCoChoi = false;
+    public boolean isCoXeRac = false;
+    public boolean isCoTaxi = false;
+    public boolean isCoPolice = false;
     SaveGame(){}
     SaveGame(boolean koCanDungCaiNay){
         money = GameState.money;
@@ -105,6 +110,13 @@ public class SaveGame{
 
         levelcongnghexanh = GameState.levelcongnghexanh;
         levelgiaothongxanh = GameState.levelgiaothongxanh;
+
+        isDaThang = GameState.isDaThang;
+        isCoXeng = GameState.isCoXeng;
+        isCoChoi = GameState.isCoChoi;
+        isCoXeRac = GameState.isCoXeRac;
+        isCoTaxi = GameState.isCoTaxi;
+        isCoPolice = GameState.isCoPolice;
 
         soMLtoidacothemua = GameState.soMLtoidacothemua;
         soMayLocBought = GameState.soMayLocBought;

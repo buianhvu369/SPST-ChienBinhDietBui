@@ -12,6 +12,8 @@ public class Waste extends MyActor {
     private boolean isFire;
     private char costume;
     private char sophan;
+    private boolean isTrongDS=false;
+    private char myX;
     public Waste(float x, float y, Stage s, char cos) {
         super(x, y, s);
         int random = MathUtils.random.nextInt(1,101);
@@ -46,6 +48,7 @@ public class Waste extends MyActor {
                 costume = 'h';
             }
         }
+        myX = (char) getX();
         sophan=cos;
         Master.wastes.add(this);
         setSize(32, 32);
@@ -61,12 +64,19 @@ public class Waste extends MyActor {
         if(sophan=='1'){
             moveBy(0,-1);
             if(14*32>=getY()&&getY()>=11*32){
-                toBack();
+                if(isTrongDS){
+                    setX(-345632);
+                    isTrongDS=false;
+                }
             }else {
-                toFront();
+                if(!isTrongDS){
+                    setX(myX);
+                    isTrongDS=true;
+                }
             }
             if(getY()<-32){
                 Master.wastes.removeValue(this,true);
+                setPosition(-345642,-645321);
                 remove();
             }
         }

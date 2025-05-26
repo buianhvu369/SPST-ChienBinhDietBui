@@ -16,7 +16,7 @@ public class XienBan extends MyActor {
         textureRegion = new TextureRegion(new Texture("xienban.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    GameState.money -= 150;
+                    GameState.money -= 175;
                     GameState.PM10 += 25;
                     GameState.PM2_5 += 25;
                     GameState.SO2 += 25;

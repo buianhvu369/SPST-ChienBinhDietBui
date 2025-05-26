@@ -13,7 +13,7 @@ import spst.com.Screen.Master;
 public class Kem extends MyActor {
     public Kem(float x, float y, Stage s, Master m) {
         super(x, y, s);
-        textureRegion = new TextureRegion(new Texture("kemtrangtien.png"));
+        textureRegion = new TextureRegion(new Texture("kem trang tien.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                     GameState.money -= 100;
@@ -32,7 +32,7 @@ public class Kem extends MyActor {
 
             }
         });
-        setSize(textureRegion.getRegionWidth()/3, textureRegion.getRegionHeight()/3);
+        setSize(textureRegion.getRegionWidth()/5, textureRegion.getRegionHeight()/5);
     }
     @Override
     public void act(float delta) {

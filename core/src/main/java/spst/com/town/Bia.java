@@ -32,7 +32,7 @@ public class Bia extends MyActor {
 
             }
         });
-        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight()-60);
     }
 
     @Override

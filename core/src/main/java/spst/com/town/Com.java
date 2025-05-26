@@ -16,7 +16,7 @@ public class Com extends MyActor {
         textureRegion = new TextureRegion(new Texture("comlangvong.png"));
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                    GameState.money -= 275;
+                    GameState.money -= 200;
                     GameState.PM10 += 5;
                     GameState.PM2_5 += 5;
                     GameState.SO2 += 5;

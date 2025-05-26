@@ -17,7 +17,7 @@ public class Pho extends MyActor {
         addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                     Master.amountOfFood += 70;
-                    GameState.money -= 275;
+                    GameState.money -= 225;
                     GameState.PM10 += 20;
                     GameState.PM2_5 += 20;
                     GameState.SO2 += 20;

@@ -178,6 +178,7 @@ public class Master implements Screen {
     public static char trongHopGreen = 1;
     public  static boolean answerRight = false;
     public static boolean answered = false;
+    TextButton textButton;
 
     boolean inCreate = false;
     SoTay soTay;
@@ -206,8 +207,6 @@ public class Master implements Screen {
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Texture button = new Texture("buttonblank.png");
     Texture sadIcon = new Texture("sadIcon.png");
-    TextButton bienButton ;
-    TextButton plantButton;
     Button1C button1C;
     Button2C button2C;
     Button3C button3C;
@@ -253,6 +252,7 @@ public class Master implements Screen {
     public static  int soNguoiDotBien = 0;
     public static int soNguoiDotRac = 0;
     public static int soCayConLai = 0;
+    boolean inRestaurant = false;
     int soMayLocBought = 0;
     Imaged image;
     Imaged image2;
@@ -2455,6 +2455,14 @@ public class Master implements Screen {
             }
 
         }
+        if(inRestaurant){
+            game.font3.draw(batch, "Bia : 150$", Gdx.graphics.getWidth()-32*6-16 , Gdx.graphics.getHeight()- 32*5);
+            game.font3.draw(batch, "Kem : 100$", Gdx.graphics.getWidth()-32*6-16 , Gdx.graphics.getHeight()- 32*6-25);
+            game.font3.draw(batch, "Phở : 225$", Gdx.graphics.getWidth()-32*6-16, Gdx.graphics.getHeight()- 32*7-50);
+            game.font3.draw(batch, "Cốm : 200$", Gdx.graphics.getWidth()-32*6-16, Gdx.graphics.getHeight()- 32*8-75);
+            game.font3.draw(batch, "Xiên bẩn : 175$", Gdx.graphics.getWidth()-32*6-16 , Gdx.graphics.getHeight()- 32*9-100);
+
+        }
         batch.end();
     }
     private void xuLyNenMuaVaCamXucNguoiDan(){
@@ -2720,12 +2728,13 @@ public class Master implements Screen {
     void showMenuFood(){
         menuFood.setPosition(32,32);
         bia.setPosition(32,32);
-        iceCream.setPosition(200,32);
-        com.setPosition(200,250);
-        xienBan.setPosition(550,250);
+        iceCream.setPosition(32 + bia.getWidth(),32);
+        com.setPosition(32,250);
+        xienBan.setPosition(32+com.getWidth()+10,250);
         menuFoodCross.setPosition(Gdx.graphics.getWidth()-32*2,Gdx.graphics.getHeight()-32*2);
-        pho.setPosition(400,32);
+        pho.setPosition(32+bia.getWidth()+iceCream.getWidth(),32);
         menuFood.toBack();
+        inRestaurant = true;
 
     }
 
@@ -2737,6 +2746,7 @@ public class Master implements Screen {
         pho.setPosition(40000,3200);
         xienBan.setPosition(32000,32000);
         com.setPosition(32000,3200);
+        inRestaurant = false;
 
     }
 

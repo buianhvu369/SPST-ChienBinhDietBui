@@ -9,8 +9,8 @@ public class Arrow extends MyActor{
     int bodem = 60;
     public Arrow(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = new TextureRegion(new Texture("muiten.png"));
-        setSize(45,45);
+        textureRegion = new TextureRegion(new Texture("arrow.png"));
+        setSize(60,60);
     }
 
     @Override

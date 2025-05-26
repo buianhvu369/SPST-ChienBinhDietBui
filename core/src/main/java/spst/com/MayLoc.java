@@ -21,19 +21,19 @@ public class MayLoc extends MyActor{
         super.act(delta);
         time++;
         if(Master.mLKKAction && GameState.ernegy >= 5) {
-            if (GameState.PM2_5 >= 6 + (level - 1) * 2 / 60f) {
-                GameState.PM2_5 -= (6 + (level - 1) * 2) / 60f;
+            if (GameState.PM2_5 >= 0.5f + (level - 1) * 0.08f / 60f) {
+                GameState.PM2_5 -= (0.5f + (level - 1) * 0.08f) / 60f;
             } else {
                 GameState.PM2_5 = 0;
             }
-            if (GameState.NO2 >= 4 + (level - 1) * 1 / 60f) {
-                GameState.NO2 -= (4 + (level - 1) * 1) / 60f;
+            if (GameState.NO2 >= 0.07f + (level - 1) * 0.015f / 60f) {
+                GameState.NO2 -= (0.07f + (level - 1) * 0.015f) / 60f;
             } else {
                 GameState.NO2 = 0;
             }
         }
-        if(time%60 == 0 && GameState.ernegy >= 5 && Master.mLKKAction){
-            GameState.ernegy -= 5;
+        if(time%60 == 0 && GameState.ernegy >= 5+(level-1) && Master.mLKKAction){
+            GameState.ernegy -= 5+(level-1);
         }
     }
 }

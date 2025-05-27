@@ -2156,12 +2156,12 @@ public class Master implements Screen {
         stage.act();
         truck.toFront();
         stage.draw();
-        for(Waste a : wastes){
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
-            shapeRenderer.end();
-        }
+//        for(Waste a : wastes){
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//            shapeRenderer.setColor(Color.RED);
+//            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
+//            shapeRenderer.end();
+//        }
         vietChuDuoi();
         if(WLK == 'L'){
             batch.begin();
@@ -2244,7 +2244,7 @@ public class Master implements Screen {
                 game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tải chở rác", 700-50*5-20, Gdx.graphics.getHeight() - 120-45);
             }
             if(thongTinNutXeTaxi){
-                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe tắc xi", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*2);
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe taxi", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*2);
             }
             if(thongTinNutXePolice){
                 game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe cảnh sát", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*3);
@@ -2271,10 +2271,10 @@ public class Master implements Screen {
                 game.font3.draw(batch, "Khi lái xe này có thể dọn rác",  trashTruck.getX(),trashTruck.getY());
             }
             if(thongTinTaxi){
-                game.font3.draw(batch, "Xe tắc xi vừa rẻ vừa nhanh",  broom.getX(),broom.getY());
+                game.font3.draw(batch, "Xe taxi vừa rẻ vừa nhanh",  broom.getX(),broom.getY());
             }
             if(thongTinPolice){
-                game.font3.draw(batch, "Khi lái xe này có thể thu tiền phạt với danh nghĩa là cảnh sát, từ đó tiền " +
+                game.font3.draw(batch, "Khi lái xe này có thể thu tiền phạt với tư cách là cảnh sát, từ đó tiền " +
                     "phạt gấp đôi",  police.getX(),police.getY());
             }
             if(thongTinDat){
@@ -2431,7 +2431,7 @@ public class Master implements Screen {
         }
         if(hienXeCo){
             game.font3.draw(batch, ": Xe chở rác giá 800$",buyTrashTruck.getX()+buyTrashTruck.getWidth()/2f+32*2,buyTrashTruck.getY()+25);
-            game.font3.draw(batch, ": Xe tắc xi giá 400$",buyTaxi.getX()+buyTaxi.getWidth()/2f+32*2,buyTaxi.getY()+25);
+            game.font3.draw(batch, ": Xe taxi giá 400$",buyTaxi.getX()+buyTaxi.getWidth()/2f+32*2,buyTaxi.getY()+25);
             game.font3.draw(batch, ": Xe cảnh sát giá 700$",buyPolice.getX()+buyPolice.getWidth()/2f+32*2,buyPolice.getY()+25);
         }
         if(isInTurtleMap){

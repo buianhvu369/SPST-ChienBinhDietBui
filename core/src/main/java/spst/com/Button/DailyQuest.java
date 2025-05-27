@@ -10,7 +10,7 @@ import spst.com.MyActor;
 public class DailyQuest extends MyActor {
     public DailyQuest(float x, float y, Stage s) {
         super(x, y, s);
-        textureRegion = new TextureRegion(new Texture("DailyQuest.png"));
+        textureRegion = new TextureRegion(new Texture("dailyquest.png"));
         setSize(40, 40);
 
     }

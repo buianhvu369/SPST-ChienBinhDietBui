@@ -25,17 +25,17 @@ public class Tree extends MyActor {
             GameState.money--;
         }
         if(GameState.money >= 1) {
-            if (GameState.PM10 >= 0.0007f / 60f) {
-                GameState.PM10 -= 0.0007f / 60f;
+            if (GameState.PM10 >= 0.009f / 60f) {
+                GameState.PM10 -= 0.009f / 60f;
             }
-            if (GameState.PM2_5 >= 0.0088f / 60f) {
-                GameState.PM2_5 -= 0.0088f / 60f;
+            if (GameState.PM2_5 >= 0.02f / 60f) {
+                GameState.PM2_5 -= 0.02f / 60f;
             }
-            if (GameState.CO1 >= 0.009f / 60f) {
-                GameState.CO1 -= 0.009f / 60f;
+            if (GameState.CO1 >= 0.09f / 60f) {
+                GameState.CO1 -= 0.09f / 60f;
             }
-            if (GameState.O3 >= 0.0098f / 60f) {
-                GameState.O3 -= 0.0098f / 60f;
+            if (GameState.O3 >= 0.098f / 60f) {
+                GameState.O3 -= 0.098f / 60f;
             }
         }
     }

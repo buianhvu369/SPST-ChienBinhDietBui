@@ -606,7 +606,7 @@ public class People extends MyActor {
                     Actions.fadeOut(6),
                     Actions.run(()->{
                         GameState.danso--;
-                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị trôi sông",Color.RED).toFront();
+                        //new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị trôi sông",Color.RED).toFront();
                         remove();
                     })
                 ));
@@ -623,7 +623,7 @@ public class People extends MyActor {
                     Actions.fadeOut(6),
                     Actions.run(()->{
                         GameState.danso--;
-                        new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                        //new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
                         remove();
                     })
                 ));
@@ -636,7 +636,7 @@ public class People extends MyActor {
                 Actions.fadeOut(6),
                 Actions.run(()->{
                     GameState.danso--;
-                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    //new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
                     remove();
                 })
             ));
@@ -648,7 +648,7 @@ public class People extends MyActor {
                 Actions.fadeOut(6),
                 Actions.run(()->{
                     GameState.danso--;
-                    new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    //new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
                     remove();
                 })
             ));

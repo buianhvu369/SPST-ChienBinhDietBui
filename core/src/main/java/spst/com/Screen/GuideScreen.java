@@ -85,15 +85,15 @@ public class GuideScreen implements Screen {
 
         Master.batch.begin();
 
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
         for (int i = 0; i < guide.length; i++) {
             switch (i){
-                case 6,7,8,9,12,13,15,17 -> game.font3.draw(Master.batch,"      " + guide[i],0,y-i*30);
-                case 18,19 -> game.font3.draw(Master.batch,"            " + guide[i],0,y-i*30);
-                default -> game.font3.draw(Master.batch,guide[i],0,y-i*30);
+                case 6,7,8,9,13,15,17,19 -> game.font3.draw(Master.batch,"            " + guide[i],0,y-i*30);
+                case 20,21 -> game.font3.draw(Master.batch,"                  " + guide[i],0,y-i*30);
+                default -> game.font3.draw(Master.batch,"      "+guide[i],0,y-i*30);
             }
         }
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
 
         Master.batch.end();
     }

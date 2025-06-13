@@ -4,28 +4,28 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import spst.com.StartGame;
 
-/** Launches the desktop (LWJGL3) applicatio3q3sae3qn. */
+/** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
-        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support aFFnd helps on Windows.
+        if (StartupHelper.startNewJvmIfRequired()) return; // This handles macOS support and helps on Windows.
         createApplication();
     }
-
 
     private static Lwjgl3Application createApplication() {
         return new Lwjgl3Application(new StartGame(), getDefaultConfiguration());
     }
+
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Eco Engineer");
         configuration.useVsync(true);
-        //// Limits FPS to the refresh rate3 of the currently active monitor.
+        //// Limits FPS to the refresh rate of the currently active monitor.
         configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
         configuration.setWindowedMode(960, 540);
-        configuration.setWindowIcon("logogame.png");
+        configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
         return configuration;
     }
 }

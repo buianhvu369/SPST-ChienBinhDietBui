@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
 
-public class CamVotRac extends MyActor {
+public class CamRiu extends MyActor {
     public boolean isSong = false;
-    public Texture texture = new Texture("noChoi.png");
-    public Texture texture1 = new Texture("yesChoi.png");
-    public CamVotRac(float x, float y, Stage s) {
+    public Texture texture = new Texture("noRiu.png");
+    public Texture texture1 = new Texture("yesRiu.png");
+    public CamRiu(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(texture);
         setSize(40,40);

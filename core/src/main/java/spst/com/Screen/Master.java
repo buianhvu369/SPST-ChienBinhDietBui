@@ -30,6 +30,7 @@ import spst.com.Button.*;
 import spst.com.Button.ButtonLeft;
 import spst.com.Button.ButtonRight;
 import spst.com.Button.InItemsButton.CamChoi;
+import spst.com.Button.InItemsButton.CamRiu;
 import spst.com.Button.InItemsButton.CamXeng;
 import spst.com.Button.InItemsButton.OpenItems;
 import spst.com.Button.InVehicleButton.LayPolice;
@@ -44,6 +45,7 @@ import spst.com.GroundOutRoads.CanhGround;
 import spst.com.GroundOutRoads.GroundCenter;
 import spst.com.GroundOutRoads.GroundCorner;
 import spst.com.House.*;
+import spst.com.InFactory.Items.Ax;
 import spst.com.InFactory.Items.Broom;
 import spst.com.InFactory.Items.Shovel;
 import spst.com.InFactory.Vehicles.Police;
@@ -129,6 +131,8 @@ public class Master implements Screen {
     Shovel shovel;
     Broom buyBroom;
     Broom broom;
+    Ax buyAx;
+    Ax ax;
     TruckButton buyTrashTruck;
     public static TrashTruck trashTruck;
     TaxiButton buyTaxi;
@@ -162,6 +166,7 @@ public class Master implements Screen {
     MordernDoor hotelDoor;
     MordernDoor factoryDoor;
     boolean isCanDao = false;
+    boolean isCanChat = false;
     int isQuet = 0;
     boolean isCanDatDirt = false;
     boolean isCanDatThingsOnDirt = false;
@@ -293,6 +298,7 @@ public class Master implements Screen {
     OpenItems openItems;
     CamXeng xengButton;
     CamChoi choiButton;
+    CamRiu riuButton;
     OpenVehicles openVehicles;
     LayTrashTruck trashTruckButton;
     LayTaxi taxiButton;
@@ -332,6 +338,7 @@ public class Master implements Screen {
     public static boolean thongTinNutItem = false;
     public static boolean thongTinNutXeng = false;
     public static boolean thongTinNutChoi = false;
+    public static boolean thongTinNutRiu = false;
     public static boolean thongTinNutXeCo = false;
     public static boolean thongTinNutXeTaiRac = false;
     public static boolean thongTinNutXeTaxi = false;
@@ -354,6 +361,7 @@ public class Master implements Screen {
     public static boolean thongTinDatDuongThang = false;
     public static boolean thongTinXeng = false;
     public static boolean thongTinChoi = false;
+    public static boolean thongTinRiu = false;
     public static boolean thongTinXeRac = false;
     public static boolean thongTinTaxi = false;
     public static boolean thongTinPolice = false;
@@ -612,8 +620,10 @@ public class Master implements Screen {
         openItems = new OpenItems(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-70,noMoveStage);
         xengButton = new CamXeng(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-70-45,noMoveStage);
         choiButton = new CamChoi(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-70-45*2,noMoveStage);
+        riuButton = new CamRiu(Gdx.graphics.getWidth()-300,Gdx.graphics.getHeight()-70-45*3,noMoveStage);
         xengButton.remove();
         choiButton.remove();
+        riuButton.remove();
         {// TỪ DẤU MỞ NGOẶC NHỌN ĐẾN HẾT CHỈ XỬ LÝ ẤN VÀO NÚT ITEM VÀ CÁC NÚT BÊN TRONG ITEM
             openItems.addListener(new ClickListener() {
                 @Override
@@ -657,6 +667,21 @@ public class Master implements Screen {
                     }
                 }
             });
+            riuButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(GameState.isCoRiu){
+                        if(!Master.whatActionIfClickMouse.equals("CamRiu")) {
+                            Master.whatActionIfClickMouse = "CamRiu";
+                            riuButton.textureRegion = new TextureRegion(riuButton.texture1);
+                        }else{
+                            Master.whatActionIfClickMouse = "move";
+                            riuButton.textureRegion = new TextureRegion(riuButton.texture);
+                            MDirt.setPosition(-32456,-34565);
+                        }
+                    }
+                }
+            });
         }
         generateMap();
         generateMap2();
@@ -670,7 +695,6 @@ public class Master implements Screen {
         creatVLLD = new creatVatLieuMoRongMap(Gdx.graphics.getWidth()-400-32,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-400-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-400+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
-        buyShovel = new Shovel(32*5,Gdx.graphics.getHeight()-32*8,noMoveStage);
         doVui = new DoVui(32*12,32*2,noMoveStage);
         green = new Green(32*5, 32*2, noMoveStage);
         shock = new Shock(32*19 , 32*2,noMoveStage);
@@ -681,6 +705,7 @@ public class Master implements Screen {
         sai = new Sai(32*18 , Gdx.graphics.getHeight() - 32*8,noMoveStage);
         dung = new Dung(32 *9 ,Gdx.graphics.getHeight() - 32*8,noMoveStage);
         hieu = new Hieu(32* 13 ,Gdx.graphics.getHeight() - 32*6,noMoveStage);
+        buyShovel = new Shovel(32*5,Gdx.graphics.getHeight()-32*8,noMoveStage);
         buyShovel.remove();
         shovel = new Shovel(0,0,noMoveStage);
         shovel.setTouchable(Touchable.disabled);
@@ -690,6 +715,11 @@ public class Master implements Screen {
         broom = new Broom(0,0,noMoveStage);
         broom.setTouchable(Touchable.disabled);
         broom.remove();
+        buyAx = new Ax(32*5,Gdx.graphics.getHeight()-32*11,noMoveStage);
+        buyAx.remove();
+        ax = new Ax(0,0,noMoveStage);
+        ax.setTouchable(Touchable.disabled);
+        ax.remove();
         buyTrashTruck = new TruckButton(-345436,-24234,noMoveStage);
         trashTruck = new TrashTruck(-254242, -56732, stage);
         buyTaxi = new TaxiButton(-345436,-24234,noMoveStage);
@@ -889,6 +919,11 @@ public class Master implements Screen {
                             }else {
                                 thongTinNutChoi = false;
                             }
+                            if(actor instanceof CamRiu){
+                                thongTinNutRiu = true;
+                            }else {
+                                thongTinNutRiu = false;
+                            }
                             if(actor instanceof OpenVehicles){
                                 thongTinNutXeCo = true;
                             }else {
@@ -938,6 +973,11 @@ public class Master implements Screen {
                                 thongTinChoi = true;
                             }else {
                                 thongTinChoi = false;
+                            }
+                            if(actor instanceof Ax){
+                                thongTinRiu = true;
+                            }else {
+                                thongTinRiu = false;
                             }
                             if(actor instanceof TrashTruck){
                                 thongTinXeRac = true;
@@ -1071,6 +1111,12 @@ public class Master implements Screen {
                         isQuet=2;
                     }else {
                         isQuet=0;
+                    }
+                    MyActor actorBlockChat = (MyActor) stage.hit(x2+32, y2+32*2, true);
+                    if(actorBlockChat instanceof Tree){
+                        isCanChat=true;
+                    }else{
+                        isCanChat=false;
                     }
                     if(actorBlock instanceof MordernDoor
                         || actorBlock instanceof Restaurant
@@ -1293,6 +1339,21 @@ public class Master implements Screen {
                     }
                 }else {
                     new FloatingNews(buyBroom.getX(), buyBroom.getY(), noMoveStage,"ĐÃ MUA",Color.GREEN);
+                }
+            }
+        });
+        buyAx.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(!GameState.isCoRiu){
+                    if(GameState.money>=300) {
+                        GameState.isCoRiu = true;
+                        noMoveStage.addActor(ax);
+                        ax.toFront();
+                        GameState.money-=300;
+                        buyAx.setColor(Color.GRAY);
+                    }
+                }else {
+                    new FloatingNews(buyAx.getX(), buyAx.getY(), noMoveStage,"ĐÃ MUA",Color.GREEN);
                 }
             }
         });
@@ -2000,6 +2061,27 @@ public class Master implements Screen {
                 }else {
                     new FloatingNews(x,y,stage,"Không có rác ở đây ",Color.RED);
                 }
+            }else if(Master.whatActionIfClickMouse.equals("CamRiu")){
+                float x = stage.getViewport().getCamera().position.x - deltaXYVector.x;
+                float y = stage.getViewport().getCamera().position.y - deltaXYVector.y;
+                if(isCanChat){
+                    //BuyDirt a = new BuyDirt(x, y,stage);
+                    //a.setZIndex(stage.hit(x, y, true).getZIndex()+1);
+                    try {
+                        Tree tree = (Tree) stage.hit(x,y,true);
+                        trees.removeValue(tree,true);
+                        tree.remove();
+                        GameState.money+=100;
+                        new FloatingNews(x,y,stage,"Được 100$ do chặt 1 cây",Color.RED);
+                    }catch (Exception ignored){
+                    }
+                    MDirt.setPosition(-32456,-3456889);
+                    //VLLDs.add(a);
+                    whatActionIfClickMouse = "move";
+                    riuButton.textureRegion = new TextureRegion(riuButton.texture);
+                }else {
+                    new FloatingNews(x,y,stage,"Không thể chặt chỗ này",Color.RED);
+                }
             }else {
                 new AnimationClickMouse(cameraPosition.x - 32, cameraPosition.y - 32, stage);
                 clickSound.play(amluong);
@@ -2237,6 +2319,9 @@ public class Master implements Screen {
             if(thongTinNutChoi){
                 game.fontTextField.draw(batch, "Tắt/bật chế độ cầm chổi", 700-50*4-20, Gdx.graphics.getHeight() - 120-45*2);
             }
+            if(thongTinNutRiu){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ cầm rìu", 700-50*4-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
             if(thongTinNutXeCo){
                 game.fontTextField.draw(batch, "Đóng/mở danh sách xe cộ", 700-50*5-20, Gdx.graphics.getHeight() - 120);
             }
@@ -2267,11 +2352,14 @@ public class Master implements Screen {
             if(thongTinChoi){
                 game.font3.draw(batch, "Dùng để quét rác",  broom.getX(),broom.getY());
             }
+            if(thongTinRiu){
+                game.font3.draw(batch, "Dùng để chặt cây",  ax.getX(),ax.getY());
+            }
             if(thongTinXeRac){
                 game.font3.draw(batch, "Khi lái xe này có thể dọn rác",  trashTruck.getX(),trashTruck.getY());
             }
             if(thongTinTaxi){
-                game.font3.draw(batch, "Xe taxi vừa rẻ vừa nhanh",  broom.getX(),broom.getY());
+                game.font3.draw(batch, "Xe taxi vừa rẻ vừa nhanh",  taxi.getX(),taxi.getY());
             }
             if(thongTinPolice){
                 game.font3.draw(batch, "Khi lái xe này có thể thu tiền phạt với tư cách là cảnh sát, từ đó tiền " +
@@ -2419,6 +2507,8 @@ public class Master implements Screen {
                 ,Gdx.graphics.getHeight()-32*8+25);
             game.font3.draw(batch, ": Chổi giá 300$",buyBroom.getX()+buyBroom.getWidth()/2f+32*2
                 ,Gdx.graphics.getHeight()-32*8+25);
+            game.font3.draw(batch, ": Rìu giá 300$",buyAx.getX()+buyAx.getWidth()/2f+32*2
+                ,Gdx.graphics.getHeight()-32*11+25);
         }
         if(hienXayDung){
             game.font3.draw(batch, ": Vỉa hè giá 10$",buyViaHe.getX()+buyViaHe.getWidth()/2f+32*2,buyViaHe.getY()+25);
@@ -2682,9 +2772,11 @@ public class Master implements Screen {
         if(isMoItems){
             noMoveStage.addActor(xengButton);
             noMoveStage.addActor(choiButton);
+            noMoveStage.addActor(riuButton);
         }else {
             xengButton.remove();
             choiButton.remove();
+            riuButton.remove();
         }
 
         if(whatActionIfClickMouse.equals("CamXeng")){
@@ -2709,9 +2801,21 @@ public class Master implements Screen {
             deltaXYVector.set((float) Gdx.graphics.getWidth() /2 - x, (float) Gdx.graphics.getHeight() /2 - y+2);
             MDirt.setPosition(x, y-2);
             MDirt.toFront();
+        }else if(whatActionIfClickMouse.equals("CamRiu")){
+            if(ax.getStage() == null){
+                noMoveStage.addActor(ax);
+                ax.toFront();
+            }
+            ax.setPosition(mouseNoMoveStage.x,mouseNoMoveStage.y);
+            float x = Math.round(mouseNoMoveStage.x/32f)*32+(32-stage.getCamera().position.x%32) - 32+32;
+            float y = Math.round(mouseNoMoveStage.y/32f)*32+(32-stage.getCamera().position.y%32) - 48+32*2;
+            deltaXYVector.set((float) Gdx.graphics.getWidth() /2 - x, (float) Gdx.graphics.getHeight() /2 - y+2);
+            MDirt.setPosition(x, y-2);
+            MDirt.toFront();
         }else {
             shovel.remove();
             broom.remove();
+            ax.remove();
         }
 
         //XỬ LÝ VEHICLES
@@ -2900,9 +3004,11 @@ public class Master implements Screen {
 
         noMoveStage.addActor(buyShovel);
         noMoveStage.addActor(buyBroom);
+        noMoveStage.addActor(buyAx);
 
         buyShovel.toFront();
         buyBroom.toFront();
+        buyAx.toFront();
     }
     private void moXeCo(){
         dongXayDung();
@@ -2934,6 +3040,7 @@ public class Master implements Screen {
 
         buyShovel.remove();
         buyBroom.remove();
+        buyAx.remove();
     }
     private void dongXeCo(){
         hienXeCo = false;

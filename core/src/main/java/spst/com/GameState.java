@@ -57,6 +57,7 @@ public class GameState{
     public static boolean isDaThang = false;
     public static boolean isCoXeng = false;
     public static boolean isCoChoi = false;
+    public static boolean isCoRiu = false;
     public static boolean isCoXeRac = false;
     public static boolean isCoTaxi = false;
     public static boolean isCoPolice = false;

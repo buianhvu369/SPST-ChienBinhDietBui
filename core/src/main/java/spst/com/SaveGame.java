@@ -58,15 +58,18 @@ public class SaveGame{
     public int soCuaCameraDangLooking;
     public boolean isCNX;
     public boolean isGTX;
-    public int day;
     public int gio1Phan60;
     public int timeOfDay;
     public float colorREDRiver;
     public boolean isCoXeng = false;
     public boolean isCoChoi = false;
+    public boolean isCoRiu = false;
     public boolean isCoXeRac = false;
     public boolean isCoTaxi = false;
     public boolean isCoPolice = false;
+    public int day = 1;
+    public int month = 3;
+    public int year = 2025;
     SaveGame(){}
     SaveGame(boolean koCanDungCaiNay){
         money = GameState.money;
@@ -89,9 +92,9 @@ public class SaveGame{
 
         isCNX = Master.isCNX;
         isGTX = Master.isGTX;
-        day = Master.day;
         gio1Phan60 = Master.gio1phan60;
         timeOfDay = Master.timeOfDay;
+        day = GameState.day;
 
         colorREDRiver = Master.blood.getColor().a;
 
@@ -114,13 +117,13 @@ public class SaveGame{
         isDaThang = GameState.isDaThang;
         isCoXeng = GameState.isCoXeng;
         isCoChoi = GameState.isCoChoi;
+        isCoRiu = GameState.isCoRiu;
         isCoXeRac = GameState.isCoXeRac;
         isCoTaxi = GameState.isCoTaxi;
         isCoPolice = GameState.isCoPolice;
 
         soMLtoidacothemua = GameState.soMLtoidacothemua;
         soMayLocBought = GameState.soMayLocBought;
-        isDaThang = GameState.isDaThang;
 
         for(Car b : Master.cars){
             CarMP a = new CarMP(b.getX(),b.getY());

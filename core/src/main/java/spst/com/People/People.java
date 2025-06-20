@@ -153,6 +153,13 @@ public class People extends MyActor {
     public void act(float delta) {
         super.act(delta);
         if(isAlive) {
+            if(Master.timeOfDay%60==0){
+                if(Master.isNgayQuyenGop){
+                    int donate = random.nextInt(10,51);
+                    GameState.money+=donate;
+                    new FloatingNews(0, Gdx.graphics.getHeight()-32,Master.noMoveStage, "+"+donate, Color.GREEN);
+                }
+            }
             if(!Master.isNgayTrongCay) {
                 time += delta;
                 timeDirection++;
@@ -446,7 +453,6 @@ public class People extends MyActor {
                     if(Master.soCayTieuChuan == 0){
                         Master.isNgayTrongCay = false;
                         Master.soCayTieuChuan = MathUtils.random(10, 25);
-                        Master.soNgayDienRaLeHoi = MathUtils.random(5, 10);
                     }
                     addAction(Actions.sequence(
                         Actions.delay(2),

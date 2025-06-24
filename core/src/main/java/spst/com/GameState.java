@@ -61,6 +61,10 @@ public class GameState{
     public static boolean isCoXeRac = false;
     public static boolean isCoTaxi = false;
     public static boolean isCoPolice = false;
+    public static int day = 1;
+    public static int month = 3;
+    public static int year = 2025;
+
     public static String nenMua = "";
     public static void saveGame() {
         SaveGame saveGame = new SaveGame(true);
@@ -97,9 +101,11 @@ public class GameState{
 
             Master.isCNX = saveGame.isCNX;
             Master.isGTX = saveGame.isGTX;
-            Master.day = saveGame.day;
             Master.gio1phan60 = saveGame.gio1Phan60;
             Master.timeOfDay = saveGame.timeOfDay;
+            day = saveGame.day;
+            month = saveGame.month;
+            year = saveGame.year;
 
             Master.WLK = 'K';
             Master.amountOfFood = 100;
@@ -127,6 +133,7 @@ public class GameState{
 
             isCoXeng = saveGame.isCoXeng;
             isCoChoi = saveGame.isCoChoi;
+            isCoRiu = saveGame.isCoRiu;
             isCoXeRac = saveGame.isCoXeRac;
             isCoTaxi = saveGame.isCoTaxi;
             isCoPolice = saveGame.isCoPolice;
@@ -216,9 +223,11 @@ public class GameState{
         Master.mLKKAction = true;
         Master.factoryAction = true;
         Master.trafficAction = true;
-        Master.day = 0;
         Master.gio1phan60 = 0;
         Master.timeOfDay = 0;
+        day = 1;
+        month = 3;
+        year = 2025;
 
         soDat = 0;
         soViaHe = 0;
@@ -239,6 +248,7 @@ public class GameState{
 
         isCoXeng = false;
         isCoChoi = false;
+        isCoRiu = false;
         isCoXeRac = false;
         isCoTaxi = false;
         isCoPolice = false;

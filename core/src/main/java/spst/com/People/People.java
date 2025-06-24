@@ -153,6 +153,128 @@ public class People extends MyActor {
     public void act(float delta) {
         super.act(delta);
         if(isAlive) {
+            if(getBound().overlaps(Master.scienceCenter.getBound())){
+                if(this.getY()<Master.scienceCenter.getY()){
+                    this.toFront();
+                    if(this.getY() > Master.scienceCenter.getY()-5){
+                        this.setY(Master.scienceCenter.getY()-5);
+                    }
+                }else {
+                    Master.scienceCenter.toFront();
+                    Master.scienceDoor.toFront();
+                    if(this.getY() < Master.scienceCenter.getY()+10){
+                        this.setY(Master.scienceCenter.getY()+10);
+                    }
+                }
+            }
+            if(this.getBound().overlaps(Master.restaurant.getBound())){
+                if(this.getY()<Master.restaurant.getY()){
+                    this.toFront();
+                    if(this.getY() > Master.restaurant.getY()-5){
+                        this.setY(Master.restaurant.getY()-5);
+                    }
+                }else {
+                    Master.restaurant.toFront();
+                    Master.restaurant.toFront();
+                    if(this.getY() < Master.restaurant.getY()+10){
+                        this.setY(Master.restaurant.getY()+10);
+                    }
+                }
+            }
+            if(this.getBound().overlaps(Master.hotelCenter.getBound())){
+                if(this.getY()<Master.hotelCenter.getY()){
+                    this.toFront();
+                    if(this.getY() > Master.hotelCenter.getY()-5){
+                        this.setY(Master.hotelCenter.getY()-5);
+                    }
+                }else {
+                    Master.hotelCenter.toFront();
+                    Master.hotelDoor.toFront();
+                    if(this.getY() < Master.hotelCenter.getY()+10){
+                        this.setY(Master.hotelCenter.getY()+10);
+                    }
+                }
+            }
+            if(this.getBound().overlaps(Master.factoryCenter.getBound())){
+                if(this.getY()<Master.factoryCenter.getY()){
+                    this.toFront();
+                    if(this.getY() > Master.factoryCenter.getY()-5){
+                        this.setY(Master.factoryCenter.getY()-5);
+                    }
+                }else {
+                    Master.factoryCenter.toFront();
+                    Master.factoryDoor.toFront();
+                    if(this.getY() < Master.factoryCenter.getY()+10){
+                        this.setY(Master.factoryCenter.getY()+10);
+                    }
+                }
+            }
+            if(this.getBound().overlaps(Master.trashCenter.getBound())){
+                if(this.getY()<Master.trashCenter.getY()){
+                    this.toFront();
+                    if(this.getY() > Master.trashCenter.getY()-5){
+                        this.setY(Master.trashCenter.getY()-5);
+                    }
+                }else {
+                    Master.trashCenter.toFront();
+                    Master.trashDoor.toFront();
+                    if(this.getY() < Master.trashCenter.getY()+10){
+                        this.setY(Master.trashCenter.getY()+10);
+                    }
+                }
+            }
+            for(MyActor house : Master.houses){
+                if(this.getBound().overlaps(house.getBound())){
+                    if(this.getY()<house.getY()){
+                        this.toFront();
+                        if(this.getY() > house.getY()-5){
+                            this.setY(house.getY()-5);
+                        }
+                    }else {
+                        house.toFront();
+                        if(this.getY() < house.getY()+10){
+                            this.setY(house.getY()+10);
+                        }
+                    }
+                }
+            }
+            for(Tree tree : Master.trees){
+                if(tree.getX()-8<getX()&&getX()< tree.getX()+8){
+                    if(this.getY()<tree.getY()){
+                        this.toFront();
+                        if(this.getY() > tree.getY()-5){
+                            this.setY(tree.getY()-5);
+                        }
+                    }else {
+                        tree.toFront();
+                        if(this.getY() < tree.getY()+10){
+                            this.setY(tree.getY()+10);
+                        }
+                    }
+                }
+            }
+            for(Car car : Master.cars) {
+                if(this.getBound().overlaps(car.getBound())){
+                    if(this.getY()<car.getY()){
+                        this.toFront();
+                        if(this.getY() > car.getY()-5){
+                            this.setY(car.getY()-5);
+                        }
+                    }else {
+                        car.toFront();
+                        if(this.getY() < car.getY()+10){
+                            this.setY(car.getY()+10);
+                        }
+                    }
+                }
+            }
+            if(Master.timeOfDay%60==0){
+                if(Master.isNgayQuyenGop){
+                    int donate = random.nextInt(10,51);
+                    GameState.money+=donate;
+                    new FloatingNews(0, Gdx.graphics.getHeight()-32,Master.noMoveStage, "+"+donate, Color.GREEN);
+                }
+            }
             if(!Master.isNgayTrongCay) {
                 time += delta;
                 timeDirection++;
@@ -446,7 +568,6 @@ public class People extends MyActor {
                     if(Master.soCayTieuChuan == 0){
                         Master.isNgayTrongCay = false;
                         Master.soCayTieuChuan = MathUtils.random(10, 25);
-                        Master.soNgayDienRaLeHoi = MathUtils.random(5, 10);
                     }
                     addAction(Actions.sequence(
                         Actions.delay(2),

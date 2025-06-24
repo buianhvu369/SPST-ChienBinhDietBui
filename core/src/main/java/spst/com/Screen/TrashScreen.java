@@ -401,8 +401,7 @@ public class TrashScreen implements Screen {
         game.font3.draw(Master.batch, "" + songuyhaidaphanloai,giaiThichNguyHai.getX()+giaiThichNguyHai.getWidth()
             , giaiThichNguyHai.getY()+giaiThichNguyHai.getHeight());
         layout.setText(game.font7,"Đổi 10 túi rác hữu cơ lấy 10 điểm xanh");
-        game.font7.draw(Master.batch, layout
-            ,32+(32*10/2f)- layout.width/2f+16,luaChon1NhaRac.getY()+15+32-7.5f);
+        game.font7.draw(Master.batch, layout,32+(32*10/2f)- layout.width/2f+16,luaChon1NhaRac.getY()+15+32-7.5f);
         layout.setText(game.font7,"Đổi 2 túi rác nguy hại lấy 5000 năng lượng");
         game.font7.draw(Master.batch, layout
             ,32+(32*10/2f)- layout.width/2f+16,luaChon2NhaRac.getY()+15+32-7.5f);

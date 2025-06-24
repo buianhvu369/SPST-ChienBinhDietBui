@@ -53,6 +53,9 @@ public class Car extends MyActor {
                 moveBy(speedX, speedY);
             }
         }
+        GameState.PM2_5 += 0.0004f/60;
+        GameState.CO1 += 0.0004f/60;
+        GameState.PM10 += 0.0004f/60;
 
         if(getBound().overlaps(Master.taxi.getBound())){
             isAlive = false;

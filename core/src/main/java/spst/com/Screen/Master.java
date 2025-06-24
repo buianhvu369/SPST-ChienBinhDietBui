@@ -162,9 +162,9 @@ public class Master implements Screen {
     Cross menuFoodCross;
     Cross dailyCross;
     Cross soTayCross;
-    MordernDoor scienceDoor;
-    MordernDoor hotelDoor;
-    MordernDoor factoryDoor;
+    public static MordernDoor scienceDoor;
+    public static MordernDoor hotelDoor;
+    public static MordernDoor factoryDoor;
     boolean isCanDao = false;
     boolean isCanChat = false;
     int isQuet = 0;
@@ -190,11 +190,11 @@ public class Master implements Screen {
 
     Bia bia;
     Pho pho;
-    FactoryCenter factoryCenter;
-    TrashCenter trashCenter;
-    MordernDoor trashDoor;
-    HotelCenter hotelCenter;
-    ScienceCenter scienceCenter;
+    public static FactoryCenter factoryCenter;
+    public static TrashCenter trashCenter;
+    public static MordernDoor trashDoor;
+    public static HotelCenter hotelCenter;
+    public static ScienceCenter scienceCenter;
     public static ShowAQI showAQI;
     Calories calories;
     public static boolean hienCheTao = false;
@@ -234,6 +234,7 @@ public class Master implements Screen {
     public static Array<Actor> winsorloses = new Array<>();
     public static Array<Car> cars = new Array<>();
     public static Array<MyActor> roads = new Array<>();
+    public static Array<MyActor> houses = new Array<>();
     public static Array<Waste> wastes = new Array<>();
     public static Array<Tree> trees = new Array<>();
     public static Array<MayLoc> MLKKs = new Array<>();
@@ -308,7 +309,7 @@ public class Master implements Screen {
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
     SaveNut saveNut;
-    Restaurant restaurant;
+    public static Restaurant restaurant;
     Kem iceCream;
     Com com;
     XienBan xienBan;
@@ -2127,6 +2128,12 @@ public class Master implements Screen {
             button2S.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80);
             button3S.setPosition(Gdx.graphics.getWidth() * 0.07f, Gdx.graphics.getHeight() * 0.6f-40-80*2);
         }
+        if(inCreate){
+            if(thuTuNhiemVuTanBinh == 1){
+                nhiemVuTanBinh = true;
+                thuTuNhiemVuTanBinh = 3;
+            }
+        }
         if(player.getBound().overlaps(scienceCenter.getBound())){
             if(player.getY()<scienceCenter.getY()){
                 player.toFront();
@@ -2139,12 +2146,6 @@ public class Master implements Screen {
                 if(player.getY() < scienceCenter.getY()+10){
                     player.setY(scienceCenter.getY()+10);
                 }
-            }
-        }
-        if(inCreate){
-            if(thuTuNhiemVuTanBinh == 1){
-                nhiemVuTanBinh = true;
-                thuTuNhiemVuTanBinh = 3;
             }
         }
         if(player.getBound().overlaps(restaurant.getBound())){
@@ -2203,17 +2204,36 @@ public class Master implements Screen {
                 }
             }
         }
-        for(Car car : cars) {
-            if(player.getBound().overlaps(car.getBound())){
-                if(player.getY()<car.getY()){
+        for(MyActor house : houses){
+            if(player.getBound().overlaps(house.getBound())){
+                if(player.getY()<house.getY()){
                     player.toFront();
-                    if(player.getY() > car.getY()-5){
-                        player.setY(car.getY()-5);
+                    if(player.getY() > house.getY()-5){
+                        player.setY(house.getY()-5);
                     }
                 }else {
-                    car.toFront();
-                    if(player.getY() < car.getY()+10){
-                        player.setY(car.getY()+10);
+                    house.toFront();
+                    if(player.getY() < house.getY()+10){
+                        player.setY(house.getY()+10);
+                    }
+                }
+            }
+        }
+        for(Tree tree : trees){
+            if(tree.getX()-32<player.getX()&&player.getX()< tree.getX()+32){
+                if(player.getY()<tree.getY()){
+                    player.toFront();
+                    if(tree.getX()-16<player.getX()&&player.getX()< tree.getX()+16){
+                        if(player.getY() > tree.getY()-5){
+                            player.setY(tree.getY()-5);
+                        }
+                    }
+                }else {
+                    tree.toFront();
+                    if(tree.getX()-16<player.getX()&&player.getX()< tree.getX()+16){
+                        if(player.getY() < tree.getY()+10){
+                            player.setY(tree.getY()+10);
+                        }
                     }
                 }
             }
@@ -4029,13 +4049,13 @@ public class Master implements Screen {
             new Hangraongang(x,y,stage,2);
             x += 16*3-10;
         }
-        new House3(1184+32*8,32*16, stage, false);
-         new House3(1184+32*9,32*2,stage,true);
-         new House2(1184+32*11, 32*8,stage , false);
-        new House2(1184+32*25,32*17,stage , true);
-        new House1(1184+32*20,32*7,stage,false);
-        new House1(1184+32*16, 32*16,stage , true);
-        new House1(1184+32*22, 32,stage , true);
+        houses.add(new House3(1184+32*8,32*16, stage, false));
+        houses.add(new House3(1184+32*9,32*2,stage,true));
+        houses.add(new House2(1184+32*11, 32*8,stage , false));
+        houses.add(new House2(1184+32*25,32*17,stage , true));
+        houses.add(new House1(1184+32*20,32*7,stage,false));
+        houses.add(new House1(1184+32*16, 32*16,stage , true));
+        houses.add(new House1(1184+32*22, 32,stage , true));
         creatCastle(1184+32*30,32*2);
 
         new People1(32*5+1184,32,stage,true);
@@ -4126,7 +4146,7 @@ public class Master implements Screen {
 
 
     public void creatCastle(float x , float y ){
-        new Castle(x,y,stage);
+        houses.add(new Castle(x,y,stage));
     }
 
     public void createRiverAndBoats(){

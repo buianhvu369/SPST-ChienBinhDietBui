@@ -64,7 +64,8 @@ public class StartGame extends Game {
             + "óòỏõọôốồổỗộơớờởỡợ"
             + "úùủũụưứừửữự"
             + "ýỳỷỹỵ"
-            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
+            + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|"
+            + "😀"+"🤒"+"😡";
 
         font3 = fontGenerator3.generateFont(fontParameter3);
         fontGenerator3.dispose();

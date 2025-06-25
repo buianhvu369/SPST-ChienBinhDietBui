@@ -159,7 +159,7 @@ public class Player extends MyActor {
         } else {
             setSize(32,32);
         }
-        if(!Master.trashTruck.getIsUsing()&&!Master.taxi.getIsUsing()&&!Master.police.getIsUsing()){
+        if(!Master.trashTruck.getIsUsing()&&!Master.taxi.getIsUsing()&&!Master.police.getIsUsing()&&!Master.electricCar.getIsUsing()){
             for(Car c : Master.cars){
                 if(getBound().overlaps(c.getBoundCar())){
                     isAlive = false;

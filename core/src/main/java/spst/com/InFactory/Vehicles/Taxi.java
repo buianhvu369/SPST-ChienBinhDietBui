@@ -10,6 +10,7 @@ import spst.com.Waste;
 
 public class Taxi extends MyActor {
     private boolean isUsing=false;
+    private int soxang=0;
     public Taxi(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("taxiright.png"));
@@ -35,6 +36,19 @@ public class Taxi extends MyActor {
                 textureRegion = new TextureRegion(new Texture("taxidown.png"));
                 setSize(32,32*2);
             }
+            if(soxang==0){
+                if(GameState.money>100){
+                    GameState.money-=100;
+                    soxang=60*24;
+                }else{
+                    isUsing=false;
+                    Master.player.speed=2;
+                }
+            }
+            soxang--;
+            GameState.CO1+=0.4/60f;
+            GameState.PM2_5+=0.16/60f;
+            GameState.PM10+=0.08/60f;
         }else {
             Master.player.setSize(32,32);
         }

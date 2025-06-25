@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 import spst.com.*;
 import spst.com.Roads.Car;
 import spst.com.Roads.Tree;
+import spst.com.Roads.TypeTree;
 import spst.com.Screen.Master;
 import spst.com.town.Fire;
 
@@ -238,7 +239,7 @@ public class People extends MyActor {
                     }
                 }
             }
-            for(Tree tree : Master.trees){
+            for(MyActor tree : Master.trees){
                 if(tree.getX()-8<getX()&&getX()< tree.getX()+8){
                     if(this.getY()<tree.getY()){
                         this.toFront();
@@ -318,6 +319,9 @@ public class People extends MyActor {
                                 if (!findTarget) {
                                     boolean canPut = true;
                                     treeTarget = Master.trees.random();
+                                    while(treeTarget.type== TypeTree.Water){
+                                        treeTarget = Master.trees.random();
+                                    }
                                     for (Rectangle rectangle1 : Master.noCutting) {
                                         if (rectangle1.contains(treeTarget.getX(), treeTarget.getY())) {
                                             canPut = false;
@@ -763,6 +767,18 @@ public class People extends MyActor {
             ));
         }
         if(getBound().overlaps(Master.taxi.getBound())&&Master.taxi.getIsUsing()){
+            isAlive = false;
+            isBep = true;
+            addAction(Actions.sequence(
+                Actions.fadeOut(6),
+                Actions.run(()->{
+                    GameState.danso--;
+                    //new FloatingNews(0,500,Master.noMoveStage,"1 người chết do bị xe đâm",Color.RED).toFront();
+                    remove();
+                })
+            ));
+        }
+        if(getBound().overlaps(Master.electricCar.getBound())&&Master.electricCar.getIsUsing()){
             isAlive = false;
             isBep = true;
             addAction(Actions.sequence(

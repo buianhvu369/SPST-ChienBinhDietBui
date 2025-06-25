@@ -10,6 +10,7 @@ import spst.com.Waste;
 
 public class TrashTruck extends MyActor {
     private boolean isUsing=false;
+    private int soxang=0;
     public TrashTruck(float x, float y, Stage s) {
         super(x, y, s);
         textureRegion = new TextureRegion(new Texture("trashtruckright.png"));
@@ -38,6 +39,19 @@ public class TrashTruck extends MyActor {
         }else {
             Master.player.setSize(32,32);
         }
+        if(soxang==0){
+            if(GameState.money>100){
+                GameState.money-=100;
+                soxang=60*16;
+            }else{
+                isUsing=false;
+                Master.player.speed=2;
+            }
+        }
+        soxang--;
+        GameState.CO1+=0.8/60f;
+        GameState.PM2_5+=0.46/60f;
+        GameState.PM10+=0.18/60f;
         for(Waste w : Master.wastes){
             if(getBound().overlaps(w.getBound())){
                 switch (w.getCostume()){

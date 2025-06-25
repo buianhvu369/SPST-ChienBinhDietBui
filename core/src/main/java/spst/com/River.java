@@ -17,6 +17,5 @@ public class River extends MyActor{
         textureRegion = new TextureRegion(new Texture("river1.png"));
 
         setSize(4*32, 800);
-        Master.noPlaced.add(this.getBound());
     }
 }

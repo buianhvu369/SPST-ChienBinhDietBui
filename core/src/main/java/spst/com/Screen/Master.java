@@ -33,10 +33,7 @@ import spst.com.Button.InItemsButton.CamChoi;
 import spst.com.Button.InItemsButton.CamRiu;
 import spst.com.Button.InItemsButton.CamXeng;
 import spst.com.Button.InItemsButton.OpenItems;
-import spst.com.Button.InVehicleButton.LayPolice;
-import spst.com.Button.InVehicleButton.LayTaxi;
-import spst.com.Button.InVehicleButton.LayTrashTruck;
-import spst.com.Button.InVehicleButton.OpenVehicles;
+import spst.com.Button.InVehicleButton.*;
 import spst.com.Enums.TypeViaHe;
 import spst.com.InFactory.*;
 import spst.com.Cameras.NormalCamera;
@@ -48,6 +45,7 @@ import spst.com.House.*;
 import spst.com.InFactory.Items.Ax;
 import spst.com.InFactory.Items.Broom;
 import spst.com.InFactory.Items.Shovel;
+import spst.com.InFactory.Vehicles.ElectricCar;
 import spst.com.InFactory.Vehicles.Police;
 import spst.com.InFactory.Vehicles.Taxi;
 import spst.com.InFactory.Vehicles.TrashTruck;
@@ -95,6 +93,7 @@ public class Master implements Screen {
     public static Replay replay;
     Chu chu1;
     Chu chu2;
+    Chu chu3;
     ThongTin thongTinButton;
     NghienCuu nghienCuuButton;
     WhiteButton nangCapMLKK;
@@ -136,7 +135,9 @@ public class Master implements Screen {
     TruckButton buyTrashTruck;
     public static TrashTruck trashTruck;
     TaxiButton buyTaxi;
+    ElecCarButton buyElecCar;
     public static Taxi taxi;
+    public static ElectricCar electricCar;
     PoliceButton buyPolice;
     public static Police police;
     Bang bangFactory;
@@ -306,6 +307,7 @@ public class Master implements Screen {
     OpenVehicles openVehicles;
     LayTrashTruck trashTruckButton;
     LayTaxi taxiButton;
+    LayElectricCar electricCarButton;
     LayPolice policeButton;
     ButtonLeft buttonLeftVLLD;
     ButtonRight buttonRightVLLD;
@@ -347,6 +349,7 @@ public class Master implements Screen {
     public static boolean thongTinNutXeTaiRac = false;
     public static boolean thongTinNutXeTaxi = false;
     public static boolean thongTinNutXePolice = false;
+    public static boolean thongTinNutXeDien = false;
     public static boolean thongTinNutNVHN = false;
     public static boolean thongTinNutSoTay = false;
     public static boolean thongTinNutLookFuture = false;
@@ -370,13 +373,19 @@ public class Master implements Screen {
     public static boolean thongTinXeRac = false;
     public static boolean thongTinTaxi = false;
     public static boolean thongTinPolice = false;
+    public static boolean thongTinElecCar = false;
     public static boolean thongTinSaiUn = false;
     public static boolean thongTinFac = false;
     public static boolean thongTinHotel = false;
     public static boolean thongTinRestaurant = false;
     public static boolean thongTinTrashCenter = false;
     public static boolean thongTinThapRua = false;
+    public static boolean thongTinTree = false;
+    public static float thongTinTreeX = 0;
+    public static float thongTinTreeY = 0;
+    public static TypeTree thongTinTypeTree;
     public static boolean thongTinThanhDoi = false;
+
     public static Vector2 cameraPosition = new Vector2(1200 / 2, 800 / 2);
     public static boolean isDenDo = false;
     public static int gio1phan60 = 0;
@@ -456,10 +465,10 @@ public class Master implements Screen {
         button4C = new Button4C(100000 , 100000, noMoveStage);
         button4C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=100*sotiencangiam/100&&GameState.greenscore  >=5) {
+                if(GameState.money>=125*sotiencangiam/100&&GameState.greenscore  >=5) {
                     Master.amountSeed++;
                     GameState.greenscore -= 5;
-                    GameState.money-=100*sotiencangiam/100;
+                    GameState.money-=125*sotiencangiam/100;
                 }
             }
         });
@@ -531,6 +540,7 @@ public class Master implements Screen {
 
         chu1 = new Chu(0, 0,stage,Color.BLACK);
         chu2 = new Chu(0, 0,stage,Color.BLACK);
+        chu3 = new Chu(0, 0,stage,Color.BLACK);
 
         for(int i = 0;i<25;i++){
             for(int j = 0;j<75;j++){
@@ -541,6 +551,7 @@ public class Master implements Screen {
         trashTruckButton = new LayTrashTruck(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45,noMoveStage);
         taxiButton = new LayTaxi(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*2,noMoveStage);
         policeButton = new LayPolice(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*3,noMoveStage);
+        electricCarButton = new LayElectricCar(Gdx.graphics.getWidth()-350,Gdx.graphics.getHeight()-70-45*4,noMoveStage);
         {// TỪ DẤU MỞ NGOẶC NHỌN ĐẾN HẾT CHỈ XỬ LÝ ẤN VÀO NÚT VEHICLE VÀ CÁC NÚT BÊN TRONG VEHICLE
             openVehicles.addListener(new ClickListener() {
                 @Override
@@ -559,7 +570,7 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     if(GameState.isCoXeRac){
                         if(!trashTruckButton.getIsSelect()) {
-                            if(!taxiButton.getIsSelect()&&!policeButton.getIsSelect()){
+                            if(!taxiButton.getIsSelect()&&!policeButton.getIsSelect()&&!electricCarButton.getIsSelect()){
                                 trashTruckButton.setIsSelect(true);
                                 trashTruck.setIsUsing(true);
                                 trashTruckButton.textureRegion = new TextureRegion(trashTruckButton.texture1);
@@ -581,7 +592,7 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     if(GameState.isCoTaxi){
                         if(!taxiButton.getIsSelect()) {
-                            if(!trashTruckButton.getIsSelect()&&!policeButton.getIsSelect()){
+                            if(!trashTruckButton.getIsSelect()&&!policeButton.getIsSelect()&&!electricCarButton.getIsSelect()){
                                 taxiButton.setIsSelect(true);
                                 taxi.setIsUsing(true);
                                 taxiButton.textureRegion = new TextureRegion(taxiButton.texture1);
@@ -603,7 +614,7 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     if(GameState.isCoPolice){
                         if(!policeButton.getIsSelect()) {
-                            if(!trashTruckButton.getIsSelect()&& !taxiButton.getIsSelect()){
+                            if(!trashTruckButton.getIsSelect()&& !taxiButton.getIsSelect()&&!electricCarButton.getIsSelect()){
                                 policeButton.setIsSelect(true);
                                 police.setIsUsing(true);
                                 policeButton.textureRegion = new TextureRegion(policeButton.texture1);
@@ -615,6 +626,28 @@ public class Master implements Screen {
                             policeButton.setIsSelect(false);
                             police.setIsUsing(false);
                             policeButton.textureRegion = new TextureRegion(policeButton.texture);
+                            player.speed=2;
+                        }
+                    }
+                }
+            });
+            electricCarButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(GameState.isCoElecCar){
+                        if(!electricCarButton.getIsSelect()) {
+                            if(!trashTruckButton.getIsSelect()&& !taxiButton.getIsSelect()&&!policeButton.getIsSelect()){
+                                electricCarButton.setIsSelect(true);
+                                electricCar.setIsUsing(true);
+                                electricCarButton.textureRegion = new TextureRegion(electricCarButton.texture1);
+                                electricCar.toFront();
+                                electricCar.setPosition(player.getX()-32, player.getY());
+                                player.speed=6;
+                            }
+                        }else{
+                            electricCarButton.setIsSelect(false);
+                            electricCar.setIsUsing(false);
+                            electricCarButton.textureRegion = new TextureRegion(electricCarButton.texture);
                             player.speed=2;
                         }
                     }
@@ -731,6 +764,8 @@ public class Master implements Screen {
         taxi = new Taxi(-254242, -56732, stage);
         buyPolice = new PoliceButton(-345436,-24234,noMoveStage);
         police = new Police(-254242, -56732, stage);
+        buyElecCar = new ElecCarButton(-345436,-24234,noMoveStage);
+        electricCar = new ElectricCar(-254242, -56732, stage);
 
         saveNut = new SaveNut(Gdx.graphics.getWidth()-48,Gdx.graphics.getHeight()-48,noMoveStage);
         redFlag = new RedFlag(0,0,stage);
@@ -950,6 +985,11 @@ public class Master implements Screen {
                             }else {
                                 thongTinNutXePolice = false;
                             }
+                            if(actor instanceof LayElectricCar){
+                                thongTinNutXeDien = true;
+                            }else {
+                                thongTinNutXeDien = false;
+                            }
                             if(actor instanceof SoTay){
                                 thongTinNutSoTay = true;
                             }else {
@@ -1004,6 +1044,11 @@ public class Master implements Screen {
                                 thongTinPolice = true;
                             }else {
                                 thongTinPolice = false;
+                            }
+                            if(actor instanceof ElectricCar){
+                                thongTinElecCar = true;
+                            }else {
+                                thongTinElecCar = false;
                             }
                             if(actor instanceof BuyDirt){
                                 thongTinDat = true;
@@ -1064,6 +1109,14 @@ public class Master implements Screen {
                 try{
                     MyActor actor = (MyActor) stage.hit(x, y, true);
                     if (thongTinMode) {
+                        if (actor instanceof Tree) {
+                            thongTinTree = true;
+                            thongTinTreeX = actor.getX();
+                            thongTinTreeY = actor.getY();
+                            thongTinTypeTree = ((Tree) actor).type;
+                        } else {
+                            thongTinTree = false;
+                        }
                         if (actor instanceof FactoryCenter) {
                             thongTinFac = true;
                         } else {
@@ -1143,6 +1196,7 @@ public class Master implements Screen {
                         || actorBlock instanceof People
                         || actorBlock instanceof Car
                         || actorBlock instanceof Taxi
+                        || actorBlock instanceof ElectricCar
                         || actorBlock instanceof TrashTruck
                         || actorBlock instanceof Police
                         || actorBlock instanceof NormalCamera
@@ -1327,7 +1381,7 @@ public class Master implements Screen {
         luaChon2NhaRac.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(GameState.soRacNguyHai>=2){
-                    GameState.ernegy+=5000;
+                    GameState.ernegy+=1000;
                     GameState.soRacNguyHai-=2;
 
                 }else {
@@ -1441,6 +1495,17 @@ public class Master implements Screen {
                         GameState.isCoPolice = true;
                         GameState.money-=700;
                         buyPolice.setColor(Color.GRAY);
+                    }
+                }
+            }
+        });
+        buyElecCar.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if(!GameState.isCoElecCar){
+                    if(GameState.money>=550) {
+                        GameState.isCoElecCar = true;
+                        GameState.money-=550;
+                        buyElecCar.setColor(Color.GRAY);
                     }
                 }
             }
@@ -1917,7 +1982,9 @@ public class Master implements Screen {
                    boolean isFree = false;
                    if(stage.hit(mouseStage.x,mouseStage.y,true) instanceof Ground2
                        ||stage.hit(mouseStage.x,mouseStage.y,true) instanceof BuyDirt
-                       ||stage.hit(mouseStage.x,mouseStage.y,true) instanceof Randomblock){
+                       ||stage.hit(mouseStage.x,mouseStage.y,true) instanceof Randomblock
+                       ||stage.hit(mouseStage.x,mouseStage.y,true) instanceof River
+                       ||stage.hit(mouseStage.x,mouseStage.y,true) instanceof Blood){
                        isFree = true;
                    }
                    if(isFree){
@@ -2112,8 +2179,8 @@ public class Master implements Screen {
                         Tree tree = (Tree) stage.hit(x,y,true);
                         trees.removeValue(tree,true);
                         tree.remove();
-                        GameState.money+=100;
-                        new FloatingNews(x,y,stage,"Được 100$ do chặt 1 cây",Color.RED);
+                        GameState.money+=125;
+                        new FloatingNews(x,y,stage,"Được 125$ do chặt 1 cây",Color.RED);
                     }catch (Exception ignored){
                     }
                     MDirt.setPosition(-32456,-3456889);
@@ -2297,6 +2364,64 @@ public class Master implements Screen {
             }
         }
         truck.toFront();
+        if(thongTinMode){
+            if(thongTinTree){
+                chu1.setPosition(thongTinTreeX+64, thongTinTreeY+64);
+                chu2.setPosition(thongTinTreeX+64, thongTinTreeY+64-30);
+                chu3.setPosition(thongTinTreeX+64, thongTinTreeY+64-30*2);
+                switch (thongTinTypeTree){
+                    case Super -> {
+                        chu1.text = "Loại cây: đột biến";
+                        chu2.text = "Ưu điểm: giảm rất nhiều ô nhiễm";
+                        chu3.text = "Nhược điểm: không có";
+                    }
+                    case Water -> {
+                        chu1.text = "Loại cây: dưới nước";
+                        chu2.text = "Ưu điểm: sống dưới nước, không lo bị chặt";
+                        chu3.text = "Nhược điểm: giảm rất ít ô nhiễm";
+                    }
+                    case Classic -> {
+                        chu1.text = "Loại cây: thường";
+                        chu2.text = "Ưu điểm: không có";
+                        chu3.text = "Nhược điểm: không có";
+                    }
+                }
+            }else if(thongTinFac){
+                chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
+                chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
+                chu1.text = "Nhà máy đa ngành nhất Hà Nội";
+                chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
+            }else if(thongTinHotel){
+                chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
+                chu1.text = "Khách sạn Hà Nội Daewoo";
+            }else if(thongTinSaiUn){
+                chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
+                chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
+            }else if(thongTinTrashCenter){
+                chu1.setPosition(trashCenter.getX()+trashCenter.getWidth(), trashCenter.getY()+trashCenter.getHeight()/2f+12.5f);
+                chu1.text = "Trung tâm xử lý rác thải";
+            }else if(thongTinRestaurant){
+                chu1.setPosition(restaurant.getX()+restaurant.getWidth(), restaurant.getY()+restaurant.getHeight()/2f+12.5f);
+                chu1.text = "Nhà hàng view hồ Gươm San Dining";
+            }else if(thongTinThapRua){
+                chu1.setPosition(thapRua.getX()+thapRua.getWidth(), thapRua.getY()+thapRua.getHeight()/2f+12.5f);
+                chu1.text = "Tháp Rùa";
+            }else if(thongTinThanhDoi){
+                chu1.setPosition(calories.getX()-32*2, calories.getY()+calories.getHeight()+25);
+                chu1.text = "Thanh đói của player, khi hết thanh player sẽ thua vì đói";
+            }else {
+                chu1.text = "";
+                chu2.text = "";
+                chu3.text = "";
+            }
+        }else {
+            chu1.text = "";
+            chu2.text = "";
+            chu3.text = "";
+        }
+        chu1.toFront();
+        chu2.toFront();
+        chu3.toFront();
         stage.draw();
 //        for(Waste a : wastes){
 //            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -2395,6 +2520,9 @@ public class Master implements Screen {
             if(thongTinNutXePolice){
                 game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe cảnh sát", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*3);
             }
+            if(thongTinNutXeDien){
+                game.fontTextField.draw(batch, "Tắt/bật chế độ lái xe điện", 700-50*5-20, Gdx.graphics.getHeight() - 120-45*2);
+            }
             if(thongTinNutNVHN){
                 game.fontTextField.draw(batch, "Tắt/bật bảng nhiệm vụ hằng ngày", 700-50*6-20, Gdx.graphics.getHeight() - 120);
             }
@@ -2428,6 +2556,9 @@ public class Master implements Screen {
             if(thongTinPolice){
                 game.font3.draw(batch, "Khi lái xe này có thể thu tiền phạt với tư cách là cảnh sát, từ đó tiền " +
                     "phạt gấp đôi",  police.getX(),police.getY());
+            }
+            if(thongTinElecCar){
+                game.font3.draw(batch, "Xe điện bảo vệ môi trường",  electricCar.getX(),electricCar.getY());
             }
             if(thongTinDat){
                 game.font3.draw(batch, "Chỉ đặt được ở khoảng trống (nơi không có gì)",  buyDirt.getX(),buyDirt.getY());
@@ -2467,40 +2598,7 @@ public class Master implements Screen {
                 game.font3.draw(batch, "Ấn phím \"r\" để xoay", MViaHe.getX()+MViaHe.getWidth(), MViaHe.getY()+25*2+12.5f);
                 game.font3.draw(batch, "Ấn phím \"e\" để đổi kiểu vỉa hè",MViaHe.getX()+MViaHe.getWidth(), MViaHe.getY()+25+12.5f);
             }
-            if(thongTinFac){
-                chu1.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f+25);
-                chu2.setPosition(factoryCenter.getX()+factoryCenter.getWidth(), factoryCenter.getY()+factoryCenter.getHeight()/2f);
-                chu1.text = "Nhà máy đa ngành nhất Hà Nội";
-                chu2.text = "Hoạt động lâu năm, đóng góp lớn vào lượng khí thải";
-            }else if(thongTinHotel){
-                chu1.setPosition(hotelCenter.getX()+hotelCenter.getWidth(), hotelCenter.getY()+hotelCenter.getHeight()/2f+12.5f);
-                chu1.text = "Khách sạn Hà Nội Daewoo";
-            }else if(thongTinSaiUn){
-                chu1.setPosition(scienceCenter.getX()+scienceCenter.getWidth(), scienceCenter.getY()+scienceCenter.getHeight()/2f+12.5f);
-                chu1.text = "Trụ sở khoa học, nơi bạn làm việc";
-            }else if(thongTinTrashCenter){
-                chu1.setPosition(trashCenter.getX()+trashCenter.getWidth(), trashCenter.getY()+trashCenter.getHeight()/2f+12.5f);
-                chu1.text = "Trung tâm xử lý rác thải";
-            }else if(thongTinRestaurant){
-                chu1.setPosition(restaurant.getX()+restaurant.getWidth(), restaurant.getY()+restaurant.getHeight()/2f+12.5f);
-                chu1.text = "Nhà hàng view hồ Gươm San Dining";
-            }else if(thongTinThapRua){
-                chu1.setPosition(thapRua.getX()+thapRua.getWidth(), thapRua.getY()+thapRua.getHeight()/2f+12.5f);
-                chu1.text = "Tháp Rùa";
-            }else if(thongTinThanhDoi){
-                chu1.setPosition(calories.getX()-32*2, calories.getY()+calories.getHeight()+25);
-                chu1.text = "Thanh đói của player, khi hết thanh player sẽ thua vì đói";
-            }else {
-                chu1.text = "";
-                chu2.text = "";
-            }
-        }else {
-            chu1.text = "";
-            chu2.text = "";
         }
-
-        chu1.toFront();
-        chu2.toFront();
         if(hienChiSo){
             game.font3.draw(batch, "Tiền: " + GameState.money,32*2, Gdx.graphics.getHeight()-32*3-(25+8));
             game.font3.draw(batch, "Năng lượng: " + GameState.ernegy,32*12, Gdx.graphics.getHeight()-32*3-(25+8));
@@ -2514,7 +2612,7 @@ public class Master implements Screen {
             game.font3.draw(batch, "Rác tái chế: " + GameState.soRacTaiChe,32*4, 32*2);
             game.font3.draw(batch, "Rác nguy hại: " + GameState.soRacNguyHai,32*22, 32*2);
             game.font3.draw(batch, "Đổi 10 túi rác hữu cơ lấy 10 điểm xanh",luaChon1NhaRac.getX()+32,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f);
-            game.font3.draw(batch, "Đổi 2 túi rác nguy hại lấy 5000 năng lượng",luaChon2NhaRac.getX()+32,Gdx.graphics.getHeight()-32*7-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Đổi 2 túi rác nguy hại lấy 1000 năng lượng",luaChon2NhaRac.getX()+32,Gdx.graphics.getHeight()-32*7-8+25+(64-25)/2f);
             game.font3.draw(batch, "Đổi 2 túi rác nguy hại và 1 túi rác tái chế lấy 3 level CNX",luaChon3NhaRac.getX()+32,Gdx.graphics.getHeight()-32*9-8+25+(64-25)/2f);
             game.font3.draw(batch, "Đổi 10 túi rác tái chế lấy 2500$",luaChon4NhaRac.getX()+16,Gdx.graphics.getHeight()-32*11-8+25+(64-25)/2f);
             game.font3.draw(batch, "Đổi 12 túi rác tái chế và 20 túi rác vô cơ để mở khóa thêm 1 chiếc máy lọc",luaChon5NhaRac.getX()+32,Gdx.graphics.getHeight()-32*13-8+25+(64-25)/2f);
@@ -2559,7 +2657,7 @@ public class Master implements Screen {
             game.font5.draw(batch, 300*sotiencangiam/100+" money,10 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f+0);
             game.font5.draw(batch, "5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f+0-20);
             game.font5.draw(batch, 300*sotiencangiam/100+" money, 5 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50-12.5f+10);
-            game.font5.draw(batch, 100*sotiencangiam/100+" money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2+5);
+            game.font5.draw(batch, 125*sotiencangiam/100+" money, 5 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2+5);
             game.font5.draw(batch, 75*sotiencangiam/100+" money",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*2-30);
             game.font5.draw(batch, 1500*sotiencangiam/100+" money, 30 energy",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-10);
             game.font5.draw(batch, "30 green score",32*20+10, Gdx.graphics.getHeight() * 0.6f-50*3-20-10);
@@ -2587,6 +2685,7 @@ public class Master implements Screen {
             game.font3.draw(batch, ": Xe chở rác giá 800$",buyTrashTruck.getX()+buyTrashTruck.getWidth()/2f+32*2,buyTrashTruck.getY()+25);
             game.font3.draw(batch, ": Xe taxi giá 400$",buyTaxi.getX()+buyTaxi.getWidth()/2f+32*2,buyTaxi.getY()+25);
             game.font3.draw(batch, ": Xe cảnh sát giá 700$",buyPolice.getX()+buyPolice.getWidth()/2f+32*2,buyPolice.getY()+25);
+            game.font3.draw(batch, ": Xe ô tô điện giá 550$",buyElecCar.getX()+buyElecCar.getWidth()/2f+32*2,buyElecCar.getY()+25);
         }
         if(isInTurtleMap){
             game.font3.draw(batch, "Những phần có thể nhận đuợc sau khi thắng :",32*8,Gdx.graphics.getHeight() -32*2);
@@ -2756,13 +2855,13 @@ public class Master implements Screen {
         }
 
         if(Master.AQI<=150){
-            GameState.camxucnguoidan = "Vui vẻ";
+            GameState.camxucnguoidan = "Vui vẻ "+"😀";
             GameState.lydocamxucnguoidan = "Không khí rất trong lành";
         }else if(Master.AQI<=250){
-            GameState.camxucnguoidan = "Không Vui";
+            GameState.camxucnguoidan = "Không Vui "+"🤒";
             GameState.lydocamxucnguoidan = "Không khí hơi ô nhiễm";
         }else{
-            GameState.camxucnguoidan = "Tức giận";
+            GameState.camxucnguoidan = "Tức giận "+"😡";
             GameState.lydocamxucnguoidan = "Không khí rất ô nhiễm";
         }
     }
@@ -2886,10 +2985,12 @@ public class Master implements Screen {
         if(isMoVehicles){
             noMoveStage.addActor(trashTruckButton);
             noMoveStage.addActor(taxiButton);
+            noMoveStage.addActor(electricCarButton);
             noMoveStage.addActor(policeButton);
         }else {
             trashTruckButton.remove();
             taxiButton.remove();
+            electricCarButton.remove();
             policeButton.remove();
         }
         if(trashTruck.getIsUsing()){
@@ -2902,7 +3003,11 @@ public class Master implements Screen {
         }
         if(police.getIsUsing()){
             police.toFront();
-            police.setPosition(player.getX()+16-taxi.getWidth()/2f,player.getY()+16-taxi.getHeight()/2f);
+            police.setPosition(player.getX()+16-police.getWidth()/2f,player.getY()+16-police.getHeight()/2f);
+        }
+        if(electricCar.getIsUsing()){
+            electricCar.toFront();
+            electricCar.setPosition(player.getX()+16-electricCar.getWidth()/2f,player.getY()+16-electricCar.getHeight()/2f);
         }
     }
     public static void nhapTenNormalCamera(){
@@ -3165,10 +3270,12 @@ public class Master implements Screen {
         buyTrashTruck.setPosition(32*5,Gdx.graphics.getHeight()-32*7);
         buyTaxi.setPosition(32*5,Gdx.graphics.getHeight()-32*8);
         buyPolice.setPosition(32*5,Gdx.graphics.getHeight()-32*9);
+        buyElecCar.setPosition(32*5,Gdx.graphics.getHeight()-32*10);
 
         buyTrashTruck.toFront();
         buyTaxi.toFront();
         buyPolice.toFront();
+        buyElecCar.toFront();
     }
     private void dongXayDung(){
         hienXayDung = false;
@@ -3195,6 +3302,7 @@ public class Master implements Screen {
         buyTrashTruck.setPosition(-4356,-46232);
         buyTaxi.setPosition(-4356,-46232);
         buyPolice.setPosition(-4356,-46232);
+        buyElecCar.setPosition(-4356,-46232);
     }
 
     private void dongThongtin(){

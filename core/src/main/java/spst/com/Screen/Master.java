@@ -162,6 +162,7 @@ public class Master implements Screen {
     Cross menuFoodCross;
     Cross dailyCross;
     Cross soTayCross;
+    Cross canhFutureCross;
     public static MordernDoor scienceDoor;
     public static MordernDoor hotelDoor;
     public static MordernDoor factoryDoor;
@@ -294,7 +295,7 @@ public class Master implements Screen {
     public static int soCauDoGreen = 5;
     public static int soCauDoShock = 8;
     public static int thoiGianHien = 0;
-
+    SeeTheFuture seeTheFuture;
     creatCamera taoCamera;
     creatSign taoSign;
     creatVatLieuMoRongMap creatVLLD;
@@ -348,6 +349,7 @@ public class Master implements Screen {
     public static boolean thongTinNutXePolice = false;
     public static boolean thongTinNutNVHN = false;
     public static boolean thongTinNutSoTay = false;
+    public static boolean thongTinNutLookFuture = false;
     public static boolean thongTinNutSoiCam = false;
     public static boolean thongTinNutVLLD = false;
     public static boolean thongTinNgaRe = false;
@@ -386,7 +388,7 @@ public class Master implements Screen {
     public boolean openDailyQuest = false;
     public static boolean isMoItems = false;
     public static boolean isMoVehicles = false;
-
+    CanhFuture canhFuture;
     public Master(StartGame game) {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = StartGame.font3;
@@ -399,6 +401,7 @@ public class Master implements Screen {
         soCayTieuChuan = MathUtils.random(10,25);
         resetDailyQuest();
 
+        canhFuture = new CanhFuture(-Gdx.graphics.getWidth(),0,noMoveStage);
         button1C = new Button1C(100000,100000,noMoveStage);
         button1C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -515,13 +518,13 @@ public class Master implements Screen {
         image3 = new Imaged(32*20, Gdx.graphics.getHeight() - 32*7-125,noMoveStage,1);
         image4 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*4-50,noMoveStage,4);
         image5 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*5-75,noMoveStage,5);
-        soTay = new SoTay( 300,Gdx.graphics.getHeight()-70,noMoveStage );
+        soTay = new SoTay( 300-100,Gdx.graphics.getHeight()-70,noMoveStage );
 
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
-        cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 500-100+10,Gdx.graphics.getHeight()-70,noMoveStage);
-        cameraLooking = new SelectCamera(Gdx.graphics.getWidth() - 500+26-100,Gdx.graphics.getHeight()-70,noMoveStage);
-        cameraLookingRight = new ButtonRight(Gdx.graphics.getWidth() - 500+26+42-100,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLookingLeft = new ButtonLeft(Gdx.graphics.getWidth() - 500+10-100*2,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLooking = new SelectCamera(Gdx.graphics.getWidth() - 500+26-100*2,Gdx.graphics.getHeight()-70,noMoveStage);
+        cameraLookingRight = new ButtonRight(Gdx.graphics.getWidth() - 500+26+42-100*2,Gdx.graphics.getHeight()-70,noMoveStage);
 
         poolRec = new PoolRec(0, 32 * 17, stage);
         rices = new Array();
@@ -696,6 +699,7 @@ public class Master implements Screen {
         creatVLLD = new creatVatLieuMoRongMap(Gdx.graphics.getWidth()-400-32,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonLeftVLLD = new ButtonLeft(Gdx.graphics.getWidth()-400-32-13-5,Gdx.graphics.getHeight()-70,noMoveStage);
         buttonRightVLLD = new ButtonRight(Gdx.graphics.getWidth()-400+40-32+5,Gdx.graphics.getHeight()-70,noMoveStage);
+        seeTheFuture = new SeeTheFuture(450,Gdx.graphics.getHeight()-70,noMoveStage);
         doVui = new DoVui(32*12,32*2,noMoveStage);
         green = new Green(32*5, 32*2, noMoveStage);
         shock = new Shock(32*19 , 32*2,noMoveStage);
@@ -850,7 +854,8 @@ public class Master implements Screen {
         menuFoodCross = new Cross(-10000,-100,noMoveStage);
         dailyCross = new Cross(-10000,-100,noMoveStage);
         soTayCross = new Cross(-100000,100,noMoveStage);
-        dailyQuest = new DailyQuest(475,Gdx.graphics.getHeight()-70,noMoveStage);
+        canhFutureCross = new Cross(-100000,100,noMoveStage);
+        dailyQuest = new DailyQuest(475-100,Gdx.graphics.getHeight()-70,noMoveStage);
         bia = new Bia(10000,10000,noMoveStage,this);
         iceCream = new Kem(10000,10000,noMoveStage,this);
         pho = new Pho(10000,10000,noMoveStage,this);
@@ -949,6 +954,11 @@ public class Master implements Screen {
                                 thongTinNutSoTay = true;
                             }else {
                                 thongTinNutSoTay = false;
+                            }
+                            if(actor instanceof SeeTheFuture){
+                                thongTinNutLookFuture = true;
+                            }else {
+                                thongTinNutLookFuture = false;
                             }
                             if(actor instanceof DailyQuest){
                                 thongTinNutNVHN = true;
@@ -1208,6 +1218,14 @@ public class Master implements Screen {
                 soTayCross.setPosition(20000, 10000);
             }
         });
+        canhFutureCross.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                canhFuture.setPosition(-Gdx.graphics.getWidth(),0);
+                canhFutureCross.setPosition(20000, 10000);
+            }
+        });
 
         xayDungButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -1273,6 +1291,27 @@ public class Master implements Screen {
                 bangSoTay.setPosition(32,32);
                 soTayCross.setPosition(Gdx.graphics.getWidth()-32*2, Gdx.graphics.getHeight()-32*2);
                 soTayCross.toFront();
+            }
+        });
+        seeTheFuture.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                canhFuture.setPosition(0,0);
+                if(AQI<=125){
+                    canhFuture.textureRegion = new TextureRegion(canhFuture.AQI100);
+                }else if(AQI<=175){
+                    canhFuture.textureRegion = new TextureRegion(canhFuture.AQI150);
+                }else if(AQI<=225){
+                    canhFuture.textureRegion = new TextureRegion(canhFuture.AQI200);
+                }else if(AQI<=275) {
+                    canhFuture.textureRegion = new TextureRegion(canhFuture.AQI250);
+                }else {
+                    canhFuture.textureRegion = new TextureRegion(canhFuture.AQI300);
+                }
+                canhFuture.toFront();
+                canhFutureCross.setPosition(Gdx.graphics.getWidth()-32, Gdx.graphics.getHeight()-32);
+                canhFutureCross.toFront();
             }
         });
         luaChon1NhaRac.addListener(new ClickListener() {
@@ -2134,6 +2173,10 @@ public class Master implements Screen {
                 thuTuNhiemVuTanBinh = 3;
             }
         }
+
+        xuLyNenMuaVaCamXucNguoiDan();
+
+        stage.act();
         if(player.getBound().overlaps(scienceCenter.getBound())){
             if(player.getY()<scienceCenter.getY()){
                 player.toFront();
@@ -2253,10 +2296,6 @@ public class Master implements Screen {
                 }
             }
         }
-
-        xuLyNenMuaVaCamXucNguoiDan();
-
-        stage.act();
         truck.toFront();
         stage.draw();
 //        for(Waste a : wastes){
@@ -2361,6 +2400,9 @@ public class Master implements Screen {
             }
             if(thongTinNutSoTay){
                 game.fontTextField.draw(batch, "Tắt/bật sổ tay", 700-50*10-20, Gdx.graphics.getHeight() - 120);
+            }
+            if(thongTinNutLookFuture){
+                game.fontTextField.draw(batch, "Xem tình trạng thành phố Hà Nội 10 năm sau", 350-20, Gdx.graphics.getHeight() - 120);
             }
             if(thongTinNutVLLD){
                 game.fontTextField.draw(batch, "Tắt/bật chế độ đặt khối xây dựng", 700-50*6, Gdx.graphics.getHeight() - 120);

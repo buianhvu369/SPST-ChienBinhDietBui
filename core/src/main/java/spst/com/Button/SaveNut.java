@@ -11,6 +11,7 @@ import spst.com.FloatingNews;
 import spst.com.GameState;
 import spst.com.MyActor;
 import spst.com.Screen.Master;
+import spst.com.TypeEffect;
 
 public class SaveNut extends MyActor {
     public SaveNut(float x, float y, Stage s) {
@@ -21,7 +22,7 @@ public class SaveNut extends MyActor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 GameState.saveGame();
-                new FloatingNews(Gdx.graphics.getWidth()-120,500,Master.noMoveStage,"Save game", Color.BLACK).toFront();
+                new FloatingNews(Gdx.graphics.getWidth()-120,500,Master.noMoveStage,"Save game", Color.BLACK, TypeEffect.FLOATUP).toFront();
             }
         });
 

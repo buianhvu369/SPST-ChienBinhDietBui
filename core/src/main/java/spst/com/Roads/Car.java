@@ -7,15 +7,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import spst.com.*;
 import spst.com.Enums.TypeRoadRe;
-import spst.com.FloatingNews;
-import spst.com.GameState;
 import spst.com.InFactory.BuyRoadRe;
 import spst.com.InFactory.BuyRoadReNgoai;
-import spst.com.MyActor;
 import spst.com.Roads.CrossRoad.Corner;
 import spst.com.Screen.Master;
-import spst.com.Utils;
 
 import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -64,7 +61,7 @@ public class Car extends MyActor {
                 Actions.fadeOut(6),
                 Actions.run(()->{
                     GameState.danso--;
-                    new FloatingNews(0,500,Master.noMoveStage,"1 xe nát do bị xe đâm", Color.RED).toFront();
+                    new FloatingNews(0,500,Master.noMoveStage,"1 xe nát do bị xe đâm", Color.RED, TypeEffect.FLOATUP).toFront();
                     remove();
                 })
             ));

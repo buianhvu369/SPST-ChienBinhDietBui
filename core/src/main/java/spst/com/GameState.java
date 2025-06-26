@@ -61,6 +61,7 @@ public class GameState{
     public static boolean isCoXeRac = false;
     public static boolean isCoTaxi = false;
     public static boolean isCoPolice = false;
+    public static boolean isCoElecCar = false;
     public static int day = 1;
     public static int month = 3;
     public static int year = 2025;

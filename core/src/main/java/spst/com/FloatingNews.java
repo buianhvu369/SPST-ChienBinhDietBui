@@ -12,7 +12,7 @@ public class FloatingNews extends Actor {
     private String text;
     private BitmapFont font;
     private Color myColor;
-    public FloatingNews(float x,float y,Stage s, String news, Color color) {
+    public FloatingNews(float x,float y,Stage s, String news, Color color, TypeEffect type) {
         text = news;
         font = StartGame.fontEvent; // Font mặc định của LibGDX
         font.setColor(color);
@@ -20,12 +20,32 @@ public class FloatingNews extends Actor {
         setPosition(x,  y);
         setColor(1, 1, 1, 1); // Đảm bảo alpha ban đầu là 1 (không trong suốt)
 
-        // Hiệu ứng di chuyển lên + làm mờ dần + xóa sau 1 giây
-        addAction(Actions.sequence(
-            Actions.moveBy(0, 30, 1f),  // Bay lên 30 pixel trong 1 giây
-            Actions.fadeOut(1f),        // Làm mờ trong 1 giây
-            Actions.removeActor()       // Xóa khỏi stage
-        ));
+        switch (type){
+            case FADE ->{
+                // làm mờ dần + xóa sau 1 giây
+                addAction(Actions.sequence(
+                    Actions.fadeOut(1f),        // Làm mờ trong 1 giây
+                    Actions.removeActor()       // Xóa khỏi stage
+                ));
+            }
+            case FLOATUP -> {
+                // Hiệu ứng di chuyển lên + làm mờ dần + xóa sau 1 giây
+                addAction(Actions.sequence(
+                    Actions.moveBy(0, 30, 1f),  // Bay lên 30 pixel trong 1 giây
+                    Actions.fadeOut(1f),        // Làm mờ trong 1 giây
+                    Actions.removeActor()       // Xóa khỏi stage
+                ));
+            }
+            case FLOATDOWN -> {
+                // Hiệu ứng di chuyển xuống + làm mờ dần + xóa sau 1 giây
+                addAction(Actions.sequence(
+                    Actions.moveBy(0, -30, 1f),  // Bay lên 30 pixel trong 1 giây
+                    Actions.fadeOut(1f),        // Làm mờ trong 1 giây
+                    Actions.removeActor()       // Xóa khỏi stage
+                ));
+            }
+        }
+
         System.out.println(news);
         toFront();
         s.addActor(this);

@@ -964,15 +964,15 @@ public class Master implements Screen {
                         switch (ran){
                             case 1 ->{
                                 soCauDoShock ++;
-                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ SHOCK từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ SHOCK từ việc chiến thắng game dưới lòng hồ", Color.GREEN,TypeEffect.FLOATUP);
                             }
                             case 2 ->{
                                 soCauDoGreen++;
-                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ XANH CƠ BẢN từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ XANH CƠ BẢN từ việc chiến thắng game dưới lòng hồ", Color.GREEN,TypeEffect.FLOATUP);
                             }
                             case 3 ->{
                                 soCauDoVui++;
-                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ MINI QUIZ từ việc chiến thắng game dưới lòng hồ", Color.GREEN);
+                                new FloatingNews(0, Gdx.graphics.getHeight()-40,noMoveStage, "Được 1 thẻ MINI QUIZ từ việc chiến thắng game dưới lòng hồ", Color.GREEN,TypeEffect.FLOATUP);
                             }
                         }
                     }

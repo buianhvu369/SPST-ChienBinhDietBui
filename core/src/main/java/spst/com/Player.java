@@ -25,6 +25,7 @@ public class Player extends MyActor {
     boolean isMove = true;
     boolean isAlive = true;
     boolean isBep = false;
+    public boolean isHaveHotelKey = false;
     private Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicksound.ogg"));;
     public Player(float x, float y, Stage s) {
         super(x, y, s);
@@ -151,7 +152,7 @@ public class Player extends MyActor {
                 addAction(Actions.sequence(
                     Actions.fadeOut(6),
                     Actions.run(()->{
-                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED,TypeEffect.FLOATUP);
                         Master.WLK = 'L';
                     })
                 ));
@@ -167,7 +168,7 @@ public class Player extends MyActor {
                     addAction(Actions.sequence(
                         Actions.fadeOut(6),
                         Actions.run(()->{
-                            new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED);
+                            new FloatingNews(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f,Master.noMoveStage,"YOU LOSE", Color.RED,TypeEffect.FLOATUP);
                             Master.WLK = 'L';
                         })
                     ));

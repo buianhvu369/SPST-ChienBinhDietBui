@@ -46,9 +46,9 @@ public class Taxi extends MyActor {
                 }
             }
             soxang--;
-            GameState.CO1+=0.4/60f;
-            GameState.PM2_5+=0.16/60f;
-            GameState.PM10+=0.08/60f;
+            GameState.CO1+=0.4f/60f;
+            GameState.PM2_5+=0.16f/60f;
+            GameState.PM10+=0.08f/60f;
         }else {
             Master.player.setSize(32,32);
         }

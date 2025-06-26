@@ -65,20 +65,22 @@ public class People extends MyActor {
 
     Tree treeTarget;
     Sign signTarget;
+    Vector2 lastposition;
 
     boolean isFree = false;
 
     public People(float x, float y, Stage s, boolean rightside) {
         super(x, y, s);
+        lastposition = new Vector2(x,y);
         addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 if(isCutting){
                     GameState.money += 150 ;
                     if(Master.police.getIsUsing()){
                         GameState.money += 150 ;
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN,TypeEffect.FLOATUP);
                     }else {
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN,TypeEffect.FLOATUP);
                     }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiChatCay >0){
@@ -100,9 +102,9 @@ public class People extends MyActor {
                     GameState.money += 150 ;
                     if(Master.police.getIsUsing()){
                         GameState.money += 150 ;
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN,TypeEffect.FLOATUP);
                     }else {
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN,TypeEffect.FLOATUP);
                     }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotRac >0){
@@ -123,9 +125,9 @@ public class People extends MyActor {
                     GameState.money += 150 ;
                     if(Master.police.getIsUsing()){
                         GameState.money += 150 ;
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+300 $(x2)",Color.GREEN,TypeEffect.FLOATUP);
                     }else {
-                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN);
+                        new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"+150 $",Color.GREEN,TypeEffect.FLOATUP);
                     }
                     Master.collect.play(Master.amluong);
                     if(Master.soNguoiDotBien >0){
@@ -144,7 +146,7 @@ public class People extends MyActor {
                     }
                 } else {
                     GameState.money -= 50;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
+                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN,TypeEffect.FLOATUP);
                 }
             }
         });
@@ -154,6 +156,7 @@ public class People extends MyActor {
     public void act(float delta) {
         super.act(delta);
         if(isAlive) {
+            lastposition = new Vector2(getX(),getY());
             if(getBound().overlaps(Master.scienceCenter.getBound())){
                 if(this.getY()<Master.scienceCenter.getY()){
                     this.toFront();
@@ -273,7 +276,7 @@ public class People extends MyActor {
                 if(Master.isNgayQuyenGop){
                     int donate = random.nextInt(10,51);
                     GameState.money+=donate;
-                    new FloatingNews(0, Gdx.graphics.getHeight()-32,Master.noMoveStage, "+"+donate, Color.GREEN);
+                    new FloatingNews(0, Gdx.graphics.getHeight()-32,Master.noMoveStage, "+"+donate, Color.GREEN,TypeEffect.FLOATUP);
                 }
             }
             if(!Master.isNgayTrongCay) {
@@ -793,6 +796,12 @@ public class People extends MyActor {
         if(isBep){
             setSize(32, 8);
         }
-
+        if(getX()==lastposition.x&&getY()==lastposition.y
+            &&!(getX() - 2 < mouseX && mouseX < getX() + 2)
+            &&!(getY() - 2 < mouseY && mouseY < getY() + 2)
+        ){
+            mouseX = MathUtils.random(100, 2200);
+            mouseY = MathUtils.random(20, 780);
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import spst.com.FloatingNews;
 import spst.com.GameState;
 import spst.com.Screen.Master;
+import spst.com.TypeEffect;
 import spst.com.Utils;
 
 public class AQXaRacIQ1000 extends People {
@@ -35,11 +36,11 @@ public class AQXaRacIQ1000 extends People {
             public void clicked(InputEvent event, float x, float y){
                 if(isCutting||isFiringWaste||isFiringSign){
                     GameState.money += 150 ;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100, Master.noMoveStage,"+150 $", Color.GREEN);
+                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100, Master.noMoveStage,"+150 $", Color.GREEN, TypeEffect.FLOATUP);
                     Master.collect.play(Master.amluong);
                 }else {
                     GameState.money -= 50;
-                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN);
+                    new FloatingNews(Gdx.graphics.getWidth()/2f-10,Gdx.graphics.getHeight()/2f+100,Master.noMoveStage,"-50 $",Color.GREEN,TypeEffect.FLOATUP);
                 }
             }
         });

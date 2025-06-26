@@ -121,20 +121,20 @@ public class TrashScreen implements Screen {
                     sohuucodaphanloai-=10;
                     sohuucodara-=10;
                 }else {
-                    new FloatingNews(luaChon1NhaRac.getX(),luaChon1NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED);
+                    new FloatingNews(luaChon1NhaRac.getX(),luaChon1NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED,TypeEffect.FLOATUP);
                 }
             }
         });
         luaChon2NhaRac.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if(songuyhaidaphanloai>=2){
-                    GameState.ernegy+=5000;
+                    GameState.ernegy+=2500;
                     GameState.soRacNguyHai-=2;
                     songuyhaidaphanloai-=2;
                     songuyhaidara-=2;
 
                 }else {
-                    new FloatingNews(luaChon2NhaRac.getX(),luaChon2NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED);
+                    new FloatingNews(luaChon2NhaRac.getX(),luaChon2NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED,TypeEffect.FLOATUP);
                 }
             }
         });
@@ -149,7 +149,7 @@ public class TrashScreen implements Screen {
                     sotaichedara--;
                     GameState.levelcongnghexanh+=3;
                 }else {
-                    new FloatingNews(luaChon3NhaRac.getX(),luaChon3NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED);
+                    new FloatingNews(luaChon3NhaRac.getX(),luaChon3NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED,TypeEffect.FLOATUP);
                 }
             }
         });
@@ -161,7 +161,7 @@ public class TrashScreen implements Screen {
                     sotaichedara-=10;
                     GameState.money+=2500;
                 }else {
-                    new FloatingNews(luaChon4NhaRac.getX(),luaChon4NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED);
+                    new FloatingNews(luaChon4NhaRac.getX(),luaChon4NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED,TypeEffect.FLOATUP);
                 }
             }
         });
@@ -176,7 +176,7 @@ public class TrashScreen implements Screen {
                     sovocodara-=20;
                     GameState.soMLtoidacothemua++;
                 }else {
-                    new FloatingNews(luaChon5NhaRac.getX(),luaChon5NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED);
+                    new FloatingNews(luaChon5NhaRac.getX(),luaChon5NhaRac.getY(),stage,"Bạn không đủ đồ",Color.RED,TypeEffect.FLOATUP);
                 }
             }
         });
@@ -403,7 +403,7 @@ public class TrashScreen implements Screen {
         layout.setText(game.font7,"Đổi 10 túi rác hữu cơ lấy 10 điểm xanh");
         game.font7.draw(Master.batch, layout
             ,32+(32*10/2f)- layout.width/2f+16,luaChon1NhaRac.getY()+15+32-7.5f);
-        layout.setText(game.font7,"Đổi 2 túi rác nguy hại lấy 5000 năng lượng");
+        layout.setText(game.font7,"Đổi 2 túi rác nguy hại lấy 2500 năng lượng");
         game.font7.draw(Master.batch, layout
             ,32+(32*10/2f)- layout.width/2f+16,luaChon2NhaRac.getY()+15+32-7.5f);
         layout.setText(game.font7,"Đổi 2 túi rác nguy hại và 1 túi rác tái chế");

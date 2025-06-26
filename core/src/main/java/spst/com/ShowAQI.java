@@ -39,7 +39,7 @@ public class ShowAQI extends MyActor {
         }
         if(Master.AQI>=250&&!isCanhBao){
             canhbao.play(Master.amluong);
-            new FloatingNews(0,0,Master.noMoveStage,"Sắp thua rồi",Color.RED);
+            new FloatingNews(0,0,Master.noMoveStage,"Sắp thua rồi",Color.RED,TypeEffect.FLOATUP);
             isCanhBao = true;
         }
         if(Master.AQI<250){
@@ -48,7 +48,7 @@ public class ShowAQI extends MyActor {
         bui.setColor(bui.getColor().r,bui.getColor().g,bui.getColor().b,1/300f*0.5f*Master.AQI);
         if(GameState.ernegy==0&&!isHNL){
             hetnangluong.play(Master.amluong);
-            new FloatingNews(0,0,Master.noMoveStage,"Hết năng lượng",Color.RED);
+            new FloatingNews(0,0,Master.noMoveStage,"Hết năng lượng",Color.RED,TypeEffect.FLOATUP);
             isHNL = true;
         }
         if(GameState.ernegy>0){

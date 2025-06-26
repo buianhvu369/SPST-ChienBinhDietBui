@@ -42,16 +42,16 @@ public class TrashTruck extends MyActor {
         if(soxang==0){
             if(GameState.money>100){
                 GameState.money-=100;
-                soxang=60*16;
+                soxang=60*6;
             }else{
                 isUsing=false;
                 Master.player.speed=2;
             }
         }
         soxang--;
-        GameState.CO1+=0.8/60f;
-        GameState.PM2_5+=0.46/60f;
-        GameState.PM10+=0.18/60f;
+        GameState.CO1+=0.8f/60f;
+        GameState.PM2_5+=0.46f/60f;
+        GameState.PM10+=0.18f/60f;
         for(Waste w : Master.wastes){
             if(getBound().overlaps(w.getBound())){
                 switch (w.getCostume()){

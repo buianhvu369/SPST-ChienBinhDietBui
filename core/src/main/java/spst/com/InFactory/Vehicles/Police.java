@@ -45,9 +45,9 @@ public class Police extends MyActor {
                 }
             }
             soxang-=2;
-            GameState.CO1+=0.6/60f;
-            GameState.PM2_5+=0.26/60f;
-            GameState.PM10+=0.06/60f;
+            GameState.CO1+=0.6f/60f;
+            GameState.PM2_5+=0.26f/60f;
+            GameState.PM10+=0.06f/60f;
         }else {
             Master.player.setSize(32,32);
         }

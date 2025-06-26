@@ -89,7 +89,7 @@ public class Car extends MyActor {
         if(!isChamNgaRe){
             isRe = false;
         }
-        khaNangRe = MathUtils.random.nextInt(0,4);
+        khaNangRe = MathUtils.random.nextInt(0,100);
         if(!isRe){
             for(MyActor actor : Master.reArray){
                 if(getBoundCar().overlaps(actor.getBound())){

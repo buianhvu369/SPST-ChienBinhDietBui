@@ -109,6 +109,8 @@ public class Master implements Screen {
     XayDung xayDungButton;
     CongCu congCuButton;
     XeCo xeCoButton;
+    GuiTien guiTienButton;
+    TaiKhoan taiKhoanButton;
     public static Player player;
     PoolRec poolRec;
     BuyDirt buyDirt;
@@ -300,10 +302,6 @@ public class Master implements Screen {
     boolean isInTurtleMap = false;
     public static boolean nhiemVuTanBinh = true;
     public static int thuTuNhiemVuTanBinh = 1;
-    public static int soluongCameraBan = 0;
-    public static int soluongCayBan = 0;
-    public static int soluongNangLuongBan = 0;
-    public static int soluongBienCamBan = 0;
 
     public static int growth = 0;
     public static Array<Rice>rices ;
@@ -438,12 +436,6 @@ public class Master implements Screen {
         noMoveStage = new Stage();
         soCayTieuChuan = MathUtils.random(10,25);
 
-        soluongBienCamBan = MathUtils.random(1,4);
-        soluongCayBan = MathUtils.random(7,20);
-        soluongCameraBan = MathUtils.random(2,4);
-        soluongNangLuongBan = MathUtils.random(400, 600 );
-
-
         resetDailyQuest();
 
         canhFuture = new CanhFuture(-Gdx.graphics.getWidth(),0,noMoveStage);
@@ -466,12 +458,11 @@ public class Master implements Screen {
         button2C = new Button2C(100000 , 100000, noMoveStage);
         button2C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=300*sotiencangiam/100&&GameState.ernegy >=10&&GameState.greenscore >=5 && soluongBienCamBan>=1) {
+                if(GameState.money>=300*sotiencangiam/100&&GameState.ernegy >=10&&GameState.greenscore >=5) {
                     GameState.greenscore  -= 5;
                     GameState.ernegy  -= 10;
                     GameState.money-=300*sotiencangiam/100;
                     Master.soBienCam++;
-                    soluongBienCamBan--;
                 }
             }
         });
@@ -502,11 +493,10 @@ public class Master implements Screen {
         button4C = new Button4C(100000 , 100000, noMoveStage);
         button4C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=125*sotiencangiam/100&&GameState.greenscore  >=5 && soluongBienCamBan>=0) {
+                if(GameState.money>=125*sotiencangiam/100&&GameState.greenscore  >=5) {
                     Master.amountSeed++;
                     GameState.greenscore -= 5;
                     GameState.money-=125*sotiencangiam/100;
-                    soluongCayBan--;
                 }
             }
         });
@@ -514,11 +504,10 @@ public class Master implements Screen {
         button3C = new Button3C(100000 , 100000, noMoveStage);
         button3C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money >=300*sotiencangiam/100&&GameState.ernegy >=5&& soluongCameraBan>=1){
+                if(GameState.money >=300*sotiencangiam/100&&GameState.ernegy >=5){
                     soCamera++;
                     GameState.money-=300*sotiencangiam/100;
                     GameState.ernegy-=5;
-                    soluongCameraBan--;
                 }
             }
         });
@@ -526,10 +515,9 @@ public class Master implements Screen {
         button5C = new Button5C(100000 , 100000, noMoveStage);
         button5C.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                if(GameState.money>=75*sotiencangiam/100&& soluongNangLuongBan>=1) {
+                if(GameState.money>=75*sotiencangiam/100) {
                     GameState.ernegy+= 100*sotiencangiam/100;
                     GameState.money-=75;
-                    soluongNangLuongBan -= 100;
                 }
             }
         });
@@ -585,6 +573,8 @@ public class Master implements Screen {
         xayDungButton = new XayDung(-1000,-1000,noMoveStage);
         congCuButton = new CongCu(-1000,-1000,noMoveStage);
         xeCoButton = new XeCo(-1000,-1000,noMoveStage);
+        guiTienButton = new GuiTien(-1000,-1000,noMoveStage);
+        taiKhoanButton = new TaiKhoan(-1000,-1000,noMoveStage);
         image = new Imaged(32*20,Gdx.graphics.getHeight()-32*3-25,noMoveStage,2);
         image2 = new Imaged(32*20,Gdx.graphics.getHeight()-32*6-100,noMoveStage,3);
         image3 = new Imaged(32*20, Gdx.graphics.getHeight() - 32*7-125,noMoveStage,1);
@@ -1495,9 +1485,14 @@ public class Master implements Screen {
                 moXeCo();
             }
         });
-        xeCoButton.addListener(new ClickListener() {
+        guiTienButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                moXeCo();
+                moGuiTien();
+            }
+        });
+        taiKhoanButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                moTaiKhoan();
             }
         });
         bangScienceCross.addListener(new ClickListener() {
@@ -2164,18 +2159,6 @@ public class Master implements Screen {
 
             }
         }
-        if(soluongBienCamBan ==0){
-            button2C.setColor(Color.GRAY);
-        }
-        if(soluongCayBan ==0){
-            button4C.setColor(Color.GRAY);
-        }
-        if(soluongNangLuongBan ==0){
-            button5C.setColor(Color.GRAY);
-        }
-        if(soluongCameraBan ==0){
-            button3C.setColor(Color.GRAY);
-        }
         if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 1){
             arrowNoMove.setRotation(0);
             arrowNoMove.setPosition( 100000,1000000);
@@ -2435,9 +2418,6 @@ public class Master implements Screen {
                         new FloatingNews(x,y,stage,"Được 125$ do chặt 1 cây",Color.RED,TypeEffect.FLOATUP);
                     }catch (Exception ignored){
                     }
-                    MDirt.setPosition(-32456,-3456889);
-                    //VLLDs.add(a);
-                    whatActionIfClickMouse = "move";
                     riuButton.textureRegion = new TextureRegion(riuButton.texture);
                 }else {
                     new FloatingNews(x,y,stage,"Không thể chặt chỗ này",Color.RED,TypeEffect.FLOATUP);
@@ -3417,10 +3397,6 @@ public class Master implements Screen {
         }
         if(gio1phan60 == 60*24){
             GameState.day++;
-            soluongBienCamBan = MathUtils.random(1,4);
-            soluongCayBan = MathUtils.random(10,20);
-            soluongCameraBan = MathUtils.random(2,4);
-            soluongNangLuongBan = MathUtils.random(400, 600 );
             button2C.setColor(1,1,1,1);
             button4C.setColor(1,1,1,1);
             button3C.setColor(1,1,1,1);
@@ -4436,6 +4412,7 @@ public class Master implements Screen {
             i += random.nextInt(2, 21);
             trees.add(tree2);
         }
+        Tree tree2 = new Tree(1180+32, 16*32, stage);
 //        i = 0;
 //        while (i < 21) {
 //            Tree tree2 = new Tree(i * 32, 800 - 32 * 2, stage);
@@ -4703,6 +4680,18 @@ public class Master implements Screen {
         bankCross.setPosition(Gdx.graphics.getWidth() - 32*2 , Gdx. graphics.getHeight()- 32*2);
         bankCross.toFront();
         inBank = true;
+        moGuiTien();
+//        guiTienButton.setPosition(32*4,32*20);
+//        taiKhoanButton.setPosition(32*15,32*20);
+//
+//        guiTienButton.toFront();
+//        taiKhoanButton.toFront();
+        whatActionIfClickMouse = "bank";
+
+    }
+    private void moGuiTien(){
+        dongGuiTien();
+
         spend100$.setPosition(32*4 , Gdx.graphics.getHeight() - 32*5-6);
         spend200$.setPosition(32*4 , Gdx.graphics.getHeight() - 32*9-6);
         spend500$.setPosition(32*4 , Gdx.graphics.getHeight() - 32*13-6);
@@ -4716,7 +4705,19 @@ public class Master implements Screen {
         spend2Day.toFront();
         spend1Day.toFront();
         spend5Day.toFront();
-        whatActionIfClickMouse = "bank";
+    }
+    private void dongGuiTien(){
+        spend100$.setPosition(-23456543,-3245322);
+        spend200$.setPosition(-23456543,-3245322);
+        spend500$.setPosition(32*4 , Gdx.graphics.getHeight() - 32*13-6);
+        spend1Day.setPosition(-23456543,-3245322);
+        spend2Day.setPosition(-23456543,-3245322);
+        spend5Day.setPosition(-23456543,-3245322);
+    }
+    private void moTaiKhoan(){
+        dongGuiTien();
+    }
+    private void dongTaiKhoan(){
 
     }
     public void closeBank(){

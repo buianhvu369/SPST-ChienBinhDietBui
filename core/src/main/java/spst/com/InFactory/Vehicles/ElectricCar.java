@@ -37,7 +37,7 @@ public class ElectricCar extends MyActor {
             }
             if(sodien==0){
                 if(GameState.ernegy>2){
-                    GameState.ernegy-=2;
+                    GameState.ernegy-=1;
                     sodien=180;
                 }else{
                     isUsing=false;

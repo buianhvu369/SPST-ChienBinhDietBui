@@ -14,6 +14,7 @@ public class StartGame extends Game {
     public static MenuScreen menuScreen;
     public static CotTruyenScreen cotTruyenScreen;
     public static TrashScreen trashScreen;
+    public static SchoolScreen schoolScreen;
     public static BitmapFont font;
     public static BitmapFont font2;
     public static BitmapFont font3;
@@ -237,6 +238,7 @@ public class StartGame extends Game {
         cotTruyenScreen = new CotTruyenScreen(this);
         this.master = new Master(this);
         trashScreen = new TrashScreen(this);
+        schoolScreen = new SchoolScreen(this);
         this.guideScreen = new GuideScreen(this);
         setScreen(cotTruyenScreen);
 

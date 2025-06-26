@@ -170,6 +170,7 @@ public class Master implements Screen {
     public static MordernDoor hotelDoor;
     public static MordernDoor factoryDoor;
     WhiteButton thueNguoiTrongCay;
+    WhiteButton thueNguoiDonRac;
     WhiteButton spend100$;
     WhiteButton spend200$;
     WhiteButton spend500$;
@@ -246,6 +247,7 @@ public class Master implements Screen {
     ConTrol conTrol;
     ThanhControl thanhControl;
     HinhAnhLoa hinhAnhLoa;
+
 
     public static Array<Rectangle> roadArray = new Array<>();
     public static Array<MyActor> reArray = new Array<>();
@@ -338,6 +340,7 @@ public class Master implements Screen {
     Com com;
     XienBan xienBan;
     ThapRua thapRua;
+    School school;
     float ktHetEvent = 2;
     public  static boolean buyCNX = false;
     public static boolean buyGTX = false;
@@ -426,7 +429,7 @@ public class Master implements Screen {
         soluongBienCamBan = MathUtils.random(1,4);
         soluongCayBan = MathUtils.random(7,20);
         soluongCameraBan = MathUtils.random(2,4);
-        soluongNangLuongBan = MathUtils.random(300, 500 );
+        soluongNangLuongBan = MathUtils.random(400, 600 );
 
 
         resetDailyQuest();
@@ -519,6 +522,10 @@ public class Master implements Screen {
         });
         thueNguoiTrongCay = new WhiteButton(100000 , 1000000 , noMoveStage);
         thueNguoiTrongCay.setSize(32*14, 50);
+        thueNguoiDonRac = new WhiteButton(100000 , 1000000 , noMoveStage);
+        thueNguoiDonRac.setSize(32*14, 50);
+
+
         spend100$ = new WhiteButton(100000, 1000, noMoveStage);
         spend100$.setSize(32*7, 60);
         spend200$ = new WhiteButton(100000, 1000, noMoveStage);
@@ -571,6 +578,7 @@ public class Master implements Screen {
         image4 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*4-50,noMoveStage,4);
         image5 = new Imaged(32*22, Gdx.graphics.getHeight() - 32*5-75,noMoveStage,5);
         soTay = new SoTay( 300,Gdx.graphics.getHeight()-70,noMoveStage );
+
 
        // nutMayLoc = new creatMayLoc(-1000,-1000,noMoveStage);
 
@@ -742,7 +750,7 @@ public class Master implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if(!spent) {
+                    if(!spent && GameState.money >= 100) {
                         soTienGui = 100;
                         GameState.money-= 100;
                     }
@@ -752,7 +760,7 @@ public class Master implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if(!spent) {
+                    if(!spent&& GameState.money >= 200) {
                         soTienGui = 200;
                         GameState.money-= 200;
                     }
@@ -762,7 +770,7 @@ public class Master implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if(!spent) {
+                    if(!spent&& GameState.money >= 500) {
                         soTienGui = 500;
                         GameState.money-= 500;
                     }
@@ -788,7 +796,7 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
                     if(!spent) {
-                        soNgayGui = 2;
+                        soNgayGui = 5;
                     }
                 }
             });
@@ -797,7 +805,7 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
                     if(!spent) {
-                        soNgayGui = 5;
+                        soNgayGui = 10;
                     }
                 }
             });
@@ -806,7 +814,13 @@ public class Master implements Screen {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
                     spent = false;
-                    GameState.money += soTienGui + soTienGui*0.1*soNgayGui;
+                    if(soNgayGui == 1) {
+                        GameState.money += soTienGui + soTienGui * 0.05 * soNgayGui;
+                    }if(soNgayGui == 5) {
+                        GameState.money += soTienGui + soTienGui * 0.1 * soNgayGui;
+                    }if(soNgayGui == 10) {
+                        GameState.money += soTienGui + soTienGui * 0.15 * soNgayGui;
+                    }
                     timeBank = 0;
                     soTienGui = 0;
                     soNgayGui = 0;
@@ -868,6 +882,9 @@ public class Master implements Screen {
         redFlag.remove();
         one = new ChaoMungPeople(0,800/2f-48,stage);
         one.remove();
+
+
+
 
         createTree();
         createWaste();
@@ -1031,9 +1048,11 @@ public class Master implements Screen {
         noPlaced.add(rectangle2);
         Rectangle rectangle3 = new Rectangle(25*32,0,3*32,32*10);
         noPlaced.add(rectangle3);
-        Rectangle rectangle4 = new Rectangle(37*32,0,3*32,32*10);
+        Rectangle rectangle4 = new Rectangle(49*32,0,3*32,32*10);
         noPlaced.add(rectangle4);
         rentHouse = new RentHouse(32*32-16 , 0 , stage);
+        school = new School(2100 , 500 , stage);
+        noPlaced.add(school.getBound());
 
             noMoveStage.addListener(new InputListener(){
                 private Actor lastActor = null;
@@ -1377,6 +1396,11 @@ public class Master implements Screen {
                 closeRentHouse();
             }
         });
+        school.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SchoolScreen(game));
+            }
+        });
 
         xayDungButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -1453,9 +1477,20 @@ public class Master implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                GameState.money-= 1000;
-                new NguoiTrongCay(40*32, 12*32 , stage);
+                if(GameState.money >= 1000) {
+                    GameState.money -= 1000;
+                    new NguoiTrongCay(40 * 32, 12 * 32, stage);
+                }
 
+            }
+        });
+        thueNguoiDonRac.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(GameState.money  >= 200){
+                    GameState.money -= 200;
+                    new NguoiDonRac(32 , 40,stage);
+                }
             }
         });
         soTay.addListener(new ClickListener(){
@@ -1958,19 +1993,19 @@ public class Master implements Screen {
             if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
                 stage.getCamera().position.x = player.getX() + player.getWidth() / 2;
             } else if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 > player.getX()) {
-                stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;//day la tinh binh thuong
-                //stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
+                //stage.getCamera().position.x = Gdx.graphics.getWidth() / 2f;//day la tinh binh thuong
+                stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
             } else if (player.getX() > (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
-                stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
-                //stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
+                //stage.getCamera().position.x = WINDOW_WIDTH - Gdx.graphics.getWidth() / 2f;
+                stage.getCamera().position.x = player.getX() + player.getWidth() / 2;//day la tinh cho player co the di vuot map
             }
             if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 <= player.getY() && player.getY() <= (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if ((float) Gdx.graphics.getHeight() / 2 - player.getHeight() / 2 > player.getY()) {
-                stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
+                //stage.getCamera().position.y = Gdx.graphics.getHeight() / 2f;
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             } else if (player.getY() > (800 - (float) Gdx.graphics.getHeight() / 2) - player.getHeight() / 2) {
-                stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
+                //stage.getCamera().position.y = (800 - (float) Gdx.graphics.getHeight() / 2);
                 stage.getCamera().position.y = player.getY() + player.getHeight() / 2;
             }
         }
@@ -2022,23 +2057,15 @@ public class Master implements Screen {
         }
         if(soluongBienCamBan ==0){
             button2C.setColor(Color.GRAY);
-        }else {
-            button5C.setColor(1 , 1, 1, 1);
         }
         if(soluongCayBan ==0){
             button4C.setColor(Color.GRAY);
-        }else {
-            button5C.setColor(1 , 1, 1, 1);
         }
         if(soluongNangLuongBan ==0){
             button5C.setColor(Color.GRAY);
         }
-        else {
-            button5C.setColor(1 , 1, 1, 1);
-        }if(soluongCameraBan ==0){
+        if(soluongCameraBan ==0){
             button3C.setColor(Color.GRAY);
-        }else {
-            button5C.setColor(1 , 1, 1, 1);
         }
         if(nhiemVuTanBinh && thuTuNhiemVuTanBinh == 1){
             arrowNoMove.setRotation(0);
@@ -2728,7 +2755,9 @@ public class Master implements Screen {
             game.font3.draw(batch, "Nên mua hoặc nâng cấp: " + GameState.nenMua,32*2, Gdx.graphics.getHeight()-32*9-(25+8*2));
         }
         if(inRentHouse){
-            game.font3.draw(batch, "Thuê 1 người trồng cây giá 1000$",thueNguoiTrongCay.getX()+32,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Thuê 1 người trồng cây giá 1000$",thueNguoiTrongCay.getX()+32+5,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f);
+            game.font3.draw(batch, "Thuê 1 người dọn rác giá 200$",thueNguoiDonRac.getX()+32*2,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f-75);
+
         }
         if(hienNghienCuu){
             try {
@@ -2794,18 +2823,25 @@ public class Master implements Screen {
             game.font3.draw(batch , "Được tặng năm mươi năng lượng", 32*10,Gdx.graphics.getHeight() -32*5-45);
             game.font3.draw(batch , "Được tặng hai cái biển cấm", 32*10,Gdx.graphics.getHeight() -32*6-60);
             game.font3.draw(batch , "Được tặng ba hạt giống cây", 32*10,Gdx.graphics.getHeight() -32*7-75);
-            game.font3.draw(batch , "Nhận 1 thẻ chiến binh ngẫu nhiên ", 32*10,Gdx.graphics.getHeight() -32*8-90);
+            game.font3.draw(batch , "Nhận 1 thẻ kiến thức ngẫu nhiên ", 32*10,Gdx.graphics.getHeight() -32*8-90);
         }
         if(inBank){
+            game.font3.draw(batch, "Số tiền hiện có: "+ GameState.money , 32*2,Gdx.graphics.getHeight() -32*2);
             game.font3.draw(batch, "Gửi 100 $",spend100$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*4);
             game.font3.draw(batch, "Gửi 200 $",spend200$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*8);
             game.font3.draw(batch, "Gửi 500 $",spend500$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*12);
             game.font3.draw(batch, "Gửi 1 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*4);
-            game.font3.draw(batch, "Gửi 2 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*8);
-            game.font3.draw(batch, "Gửi 5 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*12);
-            game.font3.draw(batch, "Bạn gửi ngân hàng " + soTienGui,32*12,Gdx.graphics.getHeight() -32*4);
-            game.font3.draw(batch, "Bạn đã gửi " + soNgayGui + " ngày",32*13-16,Gdx.graphics.getHeight() -32*7);
-            game.font3.draw(batch, "Số tiền lãi là : " + soTienGui*0.1*soNgayGui,32*13-16,Gdx.graphics.getHeight() -32*10);
+            game.font3.draw(batch, "Gửi 5 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*8);
+            game.font3.draw(batch, "Gửi 10 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*12);
+            game.font3.draw(batch, "Số dư tài khoản: " + soTienGui,32*12,Gdx.graphics.getHeight() -32*4);
+            game.font3.draw(batch, "Bạn đã gửi: " + soNgayGui + " ngày",32*13-16,Gdx.graphics.getHeight() -32*7);
+            if(soNgayGui == 1) {
+                game.font3.draw(batch, "Lãi suất 1 ngày: 5%", 32 * 13 - 16, Gdx.graphics.getHeight() - 32 * 10);
+            }  if(soNgayGui == 5) {
+                game.font3.draw(batch, "Lãi suất 1 ngày: 10%", 32 * 13 - 16, Gdx.graphics.getHeight() - 32 * 10);
+            }  if(soNgayGui == 10) {
+                game.font3.draw(batch, "Lãi suất 1 ngày: 15%", 32 * 13 - 16, Gdx.graphics.getHeight() - 32 * 10);
+            }
             if(canClaim) {
                 game.font3.draw(batch, "Nhận", claimMoney.getX() + 32 * 2 + 19, Gdx.graphics.getHeight() - 32 * 14 + 6);
             }
@@ -3230,9 +3266,13 @@ public class Master implements Screen {
         if(gio1phan60 == 60*24){
             GameState.day++;
             soluongBienCamBan = MathUtils.random(1,4);
-            soluongCayBan = MathUtils.random(7,20);
+            soluongCayBan = MathUtils.random(10,20);
             soluongCameraBan = MathUtils.random(2,4);
-            soluongNangLuongBan = MathUtils.random(300, 500 );
+            soluongNangLuongBan = MathUtils.random(400, 600 );
+            button2C.setColor(1,1,1,1);
+            button4C.setColor(1,1,1,1);
+            button3C.setColor(1,1,1,1);
+            button4C.setColor(1,1,1,1);
             resetDailyQuest();
             if(GameState.day%3== 0){
                 int ran = MathUtils.random(1,3);
@@ -4479,7 +4519,9 @@ public class Master implements Screen {
         bangRent.setPosition(32 , 32);
         rentCross.setPosition(Gdx.graphics.getWidth() - 32*2 , Gdx.graphics.getHeight()-32*2);
         thueNguoiTrongCay.setPosition(32*8 , Gdx.graphics.getHeight() - 32*5);
+        thueNguoiDonRac.setPosition(32*8 , Gdx.graphics.getHeight()-32 *5-75);
         thueNguoiTrongCay.toFront();
+        thueNguoiDonRac.toFront();
         inRentHouse = true;
 
     }
@@ -4487,6 +4529,7 @@ public class Master implements Screen {
         bangRent.setPosition(100000,1000);
         rentCross.setPosition(10000,100000);
         thueNguoiTrongCay.setPosition(1000,100000);
+        thueNguoiDonRac.setPosition(100 ,100000);
         whatActionIfClickMouse = "move";
         inRentHouse = false;
     }

@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import spst.com.*;
+import spst.com.Button.ButtonActor;
 import spst.com.Button.Cross;
 import spst.com.Button.WhiteButton;
 import spst.com.Speeds.ConTrolSpeed;
@@ -192,6 +195,27 @@ public class TrashScreen implements Screen {
         cam4.setSize(32,32);
         cam4.setRotation(0);
         cam4.setPosition(Gdx.graphics.getWidth()/2f-cam2.getWidth()/2f+200+32+40+10,Gdx.graphics.getHeight()-32*16+40+10);
+        stage.addListener(new InputListener() {
+            private Actor lastActor = null;
+
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+
+                Actor actor = stage.hit(x, y, true);
+
+                if (lastActor != null && lastActor instanceof ButtonActor && lastActor != actor) {
+                    lastActor.setColor(1, 1, 1, 1);
+                }
+
+                if (actor instanceof ButtonActor) {
+                    actor.setColor(0, 1, 1, 1);
+                }
+
+                lastActor = actor;
+
+                return super.mouseMoved(event, x, y);
+            }
+        });
     }
     @Override
     public void show() {

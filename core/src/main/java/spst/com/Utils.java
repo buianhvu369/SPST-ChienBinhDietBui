@@ -15,6 +15,7 @@ public class Utils {
     private static Texture texture2 = new Texture("nongthon.png");
     private static Texture texture3 = new Texture("buttons.png");
     public static Texture  texture4 = new Texture("loading.png");
+    public static TextureRegion texture5 = new TextureRegion(new Texture("laocong.png"));
 
     public static TextureRegion getRegion(int x, int y, int width, int height) {
         return new TextureRegion(texture, x, y, width, height);
@@ -28,8 +29,8 @@ public class Utils {
     public static TextureRegion getRegionButton(int x, int y, int width, int height) {
         return new TextureRegion(texture3, x, y, width, height);
     }
-    public static TextureRegion getRegionLoading(int x, int y, int width, int height) {
-        return new TextureRegion(texture4, x, y, width, height);
+    public static TextureRegion getRegionLaoCong(int x, int y, int width, int height) {
+        return new TextureRegion(texture5, x, y, width, height);
     }
 
     public static List<Double> calculateAQIList(Map<String, Double> observedData, Map<String, int[]> breakpointsData, int[] indexValues) {

@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -50,6 +52,7 @@ public class SchoolScreen implements Screen {
     WhiteButton choice3;
     WhiteButton choice4;
     Cross cross;
+    BangLop banglop;
     int thuTuCauHoi = 0;
     char cauTraLoiDung = '1';
     int time = 0;
@@ -57,6 +60,8 @@ public class SchoolScreen implements Screen {
     public SchoolScreen(StartGame game) {
         this.game = game;
         stage = new Stage();
+        banglop = new BangLop(0 , 0, stage);
+
         class6 = new Class6(300 , 300 , stage) ;
         class7 = new Class7(300 , 100 , stage) ;
         choice1 = new WhiteButton(30000 , 300 , stage);
@@ -87,7 +92,7 @@ public class SchoolScreen implements Screen {
         layout4.height = 20;
         layout5.width = 20;
         layout5.height = 20;
-        thuTuCauHoi = MathUtils.random(1, 10);
+        thuTuCauHoi = 1;
 
         Gdx.input.setInputProcessor(stage);
         stage.addListener(new InputListener() {
@@ -270,11 +275,13 @@ public class SchoolScreen implements Screen {
         ScreenUtils.clear(Color.WHITE);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        Master.batch.begin();
+        Master.batch.end();
         if(isTouch){
             time++;
         }if(time == 180){
             time = 0;
-            thuTuCauHoi = MathUtils.random(1, 10);
+            thuTuCauHoi += 1;
             isTouch =false;
             choice1.setColor(1,1,1,1);
             choice2.setColor(1,1,1,1);
@@ -363,6 +370,45 @@ public class SchoolScreen implements Screen {
                     layout5.setText(game.font3, "Không ảnh hưởng");
                     cauTraLoiDung = 'a';
                 }
+                case 11 -> {
+                    layout.setText(game.font3, "Tảo phát triển mạnh trong nước thải có thể là do:");
+                    layout2.setText(game.font3, " Thiếu ánh sáng");
+                    layout3.setText(game.font3, "Nhiệt độ quá thấp");
+                    layout4.setText(game.font3, "Ô nhiễm chất dinh dưỡng");
+                    layout5.setText(game.font3, "Không có vi khuẩn");
+                    cauTraLoiDung = 'c';
+                }
+                case 12 -> {
+                    layout.setText(game.font3, "Khí SO₂ gây ra hiện tượng gì?");
+                    layout2.setText(game.font3, "Mưa acid");
+                    layout3.setText(game.font3, "Nổ lốp xe");
+                    layout4.setText(game.font3, " Tăng nấc độ âm thanh");
+                    layout5.setText(game.font3, "Ô nhiễm đất");
+                    cauTraLoiDung = 'a';
+                }
+                case 13 -> {
+                    layout.setText(game.font3, "Biện pháp giảm ô nhiễm không khí là:");
+                    layout2.setText(game.font3, "Dùng năng lượng hóa thạch nhiều hơn");
+                    layout3.setText(game.font3, "Lái xe máy với số thấp nhất");
+                    layout4.setText(game.font3, "Trồng cây xanh đô thị");
+                    layout5.setText(game.font3, "Đốt rác ngoài trời");
+                    cauTraLoiDung = 'c';
+                }
+                case 14 -> {
+                    layout.setText(game.font3, "Tái chế là gì?");
+                    layout2.setText(game.font3, "Sử dụng lại tài nguyên sau khi xử lý");
+                    layout3.setText(game.font3, "Vứt bỏ rác ra môi trường");
+                    layout4.setText(game.font3, "Đốt chất thải để giảm thể tích");
+                    layout5.setText(game.font3, "Đào kim loại dưới lòng đất");
+                    cauTraLoiDung = 'a';
+                } case 15 -> {
+                    layout.setText(game.font3, "Ô nhiễm nguồn nước có thể gây ra bệnh:");
+                    layout2.setText(game.font3, "Cúm");
+                    layout3.setText(game.font3, "Tiêu chảy");
+                    layout4.setText(game.font3, "Viêm họng");
+                    layout5.setText(game.font3, "Bệnh tim mạch");
+                    cauTraLoiDung = 'b';
+                }
             }
         }else{
             switch (thuTuCauHoi){
@@ -444,6 +490,45 @@ public class SchoolScreen implements Screen {
                     layout3.setText(game.font3, "Cây trồng, thủy sinh và đất đai");
                     layout4.setText(game.font3, "Chỉ động vật trên cạn");
                     layout5.setText(game.font3, "Không ảnh hưởng");
+                    cauTraLoiDung = 'b';
+                }
+                case 11 -> {
+                    layout.setText(game.font3, "Môi trường tự nhiên gồm những thành phần nào?");
+                    layout2.setText(game.font3, " Khí quyển, thủy quyển, sinh quyển, địa quyển");
+                    layout3.setText(game.font3, " Khí quyển, thủy quyển, sinh quyển, vũ trụ");
+                    layout4.setText(game.font3, " Sinh quyển, địa quyển, điện quyển, vật quyển");
+                    layout5.setText(game.font3, " Khí quyển, thủy quyển, quang quyển, địa quyểnn");
+                    cauTraLoiDung = 'a';
+                }
+                case 12 -> {
+                    layout.setText(game.font3, "Hiện tượng nào sau đây là biểu hiện của biến đổi khí hậu??");
+                    layout2.setText(game.font3, "Mặt trời sáng xuyên qua mây");
+                    layout3.setText(game.font3, "Mùa đông nắng nóng bất thường");
+                    layout4.setText(game.font3, "Gió tây nam thổi đều đặn");
+                    layout5.setText(game.font3, "Có ngày dài hơn ngày ngắn");
+                    cauTraLoiDung = 'b';
+                }
+                case 13 -> {
+                    layout.setText(game.font3, "Đâu là tác động gián tiếp của hiện tượng hiệu ứng nhà kính?");
+                    layout2.setText(game.font3, "Tăng tia cực tím gây hại lên da người");
+                    layout3.setText(game.font3, " Mực nước biển dâng gây ngập lụt vùng ven biển");
+                    layout4.setText(game.font3, "Tăng tốc độ gió tại các vùng núi cao");
+                    layout5.setText(game.font3, " Phát thải khí NO₂ từ xe cộ");
+                    cauTraLoiDung = 'c';
+                }
+                case 14 -> {
+                    layout.setText(game.font3, "Khí gây hiệu ứng nhà kính mạnh nhất trong tự nhiên là:");
+                    layout2.setText(game.font3, " O₂");
+                    layout3.setText(game.font3, "CO₂");
+                    layout4.setText(game.font3, "CH₄");
+                    layout5.setText(game.font3, "H₂O (hơi nước)");
+                    cauTraLoiDung = 'd';
+                } case 15 -> {
+                    layout.setText(game.font3, "Hiện tượng phú dưỡng trong ao hồ chủ yếu do nguyên nhân nào sau đây?");
+                    layout2.setText(game.font3, "Sự tăng lượng khí CO₂ trong không khí");
+                    layout3.setText(game.font3, "Sự tích tụ chất thải rắn từ công nghiệp");
+                    layout4.setText(game.font3, "Sự dư thừa chất dinh dưỡng (N và P) từ phân bón, nước thải");
+                    layout5.setText(game.font3, "Sự thay đổi mực nước tự nhiên do băng tan");
                     cauTraLoiDung = 'b';
                 }
             }

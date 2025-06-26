@@ -16,6 +16,7 @@ public class Utils {
     private static Texture texture3 = new Texture("buttons.png");
     public static Texture  texture4 = new Texture("loading.png");
     public static TextureRegion texture5 = new TextureRegion(new Texture("laocong.png"));
+    public static TextureRegion texture6 = new TextureRegion(new Texture("donrac.png"));
 
     public static TextureRegion getRegion(int x, int y, int width, int height) {
         return new TextureRegion(texture, x, y, width, height);
@@ -31,6 +32,9 @@ public class Utils {
     }
     public static TextureRegion getRegionLaoCong(int x, int y, int width, int height) {
         return new TextureRegion(texture5, x, y, width, height);
+    }
+    public static TextureRegion getRegionDonRac(int x, int y, int width, int height) {
+        return new TextureRegion(texture6, x, y, width, height);
     }
 
     public static List<Double> calculateAQIList(Map<String, Double> observedData, Map<String, int[]> breakpointsData, int[] indexValues) {

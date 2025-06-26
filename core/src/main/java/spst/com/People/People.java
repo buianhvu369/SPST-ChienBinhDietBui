@@ -273,7 +273,7 @@ public class People extends MyActor {
                 }
             }
             if(Master.timeOfDay%60==0){
-                if(Master.isNgayQuyenGop){
+                if(Master.isNgayQuyenGop && random.nextInt(0,4)==0){
                     int donate = random.nextInt(1,6);
                     GameState.money+=donate;
                     new FloatingNews(0, Gdx.graphics.getHeight()-32,Master.noMoveStage, "+"+donate, Color.GREEN,TypeEffect.FLOATUP);

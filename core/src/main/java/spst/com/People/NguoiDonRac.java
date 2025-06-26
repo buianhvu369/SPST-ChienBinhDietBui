@@ -6,11 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import spst.com.LoadingPlant;
-import spst.com.MyActor;
+import spst.com.*;
 import spst.com.Screen.Master;
-import spst.com.Utils;
-import spst.com.Waste;
 
 public class NguoiDonRac extends MyActor {
     Animation<TextureRegion> animationLeft;
@@ -34,10 +31,10 @@ public class NguoiDonRac extends MyActor {
 
     public NguoiDonRac(float x, float y, Stage s) {
         super(x, y, s);
-        TextureRegion[] textureRegionLeft = {Utils.getRegionLaoCong(0,0,16,16),Utils.getRegionLaoCong(0,16,16,16),Utils.getRegionLaoCong(0,16*2,16,16)};
-        TextureRegion[] textureRegionDown = {Utils.getRegionLaoCong(16,0,16,16),Utils.getRegionLaoCong(16,16,16,16),Utils.getRegionLaoCong(16,16*2,16,16)};
-        TextureRegion[] textureRegionUp = {Utils.getRegionLaoCong(16*2,0,16,16),Utils.getRegionLaoCong(16*2,16,16,16),Utils.getRegionLaoCong(16*2,16*2,16,16)};
-        TextureRegion[] textureRegionRight = {Utils.getRegionLaoCong(16*3,0,16,16),Utils.getRegionLaoCong(16*3,16,16,16),Utils.getRegionLaoCong(16*3,16*2,16,16)};
+        TextureRegion[] textureRegionLeft = {Utils.getRegionDonRac(0,0,32,32),Utils.getRegionDonRac(0,32,32,32),Utils.getRegionDonRac(0,32*2,32,32)};
+        TextureRegion[] textureRegionDown = {Utils.getRegionDonRac(32,0,32,32),Utils.getRegionDonRac(32,32,32,32),Utils.getRegionDonRac(32,32*2,32,32)};
+        TextureRegion[] textureRegionUp = {Utils.getRegionDonRac(32*2,0,32,32),Utils.getRegionDonRac(32*2,32,32,32),Utils.getRegionDonRac(32*2,32*2,32,32)};
+        TextureRegion[] textureRegionRight = {Utils.getRegionDonRac(32*3,0,32,32),Utils.getRegionDonRac(32*3,32,32,32),Utils.getRegionDonRac(32*3,32*2,32,32)};
         animationLeft = new Animation<TextureRegion>(0.2f, textureRegionLeft);
         animationRight = new Animation<TextureRegion>(0.2f, textureRegionRight);
         animationUp = new Animation<TextureRegion>(0.2f, textureRegionUp);
@@ -91,6 +88,15 @@ public class NguoiDonRac extends MyActor {
                     Actions.delay(3),
                     Actions.run(() -> {
                         donXong = false;
+                        if(wasteTarget.costume == 'o'){
+                            GameState.soRacHuuCo++;
+                        }if(wasteTarget.costume == 'i'){
+                            GameState.soRacVoCo++;
+                        }if(wasteTarget.costume == 'r'){
+                            GameState.soRacTaiChe++;
+                        }if(wasteTarget.costume == 'h'){
+                            GameState.soRacNguyHai++;
+                        }
                         wasteTarget.remove();
                     })
                 ));

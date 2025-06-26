@@ -10,7 +10,7 @@ import spst.com.Screen.Master;
 
 public class Waste extends MyActor {
     private boolean isFire;
-    private char costume;
+    public char costume;
     private char sophan;
     private boolean isTrongDS=false;
     private char myX;

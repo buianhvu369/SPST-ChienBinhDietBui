@@ -11,5 +11,6 @@ public class BuyBlank extends MyActor {
         textureRegion = Utils.getRegion(16*9,16*17,16,16);
         setSize(32,32);
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
 }

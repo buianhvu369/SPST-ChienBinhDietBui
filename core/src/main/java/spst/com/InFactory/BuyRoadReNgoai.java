@@ -17,6 +17,7 @@ public class BuyRoadReNgoai extends MyActor {
         setOrigin(16,16);
         Master.roadArray.add(getBound());
         Master.reArray.add(this);
+        Master.roads.add(this);
     }
     @Override
     public void act(float delta) {

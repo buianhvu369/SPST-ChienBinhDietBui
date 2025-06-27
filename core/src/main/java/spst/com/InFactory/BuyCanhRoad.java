@@ -13,6 +13,7 @@ public class BuyCanhRoad extends MyActor {
         setSize(32,32);
         setOrigin(16,16);
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
     @Override
     public void act(float delta) {

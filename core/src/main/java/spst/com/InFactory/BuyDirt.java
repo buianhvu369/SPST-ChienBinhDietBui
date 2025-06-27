@@ -2,6 +2,7 @@ package spst.com.InFactory;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import spst.com.MyActor;
+import spst.com.Screen.Master;
 import spst.com.Utils;
 
 public class BuyDirt extends MyActor {

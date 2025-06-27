@@ -25,5 +25,6 @@ public class Corner extends MyActor {
         myyx = yx;
         Master.roadArray.add(getBound());
         Master.reArray.add(this);
+        Master.roads.add(this);
     }
 }

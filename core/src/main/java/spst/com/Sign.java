@@ -37,17 +37,17 @@ public class Sign extends MyActor {
     public void act(float delta) {
         super.act(delta);
         time++;
-        if(time % 60 == 0 && GameState.money >= 2){
-            GameState.money-=2;
+        if(time % 60 == 0 && GameState.money >= 4){
+            GameState.money-=4;
         }
-        if(GameState.money >= 2) {
-            if (GameState.PM2_5 >= 4 / 60f) {
-                GameState.PM2_5 -= 4 / 60f;
+        if(GameState.money >= 4) {
+            if (GameState.PM2_5 >= 6 / 60f) {
+                GameState.PM2_5 -= 6 / 60f;
             } else {
                 GameState.PM2_5 = 0;
             }
-            if (GameState.SO2 >= 2 / 60f) {
-                GameState.SO2 -= 2 / 60f;
+            if (GameState.SO2 >= 4 / 60f) {
+                GameState.SO2 -= 4 / 60f;
             } else {
                 GameState.SO2 = 0;
             }

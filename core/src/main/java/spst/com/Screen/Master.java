@@ -1359,6 +1359,10 @@ public class Master implements Screen {
                     }
                     if(actorBlock instanceof MordernDoor
                         || actorBlock instanceof Restaurant
+                        || actorBlock instanceof School
+                        || actorBlock instanceof Bank
+                        || actorBlock instanceof NguoiDonRac
+                        || actorBlock instanceof NguoiTrongCay
                         || actorBlock instanceof ScienceCenter
                         || actorBlock instanceof FactoryCenter
                         || actorBlock instanceof HotelCenter
@@ -2092,14 +2096,9 @@ public class Master implements Screen {
         racTroiSong();
         tinhThangThua();
         batTatNutMoVaXuLyTrongNutMo();
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                if(whatActionIfClickMouse.equals("DatSan")){
-                    taoMoDatKhoi();
-                }
-            }
-        },0);
+        if(whatActionIfClickMouse.equals("DatSan")){
+            taoMoDatKhoi();
+        }
         OrthographicCamera c = (OrthographicCamera) stage.getViewport().getCamera();
         if(c.zoom == 1f) {
             if ((float) Gdx.graphics.getWidth() / 2 - player.getWidth() / 2 <= player.getX() && player.getX() <= (float) (WINDOW_WIDTH - Gdx.graphics.getWidth() / 2) - player.getWidth() / 2) {
@@ -2364,15 +2363,19 @@ public class Master implements Screen {
                 if(isCanDao){
                     //BuyDirt a = new BuyDirt(x, y,stage);
                     //a.setZIndex(stage.hit(x, y, true).getZIndex()+1);
+                    MyActor myActor = (MyActor) stage.hit(x,y,true);
                     try {
-                        MyActor myActor = (MyActor) stage.hit(x,y,true);
                         roadArray.removeValue(myActor.getBound(),true);
-                        reArray.removeValue(myActor,true);
+                        roads.removeValue(myActor,true);
                         myActor.remove();
                         if(nhiemvu3== 2){
                             nhiemvu3= 77;
                             GameState.money += 200;
                         }
+                    }catch (Exception ignored){
+                    }
+                    try {
+                        reArray.removeValue(myActor,true);
                     }catch (Exception ignored){
                     }
                     MDirt.setPosition(-32456,-3456889);
@@ -2682,6 +2685,12 @@ public class Master implements Screen {
         chu3.toFront();
         stage.draw();
 //        for(Waste a : wastes){
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//            shapeRenderer.setColor(Color.RED);
+//            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
+//            shapeRenderer.end();
+//        }
+//        for(MyActor a : roads){
 //            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //            shapeRenderer.setColor(Color.RED);
 //            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
@@ -3759,18 +3768,15 @@ public class Master implements Screen {
 
         for (int i = -1; i < 38; i++) {
             RoadWay roadWayV = new RoadWay(i * 32, 800 / 2f - 48, stage, true);
-            roads.add(roadWayV);
             createCrossWalk(i, i * 32, 800 / 2f - 48, true);
             if (i == 9) {
                 for (int j = -1; j < 31; j++) {
                     RoadWay roadWay = new RoadWay(i * 32, 800 / 2f - 48 - (j + 2) * 32, stage, false);
-                    roads.add(roadWay);
                     createCrossWalk(j, i * 32, 800 / 2f - 48 - (j + 2) * 32, false);
                 }
             } else if (i == 21) {
                 for (int j = -1; j < 31; j++) {
                     RoadWay roadWay = new RoadWay(i * 32, 800 / 2f + 48 + (j + 1) * 32, stage, false);
-                    roads.add(roadWay);
                     createCrossWalk(j, i * 32, 800 / 2f + 48 + (j + 1) * 32, false);
                 }
             }
@@ -3794,23 +3800,14 @@ public class Master implements Screen {
         Corner corner = new Corner(21 * 32, 800 / 2f + 48 - 32, stage, "DR");
         BlankRoad blankRoad = new BlankRoad(21 * 32 + 32, 800 / 2f + 48 - 32, stage);
         Corner corner12 = new Corner(21 * 32 + 32 * 2, 800 / 2f + 48 - 32, stage, "DL");
-        roads.add(corner);
-        roads.add(blankRoad);
-        roads.add(corner12);
 
         Corner corner2 = new Corner(9 * 32, 800 / 2f - 48 - 0, stage, "UR");
         BlankRoad blankRoad2 = new BlankRoad(9 * 32 + 32, 800 / 2f - 48 - 0, stage);
         Corner corner22 = new Corner(9 * 32 + 32 * 2, 800 / 2f - 48 - 0, stage, "UL");
-        roads.add(corner2);
-        roads.add(blankRoad2);
-        roads.add(corner22);
 
         Corner corner3 = new Corner(25 * 32, 800 / 2f - 48 - 0, stage, "UR");
         BlankRoad blankRoad3 = new BlankRoad(25 * 32 + 32, 800 / 2f - 48 - 0, stage);
         Corner corner32 = new Corner(25 * 32 + 32 * 2, 800 / 2f - 48 - 0, stage, "UL");
-        roads.add(corner3);
-        roads.add(blankRoad3);
-        roads.add(corner32);
 
 //        CornerPool cornerPool = new CornerPool(32*5, 800 - 32 * 3, stage, "UL");
 //        CornerPool cornerPool2 = new CornerPool(32 * 15, 800 - 32 * 3, stage, "UR");
@@ -4183,7 +4180,7 @@ public class Master implements Screen {
                 MCanhRoad.toFront();
                 thongTinDatCanhRoad=thongTinMode;
                 if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
-                    MCanhRoad.setRotation(MCanhRoad.getRotation()+90);
+                    MCanhRoad.rotateBy(90);
                 }
             }
             case ViaHe -> {
@@ -4436,7 +4433,6 @@ public class Master implements Screen {
     private void createCrossWalk(int e, float x, float y, boolean isHorizontal) {
         if (e % 6 == 0) {
             CrossWalk crossWalk = new CrossWalk(x, y, stage, isHorizontal);
-            roads.add(crossWalk);
         }
     }
 
@@ -4819,7 +4815,6 @@ public class Master implements Screen {
 
     @Override
     public void dispose() {
-        nen.stop();
         batch.dispose();
     }
 }

@@ -36,6 +36,7 @@ public class BuyRoadRe extends MyActor {
         textureRegionGachDuoi = Utils.getRegion(16*1,16*17,16,16);
         Master.roadArray.add(getBound());
         Master.reArray.add(this);
+        Master.roads.add(this);
     }
 
     @Override

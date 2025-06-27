@@ -408,6 +408,41 @@ public class SchoolScreen implements Screen {
                     layout4.setText(game.font3, "Viêm họng");
                     layout5.setText(game.font3, "Bệnh tim mạch");
                     cauTraLoiDung = 'b';
+                } case 16 -> {
+                    layout.setText(game.font3, "Trong không khí ô nhiễm, tỉ lệ khí CO₂ tăng từ 0,04% lên 0,4%. So với mức bình thường, CO₂ đã tăng:");
+                    layout2.setText(game.font3, "1 lần");
+                    layout3.setText(game.font3, "5 lần");
+                    layout4.setText(game.font3, "10 lần");
+                    layout5.setText(game.font3, "100 lần");
+                    cauTraLoiDung = 'c';
+                } case 17 -> {
+                    layout.setText(game.font3, "Khi ánh sáng mặt trời mạnh, phản ứng tạo ozon mặt đất xảy ra nhiều hơn vì:");
+                    layout2.setText(game.font3, "Ánh sáng phân hủy CO₂");
+                    layout3.setText(game.font3, "Ánh sáng kích hoạt NO₂ tạo O");
+                    layout4.setText(game.font3, "O₂ chuyển hóa thành O₃ trực tiếp");
+                    layout5.setText(game.font3, "Bụi phản ứng với ánh sáng");
+                    cauTraLoiDung = 'b';
+                } case 18 -> {
+                    layout.setText(game.font3, "Khi không khí bị nghịch nhiệt, lớp không khí lạnh nằm ở:");
+                    layout2.setText(game.font3, "Trên cao, giữ khí nóng ở dưới");
+                    layout3.setText(game.font3, "Dưới thấp, giữ khí nóng ở trên");
+                    layout4.setText(game.font3, "Giữa 2 lớp mây");
+                    layout5.setText(game.font3, "Giữa các lớp ozon");
+                    cauTraLoiDung = 'b';
+                } case 19 -> {
+                    layout.setText(game.font3, "Phản ứng tạo ozon (O₃) ở tầng mặt đất là phản ứng:");
+                    layout2.setText(game.font3, "Trung hòa");
+                    layout3.setText(game.font3, "Phản ứng oxi hóa quang hóa");
+                    layout4.setText(game.font3, "Phản ứng nhiệt phân");
+                    layout5.setText(game.font3, "Phản ứng trao đổi ion");
+                    cauTraLoiDung = 'b';
+                } case 20 -> {
+                    layout.setText(game.font3, "Hiện tượng nào sau đây là kết quả của ô nhiễm không khí và khí thải SO₂");
+                    layout2.setText(game.font3, "Mưa axit");
+                    layout3.setText(game.font3, "Sương muối");
+                    layout4.setText(game.font3, "Cát bụi đỏ");
+                    layout5.setText(game.font3, "Cực quang");
+                    cauTraLoiDung = 'a';
                 }
             }
         }else{
@@ -530,6 +565,41 @@ public class SchoolScreen implements Screen {
                     layout4.setText(game.font3, "Sự dư thừa chất dinh dưỡng (N và P) từ phân bón, nước thải");
                     layout5.setText(game.font3, "Sự thay đổi mực nước tự nhiên do băng tan");
                     cauTraLoiDung = 'b';
+                } case 16 -> {
+                    layout.setText(game.font3, "Để giảm NO₂ từ khí thải xe, người ta sử dụng chất xúc tác chứa:");
+                    layout2.setText(game.font3, "Sự tăng lượng khí CO₂ trong không khí");
+                    layout3.setText(game.font3, "Sự tích tụ chất thải rắn từ công nghiệp");
+                    layout4.setText(game.font3, "Sự dư thừa chất dinh dưỡng (N và P) từ phân bón, nước thải");
+                    layout5.setText(game.font3, "Sự thay đổi mực nước tự nhiên do băng tan");
+                    cauTraLoiDung = 'b';
+                } case 17 -> {
+                    layout.setText(game.font3, "Trong các khí gồm CO, NO₂ và SO, nào có thể gây mưa axit khi phản ứng với nước?");
+                    layout2.setText(game.font3, "CO");
+                    layout3.setText(game.font3, "NO₂ và SO₂");
+                    layout4.setText(game.font3, "CO và NO₂");
+                    layout5.setText(game.font3, "Chỉ NO₂");
+                    cauTraLoiDung = 'b';
+                } case 18 -> {
+                    layout.setText(game.font3, "Vì sao khí CO rất nguy hiểm dù không có mùi và không màu?");
+                    layout2.setText(game.font3, "Nó làm máu đông");
+                    layout3.setText(game.font3, "Nó làm giảm oxy máu bằng cách gắn vào hemoglobin");
+                    layout4.setText(game.font3, "Nó phá hủy phổi");
+                    layout5.setText(game.font3, "Nó gây đau đầu ngay khi hít");
+                    cauTraLoiDung = 'b';
+                } case 19 -> {
+                    layout.setText(game.font3, "Chất nào sau đây không gây mưa axit dù có trong không khí ô nhiễm?");
+                    layout2.setText(game.font3, "SO₂");
+                    layout3.setText(game.font3, "NO₂");
+                    layout4.setText(game.font3, "CO");
+                    layout5.setText(game.font3, "NH₃");
+                    cauTraLoiDung = 'c';
+                } case 20 -> {
+                    layout.setText(game.font3, "Ở những nơi có khí thải từ đốt rác, khí nào nguy hiểm nhưng khó phát hiện nhất?");
+                    layout2.setText(game.font3, "SO₂");
+                    layout3.setText(game.font3, "CO₂");
+                    layout4.setText(game.font3, "Dioxin");
+                    layout5.setText(game.font3, "H₂O");
+                    cauTraLoiDung = 'c';
                 }
             }
         }

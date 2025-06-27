@@ -48,7 +48,9 @@ public class MenuScreen implements Screen  {
         startButton.setPosition(Gdx.graphics.getWidth()/2f-startButton.getWidth()/2f, 400); ;
         startButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new SchoolScreen(game));
+//                try{
+//                    Master.player
+//                }catch (Exception ignored){}
                 game.setScreen(game.master);
             }
         });
@@ -111,6 +113,7 @@ public class MenuScreen implements Screen  {
 
         Gdx.input.setInputProcessor(stage);
 
+        Master.nen.stop();
         nen.isLooping();
         nen.setVolume(0.1f);
         nen.play();

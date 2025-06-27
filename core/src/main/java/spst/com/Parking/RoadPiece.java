@@ -17,5 +17,6 @@ public class RoadPiece extends MyActor {
         setSize(textureRegion.getRegionWidth()*2,textureRegion.getRegionHeight()*2);
         Master.noPlaced.add(this.getBound());
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
 }

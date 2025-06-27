@@ -72,8 +72,8 @@ public class Car extends MyActor {
     }
     private void Move(){
         boolean isOnRoad = false;
-        for(Rectangle rec : Master.roadArray){
-            if(getBoundCar().overlaps(rec)){
+        for(MyActor myActor : Master.roads){
+            if(getBoundCar().overlaps(myActor.getBound())){
                 isOnRoad = true;
             }
         }

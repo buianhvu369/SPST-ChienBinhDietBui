@@ -18,5 +18,6 @@ public class RoadWay extends MyActor {
         }
         myIsHorizontal = isHorizontal;
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
 }

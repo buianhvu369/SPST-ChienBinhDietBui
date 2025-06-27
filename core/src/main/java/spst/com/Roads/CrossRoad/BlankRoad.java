@@ -11,5 +11,6 @@ public class BlankRoad extends MyActor {
         textureRegion = Utils.getRegion(9*16, 17*16, 16, 16);
         setSize(textureRegion.getRegionWidth() * 2, textureRegion.getRegionHeight() * 2);
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
 }

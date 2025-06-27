@@ -19,6 +19,7 @@ public class BuyRoad extends MyActor {
         textureRegion2 = Utils.getRegion(16,16*16,16,16);
         textureRegion3 = Utils.getRegion(16,16*15,16,16);
         Master.roadArray.add(getBound());
+        Master.roads.add(this);
     }
 
     @Override

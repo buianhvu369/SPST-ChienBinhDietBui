@@ -17,6 +17,6 @@ public class CrossWalk extends MyActor {
         }
         Master.noPlaced.add(this.getBound());
         Master.roadArray.add(getBound());
-
+        Master.roads.add(this);
     }
 }

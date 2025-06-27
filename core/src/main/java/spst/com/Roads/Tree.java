@@ -25,6 +25,9 @@ public class Tree extends MyActor {
         }else {
             type = TypeTree.Classic;
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            type = TypeTree.Super;
+        }
         if(type == TypeTree.Super){
             textureRegion = new TextureRegion(new Texture("supertree.png"));
             setSize(64, 64);

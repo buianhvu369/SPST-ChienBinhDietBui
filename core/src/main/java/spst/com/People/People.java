@@ -282,7 +282,7 @@ public class People extends MyActor {
             if(!Master.isNgayTrongCay) {
                 time += delta;
                 timeDirection++;
-                if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous) {
+                if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous&& !isJogging && !isDoTrash) {
                     randomAction = MathUtils.random(0, 101);
                     if (randomAction < 40) {
                         isJogging = true;

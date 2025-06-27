@@ -601,6 +601,7 @@ public class SchoolScreen implements Screen {
                     layout5.setText(game.font3, "H₂O");
                     cauTraLoiDung = 'c';
                 }
+
             }
         }
         question.setColor(1,1,1,1);

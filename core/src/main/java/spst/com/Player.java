@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import spst.com.Roads.Car;
@@ -162,7 +163,7 @@ public class Player extends MyActor {
         }
         if(!Master.trashTruck.getIsUsing()&&!Master.taxi.getIsUsing()&&!Master.police.getIsUsing()&&!Master.electricCar.getIsUsing()){
             for(Car c : Master.cars){
-                if(getBound().overlaps(c.getBoundCar())){
+                if(getBoundPlayer().overlaps(c.getBoundCar())){
                     isAlive = false;
                     isBep = true;
                     addAction(Actions.sequence(
@@ -178,5 +179,8 @@ public class Player extends MyActor {
         if(isBep){
             setSize(32, 8);
         }
+    }
+    public Rectangle getBoundPlayer(){
+        return new Rectangle(getX(), getY(), getWidth(), getHeight()/4);
     }
 }

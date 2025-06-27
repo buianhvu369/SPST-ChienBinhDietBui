@@ -287,7 +287,8 @@ public class Master implements Screen {
     public static int soCayConLai = 0;
     boolean inRestaurant = false;
     boolean inRentHouse = false;
-    int soMayLocBought = 0;
+    int soNguoiThue = 0;
+
     Imaged image;
     Imaged image2;
     Imaged image3;
@@ -1571,6 +1572,7 @@ public class Master implements Screen {
                 if(GameState.money  >= 200){
                     GameState.money -= 200;
                     new NguoiDonRac(32*30 , 32,stage);
+                    soNguoiThue ++;
                 }
             }
         });
@@ -2075,8 +2077,13 @@ public class Master implements Screen {
         }
         if(spent){
             timeBank++;
-            if(timeBank %(soNgayGui*60*24)==0){
-                canClaim = true;
+            try {
+                if (timeBank % (soNgayGui * 60 * 24) == 0) {
+                    canClaim = true;
+                }
+            }catch (Exception e){
+                new FloatingNews(32*10 ,32*5 , noMoveStage ,"Bạn chưa chọn ngày", Color.RED , TypeEffect.FLOATUP);
+                spent = false;
             }
         }
 
@@ -2889,7 +2896,10 @@ public class Master implements Screen {
         }
         if(inRentHouse){
    //         game.font3.draw(batch, "Thuê 1 người trồng cây giá 1000$",thueNguoiTrongCay.getX()+32+5,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f);
-            game.font3.draw(batch, "Thuê 1 người dọn rác giá 200$",thueNguoiDonRac.getX()+32*2,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f-75);
+            game.font6.draw(batch, "Thuê 1 người dọn rác giá 200$",thueNguoiDonRac.getX()+32*2,Gdx.graphics.getHeight()-32*5-8+25+(64-25)/2f-40);
+            game.font3.draw(batch , "Tiền :" + GameState.money , 32*2,Gdx.graphics.getHeight()-32-24);
+            game.font3.draw(batch , "Số người đã thuê :" + soNguoiThue , 32*20,Gdx.graphics.getHeight()-32-24);
+            game.font8.draw(batch , "Chờ cập nhật....."  , 32*10,32*7);
 
         }
         if(hienNghienCuu){
@@ -2961,14 +2971,14 @@ public class Master implements Screen {
         }
         if(inBank){
             game.font3.draw(batch, "Số tiền hiện có: "+ GameState.money , 32*2,Gdx.graphics.getHeight() -32*2);
-            game.font3.draw(batch, "Gửi 100 $",spend100$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*4);
-            game.font3.draw(batch, "Gửi 200 $",spend200$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*8);
-            game.font3.draw(batch, "Gửi 500 $",spend500$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*12);
-            game.font3.draw(batch, "Gửi 1 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*4);
-            game.font3.draw(batch, "Gửi 5 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*8);
-            game.font3.draw(batch, "Gửi 10 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*12);
+            game.font6.draw(batch, "Gửi 100 $",spend100$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*4);
+            game.font6.draw(batch, "Gửi 200 $",spend200$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*8);
+            game.font6.draw(batch, "Gửi 500 $",spend500$.getX() + 32*2-6,Gdx.graphics.getHeight() -32*12);
+            game.font6.draw(batch, "Gửi 1 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*4);
+            game.font6.draw(batch, "Gửi 5 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*8);
+            game.font6.draw(batch, "Gửi 10 ngày",spend1Day.getX()+ 32*2-6,Gdx.graphics.getHeight() -32*12);
             if(!spent) {
-                game.font3.draw(batch, "Gửi", guiXong.getX() + 32 +11, Gdx.graphics.getHeight() - 32 * 11-17);
+                game.font6.draw(batch, "Gửi", guiXong.getX() + 32 +11, Gdx.graphics.getHeight() - 32 * 11-17);
             }
 
             game.font3.draw(batch, "Số dư tài khoản: " + soTienGui,32*12,Gdx.graphics.getHeight() -32*4);
@@ -4666,16 +4676,18 @@ public class Master implements Screen {
         congCuButton.setPosition(-24355,-54325);
         xeCoButton.setPosition(-24355,-54325);
         line.setHeight(0);
-        line2.setHeight(0);
+        line.setHeight(0);
     }
 
     public void openRentHouse(){
         bangRent.setPosition(32 , 32);
         rentCross.setPosition(Gdx.graphics.getWidth() - 32*2 , Gdx.graphics.getHeight()-32*2);
 //              thueNguoiTrongCay.setPosition(32*8 , Gdx.graphics.getHeight() - 32*5);
-        thueNguoiDonRac.setPosition(32*8 , Gdx.graphics.getHeight()-32 *5-75);
+        thueNguoiDonRac.setPosition(32*8 , Gdx.graphics.getHeight()-32 *5-40);
   //      thueNguoiTrongCay.toFront();
         thueNguoiDonRac.toFront();
+        line.setHeight(4);
+        line.setY(Gdx.graphics.getHeight()-32*5-4+32*2);
         inRentHouse = true;
 
     }
@@ -4684,6 +4696,8 @@ public class Master implements Screen {
         rentCross.setPosition(10000,100000);
 //        thueNguoiTrongCay.setPosition(1000,100000);
         thueNguoiDonRac.setPosition(100 ,100000);
+        line.setHeight(0);
+        line.setY(Gdx.graphics.getHeight()-32*5-4);
         whatActionIfClickMouse = "move";
         inRentHouse = false;
     }

@@ -531,6 +531,7 @@ public class SchoolScreen implements Screen {
                     layout5.setText(game.font3, "Sự thay đổi mực nước tự nhiên do băng tan");
                     cauTraLoiDung = 'b';
                 }
+
             }
         }
         question.setColor(1,1,1,1);

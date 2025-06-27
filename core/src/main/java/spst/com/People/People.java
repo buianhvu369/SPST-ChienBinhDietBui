@@ -282,7 +282,7 @@ public class People extends MyActor {
             if(!Master.isNgayTrongCay) {
                 time += delta;
                 timeDirection++;
-                if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous) {
+                if (timeDirection % 300 == 0 && !isCutting && !isFiringWaste && !isFiringSign && !isDangerous&&!isDoTrash) {
                     randomAction = MathUtils.random(0, 101);
                     if (randomAction < 40) {
                         isJogging = true;
@@ -340,16 +340,16 @@ public class People extends MyActor {
                                         isMoving = true;
                                         if (getX() >= 40 * 32 && getX() > mouseX) {
                                             isCrossBridge = true;
-                                            mouseXBridge = 36 * 4 - 12;
+                                            mouseXBridge = 36 * 32 - 12;
                                             mouseYBridge = 11 * 32 + 3;
                                             rectangle3.setSize(20, 20);
-                                            rectangle3.setPosition(mouseXBridge - 20, mouseYBridge - 20);
+                                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge-10 );
                                         } else if (getX() <= 36 * 4 && getX() < mouseX) {
                                             isCrossBridge = true;
-                                            mouseXBridge = 40 * 4 + 12;
+                                            mouseXBridge = 40 * 32 + 12;
                                             mouseYBridge = 11 * 32 + 3;
                                             rectangle3.setSize(20, 20);
-                                            rectangle3.setPosition(mouseXBridge + 20, mouseYBridge + 20);
+                                            rectangle3.setPosition(mouseXBridge- 10 , mouseYBridge-10 );
                                         } else {
                                             isCrossBridge = false;
                                         }
@@ -364,16 +364,16 @@ public class People extends MyActor {
                         isMoving = true;
                         if (getX() >= 40 * 32 && getX() > mouseX) {
                             isCrossBridge = true;
-                            mouseXBridge = 36 * 4 - 12;
+                            mouseXBridge = 36 * 32 - 12;
                             mouseYBridge = 11 * 32 + 3;
                             rectangle3.setSize(20, 20);
-                            rectangle3.setPosition(mouseXBridge - 20, mouseYBridge - 20);
-                        } else if (getX() <= 36 * 4 && getX() < mouseX) {
+                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge-10 );
+                        } else if (getX() <= 36 * 32 && getX() < mouseX) {
                             isCrossBridge = true;
-                            mouseXBridge = 40 * 4 + 12;
+                            mouseXBridge = 40 * 32 + 12;
                             mouseYBridge = 11 * 32 + 3;
                             rectangle3.setSize(20, 20);
-                            rectangle3.setPosition(mouseXBridge + 20, mouseYBridge + 20);
+                            rectangle3.setPosition(mouseXBridge- 10 , mouseYBridge-10 );
                         } else {
                             isCrossBridge = false;
                         }
@@ -397,16 +397,16 @@ public class People extends MyActor {
                                 canFind = true;
                                 if (getX() >= 40 * 32 && getX() > mouseX) {
                                     isCrossBridge = true;
-                                    mouseXBridge = 36 * 4 - 12;
+                                    mouseXBridge = 36 * 32 - 12;
                                     mouseYBridge = 11 * 32 + 3;
                                     rectangle3.setSize(20, 20);
-                                    rectangle3.setPosition(mouseXBridge - 20, mouseYBridge - 20);
-                                } else if (getX() <= 36 * 4 && getX() < mouseX) {
+                                    rectangle3.setPosition(mouseXBridge - 10, mouseYBridge -10);
+                                } else if (getX() <= 36 * 32 && getX() < mouseX) {
                                     isCrossBridge = true;
-                                    mouseXBridge = 40 * 4 + 12;
+                                    mouseXBridge = 40 * 32 + 12;
                                     mouseYBridge = 11 * 32 + 3;
                                     rectangle3.setSize(20, 20);
-                                    rectangle3.setPosition(mouseXBridge + 20, mouseYBridge + 20);
+                                    rectangle3.setPosition(mouseXBridge- 10 , mouseYBridge-10 );
                                 } else {
                                     isCrossBridge = false;
                                 }
@@ -430,16 +430,16 @@ public class People extends MyActor {
                             isMoving = true;
                             if (getX() >= 40 * 32 && getX() > mouseX) {
                                 isCrossBridge = true;
-                                mouseXBridge = 36 * 4 - 12;
+                                mouseXBridge = 36 * 32 - 12;
                                 mouseYBridge = 11 * 32 + 3;
                                 rectangle3.setSize(20, 20);
-                                rectangle3.setPosition(mouseXBridge - 20, mouseYBridge - 20);
-                            } else if (getX() <= 36 * 4 && getX() < mouseX) {
+                                rectangle3.setPosition(mouseXBridge - 10, mouseYBridge -10);
+                            } else if (getX() <= 36 * 32 && getX() < mouseX) {
                                 isCrossBridge = true;
-                                mouseXBridge = 40 * 4 + 12;
+                                mouseXBridge = 40 * 32 + 12;
                                 mouseYBridge = 11 * 32 + 3;
                                 rectangle3.setSize(20, 20);
-                                rectangle3.setPosition(mouseXBridge + 20, mouseYBridge + 20);
+                                rectangle3.setPosition(mouseXBridge - 10, mouseYBridge-10 );
                             } else {
                                 isCrossBridge = false;
                             }
@@ -453,16 +453,16 @@ public class People extends MyActor {
                         isMoving = true;
                         if (getX() >= 40 * 32 && getX() > mouseX) {
                             isCrossBridge = true;
-                            mouseXBridge = 36 * 4 - 12;
+                            mouseXBridge = 36 * 32 - 12;
                             mouseYBridge = 11 * 32 + 3;
                             rectangle3.setSize(20, 20);
-                            rectangle3.setPosition(mouseXBridge - 20, mouseYBridge - 20);
-                        } else if (getX() <= 36 * 4 && getX() < mouseX) {
+                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge -10);
+                        } else if (getX() <= 36 * 32 && getX() < mouseX) {
                             isCrossBridge = true;
-                            mouseXBridge = 40 * 4 + 12;
+                            mouseXBridge = 40 * 32 + 12;
                             mouseYBridge = 11 * 32 + 3;
                             rectangle3.setSize(20, 20);
-                            rectangle3.setPosition(mouseXBridge + 20, mouseYBridge + 20);
+                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge -10);
                         } else {
                             isCrossBridge = false;
                         }
@@ -565,7 +565,21 @@ public class People extends MyActor {
                         rectangle4.setPosition(mouseX, mouseY);
                         rectangle4.setSize(20,20);
                         isMoving = true;
-                        isCrossBridge = false;
+                        if (getX() >= 40 * 32 && getX() > mouseX) {
+                            isCrossBridge = true;
+                            mouseXBridge = 36 * 32 - 12;
+                            mouseYBridge = 11 * 32 + 3;
+                            rectangle3.setSize(20, 20);
+                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge-10 );
+                        } else if (getX() <= 36 * 32 && getX() < mouseX) {
+                            isCrossBridge = true;
+                            mouseXBridge = 40 * 32 + 12;
+                            mouseYBridge = 11 * 32 + 3;
+                            rectangle3.setSize(20, 20);
+                            rectangle3.setPosition(mouseXBridge - 10, mouseYBridge-10 );
+                        } else {
+                            isCrossBridge = false;
+                        }
                     }
                 }
                 if (rectangle4.contains(getX()+10, getY()+10)) {
@@ -743,7 +757,7 @@ public class People extends MyActor {
             setSize(32,32);
         }
         for(Car c : Master.cars){
-            if(getBound().overlaps(c.getBoundCar())){
+            if(getBoundPeoPle().overlaps(c.getBoundCar())){
                 isAlive = false;
                 isBep = true;
                 c.toFront();
@@ -803,5 +817,8 @@ public class People extends MyActor {
             mouseX = MathUtils.random(100, 2200);
             mouseY = MathUtils.random(20, 780);
         }
+    }
+    public Rectangle getBoundPeoPle(){
+        return new Rectangle(getX(), getY(), getWidth(), getHeight()/4);
     }
 }

@@ -144,11 +144,12 @@ public class GameState{
                 Master.cars.add(a);
             }
             for(WasteMP b : saveGame.wasteArray){
-//                Waste a = new Waste(b.x,b.y,Master.stage);
-//                Master.wastes.add(a);
+                Waste a = new Waste(b.x,b.y,Master.stage,b.cos);
+                //Master.wastes.add(a);
             }
             for(TreeMP b : saveGame.treeArray){
                 Tree a = new Tree(b.x,b.y,Master.stage);
+                a.type = b.type;
                 Master.trees.add(a);
             }
             for(MLMP b : saveGame.mayLocArray){
@@ -281,5 +282,10 @@ public class GameState{
         Master.MLKKs.clear();
         Master.rices.clear();
         Master.normalCameras.clear();
+        float x = Master.player.getX();
+        float y = Master.player.getY();
+        Master.player.isAlive=true;
+        Master.player.isBep=false;
+        Master.player = new Player(x,y,Master.stage);
     }
 }

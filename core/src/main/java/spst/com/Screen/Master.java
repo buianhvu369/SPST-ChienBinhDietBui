@@ -2691,12 +2691,12 @@ public class Master implements Screen {
         chu2.toFront();
         chu3.toFront();
         stage.draw();
-//        for(Waste a : wastes){
-//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//            shapeRenderer.setColor(Color.RED);
-//            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
-//            shapeRenderer.end();
-//        }
+        for(Waste a : wastes){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(a.getBound().getX()-(stage.getCamera().position.x-Gdx.graphics.getWidth()/2f), a.getBound().getY()-(stage.getCamera().position.y-Gdx.graphics.getHeight()/2f), a.getBound().getWidth(), a.getBound().getHeight());
+            shapeRenderer.end();
+        }
 //        for(MyActor a : roads){
 //            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //            shapeRenderer.setColor(Color.RED);

@@ -130,11 +130,11 @@ public class SaveGame{
             carArray.add(a);
         }
         for(Waste b : Master.wastes){
-            WasteMP a = new WasteMP(b.getX(),b.getY());
+            WasteMP a = new WasteMP(b.getX(),b.getY(),b.costume);
             wasteArray.add(a);
         }
         for(Tree b : Master.trees){
-            TreeMP a = new TreeMP(b.getX(),b.getY());
+            TreeMP a = new TreeMP(b.getX(),b.getY(),b.type);
             treeArray.add(a);
         }
         for(MayLoc b : Master.MLKKs){

@@ -242,6 +242,7 @@ public class SchoolScreen implements Screen {
                     int ran = MathUtils.random(1, 6);
                     switch (ran) {
                         case 1 -> GameState.money+= 200;
+
                         case 2 -> GameState.ernegy+= 100;
                         case 3 -> GameState.greenscore+= 20;
                     }
@@ -409,7 +410,7 @@ public class SchoolScreen implements Screen {
                     layout5.setText(game.font3, "Bệnh tim mạch");
                     cauTraLoiDung = 'b';
                 } case 16 -> {
-                    layout.setText(game.font3, "Trong không khí ô nhiễm, tỉ lệ khí CO₂ tăng từ 0,04% lên 0,4%. So với mức bình thường, CO₂ đã tăng:");
+                    layout.setText(game.font3, "Tỉ lệ khí CO₂ tăng từ 0,04% lên 0,4%. Vậy CO₂ đã tăng:");
                     layout2.setText(game.font3, "1 lần");
                     layout3.setText(game.font3, "5 lần");
                     layout4.setText(game.font3, "10 lần");

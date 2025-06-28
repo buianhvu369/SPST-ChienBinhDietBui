@@ -233,7 +233,7 @@ public class StartGame extends Game {
             + "ýỳỷỹỵ"
             + "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|";
 
-        font8 = fontGenerator7.generateFont(fontParameter7);
+        font7 = fontGenerator7.generateFont(fontParameter7);
         fontGenerator7.dispose();
 
         FreeTypeFontGenerator fontGenerator8 = new FreeTypeFontGenerator(Gdx.files.internal("vietnam.ttf"));

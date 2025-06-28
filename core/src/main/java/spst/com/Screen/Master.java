@@ -317,9 +317,9 @@ public class Master implements Screen {
     Sai sai;
     Dung dung;
     Hieu hieu;
-    public static int soCauDoVui = 10;
-    public static int soCauDoGreen = 5;
-    public static int soCauDoShock = 8;
+    public static int soCauDoVui = 2;
+    public static int soCauDoGreen = 2;
+    public static int soCauDoShock = 1;
     public static int thoiGianHien = 0;
     SeeTheFuture seeTheFuture;
 
@@ -2065,7 +2065,7 @@ public class Master implements Screen {
             green.setPosition(10000,10000);
             shock.setPosition(10000,10000);
         }
-        if(inDoVui){
+        if(inDoVui && openSoTay){
             sai.setPosition(32*17 , Gdx.graphics.getHeight() - 32*8+16);
             dung.setPosition(32 *10 ,Gdx.graphics.getHeight() - 32*8+16);
             sai.toFront();
@@ -2073,7 +2073,7 @@ public class Master implements Screen {
         }else{
             dung.setPosition(10000,10000);
             sai.setPosition(10000,10000);
-        }if(inGreenCoBan || inShock){
+        }if(inGreenCoBan && openSoTay || inShock && openSoTay){
             hieu.setPosition(32*12 , Gdx.graphics.getHeight() - 32*8);
             hieu.toFront();
         }else{
@@ -3433,14 +3433,6 @@ public class Master implements Screen {
             button3C.setColor(1,1,1,1);
             button4C.setColor(1,1,1,1);
             resetDailyQuest();
-            if(GameState.day%3== 0){
-                int ran = MathUtils.random(1,3);
-                switch (ran){
-                    case 1 -> soCauDoShock ++;
-                    case 2 -> soCauDoGreen++;
-                    case 3 -> soCauDoVui++;
-                }
-            }
             GameState.money += GameState.danso/20/30;
 
             Timer.schedule(new Timer.Task() {
